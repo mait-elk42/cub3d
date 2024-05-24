@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   errors_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/24 19:23:01 by mait-elk         ###   ########.fr       */
+/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/05/24 19:22:47 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int	main(int ac, char **av)
+void	check_args(int ac, char **av)
 {
-	check_args(ac, av);
-	write(1, "hello world\n", 12);
+	ac += (int)av * 0;
+	if (ac != 2)
+	{
+		print(2, "cub3d: bad arguments", 1);
+		exit (1);
+	}
 }

@@ -6,12 +6,12 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/05/24 19:21:31 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/05/24 19:23:10 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
-CFLAGS= -Wall -Werror -Wextra
+CFLAGS= -Wall -Werror -Wextra -I include
 SRC= utils/print.c
 OBJ= $(SRC:.c=.o)
 NAME= cub3d
