@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/24 17:23:52 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/24 19:23:53 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,4 +14,12 @@
 #include <stdlib.h>
 #include <math.h>
 
+/**
+ * ERRORS HANDLING
+*/
+void	check_args(int ac, char **av);
+
+/**
+ * IO OPERATORS
+*/
 void	print(int fd, char *msg, int endl);
