@@ -6,13 +6,14 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/05/24 19:23:10 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/05/24 19:25:28 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
 CFLAGS= -Wall -Werror -Wextra -I include
-SRC= utils/print.c
+SRC= utils/print.c \
+	utils/errors_handling/errors_args.c
 OBJ= $(SRC:.c=.o)
 NAME= cub3d
 
