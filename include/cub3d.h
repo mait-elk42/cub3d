@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 11:25:47 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/25 12:19:52 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-#include <stdio.h>
-#include <errno.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <math.h>
-#include <fcntl.h>
+# include <stdio.h>
+# include <errno.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <math.h>
+# include <fcntl.h>
 
 
 typedef struct s_data
@@ -35,6 +35,12 @@ t_data	*data_hook(t_data *data);
 */
 void	data_init(t_data *data_ptr, int ac, char **av);
 
+/**
+ * 	STRINGS
+*/
+char	*_strchr(char *s, char c);
+size_t	_strlen(char *str);
+int		str_equal(char *s1, char *s2);
 /**
  * ERRORS HANDLING
 */
