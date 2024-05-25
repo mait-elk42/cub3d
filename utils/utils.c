@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 15:34:40 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/25 20:17:32 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,11 @@ void	safe_exit(int status)
 
 	data = data_hook(NULL);
 	exit(status);
+}
+
+void	logger(char *msg)
+{
+	print(1, COLOR_BLUE"LOG : ", 0);
+	print(1, msg, 1);
+	print(1, COLOR_RESET, 0);
 }

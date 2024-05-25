@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 20:05:52 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/25 20:19:40 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	data_init(t_data *data_ptr, int ac, char **av);
 void	check_args(int ac, char **av);
 void	safe_exit(int status);
 void	put_error_syscall(char *reason);
+void	put_error_custom(char *msg);
 
 /*
 	* MAPS CHECK
@@ -99,5 +100,6 @@ void	check_lines();
 char	**append_2d(char **old_tab, char *to_append);
 void	print(int fd, char *msg, int endl);
 void	*safe_calloc(size_t size);
+void	logger(char *msg);
 
 #endif

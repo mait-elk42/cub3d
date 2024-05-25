@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 20:05:22 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/25 20:16:40 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	data_init(t_data *data_ptr, int ac, char **av)
 {
 	data_hook(data_ptr);
+	logger("checking args.");
 	check_args(ac, av);
 	ft_bzero(data_ptr, sizeof(t_data));
 	check_extension(av[1]);
