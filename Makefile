@@ -6,7 +6,7 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/05/25 11:00:04 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/05/25 11:26:07 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,19 +18,28 @@ SRC= utils/utils.c utils/print.c utils/initialization.c \
 	utils/io_operators/append2d.c
 OBJ= $(SRC:.c=.o)
 NAME= cub3d
+LIBFT = libft/libft.a
 
 all: $(NAME)
+	@echo "$(NAME) is Ready Enjoy"
 
-$(NAME): $(OBJ) $(NAME).c include/$(NAME).h
-	$(CC) $(CFLAGS) $(NAME).c $(OBJ) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJ) $(NAME).c include/$(NAME).h
+	@$(CC) $(CFLAGS) $(NAME).c $(OBJ) $(LIBFT) -o $(NAME)
 
 %.o: %.c include/$(NAME).h
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(LIBFT):
+	@echo "Please wait..."
+	@make -C libft
 
 clean:
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
+	@make clean -C libft
+
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
+	@make fclean -C libft
 
 re: fclean all
 

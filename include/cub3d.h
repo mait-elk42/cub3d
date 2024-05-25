@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 11:14:02 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:25:47 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	check_maps_validation(char *file_name);
 /**
  * IO OPERATORS
 */
-void	safe_calloc(size_t size);
+void	*safe_calloc(size_t size);
 void	print(int fd, char *msg, int endl);
 char	**append_2d(char **old_tab, char *to_append);
 
