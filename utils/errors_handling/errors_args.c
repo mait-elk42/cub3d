@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   errors_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/24 19:22:47 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/25 10:35:13 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "../../include/cub3d.h"
 
 void	check_args(int ac, char **av)
 {
