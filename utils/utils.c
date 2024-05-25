@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 10:57:25 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/25 15:34:40 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,5 @@ void	safe_exit(int status)
 	t_data	*data;
 
 	data = data_hook(NULL);
-	
 	exit(status);
 }
