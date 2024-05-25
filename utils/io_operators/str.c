@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   str.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 10:31:20 by mait-elk         ###   ########.fr       */
+/*   Created: 2024/05/25 11:00:44 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/05/25 11:13:54 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/cub3d.h"
+#include "../../include/cub3d.h"
 
-int	main(int ac, char **av)
+void	*safe_calloc(size_t size)
 {
-	t_data	data;
-	data_init(&data, ac, av);
+	char	*res;
 
+	res = malloc(size);
+	if (res == NULL)
+		safe_exit(1);
+	while (size--)
+		res[size] = '\0';
+	return ((void *)res);
 }

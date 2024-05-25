@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   maps_extension.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 10:31:20 by mait-elk         ###   ########.fr       */
+/*   Created: 2024/05/25 10:07:09 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/05/25 11:00:17 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/cub3d.h"
+#include "../../include/cub3d.h"
 
-int	main(int ac, char **av)
+void	check_extension(char *file_name)
 {
-	t_data	data;
-	data_init(&data, ac, av);
-
+	(void)file_name;
 }

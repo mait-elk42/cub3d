@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 10:31:20 by mait-elk         ###   ########.fr       */
+/*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/05/25 10:57:25 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/cub3d.h"
+#include "../include/cub3d.h"
 
-int	main(int ac, char **av)
+t_data	*data_hook(t_data *data)
 {
-	t_data	data;
-	data_init(&data, ac, av);
+	static t_data	*save_data;
 
+	if (data != NULL)
+		save_data = data;
+	return (save_data);
+}
+
+void	safe_exit(int status)
+{
+	t_data	*data;
+
+	data = data_hook(NULL);
+	
+	exit(status);
 }
