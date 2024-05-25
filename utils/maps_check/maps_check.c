@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   maps_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 11:30:53 by mait-elk         ###   ########.fr       */
+/*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/05/25 11:33:15 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	check_args(int ac, char **av)
+void	check_maps_validation(char *file_name)
 {
-	ac += (int)av * 0;
-	if (ac != 2)
+	int	fd = open(file_name, O_RDONLY);
+	if (fd == -1)
 	{
-		print(2, "cub3d: bad arguments", 1);
-		exit (1);
+		perror("\033[31merror-> check_maps_validation\033[0m");
+		exit(1);
 	}
+	close(fd);
 }

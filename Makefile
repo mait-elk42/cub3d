@@ -3,17 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
+#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/05/25 10:41:51 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/05/25 11:26:07 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
 CFLAGS= -Wall -Werror -Wextra
-SRC= utils/print.c \
-	utils/errors_handling/errors_args.c
+SRC= utils/utils.c utils/print.c utils/initialization.c \
+	utils/maps_check/maps_check.c utils/maps_check/maps_extension.c \
+	utils/errors_handling/errors_args.c \
+	utils/io_operators/append2d.c
 OBJ= $(SRC:.c=.o)
 NAME= cub3d
 LIBFT = libft/libft.a

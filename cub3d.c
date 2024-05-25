@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 11:27:46 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:37:15 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int ac, char **av)
 {
-	check_args(ac, av);
+	t_data	data;
+	data_init(&data, ac, av);
 
-	write(1, "hello world\n", 12);
 }

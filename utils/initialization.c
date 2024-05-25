@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 11:30:53 by mait-elk         ###   ########.fr       */
+/*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/05/25 10:58:11 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "../include/cub3d.h"
 
-void	check_args(int ac, char **av)
+void	data_init(t_data *data_ptr, int ac, char **av)
 {
-	ac += (int)av * 0;
-	if (ac != 2)
-	{
-		print(2, "cub3d: bad arguments", 1);
-		exit (1);
-	}
+	data_hook(data_ptr);
+	check_args(ac, av);
+	check_extension(av[1]);
+	check_maps_validation(av[1]);
 }

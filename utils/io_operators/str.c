@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   str.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 11:30:53 by mait-elk         ###   ########.fr       */
+/*   Created: 2024/05/25 11:00:44 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/05/25 11:13:54 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	check_args(int ac, char **av)
+void	*safe_calloc(size_t size)
 {
-	ac += (int)av * 0;
-	if (ac != 2)
-	{
-		print(2, "cub3d: bad arguments", 1);
-		exit (1);
-	}
+	char	*res;
+
+	res = malloc(size);
+	if (res == NULL)
+		safe_exit(1);
+	while (size--)
+		res[size] = '\0';
+	return ((void *)res);
 }
