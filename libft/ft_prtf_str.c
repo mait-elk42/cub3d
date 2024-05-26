@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   ft_str.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:29 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/17 17:44:15 by mait-elk          #+#    #+#             */
+/*   Updated: 2023/12/04 10:42:00 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "libft.h"
 
-void	check_args(int ac, char **av)
+int	_prt_char(char c)
 {
-	(void)av;
-	if (ac != 2)
+	return (write(1, &c, 1));
+}
+
+int	_prt_str(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (write(1, "(null)", 6));
+	while (s[i])
 	{
-		put_error_custom("too many args");
-		exit (1);
+		if (_prt_char(s[i]) == -1)
+			return (-1);
+		i++;
 	}
+	return (i);
 }

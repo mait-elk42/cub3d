@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:29 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/06 12:31:35 by mait-elk          #+#    #+#             */
+/*   Updated: 2023/12/04 10:54:53 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "libft.h"
 
-void	check_args(int ac, char **av)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	(void)av;
-	if (ac != 2)
+	t_list	*saver;
+
+	if (!lst || !del)
+		return ;
+	while ((*lst))
 	{
-		put_error_custom("too many args");
-		exit (1);
+		saver = (*lst)->next;
+		del((*lst)->content);
+		free((*lst));
+		*lst = saver;
 	}
 }

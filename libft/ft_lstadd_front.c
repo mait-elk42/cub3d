@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization.c                                   :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:44:35 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/05 21:30:53 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/03/14 13:45:37 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "libft.h"
 
-void	data_init(t_data *data_ptr, int ac, char **av)
+void	ft_lstadd_front(t_list **lst, t_list *_new)
 {
-	data_hook(data_ptr);
-	logger("checking args.");
-	check_args(ac, av);
-	ft_bzero(data_ptr, sizeof(t_data));
-	check_extension(av[1]);
-	init_lines(av[1]);
-	check_lines();
-	printf("%zu\n", (size_t)data_hook(NULL)->scene_info.CEILING_color);
+	if (!lst || !_new)
+		return ;
+	if (*lst)
+		_new->next = *lst;
+	*lst = _new;
 }

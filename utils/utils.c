@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 12:22:38 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/26 09:43:05 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void	safe_exit(int status)
 	t_data	*data;
 
 	data = data_hook(NULL);
-	
 	exit(status);
+}
+
+void	logger(char *msg)
+{
+	print(1, COLOR_BLUE"LOG : ", 0);
+	print(1, msg, 1);
+	print(1, COLOR_RESET, 0);
 }

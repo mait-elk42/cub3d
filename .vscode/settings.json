@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"cub3d.h": "c",
-		"unistd.h": "c",
-		"math.h": "c",
-		"stdio.h": "c",
-		"errno.h": "c"
-	}
-}

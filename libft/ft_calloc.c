@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization.c                                   :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:44:35 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/07 10:00:58 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/04/22 10:24:35 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "libft.h"
 
-void	data_init(t_data *data_ptr, int ac, char **av)
+void	*ft_calloc(size_t count, size_t size)
 {
-	data_hook(data_ptr);
-	logger("checking args.");
-	check_args(ac, av);
-	ft_bzero(data_ptr, sizeof(t_data));
-	check_extension(av[1]);
-	init_lines(av[1]);
-	check_lines();
-	printf("%zu\n", (size_t)data_hook(NULL)->scene_info.CEILING_color);
+	char	*res;
+
+	res = malloc(count * size);
+	if (res == NULL)
+		return (0);
+	ft_bzero(res, count * size);
+	return (res);
 }

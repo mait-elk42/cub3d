@@ -1,23 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:29 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/02 22:28:04 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/03/20 16:35:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "libft.h"
 
-void	check_args(int ac, char **av)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	(void)av;
-	if (ac != 2)
+	unsigned int	i;
+	size_t			slen;
+	char			*str;
+
+	if (!s)
+		return (0);
+	slen = ft_strlen(s);
+	i = 0;
+	if (start >= slen)
+		return (ft_strdup(""));
+	if (len > slen - start)
+		len = slen - start;
+	str = malloc(len + 1);
+	if (!str)
+		return (0);
+	s += start;
+	while (i < len)
 	{
-		put_error_custom("too many args");
-		exit (1);
+		str[i] = s[i];
+		i++;
 	}
+	str[i] = '\0';
+	return (str);
 }

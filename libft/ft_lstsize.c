@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:29 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/06 10:45:57 by mait-elk          #+#    #+#             */
+/*   Updated: 2023/11/14 10:25:40 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "libft.h"
 
-void	check_args(int ac, char **av)
+int	ft_lstsize(t_list *lst)
 {
-	(void)av;
-	if (ac != 2)
+	int		l;
+
+	l = 0;
+	while (lst)
 	{
-		put_error_custom("too many args");
-		exit (1);
+		lst = lst->next;
+		l++;
 	}
+	return (l);
 }

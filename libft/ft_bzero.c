@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:29 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/02 12:09:03 by mait-elk          #+#    #+#             */
+/*   Updated: 2023/11/11 15:53:07 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "libft.h"
 
-void	check_args(int ac, char **av)
+void	ft_bzero(void *s, size_t n)
 {
-	(void)av;
-	if (ac != 2)
-	{
-		put_error_custom("too many args");
-		exit (1);
-	}
+	char	*str;
+
+	str = (char *)s;
+	while (n--)
+		str[n] = 0;
 }

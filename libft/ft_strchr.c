@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialization.c                                   :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:44:35 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/01 22:07:17 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/03/29 23:01:59 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "libft.h"
 
-void	data_init(t_data *data_ptr, int ac, char **av)
+char	*ft_strchr(const char *s, int c)
 {
-	data_hook(data_ptr);
-	logger("checking args.");
-	check_args(ac, av);
-	ft_bzero(data_ptr, sizeof(t_data));
-	check_extension(av[1]);
-	init_lines(av[1]);
-	check_lines();
-	printf("%zu\n", (size_t)data_hook(NULL)->scene_info.CEILING_color);
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (*s == (char)c)
+		return ((char *)s);
+	return (0);
 }

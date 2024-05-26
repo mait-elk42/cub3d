@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:29 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/06 15:29:44 by mait-elk          #+#    #+#             */
+/*   Updated: 2023/11/13 16:11:52 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "libft.h"
 
-void	check_args(int ac, char **av)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	(void)av;
-	if (ac != 2)
+	t_list	*i;
+
+	if (!lst || !f)
+		return ;
+	i = lst;
+	while (i)
 	{
-		put_error_custom("too many args");
-		exit (1);
+		f(i->content);
+		i = i->next;
 	}
 }

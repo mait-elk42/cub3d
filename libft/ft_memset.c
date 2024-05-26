@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:29 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/02 11:40:26 by mait-elk          #+#    #+#             */
+/*   Updated: 2023/11/11 18:29:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "libft.h"
 
-void	check_args(int ac, char **av)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	(void)av;
-	if (ac != 2)
+	size_t			i;
+	unsigned char	*buff;
+
+	buff = (unsigned char *)b;
+	i = 0;
+	while (i < len)
 	{
-		put_error_custom("too many args");
-		exit (1);
+		buff[i] = c;
+		i++;
 	}
+	return (buff);
 }

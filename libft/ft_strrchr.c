@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:29 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/01 21:58:34 by mait-elk          #+#    #+#             */
+/*   Updated: 2023/11/07 20:34:14 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "libft.h"
 
-void	check_args(int ac, char **av)
+char	*ft_strrchr(const char *s, int c)
 {
-	(void)av;
-	if (ac != 2)
+	char	*gotit;
+
+	gotit = 0;
+	while (*s)
 	{
-		put_error_custom("too many args");
-		exit (1);
+		if ((unsigned char)*s == (unsigned char)c)
+			gotit = (char *)s;
+		s++;
 	}
+	if ((unsigned char)*s == (unsigned char)c)
+		return ((char *)s);
+	return (gotit);
 }

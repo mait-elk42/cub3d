@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:15:45 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 11:03:59 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/25 15:47:00 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ char	**append_2d(char **old_tab, char *to_append)
 		return (old_tab);
 	if (old_tab == NULL)
 	{
-		new_tab = malloc(2 * sizeof(char *));
+		new_tab = safe_calloc(2 * sizeof(char *));
 		*new_tab = to_append;
 		return (new_tab);
 	}
 	tab_len = 0;
 	while (old_tab[tab_len])
 		tab_len++;
-	new_tab = malloc((tab_len + 2) * sizeof(char *));
+	new_tab = safe_calloc((tab_len + 2) * sizeof(char *));
 	i = 0;
 	while (i < tab_len)
 	{

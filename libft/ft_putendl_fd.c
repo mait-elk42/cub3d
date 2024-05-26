@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:29 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/05 18:20:59 by mait-elk          #+#    #+#             */
+/*   Updated: 2023/11/13 12:02:40 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "libft.h"
 
-void	check_args(int ac, char **av)
+void	ft_putendl_fd(char *s, int fd)
 {
-	(void)av;
-	if (ac != 2)
+	if (!s)
+		return ;
+	while (*s)
 	{
-		put_error_custom("too many args");
-		exit (1);
+		ft_putchar_fd(*s, fd);
+		s++;
 	}
+	ft_putchar_fd('\n', fd);
 }

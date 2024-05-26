@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors_args.c                                      :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:49:29 by aabouqas         ###   ########.fr       */
+/*   Created: 2023/11/02 16:09:29 by mait-elk          #+#    #+#             */
+/*   Updated: 2023/11/11 19:38:06 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include "libft.h"
 
-void	check_args(int ac, char **av)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	(void)av;
-	if (ac != 2)
+	size_t	len;
+
+	len = 0;
+	while (src[len] && len + 1 < dstsize)
 	{
-		put_error_custom("too many args");
-		exit (1);
+		dst[len] = src[len];
+		len++;
 	}
+	if (dstsize > 0)
+		dst[len] = '\0';
+	while (src[len])
+		len++;
+	return (len);
 }

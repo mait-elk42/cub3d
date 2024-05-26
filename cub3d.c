@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 12:32:21 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/26 09:44:57 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	main(int ac, char **av)
 {
 	t_data	data;
-	data_init(&data, ac, av);
 
+	logger("cub3d start.");
+	data_init(&data, ac, av);
 }
