@@ -6,7 +6,7 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/05/26 09:40:12 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/05/26 10:51:29 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,27 +22,49 @@ NAME= cub3d
 LIBFT = libft/libft.a
 
 all: $(NAME)
-	@echo "\033[32m$(NAME) is Ready\033[0m"
+	@printf "\033[32m🎮 $(NAME) is Ready\033[0m\n"
 
 $(NAME): $(LIBFT) $(OBJ) $(NAME).c include/$(NAME).h
-	@echo "\033[32mCompiling Executable File...\033[0m"
-	@$(CC) $(CFLAGS) $(NAME).c $(OBJ) $(LIBFT) -o $(NAME)
+	@printf "🔄\033[32m Compiling Executable File...\033[0m"
+	@if $(CC) $(CFLAGS) $(NAME).c $(OBJ) $(LIBFT) -o $(NAME) 2> /tmp/errcub3d; then \
+		printf "\r✅\n"; \
+	else \
+		printf "\r❌\n\033[31mCannot Compile [$(NAME).c] Because: \n\033[0m"; \
+		cat /tmp/errcub3d; rm -rf /tmp/errcub3d; \
+		exit 1; \
+	fi
 
 %.o: %.c include/$(NAME).h
-	@echo "🔄\033[32mCompiling Script $<\033[0m"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "🔄\033[32m Compiling Script $<\033[0m"
+	@if $(CC) $(CFLAGS) -c $< -o $@ 2> /tmp/errcub3d; then \
+		printf "\r✅\n"; \
+	else \
+		printf "\r❌\n\033[31mCannot Compile [$<] Because: \n\033[0m"; \
+		cat /tmp/errcub3d; rm -rf /tmp/errcub3d; \
+		exit 1; \
+	fi
 
 $(LIBFT):
-	@echo "🔄\033[32mCompiling Libft...\033[0m"
-	@make -C libft
+	@printf "🔄\033[32m Compiling Libft...\033[0m"
+	@if make -C libft 2> /tmp/errcub3d; then \
+		printf "\r✅\n"; \
+	else \
+		printf "\r❌\n\033[31mCannot Compile [$(LIBFT)] Because: \n\033[0m"; \
+		cat /tmp/errcub3d; rm -rf /tmp/errcub3d; \
+		exit 1; \
+	fi
 
 clean:
+	@printf "🔄\033[32m Cleaning Objects...\033[0m"
 	@rm -rf $(OBJ)
 	@make clean -C libft
+	@printf "\r✅\n";
 
 fclean: clean
+	@printf "🔄\033[32m Removing Exec file And Library...\033[0m"
 	@rm -rf $(NAME)
 	@make fclean -C libft
+	@printf "\r✅\n";
 
 re: fclean all
 
