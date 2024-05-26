@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maps_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 16:39:28 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/26 18:45:00 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,55 +71,26 @@ void	check_variable(char *line, int i)
 	*(((char **)&data->scene_info.NORTH_texture + i)) = safe_strdup(path);
 }
 
-void	check_clrval_validation(char *color, char *name, int i)
-{
-	char	*ptr;
+// void	check_clrval_validation(char *color, char *name, int i)
+// {
+// 	char	*ptr;
 
-	(void)name;
-	(void)i;
-	ptr = ft_strchr(color, ',');
-	if (ptr != NULL)
-		*ptr = '\0';
-	logger(color);
-}
+// 	(void)name;
+// 	(void)i;
+// 	ptr = ft_strchr(color, ',');
+// 	if (ptr != NULL)
+// 		*ptr = '\0';
+// 	logger(color);
+// }
 
-void	check_color(char *line, int i)
-{
-	t_data	*data;
-	char	*del;
-	char	*color;
 
-	data = data_hook(NULL);
-	if (safe_strchr(line, ' ') == NULL)
-	{
-		put_error_custom("invalid color name", line);
-		safe_exit(1);
-	}
-	del = safe_strchr(line, ' ');
-	*del = '\0';
-	color = del +1;
-	color = str_skip(color, " \t");
-	if ((i == 4 && str_equal(line, "F") == 0)
-		|| (i == 5 && str_equal(line, "C") == 0))
-	{
-		put_error_custom("bad name or sort is not match", line);
-		safe_exit(1);
-	}
-	check_clrval_validation(color, line, i);
-	//
-	// if (*str_skip(color, "0123456789,") != '\0')
-	// {
-	// 	put_error_custom("invalid color value", color);
-	// 	safe_exit(1);
-	// }
-}
 
 void	check_lines()
 {
-	t_data			*data;
-	char			**lines;
-	char			*line;
-	size_t			i;
+	t_data	*data;
+	char	**lines;
+	char	*line;
+	size_t	i;
 
 	data = data_hook(NULL);
 	lines = data->lines;
@@ -127,6 +98,7 @@ void	check_lines()
 	while (lines && lines[i])
 	{
 		line = lines[i];
+		// printf("[%s]\n", line);
 		if (i >= 0 && i <= 3)
 			check_variable(line, i);
 		else if (i > 3 && i <= 5)

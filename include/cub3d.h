@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 16:29:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/26 19:56:10 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 # include "../libft/libft.h"
 # include <stdio.h>
-# include <mlx.h>
+// # include <mlx.h>
 # include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -107,6 +107,7 @@ void	put_error_custom(char *error, char *reason);
 int		check_file(int ac, char **av);
 void	init_lines(int fd);
 void	check_lines();
+void	check_color(char *line, int i);
 
 /*
 	* SAFE FUNCTIONS
