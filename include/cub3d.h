@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 20:19:40 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/26 12:16:55 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,14 @@ t_data	*data_hook(t_data *data);
 */
 void	data_init(t_data *data_ptr, int ac, char **av);
 
-/*
-	* ERRORS HANDLING
+/**
+ * 	STRINGS
 */
-void	check_args(int ac, char **av);
+int		str_equal(char *s1, char *s2);
+
+/**
+ * ERRORS HANDLING
+*/
 void	safe_exit(int status);
 void	put_error_syscall(char *reason);
 void	put_error_custom(char *msg);
@@ -90,16 +94,24 @@ void	put_error_custom(char *msg);
 /*
 	* MAPS CHECK
 */
-void	check_extension(char *file_name);
-void	init_lines(char *file_name);
+int		check_file(int ac, char **av);
+void	init_lines(int fd);
 void	check_lines();
+
+/*
+	* SAFE FUNCTIONS
+*/
+char	*safe_strjoin(char *str1, char *str2);
+char	*safe_strrchr(char *s, char c);
+char	*safe_strchr(char *s, char c);
+void	*safe_calloc(size_t size);
+size_t	safe_strlen(char *str);
 
 /*
 	* IO OPERATORS
 */
 char	**append_2d(char **old_tab, char *to_append);
 void	print(int fd, char *msg, int endl);
-void	*safe_calloc(size_t size);
 void	logger(char *msg);
 
 #endif
