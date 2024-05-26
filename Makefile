@@ -6,7 +6,7 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/05/25 15:53:01 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/05/26 09:40:12 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,16 +22,18 @@ NAME= cub3d
 LIBFT = libft/libft.a
 
 all: $(NAME)
-	@echo "$(NAME) is Ready Enjoy"
+	@echo "\033[32m$(NAME) is Ready\033[0m"
 
 $(NAME): $(LIBFT) $(OBJ) $(NAME).c include/$(NAME).h
+	@echo "\033[32mCompiling Executable File...\033[0m"
 	@$(CC) $(CFLAGS) $(NAME).c $(OBJ) $(LIBFT) -o $(NAME)
 
 %.o: %.c include/$(NAME).h
+	@echo "🔄\033[32mCompiling Script $<\033[0m"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
-	@echo "Please wait..."
+	@echo "🔄\033[32mCompiling Libft...\033[0m"
 	@make -C libft
 
 clean:
