@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:55:25 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/05/26 11:42:27 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/26 15:20:57 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,11 @@ int	str_equal(char *s1, char *s2)
 		i++;
 	}
 	return (1);
+}
+
+char	*str_skip(char *str, char *chars_to_skip)
+{
+	while (str != NULL && *str != '\0' && safe_strchr(chars_to_skip, *str))
+		str++;
+	return (str);
 }

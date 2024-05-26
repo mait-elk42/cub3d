@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 12:16:55 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:29:33 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 # include "../libft/libft.h"
 # include <stdio.h>
+# include <mlx.h>
 # include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -53,20 +54,28 @@
 	* STRUCTS
 */
 
-typedef struct s_scene_info{
+typedef struct	s_color
+{
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
+}	t_color;
+
+
+typedef struct s_scene_textures {
 	char	*NORTH_texture;
 	char	*SOUTH_texture;
 	char	*WEST_texture;
 	char	*EAST_texture;
-	char	*FLOOR_color;
-	char	*CEILING_color;
-}	t_scene_info;
+	t_color	FLOOR_color;
+	t_color	CEILING_color;
+}	t_scene_textures;
 
 typedef struct s_data
 {
-	t_scene_info	scene_info;
-	char			**lines;
-	char			**maps;
+	t_scene_textures	scene_info;
+	char				**lines;
+	char				**maps;
 }	t_data;
 
 /*
@@ -82,6 +91,7 @@ void	data_init(t_data *data_ptr, int ac, char **av);
 /**
  * 	STRINGS
 */
+char	*str_skip(char *str, char *chars_to_skip);
 int		str_equal(char *s1, char *s2);
 
 /**
@@ -89,7 +99,7 @@ int		str_equal(char *s1, char *s2);
 */
 void	safe_exit(int status);
 void	put_error_syscall(char *reason);
-void	put_error_custom(char *msg);
+void	put_error_custom(char *error, char *reason);
 
 /*
 	* MAPS CHECK
@@ -105,6 +115,7 @@ char	*safe_strjoin(char *str1, char *str2);
 char	*safe_strrchr(char *s, char c);
 char	*safe_strchr(char *s, char c);
 void	*safe_calloc(size_t size);
+char	*safe_strdup(char *s);
 size_t	safe_strlen(char *str);
 
 /*

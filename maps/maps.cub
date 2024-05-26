@@ -1,12 +1,15 @@
-NO   						  k k jn jn    ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
 
 
 
-F 220,100,0
-C 225,30,0
+NO       		  textures/NO.xpm
+SO     			   textures/SO.xpm
+
+WE          textures/WE.xpm
+
+EA 		 			   textures/EA.xpm
+
+F 	1,,2,3
+C 4,5,6
 
 
         1111111111111111111111111

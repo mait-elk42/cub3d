@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 12:22:08 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/26 15:23:50 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,8 @@ void	data_init(t_data *data_ptr, int ac, char **av)
 	fd = check_file(ac, av);
 	init_lines(fd);
 	check_lines();
-	printf("%zu\n", (size_t)data_hook(NULL)->scene_info.CEILING_color);
+	printf("√ NORTH_texture : %s\n", data_hook(NULL)->scene_info.NORTH_texture);
+	printf("√ WEST_texture : %s\n", data_hook(NULL)->scene_info.WEST_texture);
+	printf("√ EAST_texture : %s\n", data_hook(NULL)->scene_info.EAST_texture);
+	printf("√ SOUTH_texture : %s\n", data_hook(NULL)->scene_info.SOUTH_texture);
 }
