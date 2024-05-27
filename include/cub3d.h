@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 16:29:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:59:14 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int		str_equal(char *s1, char *s2);
 void	safe_exit(int status);
 void	put_error_syscall(char *reason);
 void	put_error_custom(char *error, char *reason);
+void	eput_error_custom(char *error, char *reason, int exit_status);
 
 /*
 	* MAPS CHECK

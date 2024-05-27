@@ -6,11 +6,40 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 14:52:26 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:49:29 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+void	handle_line(char *line, int i)
+{
+	char	*varname;
+
+	if (i < 6)
+	{
+		if (safe_strchr(line, ' ') == NULL)
+			eput_error_custom("bad define line", line, 1);
+		varname = ft_strchr(line, ' ');
+		*varname = '\0';
+		if (*line == '\0')
+			eput_error_custom("found empty name", line, 1);
+		if ((i == 0 && str_equal(line, "NO") == 0)
+			|| (i == 1 && str_equal(line, "SO") == 0)
+			|| (i == 2 && str_equal(line, "WE") == 0)
+			|| (i == 3 && str_equal(line, "EA") == 0))
+		eput_error_custom("bad name or sort is not match", line, 1);
+	}
+	else
+	{
+		if (*str_skip(line, "01 NSEW") != '\0')
+		{
+			line = str_skip(line, "01 NSEW");
+			*(line +1) = '\0';
+			eput_error_custom("bad character inside maps", line, 1);
+		}
+	}
+}
 
 void	init_lines(int fd)
 {
@@ -23,39 +52,15 @@ void	init_lines(int fd)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (*line != '\n') 
+		if (ft_strchr(line, '\n'))
+			*ft_strchr(line, '\n') = '\0';
+		if (safe_strlen(line) == 0 && i > 6)
+			eput_error_custom("invalid newline place", "newline", 1);
+		if (safe_strlen(line) > 0)
 		{
-			if (ft_strchr(line, '\n'))
-				*ft_strchr(line, '\n') = '\0';
-			if ((i == 0 && ft_strncmp(line, "NO ", 3))
-				|| (i == 1 && ft_strncmp(line, "SO ", 3))
-				|| (i == 2 && ft_strncmp(line, "WE ", 3))
-				|| (i == 3 && ft_strncmp(line, "EA ", 3)))
-			{
-				put_error_custom("bad name or sort is not match", line);
-				safe_exit(1);
-			}
-			if (i >= 6)
-			{
-				if (*str_skip(line, "01 NSEW") != '\0')
-				{
-					line = str_skip(line, "01 N");
-					*(line +1) = '\0';
-					put_error_custom("invalid char inside maps", line);
-					safe_exit(1);
-				}
-				data->maps = append_2d(data->maps, line);
-			}
-			else
-				data->lines = append_2d(data->lines, line);
-			// ft_printf("%d\n", i);
-			// logger(line);
+			// ft_printf("[%s][%d]\n", line, i);
+			handle_line(line, i);
 			i++;
-		}
-		else if (i > 6)
-		{
-			put_error_custom("empty line is inside maps", "newline");
-			safe_exit(1);
 		}
 		line = get_next_line(fd);
 	}
