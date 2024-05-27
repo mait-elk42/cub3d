@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   ft_iswhite.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 17:11:33 by aabouqas         ###   ########.fr       */
+/*   Created: 2024/05/26 18:50:30 by mait-elk          #+#    #+#             */
+/*   Updated: 2024/05/26 18:51:24 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/cub3d.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	ft_iswhite(int c)
 {
-	t_data	data;
-
-	data_init(&data, ac, av);
+	return (c == ' ' || (c >= 9 && c <= 13));
 }
