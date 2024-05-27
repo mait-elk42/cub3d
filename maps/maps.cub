@@ -1,14 +1,12 @@
 NO /dev/urandom
 SO textures/SO.xpm
 WE textures/WE.xpm
-EA textures/EA.xpm
-
+             EA               textures/EA.xpm
 
 
 F 1,2,3
-C 4,5,+0
+C 4,5,0
 
- 
                                 
         1111111111 11111111111111
         100000000111000000000000111

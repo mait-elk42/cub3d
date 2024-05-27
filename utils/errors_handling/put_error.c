@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   put_error.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 14:31:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 17:14:25 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/27 19:50:56 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 void	put_error_sys(char *reason)
 {
 	print(2, COLOR_UNDERLINE_RED"📛error \'", 0);
-	ft_putstr_fd(COLOR_UNDERLINE_RED"📛error \'", 2);
 	print(2, reason, 0);
-	print(2, "\' ", 0);
+	perror("\' ");
 	print(2, COLOR_RESET, 1);
 }
 

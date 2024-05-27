@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 17:13:59 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/27 19:38:49 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int		check_extension(char *file_name, char *ext);
 int		check_file(int ac, char **av);
 void	init_lines(int fd);
 void	check_lines();
-void	check_color(char *line, int i);
+void	check_color(char *varname, char *value, int i);
 
 /*
 	* SAFE FUNCTIONS

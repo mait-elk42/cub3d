@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 18:18:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/05/27 17:22:39 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/27 19:43:22 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,23 +96,25 @@ int	check_rgb(char type, char *color_line)
 	return (0);
 }
 
-void	check_color(char *line, int i)
+void	check_color(char *varname, char *value, int i)
 {
 	t_data	*data;
-	char	*tmp;
-	char	*color;
+	// char	*tmp;
+	// char	*color;
 
+	(void)i;
+	// (void)varname;
 	data = data_hook(NULL);
-	if (safe_strchr(line, ' ') == NULL)
-		safe_exit(put_error("Expected input \"C/F r,g,b\"", "Input"));
-	tmp = safe_strchr(line, ' ');
-	*tmp = '\0';
-	color = tmp + 1;
-	if ((i == 4 && line[0] != 'F') || (i == 5 && line[0] != 'C'))
-	{
-		safe_exit(put_error("Expected input \"C/F r,g,b\"", "Input"));
-		// put_error("Bad name or sort is not match", line);
-		safe_exit(1);
-	}
-	check_rgb(line[0], color);
+	// if (safe_strchr(line, ' ') == NULL)
+	// 	safe_exit(put_error("Expected input \"C/F r,g,b\"", "Input"));
+	// tmp = safe_strchr(line, ' ');
+	// *tmp = '\0';
+	// color = tmp + 1;
+	// if ((i == 4 && varname[0] != 'F') || (i == 5 && varname[0] != 'C'))
+	// {
+	// 	safe_exit(put_error("Expected input \"C/F r,g,b\"", "Input"));
+	// 	// put_error("Bad name or sort is not match", line);
+	// 	safe_exit(1);
+	// }
+	check_rgb(varname[0], value);
 }
