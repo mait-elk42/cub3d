@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 19:40:55 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:52:26 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,44 @@ void	init_lines(int fd)
 
 	data = data_hook(NULL);
 	i = 0;
-	while (1)
+	line = get_next_line(fd);
+	while (line)
 	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		if (i != 4 && i != 7 &&  *line == '\n')
+		if (*line != '\n') 
 		{
-			put_error_custom("empty line is not autorized", "newline");
-			safe_exit(1);
-		}
-		else {
 			if (ft_strchr(line, '\n'))
 				*ft_strchr(line, '\n') = '\0';
-			data->lines = append_2d(data->lines, line);
+			if ((i == 0 && ft_strncmp(line, "NO ", 3))
+				|| (i == 1 && ft_strncmp(line, "SO ", 3))
+				|| (i == 2 && ft_strncmp(line, "WE ", 3))
+				|| (i == 3 && ft_strncmp(line, "EA ", 3)))
+			{
+				put_error_custom("bad name or sort is not match", line);
+				safe_exit(1);
+			}
+			if (i >= 6)
+			{
+				if (*str_skip(line, "01 NSEW") != '\0')
+				{
+					line = str_skip(line, "01 N");
+					*(line +1) = '\0';
+					put_error_custom("invalid char inside maps", line);
+					safe_exit(1);
+				}
+				data->maps = append_2d(data->maps, line);
+			}
+			else
+				data->lines = append_2d(data->lines, line);
+			// ft_printf("%d\n", i);
+			// logger(line);
+			i++;
 		}
-		i++;
+		else if (i > 6)
+		{
+			put_error_custom("empty line is inside maps", "newline");
+			safe_exit(1);
+		}
+		line = get_next_line(fd);
 	}
 	close(fd);
 }
