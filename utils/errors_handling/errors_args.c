@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 17:11:20 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:14:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_file(int ac, char **av)
 	if (ac != 2)
 		exit (put_error("bad input", "[argv]"));
 	if (check_extension(av[1], ".cub") == 0)
-		exit(1);
+		safe_exit(1);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1 || read(fd, NULL, 0) == -1)
 	{

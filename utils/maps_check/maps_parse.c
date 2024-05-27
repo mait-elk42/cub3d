@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 17:11:08 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:14:10 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	handle_line(char *line, int i)
 	if (i < 6)
 	{
 		if (safe_strchr(line, ' ') == NULL)
-			eput_error_custom("bad define line", line, 1);
+			eput_error("bad define line", line, 1);
 		varname = ft_strchr(line, ' ');
 		*varname = '\0';
 		if (*line == '\0')
-			eput_error_custom("found empty name", line, 1);
+			eput_error("found empty name", line, 1);
 		if ((i == 0 && str_equal(line, "NO") == 0)
 			|| (i == 1 && str_equal(line, "SO") == 0)
 			|| (i == 2 && str_equal(line, "WE") == 0)
 			|| (i == 3 && str_equal(line, "EA") == 0))
-		eput_error_custom("bad name or sort is not match", line, 1);
+		eput_error("bad name or sort is not match", line, 1);
 	}
 	else
 	{
@@ -36,7 +36,7 @@ void	handle_line(char *line, int i)
 		{
 			line = str_skip(line, "01 NSEW");
 			*(line +1) = '\0';
-			eput_error_custom("bad character inside maps", line, 1);
+			eput_error("bad character inside maps", line, 1);
 		}
 	}
 }
@@ -55,7 +55,7 @@ void	init_lines(int fd)
 		if (ft_strchr(line, '\n'))
 			*ft_strchr(line, '\n') = '\0';
 		if (safe_strlen(line) == 0 && i > 6)
-			eput_error_custom("invalid newline place", "newline", 1);
+			eput_error("invalid newline place", "newline", 1);
 		if (safe_strlen(line) > 0)
 		{
 			// ft_printf("[%s][%d]\n", line, i);
