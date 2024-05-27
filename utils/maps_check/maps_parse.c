@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 17:14:10 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:21:29 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ void	handle_line(char *line, int i)
 			|| (i == 2 && str_equal(line, "WE") == 0)
 			|| (i == 3 && str_equal(line, "EA") == 0))
 		eput_error("bad name or sort is not match", line, 1);
+		*varname = ' ';
 	}
-	else
-	{
-		if (*str_skip(line, "01 NSEW") != '\0')
-		{
-			line = str_skip(line, "01 NSEW");
-			*(line +1) = '\0';
-			eput_error("bad character inside maps", line, 1);
-		}
-	}
+	// else
+	// {
+		// if (*str_skip(line, "01 NSEW") != '\0')
+		// {
+		// 	line = str_skip(line, "01 NSEW");
+		// 	*(line +1) = '\0';
+		// 	eput_error("bad character inside maps", line, 1);
+		// }
+	// }
+	data_hook(NULL)->lines = append_2d(data_hook(NULL)->lines, line);
 }
 
 void	init_lines(int fd)
@@ -117,7 +119,6 @@ void	check_lines()
 	while (lines && lines[i])
 	{
 		line = lines[i];
-		// printf("[%s]\n", line);
 		if (i >= 0 && i <= 3)
 			check_variable(line, i);
 		else if (i > 3 && i <= 5)
