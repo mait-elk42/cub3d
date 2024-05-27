@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 14:59:14 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/27 17:01:12 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 # include "../libft/libft.h"
 # include <stdio.h>
-# include <mlx.h>
+// # include <mlx.h>
 # include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -98,16 +98,18 @@ int		str_equal(char *s1, char *s2);
  * ERRORS HANDLING
 */
 void	safe_exit(int status);
-void	put_error_syscall(char *reason);
-void	put_error_custom(char *error, char *reason);
-void	eput_error_custom(char *error, char *reason, int exit_status);
+void	put_error_sys(char *reason);
+int		put_error(char *error, char *reason);
+void	eput_error(char *error, char *reason, int exit_status);
 
 /*
 	* MAPS CHECK
 */
+int		check_extension(char *file_name, char *ext);
 int		check_file(int ac, char **av);
 void	init_lines(int fd);
 void	check_lines();
+void	check_color(char *line, int i);
 
 /*
 	* SAFE FUNCTIONS
@@ -118,6 +120,11 @@ char	*safe_strchr(char *s, char c);
 void	*safe_calloc(size_t size);
 char	*safe_strdup(char *s);
 size_t	safe_strlen(char *str);
+
+/*
+	* FREE MEMORY
+*/
+void	free_tab(char **array);
 
 /*
 	* IO OPERATORS

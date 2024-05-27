@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 09:43:05 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/26 16:54:20 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	safe_exit(int status)
 
 void	logger(char *msg)
 {
+	return ;
 	print(1, COLOR_BLUE"LOG : ", 0);
 	print(1, msg, 1);
 	print(1, COLOR_RESET, 0);
