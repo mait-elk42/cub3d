@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 15:23:50 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/27 09:53:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ void	data_init(t_data *data_ptr, int ac, char **av)
 	fd = check_file(ac, av);
 	init_lines(fd);
 	check_lines();
+	printf("C: R %d\n", data_ptr->scene_info.CEILING_color.r);
+	printf("C: G %d\n", data_ptr->scene_info.CEILING_color.g);
+	printf("C: B %d\n", data_ptr->scene_info.CEILING_color.b);
 	printf("√ NORTH_texture : %s\n", data_hook(NULL)->scene_info.NORTH_texture);
 	printf("√ WEST_texture : %s\n", data_hook(NULL)->scene_info.WEST_texture);
 	printf("√ EAST_texture : %s\n", data_hook(NULL)->scene_info.EAST_texture);

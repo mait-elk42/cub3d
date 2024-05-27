@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:21:53 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 19:51:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:56:23 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,19 @@ char	*safe_strdup(char *s)
 	}
 	res[i] = '\0';
 	return (res);
+}
+
+void	free_tab(char **array)
+{
+	size_t	i;
+
+	if (array == NULL)
+		return ;
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }
