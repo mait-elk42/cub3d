@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 11:19:32 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:36:25 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	eput_error(char *error, char *reason, int exit_status);
 */
 bool	check_file_ext(char *file_name, char *ext);
 void	check_file(int ac, char **av);
-void	init_lines();
+void	init_lines(void);
 void	check_color(char type, char *value);
 
 /*

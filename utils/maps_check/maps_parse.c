@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 11:30:40 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:39:47 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ static void	check_texture(char *varname, char *value)
 	data = data_hook(NULL);
 	if (check_file_ext(value, ".xpm") == false)
 		safe_exit(1);
-	fd = open(value, O_RDWR);
-	if (fd == -1)
+	fd = open(value, O_RDONLY);
+	if (fd == -1 || read(fd, NULL, 0) == -1)
+	{
+		if (fd != -1)
+			close(fd);
 		eput_error_sys(value, 1);
+	}
 	close(fd);
 	if (str_equal(varname, "NO"))
 		data->scene_info.NORTH_texture = value;
@@ -51,9 +55,9 @@ static bool	is_valid_line(char *line, int i)
 {
 	char	*value;
 
+	data_hook(NULL)->lines = append_2d(data_hook(NULL)->lines, line);
 	if (i < 6)
 	{
-		data_hook(NULL)->lines = append_2d(data_hook(NULL)->lines, line);
 		if (safe_strchr(line, ' ') == NULL)
 			eput_error("bad define line", line, 1);
 		line = str_skip(line, " ");
@@ -70,12 +74,13 @@ static bool	is_valid_line(char *line, int i)
 		else if (i > 3 && i <= 5)
 			check_color(line[0], value);
 		*value = ' ';
-	}else
+	}
+	else
 		data_hook(NULL)->maps = append_2d(data_hook(NULL)->maps, line);
 	return (true);
 }
 
-void	init_lines()
+void	init_lines(void)
 {
 	t_data	*data;
 	char	*line;
@@ -88,14 +93,14 @@ void	init_lines()
 	{
 		if (ft_strchr(line, '\n'))
 			*ft_strchr(line, '\n') = '\0';
-		if (safe_strlen(line) == 0 && i > 6)
-			eput_error("invalid newline place", "newline", 1);
 		if (safe_strlen(line) > 0)
 		{
 			if (is_valid_line(line, i) == false)
 				safe_exit(1);
 			i++;
 		}
+		else if (free(line), i > 6)
+			eput_error("invalid newline place", "newline", 1);
 		line = get_next_line(data->fd_file_input);
 	}
 	close(data->fd_file_input);

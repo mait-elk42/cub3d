@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 11:18:31 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:51:47 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 bool	check_file_ext(char *file_name, char *ext)
 {
-	char	*start_point;
+	char	*file_extension;
 
-	start_point = safe_strrchr(file_name, '.');
-	if (str_equal(start_point, ext) == 0)
+	file_extension = safe_strrchr(file_name, '.');
+	if (str_equal(file_extension, ext) == 0)
 	{
 		put_error("Invalid file extension", file_name);
 		return (false);
