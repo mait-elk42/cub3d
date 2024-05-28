@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 18:18:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/05/27 17:22:39 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/28 11:07:58 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	set_value(char type, int number, int numbers)
 
 	data = data_hook(NULL);
 	if (numbers > 3)
-		safe_exit(put_error("invalid color name", "3 Numbers Required"));
+		eput_error("invalid color name", "3 Numbers Required", 1);
 	if (type == 'C')
 	{
 		if (numbers == 0)
@@ -59,60 +59,43 @@ int	atouch(char *str)
 
 	number = 0;
 	if (str == NULL || *str == '\0')
-		safe_exit(put_error("Expected input 0 - 9", "Input"));
+		eput_error("Expected input 0 - 9", "Input", 1);
 	i = 0;
+	if (str[0] == '0')
+		eput_error("Expected nonezero in indently", "Input", 1);
 	if (str[i] == '-' || str[i] == '+')
-		safe_exit(put_error("Expected input 0 - 9", "Input"));
+		eput_error("Expected unsigned number", "Input", 1);
 	while (str[i])
 	{
 		if (ft_isdigit(str[i]) == 0)
-			safe_exit(put_error("Expected input 0 - 9", "Input"));
+			eput_error("Expected input 0 - 9", "Input", 1);
 		number = (number * 10) + (str[i] - 48);
 		if (number > 255)
-			safe_exit(put_error("Expected range: 0 - 255", "Range"));
+			eput_error("Expected range: 0 - 255", "Range", 1);
 		i++;
 	}
 	return (number);
 }
 
-int	check_rgb(char type, char *color_line)
+void	check_color(char type, char *value)
 {
+	t_data	*data;
 	char	*number;
 	char	*comma;
 	int		numbers = 0;
 
-	if (char_times(color_line, ',') != 2)
-		safe_exit(put_error("Expected value r,g,b", "RGB missed"));
-	while (color_line && *color_line)
+	data = data_hook(NULL);
+
+	if (char_times(value, ',') != 2)
+		eput_error("Expected value r,g,b", "RGB missed", 1);
+	while (value && *value)
 	{
-		comma = safe_strchr(color_line, ',');
+		comma = safe_strchr(value, ',');
 		if (comma)
 			*comma = '\0';
-		number = color_line;
+		number = value;
 		set_value(type, atouch(number), numbers);
 		numbers++;
-		color_line += safe_strlen(number) + (comma != NULL);
+		value += safe_strlen(number) + (comma != NULL);
 	}
-	return (0);
-}
-
-void	check_color(char *line, int i)
-{
-	t_data	*data;
-	char	*tmp;
-	char	*color;
-
-	data = data_hook(NULL);
-	if (safe_strchr(line, ' ') == NULL)
-		safe_exit(put_error("Expected input \"C/F r,g,b\"", "Input"));
-	tmp = safe_strchr(line, ' ');
-	*tmp = '\0';
-	color = tmp + 1;
-	if ((i == 4 && line[0] != 'F') || (i == 5 && line[0] != 'C'))
-	{
-		safe_exit(put_error("Expected input \"C/F r,g,b\"", "Input"));
-		// put_error("Bad name or sort is not match", line);
-		safe_exit(1);
-	}
-	check_rgb(line[0], color);
 }

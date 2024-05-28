@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
+#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/05/27 17:13:09 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/05/28 15:15:53 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
-CFLAGS= -Wall -Werror -Wextra -fsanitize=address -g
+CFLAGS= -Wall -Werror -Wextra #-fsanitize=address -g
 SRC= utils/utils.c utils/print.c utils/initialization.c \
 	utils/maps_check/maps_parse.c  utils/maps_check/check_colors.c \
 	utils/io_operators/append2d.c utils/strings.c \

@@ -3,35 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   errors_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 17:14:17 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:51:47 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-int	check_extension(char *file_name, char *ext)
+bool	check_file_ext(char *file_name, char *ext)
 {
-	char	*start_point;
+	char	*file_extension;
 
-	start_point = safe_strrchr(file_name, '.');
-	if (str_equal(start_point, ext) == 0)
+	file_extension = safe_strrchr(file_name, '.');
+	if (str_equal(file_extension, ext) == 0)
 	{
-		put_error("Invalid file name", "Extension");
-		return (0);
+		put_error("Invalid file extension", file_name);
+		return (false);
 	}
-	return (1);
+	return (true);
 }
 
-int	check_file(int ac, char **av)
+void	check_file(int ac, char **av)
 {
 	int		fd;
 
 	if (ac != 2)
-		exit (put_error("bad input", "[argv]"));
-	if (check_extension(av[1], ".cub") == 0)
+		eput_error("bad input", "[argv]", 1);
+	if (check_file_ext(av[1], ".cub") == false)
 		safe_exit(1);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1 || read(fd, NULL, 0) == -1)
@@ -41,5 +41,5 @@ int	check_file(int ac, char **av)
 		put_error_sys(av[1]);
 		exit(1);
 	}
-	return (fd);
+	data_hook(NULL)->fd_file_input = fd;
 }

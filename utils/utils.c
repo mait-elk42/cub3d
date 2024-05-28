@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/26 16:54:20 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/28 16:02:58 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,17 @@ void	safe_exit(int status)
 	t_data	*data;
 
 	data = data_hook(NULL);
+	free_tab(data->lines);
+	data->lines = NULL;
+	free(data->maps);
+	data->maps = NULL;
+	ft_bzero(&data->scene_info, sizeof(t_scene_info));
+	close(data->fd_file_input);
 	exit(status);
 }
 
 void	logger(char *msg)
 {
-	return ;
 	print(1, COLOR_BLUE"LOG : ", 0);
 	print(1, msg, 1);
 	print(1, COLOR_RESET, 0);

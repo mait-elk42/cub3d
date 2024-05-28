@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 17:13:59 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:36:25 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 # define CUB3D_H
 # include "../libft/libft.h"
 # include <stdio.h>
-// # include <mlx.h>
+# include <mlx.h>
 # include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <math.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 /*
 	* Regular Text Colors
@@ -62,20 +63,21 @@ typedef struct	s_color
 }	t_color;
 
 
-typedef struct s_scene_textures {
+typedef struct s_scene_info {
 	char	*NORTH_texture;
 	char	*SOUTH_texture;
 	char	*WEST_texture;
 	char	*EAST_texture;
 	t_color	FLOOR_color;
 	t_color	CEILING_color;
-}	t_scene_textures;
+}	t_scene_info;
 
 typedef struct s_data
 {
-	t_scene_textures	scene_info;
+	t_scene_info		scene_info;
 	char				**lines;
 	char				**maps;
+	int					fd_file_input;
 }	t_data;
 
 /*
@@ -99,17 +101,17 @@ int		str_equal(char *s1, char *s2);
 */
 void	safe_exit(int status);
 void	put_error_sys(char *reason);
-int		put_error(char *error, char *reason);
+void	put_error(char *error, char *reason);
+void	eput_error_sys(char *reason, int exit_status);
 void	eput_error(char *error, char *reason, int exit_status);
 
 /*
 	* MAPS CHECK
 */
-int		check_extension(char *file_name, char *ext);
-int		check_file(int ac, char **av);
-void	init_lines(int fd);
-void	check_lines();
-void	check_color(char *line, int i);
+bool	check_file_ext(char *file_name, char *ext);
+void	check_file(int ac, char **av);
+void	init_lines(void);
+void	check_color(char type, char *value);
 
 /*
 	* SAFE FUNCTIONS

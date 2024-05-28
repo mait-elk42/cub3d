@@ -6,123 +6,102 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/27 17:21:29 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/28 16:14:02 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
 
-void	handle_line(char *line, int i)
-{
-	char	*varname;
-
-	if (i < 6)
-	{
-		if (safe_strchr(line, ' ') == NULL)
-			eput_error("bad define line", line, 1);
-		varname = ft_strchr(line, ' ');
-		*varname = '\0';
-		if (*line == '\0')
-			eput_error("found empty name", line, 1);
-		if ((i == 0 && str_equal(line, "NO") == 0)
-			|| (i == 1 && str_equal(line, "SO") == 0)
-			|| (i == 2 && str_equal(line, "WE") == 0)
-			|| (i == 3 && str_equal(line, "EA") == 0))
-		eput_error("bad name or sort is not match", line, 1);
-		*varname = ' ';
-	}
-	// else
-	// {
-		// if (*str_skip(line, "01 NSEW") != '\0')
-		// {
-		// 	line = str_skip(line, "01 NSEW");
-		// 	*(line +1) = '\0';
-		// 	eput_error("bad character inside maps", line, 1);
-		// }
-	// }
-	data_hook(NULL)->lines = append_2d(data_hook(NULL)->lines, line);
-}
-
-void	init_lines(int fd)
+static void	check_texture(char *varname, char *value)
 {
 	t_data	*data;
-	char	*line;
-	size_t	i;
-
-	data = data_hook(NULL);
-	i = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		if (ft_strchr(line, '\n'))
-			*ft_strchr(line, '\n') = '\0';
-		if (safe_strlen(line) == 0 && i > 6)
-			eput_error("invalid newline place", "newline", 1);
-		if (safe_strlen(line) > 0)
-		{
-			// ft_printf("[%s][%d]\n", line, i);
-			handle_line(line, i);
-			i++;
-		}
-		line = get_next_line(fd);
-	}
-	close(fd);
-}
-
-void	check_variable(char *line, int i)
-{
-	t_data	*data;
-	char	*del;
-	char	*path;
 	int		fd;
 
+	(void)varname;
 	data = data_hook(NULL);
-	if (safe_strchr(line, ' ') == NULL)
-		safe_exit(put_error("invalid variable", line));
-	del = safe_strchr(line, ' ');
-	if (ft_iswhite(*(del +1)))
-	{
-		put_error("expected single w-space after name", line);
+	if (check_file_ext(value, ".xpm") == false)
 		safe_exit(1);
-	}
-	*del = '\0';
-	path = del +1;
-	if ((i == 0 && str_equal(line, "NO") == 0)
-		|| (i == 1 && str_equal(line, "SO") == 0)
-		|| (i == 2 && str_equal(line, "WE") == 0)
-		|| (i == 3 && str_equal(line, "EA") == 0))
-	{
-		put_error("bad name or sort is not match", line);
-		safe_exit(1);
-	}
-	fd = open(path, O_RDONLY);
+	fd = open(value, O_RDONLY);
 	if (fd == -1 || read(fd, NULL, 0) == -1)
 	{
 		if (fd != -1)
 			close(fd);
-		put_error_sys(path);
-		safe_exit(1);
+		eput_error_sys(value, 1);
 	}
-	*(((char **)&data->scene_info.NORTH_texture + i)) = safe_strdup(path);
+	close(fd);
+	if (str_equal(varname, "NO"))
+		data->scene_info.NORTH_texture = value;
+	if (str_equal(varname, "SO"))
+		data->scene_info.SOUTH_texture = value;
+	if (str_equal(varname, "WE"))
+		data->scene_info.WEST_texture = value;
+	if (str_equal(varname, "EA"))
+		data->scene_info.EAST_texture = value;
 }
 
-void	check_lines()
+static bool	is_valid_name_index(char *name, int i)
+{
+	if ((i == 0 && str_equal(name, "NO"))
+		|| (i == 1 && str_equal(name, "SO"))
+		|| (i == 2 && str_equal(name, "WE"))
+		|| (i == 3 && str_equal(name, "EA"))
+		|| (i == 4 && str_equal(name, "F"))
+		|| (i == 5 && str_equal(name, "C")))
+		return (true);
+	return (false);
+}
+
+static bool	is_valid_line(char *line, int i)
+{
+	char	*value;
+
+	data_hook(NULL)->lines = append_2d(data_hook(NULL)->lines, line);
+	if (i < 6)
+	{
+		if (safe_strchr(line, ' ') == NULL)
+			eput_error("bad define line", line, 1);
+		line = str_skip(line, " ");
+		value = ft_strchr(line, ' ');
+		*value = '\0';
+		value = str_skip(value +1, " ");
+		if (*line == '\0')
+			return (put_error("found empty name", line), false);
+		if (!is_valid_name_index(line, i))
+			return (put_error("bad name or sort", line), false);
+		ft_printf("checking %s=%s\n", line, value);
+		if (i >= 0 && i <= 3)
+			check_texture(line, value);
+		else if (i > 3 && i <= 5)
+			check_color(line[0], value);
+		*value = ' ';
+	}
+	else
+		data_hook(NULL)->maps = append_2d(data_hook(NULL)->maps, line);
+	return (true);
+}
+
+void	init_lines(void)
 {
 	t_data	*data;
-	char	**lines;
 	char	*line;
 	size_t	i;
 
 	data = data_hook(NULL);
-	lines = data->lines;
 	i = 0;
-	while (lines && lines[i])
+	line = get_next_line(data->fd_file_input);
+	while (line)
 	{
-		line = lines[i];
-		if (i >= 0 && i <= 3)
-			check_variable(line, i);
-		else if (i > 3 && i <= 5)
-			check_color(line, i);
-		i++;
+		if (ft_strchr(line, '\n'))
+			*ft_strchr(line, '\n') = '\0';
+		if (safe_strlen(line) > 0)
+		{
+			if (is_valid_line(line, i) == false)
+				safe_exit(1);
+			i++;
+		}
+		else if (free(line), i > 6)
+			eput_error("invalid newline place", "newline", 1);
+		line = get_next_line(data->fd_file_input);
 	}
+	close(data->fd_file_input);
 }
