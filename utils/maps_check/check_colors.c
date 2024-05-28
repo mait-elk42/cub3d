@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 18:18:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/05/28 11:07:58 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:08:58 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,20 @@ void	set_value(char type, int number, int numbers)
 	if (type == 'C')
 	{
 		if (numbers == 0)
-			data->scene_info.CEILING_color.r = number;
+			data->scene_info.ceiling_color.r = number;
 		if (numbers == 1)
-			data->scene_info.CEILING_color.g = number;
-		if (numbers == 2) 
-			data->scene_info.CEILING_color.b = number;
+			data->scene_info.ceiling_color.g = number;
+		if (numbers == 2)
+			data->scene_info.ceiling_color.b = number;
 	}
 	if (type == 'F')
 	{
 		if (numbers == 0)
-			data->scene_info.FLOOR_color.r = number;
+			data->scene_info.floor_color.r = number;
 		if (numbers == 1)
-			data->scene_info.FLOOR_color.g = number;
+			data->scene_info.floor_color.g = number;
 		if (numbers == 2)
-			data->scene_info.FLOOR_color.b = number;
+			data->scene_info.floor_color.b = number;
 	}
 }
 
@@ -55,7 +55,7 @@ int	char_times(char *str, char c)
 int	atouch(char *str)
 {
 	size_t	i;
-	int	number;
+	int		number;
 
 	number = 0;
 	if (str == NULL || *str == '\0')
@@ -82,10 +82,10 @@ void	check_color(char type, char *value)
 	t_data	*data;
 	char	*number;
 	char	*comma;
-	int		numbers = 0;
+	int		numbers;
 
 	data = data_hook(NULL);
-
+	numbers = 0;
 	if (char_times(value, ',') != 2)
 		eput_error("Expected value r,g,b", "RGB missed", 1);
 	while (value && *value)
