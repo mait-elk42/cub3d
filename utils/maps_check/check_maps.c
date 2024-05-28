@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:40:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 17:26:51 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/28 18:21:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	maps_iteri(char **maps, t_vector2 pos, bool *found_plr)
 	}
 	if (safe_strchr("0NSEW", maps[pos.y][pos.x]) != NULL)
 	{
+		if ((pos.y == 0 && safe_strchr(maps[pos.y], '0')) || (pos.x == 0 && maps[pos.y][pos.x] == '0'))
+			eput_error("error maps in the rounds", maps[pos.y], 1);
 		if (pos.y > 0 && (safe_strlen(maps[pos.y -1]) < (size_t)pos.x || maps[pos.y -1][pos.x] == ' '))
 			eput_error("error maps in the TOP", maps[pos.y], 1);
 		if (safe_strlen(maps[pos.y +1]) < (size_t)pos.x || maps[pos.y +1][pos.x] == ' ')
@@ -51,7 +53,7 @@ void	check_maps(void)
 		pos.x = 0;
 		while (maps[pos.y][pos.x])
 		{
-			maps_iteri(maps, pos, &found_plr);										
+			maps_iteri(maps, pos, &found_plr);
 			pos.x++;
 		}
 		pos.y++;
