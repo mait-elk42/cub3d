@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 15:36:25 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/28 17:10:11 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,20 @@
 	* STRUCTS
 */
 
+typedef struct	s_vector2
+{
+	ssize_t		x;
+	ssize_t		y;
+}	t_vector2;
+
+typedef struct	s_vector3
+{
+	ssize_t		x;
+	ssize_t		y;
+	ssize_t		z;
+}	t_vector3;
+
+
 typedef struct	s_color
 {
 	unsigned char	r;
@@ -95,6 +109,7 @@ void	data_init(t_data *data_ptr, int ac, char **av);
 */
 char	*str_skip(char *str, char *chars_to_skip);
 int		str_equal(char *s1, char *s2);
+char	*str_skip_wsp(char *str);
 
 /**
  * ERRORS HANDLING
@@ -111,6 +126,7 @@ void	eput_error(char *error, char *reason, int exit_status);
 bool	check_file_ext(char *file_name, char *ext);
 void	check_file(int ac, char **av);
 void	init_lines(void);
+void	check_maps(void);
 void	check_color(char type, char *value);
 
 /*
@@ -133,6 +149,7 @@ void	free_tab(char **array);
 */
 char	**append_2d(char **old_tab, char *to_append);
 void	print(int fd, char *msg, int endl);
+void	print_2d(char **arr);
 void	logger(char *msg);
 
 #endif

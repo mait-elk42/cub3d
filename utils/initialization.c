@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 14:59:32 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/28 16:40:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	data_init(t_data *data_ptr, int ac, char **av)
 	ft_bzero(data_ptr, sizeof(t_data));
 	check_file(ac, av);
 	init_lines();
+	check_maps();
+	print_2d(data_ptr->maps);
 	printf("C: R %d\n", data_ptr->scene_info.CEILING_color.r);
 	printf("C: G %d\n", data_ptr->scene_info.CEILING_color.g);
 	printf("C: B %d\n", data_ptr->scene_info.CEILING_color.b);
