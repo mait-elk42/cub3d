@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 12:36:51 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:23:00 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,19 @@ typedef struct s_scene_info
 	t_color		ceiling_color;
 }	t_scene_info;
 
+typedef	struct s_mlx
+{
+	void	*mlx_ptr;
+	void	*window_ptr;
+}	t_mlx;
+
 typedef struct s_data
 {
-	t_scene_info	scene_info;
-	char			**lines;
-	char			**maps;
-	void			*mlx;
-	int				fd_file_input;
+	t_mlx				mlx;
+	char				**lines;
+	char				**maps;
+	int					fd_file_input;
+	t_scene_info		scene_info;
 }	t_data;
 
 /*
@@ -102,7 +108,7 @@ t_data	*data_hook(t_data *data);
 /*
 	* 	INITIALIZATION
 */
-void	data_init(t_data *data_ptr, int ac, char **av);
+void	data_init(t_data *data, int ac, char **av);
 
 /**
  * 	STRINGS

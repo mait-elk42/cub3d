@@ -6,11 +6,25 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 11:53:44 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:37:20 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+static bool	check_texture_content(char	*filename)
+{
+	void		*ptr;
+	int			w;
+	int			h;
+
+	ptr = mlx_xpm_file_to_image(data_hook(NULL)->mlx.mlx_ptr, filename, &w, &h);
+	if (ptr == NULL)
+		return (false);
+	mlx_destroy_image(data_hook(NULL)->mlx.mlx_ptr, ptr);
+	ptr = NULL;
+	return (true);
+}
 
 static void	check_texture(char *varname, char *value)
 {
@@ -24,11 +38,12 @@ static void	check_texture(char *varname, char *value)
 	fd = open(value, O_RDONLY);
 	if (fd == -1 || read(fd, NULL, 0) == -1)
 	{
-		if (fd != -1)
-			close(fd);
+		((fd != -1) && close(fd));
 		eput_error_sys(value, 1);
 	}
 	close(fd);
+	if (check_texture_content(value) == false)
+		eput_error("invalid xpm file content", value, 1);
 	if (str_equal(varname, "NO"))
 		data->scene_info.north_texture = value;
 	if (str_equal(varname, "SO"))
@@ -68,7 +83,7 @@ static bool	is_valid_line(char *line, int i)
 			return (put_error("found empty name", line), false);
 		if (!is_valid_name_index(line, i))
 			return (put_error("bad name or sort", line), false);
-		ft_printf("checking %s=%s\n", line, value);
+		// ft_printf("checking %s=%s\n", line, value);
 		if (i >= 0 && i <= 3)
 			check_texture(line, value);
 		else if (i > 3 && i <= 5)
