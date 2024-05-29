@@ -6,11 +6,11 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:40:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 09:53:11 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:46:52 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include <cub3d.h>
 
 bool	valid_roundwall(char *mapswall)
 {

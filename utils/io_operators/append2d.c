@@ -6,11 +6,11 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 10:15:45 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/25 15:47:00 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:47:09 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include <cub3d.h>
 
 char	**append_2d(char **old_tab, char *to_append)
 {

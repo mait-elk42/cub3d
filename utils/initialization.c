@@ -6,11 +6,11 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 09:25:58 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:47:32 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include <cub3d.h>
 
 void	data_init(t_data *data_ptr, int ac, char **av)
 {

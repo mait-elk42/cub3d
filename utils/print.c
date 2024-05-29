@@ -6,11 +6,11 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:23:21 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 19:01:23 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:47:32 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include <cub3d.h>
 
 void	print(int fd, char *msg, int endl)
 {

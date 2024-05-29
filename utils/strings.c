@@ -6,11 +6,11 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:55:25 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/05/28 19:01:27 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:47:45 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include <cub3d.h>
 
 int	str_equal(char *s1, char *s2)
 {
