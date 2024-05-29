@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 10:47:32 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:25:55 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	safe_exit(int status)
 	data->maps = NULL;
 	ft_bzero(&data->scene_info, sizeof(t_scene_info));
 	close(data->fd_file_input);
+	free(data->mlx.mlx_ptr);
+	data->mlx.mlx_ptr = NULL;
 	exit(status);
 }
 
