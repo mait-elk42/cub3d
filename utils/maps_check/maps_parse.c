@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   maps_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 11:59:18 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:37:20 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include "../../include/cub3d.h"
 
 static bool	check_texture_content(char	*filename)
 {

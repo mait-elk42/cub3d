@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 18:18:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/05/29 10:47:09 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 18:54:57 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	atouch(char *str)
 	if (str == NULL || *str == '\0')
 		eput_error("Expected input 0 - 9", "Input", 1);
 	i = 0;
-	if (str[0] == '0')
+	if (str[0] == '0' && safe_strlen(str) > 1)
 		eput_error("Expected nonezero in indently", "Input", 1);
 	if (str[i] == '-' || str[i] == '+')
 		eput_error("Expected unsigned number", "Input", 1);
