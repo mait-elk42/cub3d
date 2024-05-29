@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 12:00:47 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:26:12 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,8 @@ void	data_init(t_data *data, int ac, char **av)
 		eput_error("Cannot Init Mlx Connection", "[MLX_DYLIB]", 1);
 	init_lines();
 	check_maps();
+	data->mlx.window_ptr = mlx_new_window(data->mlx.mlx_ptr, 1080, 720, "cub3d");
+	if (data->mlx.window_ptr == NULL)
+		eput_error("cannot open mlx window", "[MLX_DYLIB]", 1);
 	print_data_collected(data);
 }

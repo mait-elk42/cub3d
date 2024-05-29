@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 14:34:14 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:26:01 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int ac, char **av)
 
 	// check_leaks(1);
 	data_init(&data, ac, av);
-	
+	run_game(&data);
+	mlx_loop(data.mlx.mlx_ptr);
 	safe_exit(0);
 }

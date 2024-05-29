@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 11:40:54 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:12:56 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,10 @@ char	**append_2d(char **old_tab, char *to_append);
 void	print(int fd, char *msg, int endl);
 void	print_2d(char **arr);
 void	logger(char *msg);
+
+/*
+	* GAME
+*/
+void	run_game(t_data	*data);
 
 #endif
