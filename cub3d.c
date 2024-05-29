@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 11:51:25 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 12:35:29 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	f(void)
 {
+	
 	logger("====================leaks===========================");
 	system("leaks cub3d | grep bytes");
 	logger("====================lsof===========================");
@@ -23,7 +24,7 @@ void	f(void)
 
 int main(int ac, char **av)
 {
-	t_data data;
+	t_data	data;
 
 	// atexit(f);
 	data_init(&data, ac, av);

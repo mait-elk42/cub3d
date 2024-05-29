@@ -6,11 +6,11 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:23:21 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 10:35:10 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:55:01 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include <cub3d.h>
 
 void	print(int fd, char *msg, int endl)
 {

@@ -6,11 +6,11 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 18:18:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/05/28 19:24:18 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 10:47:09 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include <cub3d.h>
 
 void	set_value(char type, int number, int numbers)
 {
