@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 15:23:00 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 15:35:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 # include "../libft/libft.h"
 # include <stdio.h>
-# include "mlx.h"
+# include <mlx.h>
 # include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -157,5 +157,10 @@ char	**append_2d(char **old_tab, char *to_append);
 void	print(int fd, char *msg, int endl);
 void	print_2d(char **arr);
 void	logger(char *msg);
+
+/*
+	* GAME
+*/
+void	run_game(t_data	*data);
 
 #endif

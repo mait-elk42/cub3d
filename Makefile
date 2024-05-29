@@ -6,7 +6,7 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/05/29 14:36:32 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/05/29 15:28:34 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ SRC= utils/utils.c utils/print.c utils/initialization.c \
 	utils/maps_check/maps_parse.c utils/maps_check/check_maps.c utils/maps_check/check_colors.c \
 	utils/io_operators/append2d.c utils/strings.c \
 	utils/errors_handling/errors_args.c utils/errors_handling/put_error.c \
-	utils/io_operators/safe_str1.c utils/io_operators/safe_str2.c 
+	utils/io_operators/safe_str1.c utils/io_operators/safe_str2.c \
+	utils/game/run_game.c
 OBJ= $(SRC:.c=.o)
 NAME= cub3d
 LIBFT = libft/libft.a
