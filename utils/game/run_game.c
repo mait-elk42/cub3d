@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 19:18:32 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 20:45:39 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,44 +66,42 @@ int key_down(int keycode, t_data *data)
 	(void)data;
 	if (keycode == 53) // esc key
 		safe_exit(0);
+	printf("pressed key : %d\n", keycode);
 	return (0);
 }
 
 void	run_game(t_data *data)
 {
-	void *image = mlx_new_image(data->mlx.mlx_ptr, 100, 100);
+	void *image = mlx_new_image(data->mlx.mlx_ptr, data->scene_info.maps_xsize * 10, data->scene_info.maps_ysize * 10);
 	int pixel_bits;
 	int line_bytes;
 	int endian;
 	char *buffer = mlx_get_data_addr(image, &pixel_bits, &line_bytes, &endian);
-	int color = 0xABCDEF;
+	int color = 0xffff00;
 
 	if (pixel_bits != 32)
 		color = mlx_get_color_value(data->mlx.mlx_ptr, color);
 
-	for(int y = 0; y < 100; ++y)
-	for(int x = 0; x < 100; ++x)
+	for(size_t y = 0; y < data->scene_info.maps_ysize * 10; ++y)
+	for(size_t x = 0; x < data->scene_info.maps_xsize * 10; ++x)
 	{
 		int pixel = (y * line_bytes) + (x * 4);
-
 		if (endian == 1)        // Most significant (Alpha) byte first
 		{
 			buffer[pixel + 0] = (color >> 24);
-			buffer[pixel + 1] = (color >> 16) & 0xFF;
-			buffer[pixel + 2] = (color >> 8) & 0xFF;
-			buffer[pixel + 3] = (color) & 0xFF;
+			buffer[pixel + 1] = (color >> 16);
+			buffer[pixel + 2] = (color >> 8);
+			buffer[pixel + 3] = (color);
 		}
 		else if (endian == 0)   // Least significant (Blue) byte first
 		{
-			buffer[pixel + 0] = (color) & 0xFF;
-			buffer[pixel + 1] = (color >> 8) & 0xFF;
-			buffer[pixel + 2] = (color >> 16) & 0xFF;
+			buffer[pixel + 0] = (color);
+			buffer[pixel + 1] = (color >> 8);
+			buffer[pixel + 2] = (color >> 16);
 			buffer[pixel + 3] = (color >> 24);
 		}
 	}
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, image, 100, 100);
-	image = NULL;
-	buffer = NULL;
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, 2, 0, key_down, data);
 }

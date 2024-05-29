@@ -6,12 +6,12 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/05/29 19:18:09 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/05/29 20:42:54 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
-CFLAGS= -Wall -Werror -Wextra -I include #-fsanitize=address -g
+CFLAGS= -Wall -Werror -Wextra -I include -fsanitize=address -g
 SRC= utils/utils.c utils/print.c utils/initialization.c \
 	utils/maps_check/maps_parse.c utils/maps_check/check_maps.c utils/maps_check/check_colors.c \
 	utils/io_operators/append2d.c utils/strings.c \

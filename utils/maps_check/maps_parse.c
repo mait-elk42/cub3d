@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maps_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 14:37:20 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 20:40:49 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,16 @@ static bool	is_valid_line(char *line, int i)
 			return (put_error("found empty name", line), false);
 		if (!is_valid_name_index(line, i))
 			return (put_error("bad name or sort", line), false);
-		// ft_printf("checking %s=%s\n", line, value);
 		if (i >= 0 && i <= 3)
 			check_texture(line, value);
 		else if (i > 3 && i <= 5)
 			check_color(line[0], value);
-		*value = ' ';
+		return (*value = ' ', true);
 	}
-	else
-		data_hook(NULL)->maps = append_2d(data_hook(NULL)->maps, line);
+	if (safe_strlen(line) > data_hook(NULL)->scene_info.maps_xsize)
+		data_hook(NULL)->scene_info.maps_xsize = safe_strlen(line);
+	data_hook(NULL)->scene_info.maps_ysize++;
+	data_hook(NULL)->maps = append_2d(data_hook(NULL)->maps, line);
 	return (true);
 }
 

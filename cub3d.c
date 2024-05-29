@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 16:30:02 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 20:41:21 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	main(int ac, char **av)
 
 	// check_leaks(1);
 	data_init(&data, ac, av);
+	printf("mapx %zu\n", data.scene_info.maps_xsize);
+	printf("mapy %zu\n", data.scene_info.maps_ysize);
 	run_game(&data);
 	mlx_loop(data.mlx.mlx_ptr);
 	safe_exit(0);

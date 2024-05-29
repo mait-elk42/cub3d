@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 15:35:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 20:35:37 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ typedef struct s_scene_info
 	char		*east_texture;
 	t_color		floor_color;
 	t_color		ceiling_color;
+	size_t		maps_xsize;
+	size_t		maps_ysize;
 }	t_scene_info;
 
 typedef	struct s_mlx
