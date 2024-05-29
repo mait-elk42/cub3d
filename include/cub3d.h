@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 17:10:11 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 09:53:48 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <mlx.h>
+# include "/System/Volumes/Data/usr/local/include/mlx.h"
 # include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -55,43 +56,43 @@
 	* STRUCTS
 */
 
-typedef struct	s_vector2
+typedef struct s_vector2
 {
 	ssize_t		x;
 	ssize_t		y;
 }	t_vector2;
 
-typedef struct	s_vector3
+typedef struct s_vector3
 {
 	ssize_t		x;
 	ssize_t		y;
 	ssize_t		z;
 }	t_vector3;
 
-
-typedef struct	s_color
+typedef struct s_color
 {
 	unsigned char	r;
 	unsigned char	g;
 	unsigned char	b;
 }	t_color;
 
-
-typedef struct s_scene_info {
-	char	*NORTH_texture;
-	char	*SOUTH_texture;
-	char	*WEST_texture;
-	char	*EAST_texture;
-	t_color	FLOOR_color;
-	t_color	CEILING_color;
+typedef struct s_scene_info
+{
+	char		*north_texture;
+	char		*south_texture;
+	char		*west_texture;
+	char		*east_texture;
+	t_color		floor_color;
+	t_color		ceiling_color;
 }	t_scene_info;
 
 typedef struct s_data
 {
-	t_scene_info		scene_info;
-	char				**lines;
-	char				**maps;
-	int					fd_file_input;
+	t_scene_info	scene_info;
+	char			**lines;
+	char			**maps;
+	void			*mlx;
+	int				fd_file_input;
 }	t_data;
 
 /*

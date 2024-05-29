@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 17:21:31 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/28 19:14:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static void	check_texture(char *varname, char *value)
 	}
 	close(fd);
 	if (str_equal(varname, "NO"))
-		data->scene_info.NORTH_texture = value;
+		data->scene_info.north_texture = value;
 	if (str_equal(varname, "SO"))
-		data->scene_info.SOUTH_texture = value;
+		data->scene_info.south_texture = value;
 	if (str_equal(varname, "WE"))
-		data->scene_info.WEST_texture = value;
+		data->scene_info.west_texture = value;
 	if (str_equal(varname, "EA"))
-		data->scene_info.EAST_texture = value;
+		data->scene_info.east_texture = value;
 }
 
 static bool	is_valid_name_index(char *name, int i)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
+#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/05/28 16:42:04 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/05/28 20:02:39 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ) $(NAME).c include/$(NAME).h
 	@printf "🔄\033[32m Compiling Executable File...\033[0m"
-	@if $(CC) $(CFLAGS) $(NAME).c $(OBJ) $(LIBFT) -o $(NAME) 2> /tmp/errcub3d; then \
+	@if $(CC) $(CFLAGS) $(NAME).c $(OBJ) $(LIBFT) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) 2> /tmp/errcub3d; then \
 		printf "\r✅\n"; \
 	else \
 		printf "\r❌\n\033[31mCannot Compile [$(NAME).c] Because: \n\033[0m"; \
