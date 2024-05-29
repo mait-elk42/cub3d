@@ -6,11 +6,22 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:40:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 18:59:53 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/29 09:53:11 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cub3d.h"
+
+bool	valid_roundwall(char *mapswall)
+{
+	while (mapswall && *mapswall)
+	{
+		if (safe_strchr(" NSEW", *mapswall) != NULL)
+			return (false);
+		mapswall++;
+	}
+	return (true);
+}
 
 void	maps_iteri(char **maps, t_vector2 pos, bool *found_plr)
 {
@@ -24,7 +35,7 @@ void	maps_iteri(char **maps, t_vector2 pos, bool *found_plr)
 	}
 	if (safe_strchr("0NSEW", maps[pos.y][pos.x]) != NULL)
 	{
-		if ((pos.y == 0 && safe_strchr(maps[pos.y], '0'))
+		if ((pos.y == 0 && valid_roundwall(maps[pos.y]) == false)
 			|| (pos.x == 0 && maps[pos.y][pos.x] == '0'))
 			eput_error("maps must be rounded by walls", maps[pos.y], 1);
 		if (pos.y > 0 && (safe_strlen(maps[pos.y -1]) < (size_t)pos.x
@@ -40,25 +51,38 @@ void	maps_iteri(char **maps, t_vector2 pos, bool *found_plr)
 	}
 }
 
+void	find_wf(char c, bool *found_wall, bool *found_floor)
+{
+	if (c == '1')
+		*found_wall = true;
+	if (c == '0')
+		*found_floor = true;
+}
+
 void	check_maps(void)
 {
 	t_data		*data;
-	char		**maps;
 	t_vector2	pos;
 	bool		found_plr;
+	bool		found_wall;
+	bool		found_floor;
 
 	data = data_hook(NULL);
-	maps = data->maps;
 	pos.y = 0;
 	found_plr = false;
-	while (maps[pos.y])
+	found_wall = false;
+	found_floor = false;
+	while (data->maps[pos.y])
 	{
 		pos.x = 0;
-		while (maps[pos.y][pos.x])
+		while (data->maps[pos.y][pos.x])
 		{
-			maps_iteri(maps, pos, &found_plr);
+			find_wf(data->maps[pos.y][pos.x], &found_wall, &found_floor);
+			maps_iteri(data->maps, pos, &found_plr);
 			pos.x++;
 		}
 		pos.y++;
 	}
+	if (found_floor == false || found_wall == false)
+		eput_error("missing wall or floor", "[MAPS]", 1);
 }
