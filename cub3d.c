@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 12:35:29 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 14:04:30 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	f(void)
 	logger("=====================================================");
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_data	data;
 
