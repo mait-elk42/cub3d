@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/28 19:14:07 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 09:59:04 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,15 @@ static bool	is_valid_line(char *line, int i)
 	return (true);
 }
 
+static void	check_empty()
+{
+	t_data	*data;
+
+	data = data_hook(NULL);
+	if (data->maps == NULL)
+		eput_error("is empty", "[MAPS]", 1);
+}
+
 void	init_lines(void)
 {
 	t_data	*data;
@@ -104,4 +113,5 @@ void	init_lines(void)
 		line = get_next_line(data->fd_file_input);
 	}
 	close(data->fd_file_input);
+	check_empty();
 }

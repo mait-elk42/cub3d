@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 09:53:48 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:49:39 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define CUB3D_H
 # include "../libft/libft.h"
 # include <stdio.h>
-# include <mlx.h>
-# include "/System/Volumes/Data/usr/local/include/mlx.h"
+# include "mlx.h"
 # include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>

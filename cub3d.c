@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 09:48:07 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:51:25 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int main(int ac, char **av)
 {
 	t_data data;
 
-	
 	// atexit(f);
 	data_init(&data, ac, av);
 	safe_exit(0);
