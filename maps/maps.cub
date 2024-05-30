@@ -1,13 +1,13 @@
-NO      textures/NO.xpm
-SO      textures/SO.xpm
-WE      textures/WE.xpm
-EA      textures/EA.xpm
+NO 	textures/NO.xpm
+SO 	textures/SO.xpm
+WE 	textures/WE.xpm
+EA 	textures/EA.xpm
 
 
 
 
-F 220,100,0
-C 225,30,0
+F 	220,100,0
+C 	225,30,0
 
 
         1111111111111111111111111
