@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 20:45:39 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/30 12:14:56 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	put_maps(char **maps, t_mlx mlx)
 int	game_loop(t_data *data)
 {
 	(void)data;
-	// mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
+	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->maps_image->img_ptr, 100, 100);
 	// put_maps(data->maps, data->mlx);
 	return (0);
 }
@@ -66,42 +67,50 @@ int key_down(int keycode, t_data *data)
 	(void)data;
 	if (keycode == 53) // esc key
 		safe_exit(0);
+	if (keycode == 49)
+	{
+		for (int i = 0; i < data->scene_info.maps_ysize * 10; i++)
+		for (int j = 0; j < data->scene_info.maps_xsize * 10; j++)
+		{
+			if (j * 10 % 2 == 0 && j < 10)
+				t_image_update_pixel(data->maps_image, j, i, 0xffff00);
+		}
+	}
 	printf("pressed key : %d\n", keycode);
 	return (0);
 }
 
 void	run_game(t_data *data)
 {
-	void *image = mlx_new_image(data->mlx.mlx_ptr, data->scene_info.maps_xsize * 10, data->scene_info.maps_ysize * 10);
-	int pixel_bits;
-	int line_bytes;
-	int endian;
-	char *buffer = mlx_get_data_addr(image, &pixel_bits, &line_bytes, &endian);
-	int color = 0xffff00;
+	data->maps_image = t_image_create(data->scene_info.maps_xsize * 10
+								,data->scene_info.maps_ysize * 10
+								, 0xffffff);
+	// if (maps.bits_per_pixel != 32)
+	// 	color = mlx_get_color_value(data->mlx.mlx_ptr, color);
+	// for(size_t y = 0; y < maps.sizey * 10; ++y)
+	// {
+	// 	for(size_t x = 0; x < maps.sizex * 10; ++x)
+	// 	{
+	// 		int pixel = (y * maps.line_bytes) + (x * 4);
+	// 		if (maps.endian == 1)        // Most significant (Alpha) byte first
+	// 		{
+	// 			maps.buffer[pixel + 0] = (color >> 24);
+	// 			maps.buffer[pixel + 1] = (color >> 16);
+	// 			maps.buffer[pixel + 2] = (color >> 8);
+	// 			maps.buffer[pixel + 3] = (color);
+	// 		}
+	// 		else if (maps.endian == 0)   // Least significant (Blue) byte first
+	// 		{
+	// 			maps.buffer[pixel + 0] = (color);
+	// 			maps.buffer[pixel + 1] = (color >> 8);
+	// 			maps.buffer[pixel + 2] = (color >> 16);
+	// 			maps.buffer[pixel + 3] = (color >> 24);
+	// 		}
+	// 	}
+	// 	color+= 0x0000ff;
+	// }
 
-	if (pixel_bits != 32)
-		color = mlx_get_color_value(data->mlx.mlx_ptr, color);
-
-	for(size_t y = 0; y < data->scene_info.maps_ysize * 10; ++y)
-	for(size_t x = 0; x < data->scene_info.maps_xsize * 10; ++x)
-	{
-		int pixel = (y * line_bytes) + (x * 4);
-		if (endian == 1)        // Most significant (Alpha) byte first
-		{
-			buffer[pixel + 0] = (color >> 24);
-			buffer[pixel + 1] = (color >> 16);
-			buffer[pixel + 2] = (color >> 8);
-			buffer[pixel + 3] = (color);
-		}
-		else if (endian == 0)   // Least significant (Blue) byte first
-		{
-			buffer[pixel + 0] = (color);
-			buffer[pixel + 1] = (color >> 8);
-			buffer[pixel + 2] = (color >> 16);
-			buffer[pixel + 3] = (color >> 24);
-		}
-	}
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, image, 100, 100);
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, 2, 0, key_down, data);
+	mlx_loop(data->mlx.mlx_ptr);
 }

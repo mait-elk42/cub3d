@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 20:40:49 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/30 12:10:52 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static bool	is_valid_line(char *line, int i)
 			check_color(line[0], value);
 		return (*value = ' ', true);
 	}
-	if (safe_strlen(line) > data_hook(NULL)->scene_info.maps_xsize)
+	if ((int)safe_strlen(line) > data_hook(NULL)->scene_info.maps_xsize)
 		data_hook(NULL)->scene_info.maps_xsize = safe_strlen(line);
 	data_hook(NULL)->scene_info.maps_ysize++;
 	data_hook(NULL)->maps = append_2d(data_hook(NULL)->maps, line);
