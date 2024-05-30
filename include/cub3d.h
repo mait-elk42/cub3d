@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/30 12:10:41 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/30 12:50:20 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_image
 {
 	void		*img_ptr;
 	char		*buffer;
+	int			pixel_add;
 	int			sizex;
 	int			sizey;
 	int			bits_per_pixel;
