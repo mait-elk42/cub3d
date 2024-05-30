@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 15:36:00 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/29 18:48:29 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void	logger(char *msg)
 {
 	print(1, COLOR_BLUE"LOG : ", 0);
 	print(1, msg, 1);
+	printf("%d", 0xff07);
 	print(1, COLOR_RESET, 0);
 }
