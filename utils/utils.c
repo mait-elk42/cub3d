@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/30 10:32:02 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/30 12:29:31 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	safe_exit(int status)
 	data->maps = NULL;
 	ft_bzero(&data->scene_info, sizeof(t_scene_info));
 	close(data->fd_file_input);
-	if (data->mlx.mlx_ptr != NULL)
+	if (data->mlx.mlx_ptr != NULL && data->mlx.window_ptr != NULL)
 		mlx_destroy_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	free(data->mlx.mlx_ptr);
 	data->mlx.mlx_ptr = NULL;
