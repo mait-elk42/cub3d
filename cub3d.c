@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 18:46:32 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/30 10:58:16 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int ac, char **av)
 	// check_leaks(1);
 	data_init(&data, ac, av);
 	run_game(&data);
- 	mlx_loop(data.mlx.mlx_ptr);
+	mlx_loop(data.mlx.mlx_ptr);
 	safe_exit(0);
+	printf("include/cub3d.h");
 }
