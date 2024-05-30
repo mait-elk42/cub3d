@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 20:35:37 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/30 12:10:41 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,17 @@ typedef struct s_color
 	unsigned char	b;
 }	t_color;
 
+typedef struct s_image
+{
+	void		*img_ptr;
+	char		*buffer;
+	int			sizex;
+	int			sizey;
+	int			bits_per_pixel;
+	int			line_bytes;
+	int			endian;
+}	t_image;
+
 typedef struct s_scene_info
 {
 	char		*north_texture;
@@ -83,8 +94,8 @@ typedef struct s_scene_info
 	char		*east_texture;
 	t_color		floor_color;
 	t_color		ceiling_color;
-	size_t		maps_xsize;
-	size_t		maps_ysize;
+	int			maps_xsize;
+	int			maps_ysize;
 }	t_scene_info;
 
 typedef	struct s_mlx
@@ -100,6 +111,7 @@ typedef struct s_data
 	char				**maps;
 	int					fd_file_input;
 	t_scene_info		scene_info;
+	t_image				*maps_image;
 }	t_data;
 
 /*
@@ -164,5 +176,12 @@ void	logger(char *msg);
 	* GAME
 */
 void	run_game(t_data	*data);
+
+
+/*
+	* IMAGES
+*/
+t_image	*t_image_create(int sizex, int sizey, int default_color);
+void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
 
 #endif
