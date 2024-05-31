@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/31 18:54:12 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/31 19:44:27 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ void	put_maps(char **maps, t_mlx mlx)
 		while (maps[i.y][i.x])
 		{
 			int	y = 0;
-			while (y < 25)
+			while (y < 24)
 			{
 				int	x = 0;
-				while (x < 25)
+				while (x < 24)
 				{
 					if (maps[i.y][i.x] == '1')
 						t_image_update_pixel(data_hook(NULL)->maps_image, j.x + x, j.y + y, 0x0000ff);
 					else if (maps[i.y][i.x] == '0' || safe_strchr("NSEW", maps[i.y][i.x]))
-						t_image_update_pixel(data_hook(NULL)->maps_image, j.x + x, j.y + y, 0xffffff); 
+						t_image_update_pixel(data_hook(NULL)->maps_image, j.x + x, j.y + y, 0xffffff);
 					x++;
 				}
 				y++;
@@ -103,22 +103,42 @@ int	game_loop(t_data *data)
 	put_maps(data->maps, data->mlx);
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->maps_image->img_ptr, 0, 0);
-	t_image_update_pixel(data->player.texture, 13 , 13, 0xffffff);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.texture->img_ptr, data->player.pos.x, data->player.pos.y);
-	int k = 0;
-	while (k < 50)
+	// t_image	*img = t_image_create(200, 200, 0x000000);
+	int j = 0;
+	while (j < 25)
 	{
-		if (k % 25 == 0)
+		int k = data->player.pos.y;
+		while (1)
 		{
-			// printf("found special place :) [%c]\n", data->maps[data->player.pos.y /25][data->player.pos.x /25]);
-			mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + (data->player.texture->sizex / 2), data->player.pos.y -k + (data->player.texture->sizey / 2), 0xffff00);
+			if (k % 25 == 0 && data->maps[k /25][((data->player.pos.x + j) / 25)] != 'N')
+			{
+				printf("found special place :) [%c]\n", data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25]);
+				if (data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25] == '1')
+					break ;
+			}
+			// else
+				// t_image_update_pixel(img, data->player.pos.x + j, k,  0xff0000);
+				mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
+			k--;
 		}
-		else
-		{
-			mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + (data->player.texture->sizex / 2), data->player.pos.y -k + (data->player.texture->sizey / 2), 0xff0000);
-		}
-		k++;
+		j++;
 	}
+	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, img, data->player.pos.x, data->player.pos.y);
+	// int k = data->player.pos.y;
+	// while (1)
+	// {
+	// 	if (k % 25 == 0 && data->maps[k /25][((data->player.pos.x + j) / 25)] != 'N')
+	// 	{
+	// 		printf("found special place :) [%c]\n", data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25]);
+	// 		if (data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25] == '1')
+	// 			break ;
+	// 	}
+	// 	else
+	// 		// t_image_update_pixel(img, data->player.pos.x + j, k,  0xff0000);
+	// 		mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
+	// 	k--;
+	// }
 	return (0);
 }
 
