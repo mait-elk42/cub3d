@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/31 11:32:43 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:59:34 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,10 @@ typedef struct s_mlx
 
 typedef struct s_player
 {
-	t_vector	pos;
-	t_vector	dir;
 	t_image		*texture;
+	t_vector	pos;
+	t_vector2	global_pos;
+	t_vector	dir;
 }	t_player;
 
 typedef struct s_data
