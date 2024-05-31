@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/30 12:30:00 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/05/31 12:12:21 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,4 @@ int	main(int ac, char **av)
 	printf("mapy %d\n", data.scene_info.maps_ysize);
 	run_game(&data);
 	safe_exit(0);
-	printf("include/cub3d.h");
 }

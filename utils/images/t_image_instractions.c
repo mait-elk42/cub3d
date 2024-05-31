@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 10:05:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/30 12:16:56 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/30 12:49:01 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_image	*t_image_create(int sizex, int sizey, int default_color)
 	if (img->img_ptr == NULL)
 		eput_error("cannot create image", "[IMAGE]", 1);
 	img->buffer = mlx_get_data_addr(img->img_ptr, &img->bits_per_pixel, &img->line_bytes, &img->endian);
+	img->sizex = sizex;
+	img->sizey = sizey;
 	y = 0;
 	while (y < sizey)
 	{

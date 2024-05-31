@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/30 12:10:41 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/31 15:16:40 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,16 @@
 # include <stdbool.h>
 
 /*
-	* Regular Text Colors
+	* Text Colors
 */
-# define COLOR_BLACK   "\033[30m"
-# define COLOR_RED     "\033[31m"
-# define COLOR_GREEN   "\033[32m"
-# define COLOR_YELLOW  "\033[33m"
-# define COLOR_BLUE    "\033[34m"
-# define COLOR_MAGENTA "\033[35m"
-# define COLOR_CYAN    "\033[36m"
-# define COLOR_WHITE   "\033[37m"
-
-/*
-	* Underline Text Colors
-*/
+# define COLOR_BLACK             "\033[30m"
+# define COLOR_RED               "\033[31m"
+# define COLOR_GREEN             "\033[32m"
+# define COLOR_YELLOW            "\033[33m"
+# define COLOR_BLUE              "\033[34m"
+# define COLOR_MAGENTA           "\033[35m"
+# define COLOR_CYAN              "\033[36m"
+# define COLOR_WHITE             "\033[37m"
 # define COLOR_UNDERLINE_BLACK   "\033[4;30m"
 # define COLOR_UNDERLINE_RED     "\033[4;31m"
 # define COLOR_UNDERLINE_GREEN   "\033[4;32m"
@@ -45,21 +41,42 @@
 # define COLOR_UNDERLINE_MAGENTA "\033[4;35m"
 # define COLOR_UNDERLINE_CYAN    "\033[4;36m"
 # define COLOR_UNDERLINE_WHITE   "\033[4;37m"
+# define COLOR_RESET             "\033[0m"
 
 /*
-	* Reset Color
+	* 	MLX KEYS AND EVENTS
 */
-# define COLOR_RESET "\033[0m"
+# define KEY_ESC       53
+# define KEY_W         13
+# define KEY_A         0
+# define KEY_S         1
+# define KEY_D         2
+# define KEY_SHIFT     257
+
+# define ON_KEYDOWN    2
+# define ON_KEYUP      3
+# define ON_MOUSEDOWN  4
+# define ON_MOUSEUP    5
+# define ON_MOUSEMOVE  6
+# define ON_EXPOSE     12
+# define ON_DESTROY    17
+
+# define GREEN 0x09EA57
+# define DARK 0x0B0B0B
+# define PINK 0xED0F87
+# define DARK_GREEN 0x115852
+# define BLUE 0x0111CD
+# define BROWN 0x564F4D
 
 /*
 	* STRUCTS
 */
 
-typedef struct s_vector2
+typedef struct s_vector
 {
 	ssize_t		x;
 	ssize_t		y;
-}	t_vector2;
+}	t_vector;
 
 typedef struct s_vector3
 {
@@ -79,6 +96,7 @@ typedef struct s_image
 {
 	void		*img_ptr;
 	char		*buffer;
+	int			pixel_add;
 	int			sizex;
 	int			sizey;
 	int			bits_per_pixel;
@@ -98,7 +116,7 @@ typedef struct s_scene_info
 	int			maps_ysize;
 }	t_scene_info;
 
-typedef	struct s_mlx
+typedef struct s_mlx
 {
 	void	*mlx_ptr;
 	void	*window_ptr;
@@ -176,7 +194,6 @@ void	logger(char *msg);
 	* GAME
 */
 void	run_game(t_data	*data);
-
 
 /*
 	* IMAGES
