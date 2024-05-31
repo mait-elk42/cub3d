@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/31 16:57:01 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/31 19:35:38 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void	put_maps(char **maps, t_mlx mlx)
 		while (maps[i.y][i.x])
 		{
 			int	y = 0;
-			while (y < 25)
+			while (y < 24)
 			{
 				int	x = 0;
-				while (x < 25)
+				while (x < 24)
 				{
 					if (maps[i.y][i.x] == '1')
 						t_image_update_pixel(data_hook(NULL)->maps_image, j.x + x, j.y + y, 0x0000ff);
@@ -70,59 +70,54 @@ void	put_maps(char **maps, t_mlx mlx)
 int	game_loop(t_data *data)
 {
 	if (data->keys.w.pressed == true)
-	{
-		// if (data->player.pos.y % 25 == 0)
-		// {
-		// 	data->maps[data->player.pos.y / 25][data->player.pos.x / 25] = '0';
-		// 	data->maps[(data->player.pos.y /25) -1][(data->player.pos.x /25)] = 'N';
-		// }
 		data->player.pos.y--;
-	}
 	if (data->keys.a.pressed == true)
-	{
-		// if (data->player.pos.x % 25 == 0)
-		// {
-		// 	data->maps[data->player.pos.y / 25][data->player.pos.x / 25] = '0';
-		// 	data->maps[(data->player.pos.y /25)][(data->player.pos.x /25) -1] = 'N';
-		// }
 		data->player.pos.x--;
-	}
 	if (data->keys.s.pressed == true)
-	{
-		// if (data->player.pos.y % 25 == 0)
-		// {
-		// 	data->maps[data->player.pos.y / 25][data->player.pos.x / 25] = '0';
-		// 	data->maps[(data->player.pos.y /25) +1][(data->player.pos.x /25)] = 'N';
-		// }
 		data->player.pos.y++;
-	}
 	if (data->keys.d.pressed == true)
-	{
-		// if (data->player.pos.x % 25 == 0)
-		// {
-		// 	data->maps[data->player.pos.y / 25][data->player.pos.x / 25] = '0';
-		// 	data->maps[(data->player.pos.y /25)][(data->player.pos.x/25) + 1] = 'N';
-		// }
 		data->player.pos.x++;
-	}
 	// printf("player in : x%d y%d\n", data->player.pos.x, data->player.pos.y);
 	// print_2d(data->maps);
 	put_maps(data->maps, data->mlx);
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->maps_image->img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.texture->img_ptr, data->player.pos.x, data->player.pos.y);
-	int k = data->player.pos.y;
-	while (k > 0)
+	// t_image	*img = t_image_create(200, 200, 0x000000);
+	int j = 0;
+	while (j < 25)
 	{
-		if (k % 25 == 0 && data->maps[k /25][data->player.pos.x /25] != 'N')
+		int k = data->player.pos.y;
+		while (1)
 		{
-			printf("found special place :) [%c]\n", data->maps[k /25][data->player.pos.x /25]);
-			if (data->maps[k /25][data->player.pos.x /25] == '1')
-				return (0);
+			if (k % 25 == 0 && data->maps[k /25][((data->player.pos.x + j) / 25)] != 'N')
+			{
+				printf("found special place :) [%c]\n", data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25]);
+				if (data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25] == '1')
+					break ;
+			}
+			// else
+				// t_image_update_pixel(img, data->player.pos.x + j, k,  0xff0000);
+				mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
+			k--;
 		}
-		mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x, k, 0xff0000);
-		k--;
+		j++;
 	}
+	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, img, data->player.pos.x, data->player.pos.y);
+	// int k = data->player.pos.y;
+	// while (1)
+	// {
+	// 	if (k % 25 == 0 && data->maps[k /25][((data->player.pos.x + j) / 25)] != 'N')
+	// 	{
+	// 		printf("found special place :) [%c]\n", data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25]);
+	// 		if (data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25] == '1')
+	// 			break ;
+	// 	}
+	// 	else
+	// 		// t_image_update_pixel(img, data->player.pos.x + j, k,  0xff0000);
+	// 		mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
+	// 	k--;
+	// }
 	return (0);
 }
 
