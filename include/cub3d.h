@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/30 19:05:10 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/31 11:32:43 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 # define KEY_S         1
 # define KEY_D         2
 # define KEY_SHIFT     257
+# define KEY_SPACE     49
 
 # define ON_KEYDOWN    2
 # define ON_KEYUP      3
@@ -65,18 +66,31 @@
 	* STRUCTS
 */
 
+typedef struct s_key
+{
+	int		keycode;
+	bool	pressed;
+}	t_key;
+
+typedef struct s_keys_status
+{
+	t_key	w;
+	t_key	a;
+	t_key	s;
+	t_key	d;
+}	t_keys_status;
+
+typedef struct s_vector
+{
+	int		x;
+	int		y;
+}	t_vector;
+
 typedef struct s_vector2
 {
-	ssize_t		x;
-	ssize_t		y;
+	double		x;
+	double		y;
 }	t_vector2;
-
-typedef struct s_vector3
-{
-	ssize_t		x;
-	ssize_t		y;
-	ssize_t		z;
-}	t_vector3;
 
 typedef struct s_color
 {
@@ -115,9 +129,18 @@ typedef struct s_mlx
 	void	*window_ptr;
 }	t_mlx;
 
+typedef struct s_player
+{
+	t_vector	pos;
+	t_vector	dir;
+	t_image		*texture;
+}	t_player;
+
 typedef struct s_data
 {
 	t_mlx				mlx;
+	t_player			player;
+	t_keys_status		keys;
 	char				**lines;
 	char				**maps;
 	int					fd_file_input;

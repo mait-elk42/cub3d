@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:40:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 18:31:18 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/05/31 10:24:53 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	valid_roundwall(char *mapswall)
 	return (true);
 }
 
-void	maps_iteri(char **maps, t_vector2 pos, bool *found_plr)
+void	maps_iteri(char **maps, t_vector pos, bool *found_plr)
 {
 	if (safe_strchr(" 01NSEW", maps[pos.y][pos.x]) == NULL)
 		eput_error("undefined character", maps[pos.y], 1);
@@ -62,7 +62,7 @@ void	maps_iteri(char **maps, t_vector2 pos, bool *found_plr)
 void	check_maps(void)
 {
 	t_data		*data;
-	t_vector2	pos;
+	t_vector	pos;
 	bool		found_plr;
 
 	data = data_hook(NULL);
