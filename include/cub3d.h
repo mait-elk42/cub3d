@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/01 12:11:18 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:34:16 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,8 @@ typedef struct s_player
 {
 	t_image		*texture;
 	t_vector	pos;
-	t_vector2	global_pos;
 	t_vector	dir;
+	t_vector	cam_pos;
 }	t_player;
 
 typedef struct s_data
