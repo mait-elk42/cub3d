@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/01 13:01:59 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:56:52 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,16 @@ void	put_line_in(t_vector from, t_vector to, int color)
 	mlx = data_hook(NULL)->mlx;
 	while (1)
 	{
-		if (from.y == 0 || from.x == 0 || from.y % 26 == 0 || from.x % 26 == 0)
+		if (from.y % 26 == 0 || from.x % 26 == 0)
 		{
-			// printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
 			if (data_hook(NULL)->maps[from.y/ 26][from.x / 26] == '1')
+			{
+				printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
+				mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, color);
 				break;
-			mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, color);
-		}else
-			mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, 0x00ff00);
+			}
+		}
+		mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, 0x00ff00);
 		if (from.x == to.x && from.y == to.y)
 			break;
 		e2 = err;
@@ -107,14 +109,10 @@ void	put_line_in(t_vector from, t_vector to, int color)
 
 int	game_loop(t_data *data)
 {
-	if (data->keys.w.pressed == true)
-		data->player.pos.y--;
-	if (data->keys.a.pressed == true)
-		data->player.pos.x--;
-	if (data->keys.s.pressed == true)
-		data->player.pos.y++;
-	if (data->keys.d.pressed == true)
-		data->player.pos.x++;
+	data->player.pos.y-= (data->keys.w.pressed == true);
+	data->player.pos.x-= (data->keys.a.pressed == true);
+	data->player.pos.y+= (data->keys.s.pressed == true);
+	data->player.pos.x+= (data->keys.d.pressed == true);
 	
 	if (data->keys.left.pressed == true)
 	{
@@ -135,25 +133,26 @@ int	game_loop(t_data *data)
 	// {
 	// x2 = x * cos(angle) - y * sin(angle)
 	// y2 = x * sin(angle) + y * cos(angle)
-	int j = 13;
-	int length = -13;
-	int k = data->player.pos.y + 13;
-	while (1)
-	{
-		if (k % 26 == 0 && data->maps[k / 26][((data->player.pos.x + j) / 26)] != 'N')
-		{
-			// printf("found special place :) [%c]\n", data->maps[(k - 26) / 26][(data->player.pos.x + j) / 26]);
-			if (data->maps[(k - 26) / 26][(data->player.pos.x + j) / 26] == '1')
-				break ;
-		}
-		// mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
-		k--;
-		length++;
-	}
-	double o = 0;
-	while (o < 60)
-	{
-		double radians = ((data->angle +o) * M_PI) / 180.0;
+	// int j = 13;
+	// int length = -13;
+	// int k = data->player.pos.y + 13;
+	// while (1)
+	// {
+	// 	if (k % 26 == 0 && data->maps[k / 26][((data->player.pos.x + j) / 26)] != 'N')
+	// 	{
+	// 		// printf("found special place :) [%c]\n", data->maps[(k - 26) / 26][(data->player.pos.x + j) / 26]);
+	// 		if (data->maps[(k - 26) / 26][(data->player.pos.x + j) / 26] == '1')
+	// 			break ;
+	// 	}
+	// 	// mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
+	// 	k--;
+	// 	length++;
+	// }
+	// int off = 0;
+	// while (off < 50)
+	// {
+		
+		double radians = (((data->angle) * M_PI) / 180.0);
 		// double radians = data->angle;
 		// int tox = data->player.pos.x + j;
 		// int toy = data->player.pos.y - length;
@@ -163,39 +162,27 @@ int	game_loop(t_data *data)
 		int y2 = ((tox * sin(radians)) + (toy * cos(radians)));
 		put_line_in((t_vector){data->player.pos.x + 13, data->player.pos.y + 13}, (t_vector){x2, y2}, 0xff0000);
 		printf("angle : %f\n", data->angle);
-		int p = 0;
-		while (p < 1080)
-		{
-			int color = 0x000000;
-			color = (color << 24) + length;
-			color = (color << 16) + length;
-			color = (color << 8 )+ length;
-			color = color + length;
-			mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, o, p, color);
-			p++;
-		}
-		
-		// put_line_in((t_vector){data->player.pos.x + j, data->player.pos.y + j}, (t_vector){data->player.pos.x + j, data->player.pos.y - length}, 0xff0000);
-		// printf("length before is : %d\n", length);
-		// 	j++;
-		// }
-		// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, img, data->player.pos.x, data->player.pos.y);
-		// int k = data->player.pos.y;
-		// while (1)
-		// {
-		// 	if (k % 25 == 0 && data->maps[k /25][((data->player.pos.x + j) / 25)] != 'N')
-		// 	{
-		// 		printf("found special place :) [%c]\n", data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25]);
-		// 		if (data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25] == '1')
-		// 			break ;
-		// 	}
-		// 	else
-		// 		// t_image_update_pixel(img, data->player.pos.x + j, k,  0xff0000);
-		// 		mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
-		// 	k--;
-		// }
-		o+=2;
-	}
+	// 	off += 1;
+	// }
+	// put_line_in((t_vector){data->player.pos.x + j, data->player.pos.y + j}, (t_vector){data->player.pos.x + j, data->player.pos.y - length}, 0xff0000);
+	// printf("length before is : %d\n", length);
+	// 	j++;
+	// }
+	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, img, data->player.pos.x, data->player.pos.y);
+	// int k = data->player.pos.y;
+	// while (1)
+	// {
+	// 	if (k % 25 == 0 && data->maps[k /25][((data->player.pos.x + j) / 25)] != 'N')
+	// 	{
+	// 		printf("found special place :) [%c]\n", data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25]);
+	// 		if (data->maps[(k - 25)/ 25][(data->player.pos.x + j) /25] == '1')
+	// 			break ;
+	// 	}
+	// 	else
+	// 		// t_image_update_pixel(img, data->player.pos.x + j, k,  0xff0000);
+	// 		mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
+	// 	k--;
+	// }
 	return (0);
 }
 
@@ -259,7 +246,7 @@ void	run_game(t_data *data)
 	data->player.texture = t_image_create(26, 26, 0x00ff00);
 	data->player.pos = (t_vector){pplr.x * 26, pplr.y * 26};
 	data->player.dir = (t_vector){0, 0};
-	// data->angle = (90 * M_PI) / 180.0;
+	data->angle = 0;
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, key_up, data);
