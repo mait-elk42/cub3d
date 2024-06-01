@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/31 15:59:34 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/01 12:11:18 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@
 # define KEY_D         2
 # define KEY_SHIFT     257
 # define KEY_SPACE     49
+# define KEY_UP        126
+# define KEY_DOWN      125
+# define KEY_LEFT      123
+# define KEY_RIGHT     124
 
 # define ON_KEYDOWN    2
 # define ON_KEYUP      3
@@ -78,6 +82,10 @@ typedef struct s_keys_status
 	t_key	a;
 	t_key	s;
 	t_key	d;
+	t_key	up;
+	t_key	down;
+	t_key	left;
+	t_key	right;
 }	t_keys_status;
 
 typedef struct s_vector
@@ -141,6 +149,7 @@ typedef struct s_data
 {
 	t_mlx				mlx;
 	t_player			player;
+	double				angle;
 	t_keys_status		keys;
 	char				**lines;
 	char				**maps;
