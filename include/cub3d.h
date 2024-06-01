@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/31 16:34:08 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:07:48 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@
 # define KEY_D         2
 # define KEY_SHIFT     257
 # define KEY_SPACE     49
+# define KEY_UP        126
+# define KEY_DOWN      125
+# define KEY_LEFT      123
+# define KEY_RIGHT     124
 
 # define ON_KEYDOWN    2
 # define ON_KEYUP      3
@@ -68,6 +72,7 @@
 # define DARK_GREEN 0x115852
 # define BLUE 0x0111CD
 # define BROWN 0x564F4D
+# define WHITE 0xffffff
 
 /*
 	* STRUCTS
@@ -85,6 +90,10 @@ typedef struct s_keys_status
 	t_key	a;
 	t_key	s;
 	t_key	d;
+	t_key	up;
+	t_key	down;
+	t_key	left;
+	t_key	right;
 }	t_keys_status;
 
 typedef struct s_vector
@@ -148,8 +157,9 @@ typedef struct s_data
 {
 	t_mlx				mlx;
 	t_player			player;
-	t_vector			pp;
+	double				angle;
 	t_keys_status		keys;
+	t_vector			pp;
 	char				**lines;
 	char				**maps;
 	int					fd_file_input;
