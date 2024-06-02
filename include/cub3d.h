@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/01 20:34:16 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/02 12:46:39 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@
 # define ON_MOUSEMOVE  6
 # define ON_EXPOSE     12
 # define ON_DESTROY    17
+
+
+/*
+	* 	WIN SIZE
+*/
+# define WIN_SIZEX 1920
+# define WIN_SIZEY 1080
 
 /*
 	* STRUCTS
@@ -141,7 +148,7 @@ typedef struct s_player
 {
 	t_image		*texture;
 	t_vector	pos;
-	t_vector	dir;
+	t_vector2	dir;
 	t_vector	cam_pos;
 }	t_player;
 
@@ -156,6 +163,7 @@ typedef struct s_data
 	int					fd_file_input;
 	t_scene_info		scene_info;
 	t_image				*maps_image;
+	t_image				*scene_image;
 }	t_data;
 
 /*
