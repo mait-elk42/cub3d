@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/01 20:45:14 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/02 09:20:13 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ int	game_loop(t_data *data)
 	while (o < 50)
 	{
 		double radians = (((data->angle + o) * M_PI) / 180.0);
-		int x2 = (cos(radians) * 100) + data->player.cam_pos.x;
-		int y2 = (sin(radians) * 100) + data->player.cam_pos.y;
+		int x2 = (cos(radians) * 500) + data->player.cam_pos.x;
+		int y2 = (sin(radians) * 500) + data->player.cam_pos.y;
 		int length = put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){x2, y2}, 0xff0000);
 		printf("pixel %d : %d\n", (int)o, length);
 		// printf("angle : %f\n", data->angle);
