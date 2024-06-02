@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 15:43:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:30:26 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	put_line_in(t_vector from, t_vector to, int color)
 
 	int	line_length = 0;
 	mlx = data_hook(NULL)->mlx;
+	color++;
 	while (1)
 	{
 		if (from.y < data_hook(NULL)->maps_image->sizey && from.x < data_hook(NULL)->maps_image->sizex)
@@ -152,6 +153,7 @@ int	game_loop(t_data *data)
 	// int viewposx = 300;
 	// int viewposy = 300;
 	double o = 0;
+	// t_image	*img = t_image_create(26, 26, RGB_BLUE);
 	while (o < 60)
 	{
 		// int max = 300;
@@ -171,11 +173,12 @@ int	game_loop(t_data *data)
 		// length = max;
 		// while (length > j)
 		// {
-		// 	// t_image_update_pixel(data->scene_image, viewposx + o, viewposy+j, 0xffffff);
-		// 	mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, viewposx + o, viewposy+j, 0xffffff);
+			// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, img->img_ptr, viewposx + o, viewposy + j);
+			// t_image_update_pixel(data->scene_image, o, j, 0xffffff);
+			// mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, viewposx + o, viewposy+j, 0xffffff);
 		// 	j++;
 		// }
-		o += 6;
+		o += 0.1;
 	}
 	return (0);
 }
@@ -238,7 +241,7 @@ void	run_game(t_data *data)
 	data->pp = pplr;
 	map_size.x = data->scene_info.maps_xsize * 26;
 	map_size.y = data->scene_info.maps_ysize * 26;
-	data->maps_image = t_image_create(map_size.x, map_size.y, DARK);
+	data->maps_image = t_image_create(map_size.x, map_size.y, RGB_DARK);
 	data->player.texture = t_image_create(26, 26, 0x00ff00);
 	data->scene_image = t_image_create(WIN_SIZEX, WIN_SIZEY, 0x000000);
 	data->player.pos = (t_vector2){pplr.x * 26, pplr.y * 26};

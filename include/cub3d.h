@@ -6,13 +6,14 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 15:41:50 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:09:51 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
-# include "../libft/libft.h"
+
+# include <libft.h>
 # include <stdio.h>
 # include <mlx.h>
 # include <errno.h>
@@ -21,6 +22,7 @@
 # include <math.h>
 # include <fcntl.h>
 # include <stdbool.h>
+# include <colors.h>
 
 /*
 	* Text Colors
@@ -66,13 +68,6 @@
 # define ON_EXPOSE     12
 # define ON_DESTROY    17
 
-# define GREEN 0x09EA57
-# define DARK 0x0B0B0B
-# define PINK 0xED0F87
-# define DARK_GREEN 0x115852
-# define BLUE 0x0111CD
-# define BROWN 0x564F4D
-# define WHITE 0xffffff
 
 /*
 	* 	WIN SIZE
@@ -125,7 +120,6 @@ typedef struct s_image
 {
 	void		*img_ptr;
 	char		*buffer;
-	int			pixel_add;
 	int			sizex;
 	int			sizey;
 	int			bits_per_pixel;
