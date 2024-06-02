@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 15:05:19 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/02 19:48:44 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,15 @@ void	put_maps(char **maps, t_mlx mlx)
 				int	x = 0;
 				while (x < 26)
 				{
+					// if (maps[i.y][i.x] == '1')
+					// 	t_image_update_pixel(data_hook(NULL)->maps_image, j.x + x, j.y + y, 0x0000ff);
+					// else if (maps[i.y][i.x] == '0' || safe_strchr("NSEW", maps[i.y][i.x]))
+					// 	t_image_update_pixel(data_hook(NULL)->maps_image, j.x + x, j.y + y, 0xffffff);
+					// x++;
 					if (maps[i.y][i.x] == '1')
-						t_image_update_pixel(data_hook(NULL)->maps_image, j.x + x, j.y + y, 0x0000ff);
+						t_image_update_pixel(data_hook(NULL)->scene, j.x + x, j.y + y, 0x0000ff);
 					else if (maps[i.y][i.x] == '0' || safe_strchr("NSEW", maps[i.y][i.x]))
-						t_image_update_pixel(data_hook(NULL)->maps_image, j.x + x, j.y + y, 0xffffff);
+						t_image_update_pixel(data_hook(NULL)->scene, j.x + x, j.y + y, 0xffffff);
 					x++;
 				}
 				y++;
@@ -77,20 +82,20 @@ int	put_line_in(t_vector from, t_vector to, int color)
 	int err = (dx > dy ? dx : -dy) / 2;
 	int e2;
 
+	(void)color;
 	int	line_length = 0;
-	color++;
 	mlx = data_hook(NULL)->mlx;
 	while (1)
 	{
-		if (from.y < data_hook(NULL)->maps_image->sizey && from.x < data_hook(NULL)->maps_image->sizex)
+		if (from.y < data_hook(NULL)->scene->sizey && from.x < data_hook(NULL)->scene->sizex)
 		{
 			if (data_hook(NULL)->maps[from.y / 26][from.x / 26] == '1')
 			{
-				// printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
-				mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, 0xff0000);
+				printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
+				t_image_update_pixel(data_hook(NULL)->scene, from.x, from.y, 0xff0000);
 				return (line_length);
 			}
-			mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, color);
+			t_image_update_pixel(data_hook(NULL)->scene, from.x, from.y, color);
 		}
 		if (from.x == to.x && from.y == to.y)
 			return (-1);
@@ -126,49 +131,59 @@ int	game_loop(t_data *data)
 	}
 	if (data->keys.d.pressed == true)
 	{
-		data->player.pos.x += sin(radi) * 2;
+		data->player.pos.x -= sin(radi) * 2;
 		data->player.pos.y += cos(radi) * 2;
 	}
-	
+	if (data->keys.a.pressed == true)
+	{
+		data->player.pos.x += sin(radi) * 2;
+		data->player.pos.y -= cos(radi) * 2;
+	}
+
 	if (data->keys.left.pressed == true)
 		data->angle -= 2;
 	if (data->keys.right.pressed == true)
 		data->angle += 2;
 	if (data->angle > 360 || data->angle < 0)
 		data->angle = 360 * (data->angle < 0);
+# error there two errors : 1:{Raycasting rendering - wall's edge crossing issue} , 2{the left wall is soo bad like a circle}
 	// printf("player in : x%d y%d\n", data->player.pos.x, data->player.pos.y);
 	// print_2d(data->maps);
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
+	t_image_clear_color(data->scene, 0x000000);
 	put_maps(data->maps, data->mlx);
-	data->player.cam_pos = (t_vector){data->player.pos.x + (data->player.texture->sizex / 2)
-								, data->player.pos.y + (data->player.texture->sizey / 2)};
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_image->img_ptr, 0, 0);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->maps_image->img_ptr, 0, 0);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.texture->img_ptr, data->player.pos.x , data->player.pos.y);
-	// int viewposx = 300;
-	// int viewposy = 300;
-	// double o = 0;
-	// while (o < 70)
-	// {
-		// int max = 300;
-		double radians = (((data->angle) * M_PI) / 180.0);
-		int x2 = (cos(radians) * 300) + data->player.cam_pos.x;
-		int y2 = (sin(radians) * 300) + data->player.cam_pos.y;
-		int length = put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){x2, y2}, 0x0000ff);
+	data->player.cam_pos = (t_vector){data->player.pos.x + (13)
+								, data->player.pos.y + (13)};
+	double o = -30;
+	while (o < 30)
+	{
+		int viewposx = 300;
+		int viewposy = 300;
+		double radians = (((data->angle + o) * M_PI) / 180.0);
+		int x2 = (cos(radians) * 400) + data->player.cam_pos.x;
+		int y2 = (sin(radians) * 400) + data->player.cam_pos.y;
+		int length = 0;
+		length = put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){x2, y2}, 0x00ffff);	
 		printf("pixel : %d\n", length);
-		// printf("angle : %f\n", data->angle);
-		// max -= length;
-		// int j = 0;
-		// printf("lenght : %d, max : %d\n", length, max);
-		// length = max;
-		// while (length > j)
-		// {
-		// 	// t_image_update_pixel(data->scene_image, viewposx + o, viewposy+j, 0xffffff);
-		// 	mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, viewposx + o, viewposy+j, 0xffffff);
-		// 	j++;
-		// }
-	// 	o += 70;
-	// }
+		printf("angle : %f\n", data->angle);
+		int max = 700;
+		if (length != -1)
+		{
+			viewposy += length / 2;
+			length = max - length;
+			int j = 0;
+			while (length > j)
+			{
+				// t_image_update_pixel(data->scene_image, viewposx + o, viewposy+j, 0xffffff);
+				// mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr);
+				t_image_update_pixel(data->scene, viewposx + (o * 10), viewposy+j, 0xff0000);
+				j++;
+			
+			}
+		}
+		o += 1;
+	}
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene->img_ptr, 0, 0);
 	return (0);
 }
 
@@ -224,15 +239,15 @@ int key_down(int keycode, t_data *data)
 void	run_game(t_data *data)
 {
 	t_vector	pplr;
+	t_vector	map_size;
 
+// # error make one image only and update it layer 1 : the scene, layer 2 : the maps, layer 3 : the player , layer 4 : the player raycasts :) 
 	pplr = get_player_pos(data);
-	data->maps_image = t_image_create(data->scene_info.maps_xsize * 26
-								,data->scene_info.maps_ysize * 26
-								, 0x111111);
-	data->player.texture = t_image_create(26, 26, 0x00ff00);
-	data->scene_image = t_image_create(WIN_SIZEX, WIN_SIZEY, 0x000000);
+	data->pp = pplr;
+	map_size.x = data->scene_info.maps_xsize * 26;
+	map_size.y = data->scene_info.maps_ysize * 26;
+	data->scene =  t_image_create(WIN_SIZEX, WIN_SIZEY, 0x000000);
 	data->player.pos = (t_vector2){pplr.x * 26, pplr.y * 26};
-	// data->player.dir = (t_vector2){0, 0};
 	data->angle = 0;
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, key_down, data);

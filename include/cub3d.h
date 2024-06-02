@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 14:50:55 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:40:10 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,13 @@
 # define ON_EXPOSE     12
 # define ON_DESTROY    17
 
+# define GREEN 0x09EA57
+# define DARK 0x0B0B0B
+# define PINK 0xED0F87
+# define DARK_GREEN 0x115852
+# define BLUE 0x0111CD
+# define BROWN 0x564F4D
+# define WHITE 0xffffff
 
 /*
 	* 	WIN SIZE
@@ -146,9 +153,7 @@ typedef struct s_mlx
 
 typedef struct s_player
 {
-	t_image		*texture;
 	t_vector2	pos;
-	// t_vector2	dir;
 	t_vector	cam_pos;
 }	t_player;
 
@@ -158,12 +163,12 @@ typedef struct s_data
 	t_player			player;
 	double				angle;
 	t_keys_status		keys;
+	t_vector			pp;
 	char				**lines;
 	char				**maps;
 	int					fd_file_input;
 	t_scene_info		scene_info;
-	t_image				*maps_image;
-	t_image				*scene_image;
+	t_image				*scene;
 }	t_data;
 
 /*
@@ -234,5 +239,6 @@ void	run_game(t_data	*data);
 */
 t_image	*t_image_create(int sizex, int sizey, int default_color);
 void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
+void	t_image_clear_color(t_image *imgptr, int color);
 
 #endif

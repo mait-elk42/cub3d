@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 10:05:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/01 20:17:46 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/02 19:06:16 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color)
 {
 	int pixel_byte;
 
-	if (imgptr == NULL || x < 0 | y < 0)
+	if (imgptr == NULL || x < 0 | y < 0 )//|| x > imgptr->sizex -1 || y > imgptr->sizey -1)
 		return ;
 	pixel_byte = (y * imgptr->line_bytes) + (x * 4);
 	if (imgptr->endian == 1) // Most significant (Alpha) byte first
@@ -78,5 +78,40 @@ void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color)
 		imgptr->buffer[pixel_byte + 1] = (new_color >> 8);
 		imgptr->buffer[pixel_byte + 2] = (new_color >> 16);
 		imgptr->buffer[pixel_byte + 3] = (new_color >> 24);
+	}
+}
+
+void	t_image_clear_color(t_image *imgptr, int color)
+{
+	int pixel_byte;
+	int	x;
+	int	y;
+
+	if (imgptr == NULL)
+		return ;
+	y = 0;
+	while (y < imgptr->sizey)
+	{
+		x = 0;
+		while (x < imgptr->sizex)
+		{
+			pixel_byte = (y * imgptr->line_bytes) + (x * 4);
+			if (imgptr->endian == 1) // Most significant (Alpha) byte first
+			{
+				imgptr->buffer[pixel_byte + 0] = (color >> 24);
+				imgptr->buffer[pixel_byte + 1] = (color >> 16);
+				imgptr->buffer[pixel_byte + 2] = (color >> 8);
+				imgptr->buffer[pixel_byte + 3] = (color);
+			}
+			else
+			{
+				imgptr->buffer[pixel_byte + 0] = (color);
+				imgptr->buffer[pixel_byte + 1] = (color >> 8);
+				imgptr->buffer[pixel_byte + 2] = (color >> 16);
+				imgptr->buffer[pixel_byte + 3] = (color >> 24);
+			}
+			x++;
+		}
+		y++;
 	}
 }
