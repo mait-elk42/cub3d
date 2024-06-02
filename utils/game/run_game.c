@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 10:03:47 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/02 13:00:40 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,24 +130,31 @@ int	game_loop(t_data *data)
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->maps_image->img_ptr, 0, 0);
 	data->player.cam_pos = (t_vector){data->player.pos.x + (data->player.texture->sizex / 2)
 								, data->player.pos.y + (data->player.texture->sizey / 2)};
+	// int viewposx = 600;
+	// int viewposy = 600;
 	double o = 0;
-	while (o < 50)
+	printf("angle : %f\n", data->angle);
+	while (o < 60)
 	{
+		// int max = 100;
 		double radians = (((data->angle + o) * M_PI) / 180.0);
-		int x2 = (cos(radians) * 500) + data->player.cam_pos.x;
-		int y2 = (sin(radians) * 500) + data->player.cam_pos.y;
+		int x2 = (cos(radians) * 300) + data->player.cam_pos.x;
+		int y2 = (sin(radians) * 300) + data->player.cam_pos.y;
 		int length = put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){x2, y2}, 0xff0000);
-		printf("pixel %d : length %d\n", (int)o, length);
-		void	*img = t_image_create(26, 26, GREEN);
-		int	n = 0;
-		while (n < 10)
-		while (n < length)
-		{
-			mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, img, );
-			n++;
-		}
+		printf("pixel %d : %d\n", (int)o, length);
 		// printf("angle : %f\n", data->angle);
-		o+= 1;
+		// length = max - length;
+		// if (length < 0)
+		// 	mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, viewposx + o, viewposy+j, 0xffff00);
+		// else
+		// int j = 0;
+		// printf("lenght : %d, max : %d\n", length, max);
+		// while (length > j)
+		// {
+		// 	mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, viewposx + o, viewposy + j, 0xffffff);
+		// 	j += 1;
+		// }
+		o += 1;
 	}
 	return (0);
 }
@@ -204,14 +211,14 @@ int key_down(int keycode, t_data *data)
 void	run_game(t_data *data)
 {
 	t_vector	pplr;
+	t_vector	map_size;
 
 	pplr = get_player_pos(data);
 	data->pp = pplr;
-	data->maps_image = t_image_create(data->scene_info.maps_xsize * 26
-								,data->scene_info.maps_ysize * 26
-								, 0x111111);
-	data->player.texture = t_image_create(26, 26, 
-	 0x00ff00);
+	map_size.x = data->scene_info.maps_xsize * 26;
+	map_size.y = data->scene_info.maps_ysize * 26;
+	data->maps_image = t_image_create(map_size.x, map_size.y, DARK);
+	data->player.texture = t_image_create(26, 26, 0x00ff00);
 	data->player.pos = (t_vector){pplr.x * 26, pplr.y * 26};
 	data->player.dir = (t_vector){0, 0};
 	data->angle = 0;
