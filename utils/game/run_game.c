@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 14:56:53 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:05:19 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,11 @@ int	game_loop(t_data *data)
 	{
 		data->player.pos.x -= cos(radi) * 2;
 		data->player.pos.y -= sin(radi) * 2;
+	}
+	if (data->keys.d.pressed == true)
+	{
+		data->player.pos.x += sin(radi) * 2;
+		data->player.pos.y += cos(radi) * 2;
 	}
 	
 	if (data->keys.left.pressed == true)
