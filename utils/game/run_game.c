@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/01 16:59:44 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:02:38 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,20 @@ void	put_line_in(t_vector from, t_vector to, int color)
 	int err = (dx > dy ? dx : -dy) / 2;
 	int e2;
 
+	color++;
 	mlx = data_hook(NULL)->mlx;
 	while (1)
 	{
 		if (from.y % 26 == 0 || from.x % 26 == 0)
 		{
-			// printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
-			if (data_hook(NULL)->maps[from.y / 26][from.x / 26] == '1')
+			if (data_hook(NULL)->maps[from.y/ 26][from.x / 26] == '1')
+			{
+				printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
+				mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, color);
 				break;
-			mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, color);
-		}else
-			mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, 0x00ff00);
+			}
+		}
+		mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, 0x00ff00);
 		if (from.x == to.x && from.y == to.y)
 			break;
 		e2 = err;
@@ -106,38 +109,18 @@ void	put_line_in(t_vector from, t_vector to, int color)
 
 int	game_loop(t_data *data)
 {
-	if (data->keys.w.pressed == true)
-	{
-		if (data->player.pos.y % 26 == 0 && data->maps[(data->player.pos.y / 26) - 1][data->player.pos.x / 26] == '1')
-			return 0;
-		data->player.pos.y--; 
-	}
-	if (data->keys.a.pressed == true)
-	{
-		if (data->player.pos.y % 26 == 0 && data->maps[(data->player.pos.y / 26)][(data->player.pos.x / 26) - 1] == '1')
-			return 0;
-		data->player.pos.x--;
-	}
-	if (data->keys.s.pressed == true)
-	{
-		if (data->player.pos.y % 26 == 0 && data->maps[(data->player.pos.y / 26) + 1][data->player.pos.x / 26] == '1')
-			return 0;
-		data->player.pos.y++;
-	}
-	if (data->keys.d.pressed == true)
-	{
-		if (data->player.pos.y % 26 == 0 && data->maps[(data->player.pos.y / 26)][(data->player.pos.x / 26) + 1] == '1')
-			return 0;
-		data->player.pos.x++;
-	}
+	data->player.pos.y-= (data->keys.w.pressed == true);
+	data->player.pos.x-= (data->keys.a.pressed == true);
+	data->player.pos.y+= (data->keys.s.pressed == true);
+	data->player.pos.x+= (data->keys.d.pressed == true);
 	
 	if (data->keys.left.pressed == true)
 	{
-		data->angle -= 1;
+		data->angle -= 2;
 	}
 	if (data->keys.right.pressed == true)
 	{
-		data->angle += 1;
+		data->angle += 2;
 	}
 	// printf("player in : x%d y%d\n", data->player.pos.x, data->player.pos.y);
 	// print_2d(data->maps);
@@ -150,29 +133,37 @@ int	game_loop(t_data *data)
 	// {
 	// x2 = x * cos(angle) - y * sin(angle)
 	// y2 = x * sin(angle) + y * cos(angle)
-	int j = 13;
-	int length = -13;
-	int k = data->player.pos.y + 13;
-	while (1)
-	{
-		if (k % 26 == 0 && data->maps[k / 26][((data->player.pos.x + j) / 26)] != 'N')
-		{
-			// printf("found special place :) [%c]\n", data->maps[(k - 26) / 26][(data->player.pos.x + j) / 26]);
-			if (data->maps[(k - 26) / 26][(data->player.pos.x + j) / 26] == '1')
-				break ;
-		}
-		// mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
-		k--;
-		length++;
-	}
-	double radians = (data->angle * M_PI) / 180.0;
-	// double radians = data->angle;
-	int tox = data->player.pos.x + j;
-	int toy = data->player.pos.y - length;
-	int x2 = ((tox * cos(radians)) - (toy * sin(radians)));
-	int y2 = ((tox * sin(radians)) + (toy * cos(radians)));
-	put_line_in((t_vector){data->player.pos.x + j, data->player.pos.y + j}, (t_vector){x2, y2}, 0xff0000);
-	// printf("angle : %f\n", data->angle);
+	// int j = 13;
+	// int length = -13;
+	// int k = data->player.pos.y + 13;
+	// while (1)
+	// {
+	// 	if (k % 26 == 0 && data->maps[k / 26][((data->player.pos.x + j) / 26)] != 'N')
+	// 	{
+	// 		// printf("found special place :) [%c]\n", data->maps[(k - 26) / 26][(data->player.pos.x + j) / 26]);
+	// 		if (data->maps[(k - 26) / 26][(data->player.pos.x + j) / 26] == '1')
+	// 			break ;
+	// 	}
+	// 	// mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
+	// 	k--;
+	// 	length++;
+	// }
+	// int off = 0;
+	// while (off < 50)
+	// {
+		
+		double radians = (((data->angle) * M_PI) / 180.0);
+		// double radians = data->angle;
+		// int tox = data->player.pos.x + j;
+		// int toy = data->player.pos.y - length;
+		int tox = data->player.pos.x * 2;
+		int toy = data->player.pos.y * 2;
+		int x2 = ((tox * cos(radians)) - (toy * sin(radians)));
+		int y2 = ((tox * sin(radians)) + (toy * cos(radians)));
+		put_line_in((t_vector){data->player.pos.x + 13, data->player.pos.y + 13}, (t_vector){x2, y2}, 0xff0000);
+		printf("angle : %f\n", data->angle);
+	// 	off += 1;
+	// }
 	// put_line_in((t_vector){data->player.pos.x + j, data->player.pos.y + j}, (t_vector){data->player.pos.x + j, data->player.pos.y - length}, 0xff0000);
 	// printf("length before is : %d\n", length);
 	// 	j++;
@@ -257,7 +248,7 @@ void	run_game(t_data *data)
 	 0x00ff00);
 	data->player.pos = (t_vector){pplr.x * 26, pplr.y * 26};
 	data->player.dir = (t_vector){0, 0};
-	// data->angle = (90 * M_PI) / 180.0;
+	data->angle = 0;
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, key_up, data);
