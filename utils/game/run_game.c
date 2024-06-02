@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/01 17:02:38 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/02 10:03:47 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	put_maps(char **maps, t_mlx mlx)
 	}
 }
 
-void	put_line_in(t_vector from, t_vector to, int color)
+int	put_line_in(t_vector from, t_vector to, int color)
 {
 	t_mlx	mlx;
 	int dx = abs(to.x - from.x);
@@ -77,22 +77,23 @@ void	put_line_in(t_vector from, t_vector to, int color)
 	int err = (dx > dy ? dx : -dy) / 2;
 	int e2;
 
+	int	line_length = 0;
 	color++;
 	mlx = data_hook(NULL)->mlx;
 	while (1)
 	{
-		if (from.y % 26 == 0 || from.x % 26 == 0)
+		if (from.y < data_hook(NULL)->maps_image->sizey && from.x < data_hook(NULL)->maps_image->sizex)
 		{
-			if (data_hook(NULL)->maps[from.y/ 26][from.x / 26] == '1')
+			if (data_hook(NULL)->maps[from.y / 26][from.x / 26] == '1')
 			{
-				printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
+				// printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
 				mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, color);
-				break;
+				return (line_length);
 			}
+			mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, 0x00ff00);
 		}
-		mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, 0x00ff00);
 		if (from.x == to.x && from.y == to.y)
-			break;
+			return (-1);
 		e2 = err;
 		if (e2 > -dx)
 		{
@@ -104,7 +105,9 @@ void	put_line_in(t_vector from, t_vector to, int color)
 			err += dx;
 			from.y += sy;
 		}
+		line_length++;
 	}
+	return (0);
 }
 
 int	game_loop(t_data *data)
@@ -115,74 +118,37 @@ int	game_loop(t_data *data)
 	data->player.pos.x+= (data->keys.d.pressed == true);
 	
 	if (data->keys.left.pressed == true)
-	{
 		data->angle -= 2;
-	}
 	if (data->keys.right.pressed == true)
-	{
 		data->angle += 2;
-	}
+	if (data->angle > 360 || data->angle < 0)
+		data->angle = 360 * (data->angle < 0);
 	// printf("player in : x%d y%d\n", data->player.pos.x, data->player.pos.y);
 	// print_2d(data->maps);
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	put_maps(data->maps, data->mlx);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->maps_image->img_ptr, 0, 0);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.texture->img_ptr, data->player.pos.x, data->player.pos.y);
-	// t_image	*img = t_image_create(200, 200, 0x000000);
-	// while (j < 26)
-	// {
-	// x2 = x * cos(angle) - y * sin(angle)
-	// y2 = x * sin(angle) + y * cos(angle)
-	// int j = 13;
-	// int length = -13;
-	// int k = data->player.pos.y + 13;
-	// while (1)
-	// {
-	// 	if (k % 26 == 0 && data->maps[k / 26][((data->player.pos.x + j) / 26)] != 'N')
-	// 	{
-	// 		// printf("found special place :) [%c]\n", data->maps[(k - 26) / 26][(data->player.pos.x + j) / 26]);
-	// 		if (data->maps[(k - 26) / 26][(data->player.pos.x + j) / 26] == '1')
-	// 			break ;
-	// 	}
-	// 	// mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
-	// 	k--;
-	// 	length++;
-	// }
-	// int off = 0;
-	// while (off < 50)
-	// {
-		
-		double radians = (((data->angle) * M_PI) / 180.0);
-		// double radians = data->angle;
-		// int tox = data->player.pos.x + j;
-		// int toy = data->player.pos.y - length;
-		int tox = data->player.pos.x * 2;
-		int toy = data->player.pos.y * 2;
-		int x2 = ((tox * cos(radians)) - (toy * sin(radians)));
-		int y2 = ((tox * sin(radians)) + (toy * cos(radians)));
-		put_line_in((t_vector){data->player.pos.x + 13, data->player.pos.y + 13}, (t_vector){x2, y2}, 0xff0000);
-		printf("angle : %f\n", data->angle);
-	// 	off += 1;
-	// }
-	// put_line_in((t_vector){data->player.pos.x + j, data->player.pos.y + j}, (t_vector){data->player.pos.x + j, data->player.pos.y - length}, 0xff0000);
-	// printf("length before is : %d\n", length);
-	// 	j++;
-	// }
-	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, img, data->player.pos.x, data->player.pos.y);
-	// int k = data->player.pos.y;
-	// while (1)
-	// {
-	// 	if (k % 26 == 0 && data->maps[k /26][((data->player.pos.x + j) / 26)] != 'N')
-	// 	{
-	// 		printf("found special place :) [%c]\n", data->maps[(k - 26)/ 26][(data->player.pos.x + j) /26]);
-	// 		if (data->maps[(k - 26)/ 26][(data->player.pos.x + j) /26] == '1')
-	// 			break ;
-	// 	}
-	// 	else
-	// 		// t_image_update_pixel(img, data->player.pos.x + j, k,  0xff0000);
-	// 		mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.pos.x + j, k, 0xff0000);
-	// 	k--;
-	// }
+	data->player.cam_pos = (t_vector){data->player.pos.x + (data->player.texture->sizex / 2)
+								, data->player.pos.y + (data->player.texture->sizey / 2)};
+	double o = 0;
+	while (o < 50)
+	{
+		double radians = (((data->angle + o) * M_PI) / 180.0);
+		int x2 = (cos(radians) * 500) + data->player.cam_pos.x;
+		int y2 = (sin(radians) * 500) + data->player.cam_pos.y;
+		int length = put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){x2, y2}, 0xff0000);
+		printf("pixel %d : length %d\n", (int)o, length);
+		void	*img = t_image_create(26, 26, GREEN);
+		int	n = 0;
+		while (n < 10)
+		while (n < length)
+		{
+			mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, img, );
+			n++;
+		}
+		// printf("angle : %f\n", data->angle);
+		o+= 1;
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/01 16:07:48 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/02 09:35:29 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,8 @@ typedef struct s_player
 {
 	t_image		*texture;
 	t_vector	pos;
-	t_vector2	global_pos;
 	t_vector	dir;
+	t_vector	cam_pos;
 }	t_player;
 
 typedef struct s_data
