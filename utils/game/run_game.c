@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 13:00:40 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:43:37 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	put_line_in(t_vector from, t_vector to, int color)
 	int e2;
 
 	int	line_length = 0;
-	color++;
 	mlx = data_hook(NULL)->mlx;
 	while (1)
 	{
@@ -87,10 +86,10 @@ int	put_line_in(t_vector from, t_vector to, int color)
 			if (data_hook(NULL)->maps[from.y / 26][from.x / 26] == '1')
 			{
 				// printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
-				mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, color);
+				mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, 0xff0000);
 				return (line_length);
 			}
-			mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, 0x00ff00);
+			mlx_pixel_put(mlx.mlx_ptr, mlx.window_ptr, from.x, from.y, color);
 		}
 		if (from.x == to.x && from.y == to.y)
 			return (-1);
@@ -112,11 +111,29 @@ int	put_line_in(t_vector from, t_vector to, int color)
 
 int	game_loop(t_data *data)
 {
-	data->player.pos.y-= (data->keys.w.pressed == true);
-	data->player.pos.x-= (data->keys.a.pressed == true);
-	data->player.pos.y+= (data->keys.s.pressed == true);
-	data->player.pos.x+= (data->keys.d.pressed == true);
-	
+	double radi = (((data->angle) * M_PI) / 180.0);
+
+	if (data->keys.w.pressed == true)
+	{
+		data->player.pos.x += cos(radi) * 2;
+		data->player.pos.y += sin(radi) * 2;
+	}
+	if (data->keys.s.pressed == true)
+	{
+		data->player.pos.x -= cos(radi) * 2;
+		data->player.pos.y -= sin(radi) * 2;
+	}
+	if (data->keys.d.pressed == true)
+	{
+		data->player.pos.x -= sin(radi) * 2;
+		data->player.pos.y += cos(radi) * 2;
+	}
+	if (data->keys.a.pressed == true)
+	{
+		data->player.pos.x += sin(radi) * 2;
+		data->player.pos.y -= cos(radi) * 2;
+	}
+
 	if (data->keys.left.pressed == true)
 		data->angle -= 2;
 	if (data->keys.right.pressed == true)
@@ -127,34 +144,38 @@ int	game_loop(t_data *data)
 	// print_2d(data->maps);
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	put_maps(data->maps, data->mlx);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->maps_image->img_ptr, 0, 0);
 	data->player.cam_pos = (t_vector){data->player.pos.x + (data->player.texture->sizex / 2)
 								, data->player.pos.y + (data->player.texture->sizey / 2)};
-	// int viewposx = 600;
-	// int viewposy = 600;
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_image->img_ptr, 0, 0);
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->maps_image->img_ptr, 0, 0);
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->player.texture->img_ptr, data->player.pos.x , data->player.pos.y);
+	// int viewposx = 300;
+	// int viewposy = 300;
 	double o = 0;
-	printf("angle : %f\n", data->angle);
 	while (o < 60)
 	{
-		// int max = 100;
-		double radians = (((data->angle + o) * M_PI) / 180.0);
+		// int max = 300;
+		double radians = ((((data->angle + o) - 30) * M_PI) / 180.0);
 		int x2 = (cos(radians) * 300) + data->player.cam_pos.x;
 		int y2 = (sin(radians) * 300) + data->player.cam_pos.y;
-		int length = put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){x2, y2}, 0xff0000);
-		printf("pixel %d : %d\n", (int)o, length);
+		int length = 0;
+		if (o == 30)
+			length = put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){x2, y2}, 0x00ffff);
+		else
+			length = put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){x2, y2}, 0x0000ff);
+		printf("pixel : %d\n", length);
 		// printf("angle : %f\n", data->angle);
-		// length = max - length;
-		// if (length < 0)
-		// 	mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, viewposx + o, viewposy+j, 0xffff00);
-		// else
+		// max -= length;
 		// int j = 0;
 		// printf("lenght : %d, max : %d\n", length, max);
+		// length = max;
 		// while (length > j)
 		// {
-		// 	mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, viewposx + o, viewposy + j, 0xffffff);
-		// 	j += 1;
+		// 	// t_image_update_pixel(data->scene_image, viewposx + o, viewposy+j, 0xffffff);
+		// 	mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, viewposx + o, viewposy+j, 0xffffff);
+		// 	j++;
 		// }
-		o += 1;
+		o += 6;
 	}
 	return (0);
 }
@@ -219,8 +240,9 @@ void	run_game(t_data *data)
 	map_size.y = data->scene_info.maps_ysize * 26;
 	data->maps_image = t_image_create(map_size.x, map_size.y, DARK);
 	data->player.texture = t_image_create(26, 26, 0x00ff00);
-	data->player.pos = (t_vector){pplr.x * 26, pplr.y * 26};
-	data->player.dir = (t_vector){0, 0};
+	data->scene_image = t_image_create(WIN_SIZEX, WIN_SIZEY, 0x000000);
+	data->player.pos = (t_vector2){pplr.x * 26, pplr.y * 26};
+	// data->player.dir = (t_vector2){0, 0};
 	data->angle = 0;
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, key_down, data);

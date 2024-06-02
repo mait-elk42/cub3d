@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 09:35:29 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:41:50 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,12 @@
 # define BLUE 0x0111CD
 # define BROWN 0x564F4D
 # define WHITE 0xffffff
+
+/*
+	* 	WIN SIZE
+*/
+# define WIN_SIZEX 1920
+# define WIN_SIZEY 1080
 
 /*
 	* STRUCTS
@@ -148,8 +154,8 @@ typedef struct s_mlx
 typedef struct s_player
 {
 	t_image		*texture;
-	t_vector	pos;
-	t_vector	dir;
+	t_vector2	pos;
+	// t_vector2	dir;
 	t_vector	cam_pos;
 }	t_player;
 
@@ -165,6 +171,7 @@ typedef struct s_data
 	int					fd_file_input;
 	t_scene_info		scene_info;
 	t_image				*maps_image;
+	t_image				*scene_image;
 }	t_data;
 
 /*
