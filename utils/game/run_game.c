@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 12:55:16 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/02 14:56:53 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,6 @@ int	game_loop(t_data *data)
 		data->player.pos.x -= cos(radi) * 2;
 		data->player.pos.y -= sin(radi) * 2;
 	}
-	// if (data->keys.a.pressed == true)
-	// {
-	// 	data->player.pos.x += deltaX;
-	// 	data->player.pos.y += deltaY; // Move in the direction of the angle
-	// }
-	// if (data->keys.d.pressed == true)
-	// {
-	// 	data->player.pos.x += deltaX;
-	// 	data->player.pos.y += deltaY; // Move in the direction of the angle
-	// }
 	
 	if (data->keys.left.pressed == true)
 		data->angle -= 2;
@@ -236,8 +226,8 @@ void	run_game(t_data *data)
 								, 0x111111);
 	data->player.texture = t_image_create(26, 26, 0x00ff00);
 	data->scene_image = t_image_create(WIN_SIZEX, WIN_SIZEY, 0x000000);
-	data->player.pos = (t_vector){pplr.x * 26, pplr.y * 26};
-	data->player.dir = (t_vector2){0, 0};
+	data->player.pos = (t_vector2){pplr.x * 26, pplr.y * 26};
+	// data->player.dir = (t_vector2){0, 0};
 	data->angle = 0;
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, key_down, data);
