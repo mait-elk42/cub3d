@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 09:20:13 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/02 10:02:57 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,16 +130,31 @@ int	game_loop(t_data *data)
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->maps_image->img_ptr, 0, 0);
 	data->player.cam_pos = (t_vector){data->player.pos.x + (data->player.texture->sizex / 2)
 								, data->player.pos.y + (data->player.texture->sizey / 2)};
+	int viewposx = 600;
+	int viewposy = 600;
 	double o = 0;
-	while (o < 50)
+	while (o < 70)
 	{
+		int max = 100;
 		double radians = (((data->angle + o) * M_PI) / 180.0);
-		int x2 = (cos(radians) * 500) + data->player.cam_pos.x;
-		int y2 = (sin(radians) * 500) + data->player.cam_pos.y;
+		int x2 = (cos(radians) * 300) + data->player.cam_pos.x;
+		int y2 = (sin(radians) * 300) + data->player.cam_pos.y;
 		int length = put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){x2, y2}, 0xff0000);
-		printf("pixel %d : %d\n", (int)o, length);
+		// printf("pixel %d : %d\n", (int)o, length);
 		// printf("angle : %f\n", data->angle);
-		o+= 1;
+		max -= length;
+		// if (length < 0)
+		// 	mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, viewposx + o, viewposy+j, 0xffff00);
+		// else
+		int j = 0;
+		printf("lenght : %d, max : %d\n", length, max);
+		length = max;
+		while (length > j)
+		{
+			mlx_pixel_put(data->mlx.mlx_ptr, data->mlx.window_ptr, viewposx + o, viewposy+j, 0xffffff);
+			j++;
+		}
+		o += 1;
 	}
 	return (0);
 }
@@ -173,7 +188,7 @@ int key_down(int keycode, t_data *data)
 	(void)data;
 	if (keycode == KEY_ESC)
 		safe_exit(0);
-	printf("pressed key : %d\n", keycode);
+	// printf("pressed key : %d\n", keycode);
 	if (keycode == KEY_W)
 		data->keys.w.pressed = true;
 	if (keycode == KEY_A)
