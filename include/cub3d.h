@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 17:09:51 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/02 20:04:29 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,7 @@ typedef struct s_mlx
 
 typedef struct s_player
 {
-	t_image		*texture;
 	t_vector2	pos;
-	// t_vector2	dir;
 	t_vector	cam_pos;
 }	t_player;
 
@@ -164,8 +162,7 @@ typedef struct s_data
 	char				**maps;
 	int					fd_file_input;
 	t_scene_info		scene_info;
-	t_image				*maps_image;
-	t_image				*scene_image;
+	t_image				*scene;
 }	t_data;
 
 /*
@@ -236,5 +233,6 @@ void	run_game(t_data	*data);
 */
 t_image	*t_image_create(int sizex, int sizey, int default_color);
 void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
+void	t_image_clear_color(t_image *imgptr, int color);
 
 #endif

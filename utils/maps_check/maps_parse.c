@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maps_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/30 12:10:52 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:56:43 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 static bool	check_texture_content(char	*filename)
 {
-	void		*ptr;
-	int			w;
-	int			h;
+	t_data	*data;
+	void	*ptr;
+	int		w;
+	int		h;
 
-	ptr = mlx_xpm_file_to_image(data_hook(NULL)->mlx.mlx_ptr, filename, &w, &h);
+	data = data_hook(NULL);
+	ptr = mlx_xpm_file_to_image(data->mlx.mlx_ptr, filename, &w, &h);
 	if (ptr == NULL)
 		return (false);
-	mlx_destroy_image(data_hook(NULL)->mlx.mlx_ptr, ptr);
+	mlx_destroy_image(data->mlx.mlx_ptr, ptr);
 	ptr = NULL;
 	return (true);
 }
@@ -66,11 +68,11 @@ static bool	is_valid_name_index(char *name, int i)
 	return (false);
 }
 
-static bool	is_valid_line(char *line, int i)
+static bool	is_valid_line(t_data *data, char *line, int i)
 {
 	char	*value;
 
-	data_hook(NULL)->lines = append_2d(data_hook(NULL)->lines, line);
+	data->lines = append_2d(data->lines, line);
 	if (i < 6)
 	{
 		if (safe_strchr(line, ' ') == NULL)
@@ -89,20 +91,10 @@ static bool	is_valid_line(char *line, int i)
 			check_color(line[0], value);
 		return (*value = ' ', true);
 	}
-	if ((int)safe_strlen(line) > data_hook(NULL)->scene_info.maps_xsize)
-		data_hook(NULL)->scene_info.maps_xsize = safe_strlen(line);
-	data_hook(NULL)->scene_info.maps_ysize++;
-	data_hook(NULL)->maps = append_2d(data_hook(NULL)->maps, line);
-	return (true);
-}
-
-static void	check_empty()
-{
-	t_data	*data;
-
-	data = data_hook(NULL);
-	if (data->maps == NULL)
-		eput_error("is empty", "[MAPS]", 1);
+	if ((int)safe_strlen(line) > data->scene_info.maps_xsize)
+		data->scene_info.maps_xsize = safe_strlen(line);
+	data->scene_info.maps_ysize++;
+	return (data->maps = append_2d(data->maps, line), true);
 }
 
 void	init_lines(void)
@@ -120,7 +112,7 @@ void	init_lines(void)
 			*ft_strchr(line, '\n') = '\0';
 		if (safe_strlen(line) > 0)
 		{
-			if (is_valid_line(line, i) == false)
+			if (is_valid_line(data, line, i) == false)
 				safe_exit(1);
 			i++;
 		}
@@ -129,5 +121,6 @@ void	init_lines(void)
 		line = get_next_line(data->fd_file_input);
 	}
 	close(data->fd_file_input);
-	check_empty();
+	if (data->maps == NULL)
+		eput_error("is empty", "[MAPS]", 1);
 }
