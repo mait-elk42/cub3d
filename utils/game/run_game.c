@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 16:25:31 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:56:55 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ int	put_line_in(t_vector from, t_vector to, int color)
 			}
 			t_image_update_pixel(&data_hook(NULL)->minimaps_layer, from.x, from.y, color);
 		}
-		if (from.x == to.x && from.y == to.y)
-			return (-1);
+		// if (from.x == to.x && from.y == to.y)
+		// 	return (-1);
 		e2 = err;
 		if (e2 > -dx)
 		{
@@ -126,8 +126,8 @@ int	send_ray_from(t_vector from, double rad, int color)
 
 	int	line_length = 0;
 	data = data_hook(NULL);
-	to.x = (double)(cos(rad) * 2) + data->player.cam_pos.x;
-	to.y = (double)(sin(rad) * 2) + data->player.cam_pos.y;
+	to.x = (double)(cos(rad) * 50) + data->player.cam_pos.x;
+	to.y = (double)(sin(rad) * 50) + data->player.cam_pos.y;
 	
 	dx = abs(to.x - from.x);
 	dy = abs(to.y - from.y);
@@ -151,11 +151,11 @@ int	send_ray_from(t_vector from, double rad, int color)
 			return (-1);
 		if (data->maps[from.y / 26][from.x / 26] == '0')
 			t_image_update_pixel(&data->minimaps_layer, from.x, from.y, 0x00ff00);
-		// if (data->maps[from.y / 26][from.x / 26] == '1')
-		// {
-		// 	printf("       %c  \n", data->maps[from.y / 26][from.x / 26]);
-		// 	return (line_length);
-		// }
+		if (data->maps[from.y / 26][from.x / 26] == '1')
+		{
+			printf("	%c\n", data->maps[from.y / 26][from.x / 26]);
+			return (line_length);
+		}
 		t_image_update_pixel(&data->minimaps_layer, from.x, from.y, color);
 		e2 = err;
 		if (e2 > -dx)
@@ -280,7 +280,7 @@ int	game_loop(t_data *data)
 	// while (o < 30)
 	// {
 		send_ray_from (data->player.cam_pos, mth_degtorad(data->angle), 0xff0000);
-		// put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){(cos(mth_degtorad(data->angle)) * 50) + data->player.cam_pos.x, (sin(mth_degtorad(data->angle)) * 50) + data->player.cam_pos.y},  0xff0000);
+		// put_line_in(data->player.cam_pos, (t_vector){(cos(mth_degtorad(data->angle)) * 2) + data->player.cam_pos.x, (sin(mth_degtorad(data->angle)) * 2) + data->player.cam_pos.y},  0xff0000);
 		// printf("pixel : %f\n", length);
 		// printf("angle : %f\n", data->angle);
 		// if (length > 0)
