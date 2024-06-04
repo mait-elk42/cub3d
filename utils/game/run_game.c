@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 12:15:29 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/04 15:45:09 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ t_vector	get_player_pos(t_data *data)
 		while (data->maps[v.y][v.x])
 		{
 			if (safe_strchr("NEWS", data->maps[v.y][v.x]))
+			{
+				data->maps[v.y][v.x] = '0';
 				return ((t_vector){.x = v.x, .y = v.y});
+			}
 			v.x++;
 		}
 		v.y++;
@@ -94,6 +97,56 @@ int	put_line_in(t_vector from, t_vector to, int color)
 		}
 		if (from.x == to.x && from.y == to.y)
 			return (-1);
+		e2 = err;
+		if (e2 > -dx)
+		{
+			err -= dy;
+			from.x += sx;
+		}
+		if (e2 < dy)
+		{
+			err += dx;
+			from.y += sy;
+		}
+		line_length++;
+	}
+	return (0);
+}
+
+int	send_ray_from(t_vector from, double rad, int color)
+{
+	t_data		*data;
+	t_vector	to;
+	int			dx;
+	int			dy;
+	int			sx;
+	int			sy;
+	int			err;
+	int			e2;
+
+	int	line_length = 0;
+	data = data_hook(NULL);
+	to.x = (double)(cos(rad) * 2) + data->player.cam_pos.x;
+	to.y = (double)(sin(rad) * 2) + data->player.cam_pos.y;
+	
+	dx = abs(to.x - from.x);
+	dy = abs(to.y - from.y);
+	sx = from.x < to.x ? 1 : -1;
+	sy = from.y < to.y ? 1 : -1;
+	err = (dx > dy ? dx : -dy) / 2;
+	while (1)
+	{
+		// protect sug fault ray out of bounds
+		if (from.y < 0 || from.x < 0 || from.y > data->minimaps_layer.sizey -1 || from.x > data->minimaps_layer.sizex -1)
+			return (-1);
+		if (data->maps[from.y / 26][from.x / 26] == '0')
+			t_image_update_pixel(&data->minimaps_layer, from.x, from.y, 0x00ff00);
+		if (data->maps[from.y / 26][from.x / 26] == '1')
+		{
+			// printf("%c\n", data->maps[from.y / 26][from.x / 26]);
+			return (line_length);
+		}
+		t_image_update_pixel(&data->minimaps_layer, from.x, from.y, color);
 		e2 = err;
 		if (e2 > -dx)
 		{
@@ -211,40 +264,37 @@ int	game_loop(t_data *data)
 								, data->player.pos.y + (13)};
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	t_image_clear_color(&data->scene_layer, 0x000000);
-	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
+	t_image_clear_color(&data->minimaps_layer, 0x00ff00);
 	put_maps(data->maps, data->mlx);
-	double o = -30;
-	while (o < 30)
-	{
-		double radians = mth_degtorad(data->angle + o);
-		// int x2 = (cos(radians) * 400) + data->player.cam_pos.x;
-		// int y2 = (sin(radians) * 400) + data->player.cam_pos.y;
-		// double length = put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, (t_vector){x2, y2},  0xff0000);
-
-		int x2 = (cos(radians) * 400) + data->player.cam_pos.x;
-		int y2 = (sin(radians) * 400) + data->player.cam_pos.y;
-		double length = put_line_in((t_vector){data->player.cam_pos.x, data->player.cam_pos.y}, (t_vector){x2, y2},  0xff0000);
-		printf("pixel : %f\n", length);
-		printf("angle : %f\n", data->angle);
-		if (length > 0)
-		{
-			int max = WIN_SIZEY - (length * 2);
-			int color = 0x0000ff * (1.0 - length / (double)max);
-			int m = 0;
-			length = length * cos(radians);
-			while (m < 26)
-			{
-				int j = (length * 2);
-				while (max - length > j)
-				{
-					t_image_update_pixel(&data->scene_layer, m + (o * 26), j, color);
-					j++;
-				}
-				m++;
-			}
-		}
-		o += 1;
-	}
+	// double o = -30;
+	// while (o < 30)
+	// {
+		send_ray_from(data->player.cam_pos, mth_degtorad(data->angle), 0xff0000);
+		
+		// put_line_in((t_vector){data->player.cam_pos.x , data->player.cam_pos.y}, 
+		// 			(t_vector){(cos(mth_degtorad(data->angle)) * 50) + data->player.cam_pos.x, (sin(mth_degtorad(data->angle)) * 50) + data->player.cam_pos.y},  0xff0000);
+		// printf("pixel : %f\n", length);
+		// printf("angle : %f\n", data->angle);
+		// if (length > 0)
+		// {
+		// 	int max = WIN_SIZEY - (length * 2);
+		// 	int color = 0x0000ff * (1.0 - length / (double)max);
+		// 	int m = 0;
+		// 	length = length * cos(radians);
+		// 	while (m < 1)
+		// 	{
+		// 		int j = (length * 2);
+		// 		while (max - length > j)
+		// 		{
+		// 			t_image_update_pixel(&data->scene_layer, m + (o * 26), j, color);
+		// 			j++;
+		// 		}
+		// 		m++;
+		// 	}
+		// }
+		// o += (double)60 / WIN_SIZEX;
+		// o += 1;
+	// }
 	double n = 0;
 	while (n <= 10)
 	{
