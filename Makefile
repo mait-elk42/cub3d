@@ -6,7 +6,7 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/06/04 18:23:04 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/06/04 20:22:22 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC= utils/utils.c utils/print.c utils/initialization.c \
 	utils/io_operators/safe_str1.c utils/io_operators/safe_str2.c \
 	utils/images/t_image_instractions.c \
 	utils/math/angle.c \
-	utils/game/run_game.c utils/game/events_game.c
+	 utils/game/init_player.c utils/game/run_game.c utils/game/events_game.c utils/game/init_game.c
 OBJ= $(SRC:.c=.o)
 NAME= cub3d
 LIBFT = libft/libft.a
