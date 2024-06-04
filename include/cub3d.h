@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/03 18:20:15 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:34:13 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ typedef struct s_player
 {
 	t_vector2	pos;
 	t_vector	cam_pos;
+	t_image		texture;
 }	t_player;
 
 typedef struct s_data
@@ -168,8 +169,8 @@ typedef struct s_data
 	char				**maps;
 	int					fd_file_input;
 	t_scene_info		scene_info;
-	t_image				*scene_layer;
-	t_image				*minimaps_layer;
+	t_image				scene_layer;
+	t_image				minimaps_layer;
 }	t_data;
 
 /*
@@ -238,9 +239,11 @@ void	run_game(t_data	*data);
 /*
 	* IMAGES
 */
-t_image	*t_image_create(int sizex, int sizey, int default_color);
+t_image	t_image_create(int sizex, int sizey, int default_color);
 void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
 void	t_image_clear_color(t_image *imgptr, int color);
+t_image	t_image_loadfromxpm(char *filename);
+void	t_image_set_angle(t_image *imgptr, double angle);
 
 /*
 	* MATH
