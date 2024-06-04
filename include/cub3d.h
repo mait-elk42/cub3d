@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/02 20:04:29 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/03 19:15:15 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_SIZEX 1920
-# define WIN_SIZEY 1080
+# define WIN_SIZEX 1924
+# define WIN_SIZEY 1092
 
 /*
 	* STRUCTS
@@ -162,7 +162,8 @@ typedef struct s_data
 	char				**maps;
 	int					fd_file_input;
 	t_scene_info		scene_info;
-	t_image				*scene;
+	t_image				*scene_layer;
+	t_image				*minimaps_layer;
 }	t_data;
 
 /*
@@ -234,5 +235,11 @@ void	run_game(t_data	*data);
 t_image	*t_image_create(int sizex, int sizey, int default_color);
 void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
 void	t_image_clear_color(t_image *imgptr, int color);
+
+/*
+	* MATH
+*/
+double	mth_degtorad(double angle);
+
 
 #endif

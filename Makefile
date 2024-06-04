@@ -6,7 +6,7 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/06/02 20:04:12 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/06/03 19:14:34 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC= utils/utils.c utils/print.c utils/initialization.c \
 	utils/errors_handling/errors_args.c utils/errors_handling/put_error.c \
 	utils/io_operators/safe_str1.c utils/io_operators/safe_str2.c \
 	utils/images/t_image_instractions.c \
+	utils/math/angle.c \
 	utils/game/run_game.c
 OBJ= $(SRC:.c=.o)
 NAME= cub3d
