@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 12:12:29 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:15:29 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	put_line_in_cus(t_vector from, t_vector to, int color, t_image *img)
 		if (from.y < img->sizey && from.x < img->sizex)
 			t_image_update_pixel(img, from.x, from.y, color);
 		if (from.x == to.x && from.y == to.y)
-			return ;
+			break ;
 		e2 = err;
 		if (e2 > -dx)
 		{
@@ -141,25 +141,28 @@ void	put_line_in_cus(t_vector from, t_vector to, int color, t_image *img)
 	}
 }
 
-void	put_player_shape(t_image *minimap_layer, int color, int size)
+void	put_player_shape(t_image *minimap_layer, int color, double size)
 {
-	t_vector		plr_pos;
-	t_vector		ang1;
-	t_vector		ang2;
-	t_vector		ang3;
+	t_vector	plr_pos;
+	t_vector	ang1;
+	t_vector	ang2;
+	t_vector	ang3;
+	double		plr_angle;
 
+
+	plr_angle = data_hook(NULL)->angle;
 	plr_pos = data_hook(NULL)->player.cam_pos;
-	ang1.x = plr_pos.x + (cos(mth_degtorad(0 + data_hook(NULL)->angle)) * size);
-	ang1.y = plr_pos.y + (sin(mth_degtorad(0 + data_hook(NULL)->angle)) * size);
+	ang1.x = plr_pos.x + (cos(mth_degtorad(plr_angle)) * size);
+	ang1.y = plr_pos.y + (sin(mth_degtorad(plr_angle)) * size);
 
-	ang2.x = plr_pos.x + (cos(mth_degtorad(120 + data_hook(NULL)->angle)) * size);
-	ang2.y = plr_pos.y + (sin(mth_degtorad(120 + data_hook(NULL)->angle)) * size);
+	ang2.x = plr_pos.x + (cos(mth_degtorad(120 + plr_angle)) * size);
+	ang2.y = plr_pos.y + (sin(mth_degtorad(120 + plr_angle)) * size);
 
-	ang3.x = plr_pos.x + (cos(mth_degtorad(240 + data_hook(NULL)->angle)) * size);
-	ang3.y = plr_pos.y + (sin(mth_degtorad(240 + data_hook(NULL)->angle)) * size);
+	ang3.x = plr_pos.x + (cos(mth_degtorad(240 + plr_angle)) * size);
+	ang3.y = plr_pos.y + (sin(mth_degtorad(240 + plr_angle)) * size);
 
 	put_line_in_cus(ang1, ang2, color, minimap_layer);
-	put_line_in_cus(ang2, ang3, color, minimap_layer);
+	// put_line_in_cus(ang2, ang3, color, minimap_layer);
 	put_line_in_cus(ang3, ang1, color, minimap_layer);
 }
 
@@ -195,7 +198,6 @@ int	game_loop(t_data *data)
 		newpos.y = data->player.pos.y - cos(radi) * 2;
 		data->player.pos = newpos;
 	}
-
 	if (data->keys.left.pressed == true)
 		data->angle -= 2;
 	if (data->keys.right.pressed == true)
@@ -222,39 +224,61 @@ int	game_loop(t_data *data)
 		int x2 = (cos(radians) * 400) + data->player.cam_pos.x;
 		int y2 = (sin(radians) * 400) + data->player.cam_pos.y;
 		double length = put_line_in((t_vector){data->player.cam_pos.x, data->player.cam_pos.y}, (t_vector){x2, y2},  0xff0000);
-		
-		length++;
-		// printf("pixel : %f\n", length);
-		// printf("angle : %f\n", data->angle);
-		// if (length > 0)
-		// {
-			// int max = WIN_SIZEY - (length * 2);
-			// int color = 0x0000ff * (1.0 - length / (double)max);
-			// int m = 0;
-			// length = length * cos(radians);
-			// while (m < 26)
-			// {
-			// 	int j = (length * 2);
-			// 	while (max - length > j)
-			// 	{
-			// 		t_image_update_pixel(data->scene_layer, m + (o * 26), j, color);
-			// 		j++;
-			// 	}
-			// 	m++;
-			// }
-		// }
+		printf("pixel : %f\n", length);
+		printf("angle : %f\n", data->angle);
+		if (length > 0)
+		{
+			int max = WIN_SIZEY - (length * 2);
+			int color = 0x0000ff * (1.0 - length / (double)max);
+			int m = 0;
+			length = length * cos(radians);
+			while (m < 26)
+			{
+				int j = (length * 2);
+				while (max - length > j)
+				{
+					t_image_update_pixel(&data->scene_layer, m + (o * 26), j, color);
+					j++;
+				}
+				m++;
+			}
+		}
 		o += 1;
 	}
-	put_player_shape(&data->minimaps_layer, 0x000000, 10);
+	double n = 0;
+	while (n <= 10)
+	{
+		put_player_shape(&data->minimaps_layer, RGB_DARK, n);
+		n += 0.1;
+	}
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	return (0);
 }
 
+int	mouse(int btn, int x, int y, void *param)
+{
+	t_data	*data;
+	(void)x;
+	(void)btn;
+
+	data = (t_data *)param;
+	if (y < 0)
+	{
+		data->keys.a.pressed = false;
+		data->keys.s.pressed = false;
+		data->keys.d.pressed = false;
+		data->keys.w.pressed = false;
+		data->keys.up.pressed = false;
+		data->keys.down.pressed = false;
+		data->keys.left.pressed = false;
+		data->keys.right.pressed = false;
+	}
+	return (0);
+}
+
 int key_up(int keycode, t_data *data)
 {
-	(void)data;
-	// printf("released key : %d\n", keycode);
 	if (keycode == KEY_W)
 		data->keys.w.pressed = false;
 	if (keycode == KEY_A)
@@ -317,5 +341,6 @@ void	run_game(t_data *data)
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, key_up, data);
+	mlx_mouse_hook(data->mlx.window_ptr, mouse, data);
 	mlx_loop(data->mlx.mlx_ptr);
 }
