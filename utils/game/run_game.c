@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 19:05:16 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:57:10 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,19 +146,21 @@ int	send_ray_from(t_vector from, double rad, int color)
 	// err = (dx > dy ? dx : -dy) / 2;
 	while (1)
 	{
-		if (from.y < data_hook(NULL)->minimaps_layer.sizey && from.x < data_hook(NULL)->minimaps_layer.sizex)
+		if (from.y > data->minimaps_layer.sizey || from.x > data->minimaps_layer.sizex)
+			return (line_length);
+		if (data->maps[from.y / 26][from.x / 26] == '1')
 		{
-			if (data_hook(NULL)->maps[from.y / 26][from.x / 26] == '1')
-			{
-				// printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
-				t_image_update_pixel(&data_hook(NULL)->minimaps_layer, from.x, from.y, 0xff0000);
-				return (line_length);
-				// return (sqrt(pow(data->player.cam_pos.x - from.x, 2) + pow(data->player.cam_pos.y - from.y, 2)));
-			}
-			t_image_update_pixel(&data_hook(NULL)->minimaps_layer, from.x, from.y, color);
+			t_image_update_pixel(&data->minimaps_layer, from.x, from.y, 0xff0000);
+			// double delta_x = (from.x / 26) - data->player.pos.x;
+			// double delta_y = (from.y / 26) - data->player.pos.y;
+			// double des = sqrt((delta_x * delta_x) + (delta_y * delta_y));
+			// return (des * rad);
+			return (line_length);
 		}
-		// if (from.x == to.x && from.y == to.y)
-		// 	return (-1);
+		t_image_update_pixel(&data->minimaps_layer, from.x, from.y, color);
+		// [for debugging] when touch some line in the maps
+		if (from.x % 26 == 0 || from.y % 26 == 0)
+			t_image_update_pixel(&data->minimaps_layer, from.x, from.y, 0x00fff0);
 		e2 = err;
 		if (e2 > -dx)
 		{
@@ -282,7 +284,7 @@ int	game_loop(t_data *data)
 	while (o < 60)
 	{
 		int length = send_ray_from(data->player.cam_pos, mth_degtorad(data->angle - 30 + o), 0xff0000);
-		printf("pixel %d : %d\n", (int)o, length);
+		// printf("pixel %d : %d\n", (int)o, length);
 		// printf("angle : %f\n", data->angle);
 		if (length > 0)
 		{
@@ -310,7 +312,7 @@ int	game_loop(t_data *data)
 		rs++;
 		o += (double)60 / WIN_WIDTH;
 	}
-	printf("rays count : %d", rs);
+	// printf("rays count : %d", rs);
 	double n = 0;
 	while (n <= 10)
 	{
@@ -319,74 +321,6 @@ int	game_loop(t_data *data)
 	}
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
-	return (0);
-}
-
-int	mouse(int btn, int x, int y, void *param)
-{
-	t_data	*data;
-	(void)x;
-	(void)btn;
-
-	data = (t_data *)param;
-	if (y < 0)
-	{
-		data->keys.a.pressed = false;
-		data->keys.s.pressed = false;
-		data->keys.d.pressed = false;
-		data->keys.w.pressed = false;
-		data->keys.up.pressed = false;
-		data->keys.down.pressed = false;
-		data->keys.left.pressed = false;
-		data->keys.right.pressed = false;
-	}
-	return (0);
-}
-
-int key_up(int keycode, t_data *data)
-{
-	if (keycode == KEY_W)
-		data->keys.w.pressed = false;
-	if (keycode == KEY_A)
-		data->keys.a.pressed = false;
-	if (keycode == KEY_S)
-		data->keys.s.pressed = false;
-	if (keycode == KEY_D)
-		data->keys.d.pressed = false;
-	if (keycode == KEY_UP)
-		data->keys.up.pressed = false;
-	if (keycode == KEY_DOWN)
-		data->keys.down.pressed = false;
-	if (keycode == KEY_LEFT)
-		data->keys.left.pressed = false;
-	if (keycode == KEY_RIGHT)
-		data->keys.right.pressed = false;
-	return (0);
-}
-
-
-int key_down(int keycode, t_data *data)
-{
-	(void)data;
-	if (keycode == KEY_ESC)
-		safe_exit(0);
-	// printf("pressed key : %d\n", keycode);
-	if (keycode == KEY_W)
-		data->keys.w.pressed = true;
-	if (keycode == KEY_A)
-		data->keys.a.pressed = true;
-	if (keycode == KEY_S)
-		data->keys.s.pressed = true;
-	if (keycode == KEY_D)
-		data->keys.d.pressed = true;
-	if (keycode == KEY_UP)
-		data->keys.up.pressed = true;
-	if (keycode == KEY_DOWN)
-		data->keys.down.pressed = true;
-	if (keycode == KEY_LEFT)
-		data->keys.left.pressed = true;
-	if (keycode == KEY_RIGHT)
-		data->keys.right.pressed = true;
 	return (0);
 }
 
@@ -404,9 +338,17 @@ void	run_game(t_data *data)
 	data->minimaps_layer = t_image_create(data->scene_info.maps_xsize * 26, data->scene_info.maps_ysize * 26, 0xffffffff);
 	data->player.pos = (t_vector2){pplr.x * 26, pplr.y * 26};
 	data->angle = 0;
+	data->keys.w.keycode = KEY_W;
+	data->keys.a.keycode = KEY_A;
+	data->keys.s.keycode = KEY_S;
+	data->keys.d.keycode = KEY_D;
+	data->keys.up.keycode = KEY_UP;
+	data->keys.right.keycode = KEY_RIGHT;
+	data->keys.down.keycode = KEY_DOWN;
+	data->keys.left.keycode = KEY_LEFT;
+	data->keys.space.keycode = KEY_SPACE;
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
-	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, key_down, data);
-	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, key_up, data);
-	mlx_mouse_hook(data->mlx.window_ptr, mouse, data);
+	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
+	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);
 	mlx_loop(data->mlx.mlx_ptr);
 }

@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
+#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/06/03 19:14:34 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/06/04 18:23:04 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
-CFLAGS= -Wall -Werror -Wextra -I include -I libft
+CFLAGS= -Wall -Werror -Wextra -I include -I libft #-fsanitize=address
 SRC= utils/utils.c utils/print.c utils/initialization.c \
 	utils/maps_check/maps_parse.c utils/maps_check/check_maps.c utils/maps_check/check_colors.c \
 	utils/io_operators/append2d.c utils/strings.c \
@@ -19,7 +19,7 @@ SRC= utils/utils.c utils/print.c utils/initialization.c \
 	utils/io_operators/safe_str1.c utils/io_operators/safe_str2.c \
 	utils/images/t_image_instractions.c \
 	utils/math/angle.c \
-	utils/game/run_game.c
+	utils/game/run_game.c utils/game/events_game.c
 OBJ= $(SRC:.c=.o)
 NAME= cub3d
 LIBFT = libft/libft.a
