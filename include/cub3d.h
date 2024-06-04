@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 12:13:42 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:21:01 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_SIZEX 1924
-# define WIN_SIZEY 1092
+# define WIN_WIDTH 1924
+# define WIN_HEIGHT 1092
 
 /*
 	* STRUCTS

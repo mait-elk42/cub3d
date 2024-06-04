@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 12:15:29 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/04 12:25:39 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,16 +228,16 @@ int	game_loop(t_data *data)
 		printf("angle : %f\n", data->angle);
 		if (length > 0)
 		{
-			int max = WIN_SIZEY - (length * 2);
+			int max = WIN_HEIGHT - (length * 2);
 			int color = 0x0000ff * (1.0 - length / (double)max);
 			int m = 0;
 			length = length * cos(radians);
-			while (m < 26)
+			while (m < 50)
 			{
 				int j = (length * 2);
 				while (max - length > j)
 				{
-					t_image_update_pixel(&data->scene_layer, m + (o * 26), j, color);
+					t_image_update_pixel(&data->scene_layer, m + (o * 50), j, color);
 					j++;
 				}
 				m++;
@@ -334,7 +334,7 @@ void	run_game(t_data *data)
 	data->pp = pplr;
 	map_size.x = data->scene_info.maps_xsize * 26;
 	map_size.y = data->scene_info.maps_ysize * 26;
-	data->scene_layer =  t_image_create(WIN_SIZEX, WIN_SIZEY, 0xffffffff);
+	data->scene_layer =  t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
 	data->minimaps_layer =  t_image_create(data->scene_info.maps_xsize * 26, data->scene_info.maps_ysize * 26, 0xffffffff);
 	data->player.pos = (t_vector2){pplr.x * 26, pplr.y * 26};
 	data->angle = 0;
