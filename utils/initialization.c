@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/03 10:31:39 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:05:44 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	data_init(t_data *data, int ac, char **av)
 		eput_error("Cannot Init Mlx Connection", "[MLX_DYLIB]", 1);
 	init_lines();
 	check_maps();
-	data->mlx.window_ptr = mlx_new_window(data->mlx.mlx_ptr, WIN_SIZEX, WIN_SIZEY, "");
+	data->mlx.window_ptr = mlx_new_window(data->mlx.mlx_ptr, WIN_SIZEX, WIN_SIZEY, "cub3d");
 	if (data->mlx.window_ptr == NULL)
 		eput_error("cannot open mlx window", "[MLX_DYLIB]", 1);
 	print_data_collected(data);

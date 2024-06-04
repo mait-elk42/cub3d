@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 12:13:42 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/04 18:49:23 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,12 @@ void	t_image_set_angle(t_image *imgptr, double angle);
 	* MATH
 */
 double	mth_degtorad(double angle);
+
+/*
+	* EVENTS
+*/
+int		ev_key_up(int keycode, t_data *data);
+int		ev_key_down(int keycode, t_data *data);
 
 
 #endif
