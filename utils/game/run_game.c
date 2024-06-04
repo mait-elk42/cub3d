@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 16:56:55 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:05:16 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,20 +115,20 @@ int	put_line_in(t_vector from, t_vector to, int color)
 
 int	send_ray_from(t_vector from, double rad, int color)
 {
-	t_data		*data;
-	t_vector	to;
-	int			dx;
-	int			dy;
-	int			sx;
-	int			sy;
-	int			err;
-	int			e2;
-
-	int	line_length = 0;
-	data = data_hook(NULL);
-	to.x = (double)(cos(rad) * 50) + data->player.cam_pos.x;
-	to.y = (double)(sin(rad) * 50) + data->player.cam_pos.y;
+	t_data	*data;
+	t_vector to;
+	int		dx;
+	int		dy;
+	int		sx;
+	int		sy;
+	int		err;
+	int		e2;
 	
+	int	line_length = 0;
+
+	data = data_hook(NULL);
+	to.x = (cos(rad) * 200) + data->player.cam_pos.x;
+	to.y = (sin(rad) * 200) + data->player.cam_pos.y;
 	dx = abs(to.x - from.x);
 	dy = abs(to.y - from.y);
 	if (from.x < to.x)
@@ -146,17 +146,19 @@ int	send_ray_from(t_vector from, double rad, int color)
 	// err = (dx > dy ? dx : -dy) / 2;
 	while (1)
 	{
-		// protect sug fault ray out of bounds
-		if (from.y < 0 || from.x < 0 || from.y > data->minimaps_layer.sizey -1 || from.x > data->minimaps_layer.sizex -1)
-			return (-1);
-		if (data->maps[from.y / 26][from.x / 26] == '0')
-			t_image_update_pixel(&data->minimaps_layer, from.x, from.y, 0x00ff00);
-		if (data->maps[from.y / 26][from.x / 26] == '1')
+		if (from.y < data_hook(NULL)->minimaps_layer.sizey && from.x < data_hook(NULL)->minimaps_layer.sizex)
 		{
-			printf("	%c\n", data->maps[from.y / 26][from.x / 26]);
-			return (line_length);
+			if (data_hook(NULL)->maps[from.y / 26][from.x / 26] == '1')
+			{
+				// printf("%c\n", data_hook(NULL)->maps[from.y / 26][from.x / 26]);
+				t_image_update_pixel(&data_hook(NULL)->minimaps_layer, from.x, from.y, 0xff0000);
+				return (line_length);
+				// return (sqrt(pow(data->player.cam_pos.x - from.x, 2) + pow(data->player.cam_pos.y - from.y, 2)));
+			}
+			t_image_update_pixel(&data_hook(NULL)->minimaps_layer, from.x, from.y, color);
 		}
-		t_image_update_pixel(&data->minimaps_layer, from.x, from.y, color);
+		// if (from.x == to.x && from.y == to.y)
+		// 	return (-1);
 		e2 = err;
 		if (e2 > -dx)
 		{
@@ -270,39 +272,45 @@ int	game_loop(t_data *data)
 // # error there two errors : 1:{Raycasting rendering - wall's edge crossing issue} , 2{the left wall is soo bad like a circle}
 	// printf("player in : x%d y%d\n", data->player.pos.x, data->player.pos.y);
 	// print_2d(data->maps);
-	data->player.cam_pos = (t_vector){data->player.pos.x + (13)
-								, data->player.pos.y + (13)};
+	data->player.cam_pos = (t_vector){data->player.pos.x + 13, data->player.pos.y + 13};
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
-	t_image_clear_color(&data->scene_layer, 0x000000);
-	t_image_clear_color(&data->minimaps_layer, 0x00ff00);
+	t_image_clear_color(&data->scene_layer, 0xffffffff);
+	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_maps(data->maps, data->mlx);
-	// double o = -30;
-	// while (o < 30)
-	// {
-		send_ray_from (data->player.cam_pos, mth_degtorad(data->angle), 0xff0000);
-		// put_line_in(data->player.cam_pos, (t_vector){(cos(mth_degtorad(data->angle)) * 2) + data->player.cam_pos.x, (sin(mth_degtorad(data->angle)) * 2) + data->player.cam_pos.y},  0xff0000);
-		// printf("pixel : %f\n", length);
+	int rs = 0;
+	double o = 0;
+	while (o < 60)
+	{
+		int length = send_ray_from(data->player.cam_pos, mth_degtorad(data->angle - 30 + o), 0xff0000);
+		printf("pixel %d : %d\n", (int)o, length);
 		// printf("angle : %f\n", data->angle);
-		// if (length > 0)
-		// {
-		// 	int max = WIN_SIZEY - (length * 2);
-		// 	int color = 0x0000ff * (1.0 - length / (double)max);
-		// 	int m = 0;
-		// 	length = length * cos(radians);
-		// 	while (m < 1)
-		// 	{
-		// 		int j = (length * 2);
-		// 		while (max - length > j)
-		// 		{
-		// 			t_image_update_pixel(&data->scene_layer, m + (o * 26), j, color);
-		// 			j++;
-		// 		}
-		// 		m++;
-		// 	}
-		// }
-		// o += (double)60 / WIN_SIZEX;
-		// o += 1;
-	// }
+		if (length > 0)
+		{
+			int max = WIN_HEIGHT - length;
+			int color = 0x0000ff * (1.0 - length / (double)max);
+			// length = length * cos(mth_degtorad(data->angle + o));
+			int j = 0;
+			while (j < length * 2)
+			{
+				// mlx_pixel_pu./t(data->mlx.mlx_ptr, data->mlx.window_ptr,(o * 26) + 200, j, RGB_DARK_GREEN);
+				t_image_update_pixel(&data->scene_layer, (o * 26) + 200, j, RGB_DARK_GREEN);
+				j++;
+			}
+			while (max - length > j)
+			{
+				t_image_update_pixel(&data->scene_layer, (o * 26) + 200, j, color);
+				j++;
+			}
+			while (max + length > j)
+			{
+				t_image_update_pixel(&data->scene_layer, (o * 26) + 200, j, RGB_BRONZE);
+				j++;
+			}
+		}
+		rs++;
+		o += (double)60 / WIN_WIDTH;
+	}
+	printf("rays count : %d", rs);
 	double n = 0;
 	while (n <= 10)
 	{
@@ -392,8 +400,8 @@ void	run_game(t_data *data)
 	data->pp = pplr;
 	map_size.x = data->scene_info.maps_xsize * 26;
 	map_size.y = data->scene_info.maps_ysize * 26;
-	data->scene_layer =  t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
-	data->minimaps_layer =  t_image_create(data->scene_info.maps_xsize * 26, data->scene_info.maps_ysize * 26, 0xffffffff);
+	data->scene_layer = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
+	data->minimaps_layer = t_image_create(data->scene_info.maps_xsize * 26, data->scene_info.maps_ysize * 26, 0xffffffff);
 	data->player.pos = (t_vector2){pplr.x * 26, pplr.y * 26};
 	data->angle = 0;
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
