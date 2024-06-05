@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/05 10:45:31 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:23:19 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,12 @@ double	send_ray(double angle, int color)
 		if (data->maps[(int)ray_dir.y / 26][(int)ray_dir.x / 26] == '1')
 			break;
 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
+		if ((int)ray_dir.y % 26 == 0 || (int)ray_dir.x % 26 == 0)
+			t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, RGB_BRONZE);
 		ray_dir.x += step_x;
 		ray_dir.y += step_y;
 	}
-	return (0);
+	return (sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2)));
 }
 
 void	put_line_in_cus(t_vector from, t_vector to, int color, t_image *img)
@@ -167,41 +169,39 @@ int	game_loop(t_data *data)
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_maps(data->maps, data->mlx);
 	// int rayscount = 0;
-	double o = 0;
-	while (o < 60)
+	double angle = data->player.angle - 30;
+	double i = 0;
+	while (i < WIN_WIDTH)
 	{
-		double length = send_ray(data->player.angle - 30 + o, 0xff0000);
-		length++;
-		// length = floor((WIN_SIZEY /2) / length);
-		// printf("pixel %d : %d\n", (int)o, length);
+#error in the ray of direction and player is different, fix it
+		double distance = send_ray(data->player.angle + angle, 0xff0000);
+		double wallHeight = floor((WIN_HEIGHT / 2) / distance);
+		// printf("pixel %d : %f\n", (int)o, length);
 		// printf("angle : %f\n", data->angle);
-		// if (length > 0)
+		// int max = WIN_HEIGHT - length;
+		// int color = 0x0000ff;
+		// length = length * cos(mth_degtorad(data->angle + o));
+		int y = 0;
+		while (y < (WIN_HEIGHT / 2) - wallHeight)
+		{
+			t_image_update_pixel(&data->scene_layer, i, y, RGB_DARK_GREEN);
+			y++;
+		}
+		// while (j < wallHeight)
 		// {
-			// int max = WIN_SIZEY - length;
-			// int color = 0x0000ff * (1.0 - length / (double)max);
-			// // length = length * cos(mth_degtorad(data->angle + o));
-			// int j = 0;
-			// while (j < length)
-			// {
-			// 	// reset 32 to 26 to make everything clear :)
-			// 	t_image_update_pixel(&data->scene_layer, (o * 32) , j, RGB_DARK_GREEN);
-			// 	j++;
-			// }
-			// while (max - length > j)
-			// {
-			// 	// reset 32 to 26 to make everything clear :)
-			// 	t_image_update_pixel(&data->scene_layer, (o * 32) , j, color);
-			// 	j++;
-			// }
-			// while (max + length > j)
-			// {
-			// 	// reset 32 to 26 to make everything clear :)
-			// 	t_image_update_pixel(&data->scene_layer, (o * 32) , j, RGB_BRONZE);
-			// 	j++;
-			// }
+		// 	// reset 32 to 26 to make everything clear :)
+		// 	t_image_update_pixel(&data->scene_layer, (o * 32) , j, color);
+		// 	j++;
+		// }
+		// while (max + length > j)
+		// {
+		// 	// reset 32 to 26 to make everything clear :)
+		// 	t_image_update_pixel(&data->scene_layer, (o * 32) , j, RGB_BRONZE);
+		// 	j++;
 		// }
 		// rayscount++;
-		o += (double)60 / WIN_WIDTH;
+		angle += (double)60 / WIN_WIDTH;
+		i++;
 	}
 	// printf("rays count : %d\n", rayscount);
 	put_player_shape(&data->minimaps_layer, RGB_DARK, 10);
