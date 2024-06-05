@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/05 10:41:30 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:47:16 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH 1924
-# define WIN_HEIGHT 1092
+# define WIN_WIDTH 1924  // x
+# define WIN_HEIGHT 1092 // y
 
 /*
 	* STRUCTS

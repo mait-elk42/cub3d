@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/05 10:43:22 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/05 16:02:15 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,12 @@ double	send_ray(double angle, int color)
 		ray_dir.x += step_x;
 		ray_dir.y += step_y;
 	}
-	return (0);
+	// double rayAngle = data->player.angle - 30;
+	// double distance = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
+	// distance = distance * cos(mth_degtorad(rayAngle - data->player.angle));
+	// double wallHeight = floor((WIN_HEIGHT / 2) / distance);
+	// return (wallHeight);
+	return (sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2)));
 }
 
 void	put_line_in_cus(t_vector from, t_vector to, int color, t_image *img)
@@ -103,29 +108,28 @@ void	put_line_in_cus(t_vector from, t_vector to, int color, t_image *img)
 
 void	put_player_shape(t_image *minimap_layer, int color, double size)
 {
-	t_vector	plr_pos;
-	t_vector	ang1;
-	t_vector	ang2;
-	t_vector	ang3;
+	t_data		*data;
+	t_vector2	plr_pos;
 	double		plr_angle;
 
-
-	if (size == 0)
-		return ;
-	plr_angle = data_hook(NULL)->player.angle;
-	plr_pos = data_hook(NULL)->player.cam_pos;
-	ang1.x = plr_pos.x + (cos(mth_degtorad(plr_angle)) * size);
-	ang1.y = plr_pos.y + (sin(mth_degtorad(plr_angle)) * size);
-
-	ang2.x = plr_pos.x + (cos(mth_degtorad(120 + plr_angle)) * size);
-	ang2.y = plr_pos.y + (sin(mth_degtorad(120 + plr_angle)) * size);
-
-	ang3.x = plr_pos.x + (cos(mth_degtorad(240 + plr_angle)) * size);
-	ang3.y = plr_pos.y + (sin(mth_degtorad(240 + plr_angle)) * size);
-
-	put_line_in_cus(ang1, ang2, color, minimap_layer);
-	put_line_in_cus(ang3, ang1, color, minimap_layer);
-	put_player_shape(minimap_layer, color, size -1);
+	data = data_hook(NULL);
+	int i = 0;
+	while (i < 360)
+	{
+		plr_pos = (t_vector2){data->player.cam_pos.x, data->player.cam_pos.y};
+		plr_angle = data->player.angle + i;
+		double stepx = cos(mth_degtorad(plr_angle));
+		double stepy = sin(mth_degtorad(plr_angle));
+		while (1)
+		{
+			t_image_update_pixel(minimap_layer,  plr_pos.x, plr_pos.y, color);
+			plr_pos.x += stepx;
+			plr_pos.y += stepy;
+			if (sqrt(pow(data->player.cam_pos.x - plr_pos.x, 2) + pow(data->player.cam_pos.y - plr_pos.y, 2)) >= size)
+				break;
+		}
+		i++;
+	}
 }
 
 void	handle_input(t_data *data, double radi)
@@ -166,42 +170,40 @@ int	game_loop(t_data *data)
 	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_maps(data->maps, data->mlx);
+	double angle = data->player.angle - 30;
 	// int rayscount = 0;
 	double o = 0;
-	while (o < 60)
+	while (o < WIN_WIDTH)
 	{
-		double length = send_ray(data->player.angle - 30 + o, 0xff0000);
-		length++;
-		length = floor((WIN_SIZEY /2) / length);
-		printf("pixel %d : %d\n", (int)o, length);
-		printf("angle : %f\n", data->angle);
-		if (length > 0)
+		double length = send_ray(angle, 0xff0000);
+		// length = floor((WIN_SIZEY /2) / length);
+		// printf("pixel %d : %d\n", (int)o, length);
+		// printf("angle : %f\n", data->angle);
+		// int max = WIN_HEIGHT - length;
+		// int color = 0x0000ff * (1.0 - length / (double)max);
+		// length = length * cos(mth_degtorad(data->angle + o));
+		int j = 0;
+		while (j < length)
 		{
-			int max = WIN_SIZEY - length;
-			int color = 0x0000ff * (1.0 - length / (double)max);
-			// length = length * cos(mth_degtorad(data->angle + o));
-			int j = 0;
-			while (j < length)
-			{
-				// reset 32 to 26 to make everything clear :)
-				t_image_update_pixel(&data->scene_layer, (o * 32) , j, RGB_DARK_GREEN);
-				j++;
-			}
-			while (max - length > j)
-			{
-				// reset 32 to 26 to make everything clear :)
-				t_image_update_pixel(&data->scene_layer, (o * 32) , j, color);
-				j++;
-			}
-			while (max + length > j)
-			{
-				// reset 32 to 26 to make everything clear :)
-				t_image_update_pixel(&data->scene_layer, (o * 32) , j, RGB_BRONZE);
-				j++;
-			}
+			// reset 32 to 26 to make everything clear :)
+			t_image_update_pixel(&data->scene_layer, o , j, RGB_DARK_GREEN);
+			j++;
 		}
-		rayscount++;
-		o += (double) 60 / WIN_WIDTH;
+		// while (max - length > j)
+		// {
+		// 	// reset 32 to 26 to make everything clear :)
+		// 	t_image_update_pixel(&data->scene_layer, o , j, color);
+		// 	j++;
+		// }
+		// while (max + length > j)
+		// {
+		// 	// reset 32 to 26 to make everything clear :)
+		// 	t_image_update_pixel(&data->scene_layer, o , j, RGB_BRONZE);
+		// 	j++;
+		// }
+		// rayscount++;
+		angle += (double)60 / WIN_WIDTH;
+		o += 1;
 	}
 	// printf("rays count : %d\n", rayscount);
 	put_player_shape(&data->minimaps_layer, RGB_DARK, 10);
