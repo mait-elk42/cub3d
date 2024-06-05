@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/05 10:40:19 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:45:31 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ int	game_loop(t_data *data)
 			// }
 		// }
 		// rayscount++;
-		o += (double)60 / WIN_SIZEX;
+		o += (double)60 / WIN_WIDTH;
 	}
 	// printf("rays count : %d\n", rayscount);
 	put_player_shape(&data->minimaps_layer, RGB_DARK, 10);
@@ -217,7 +217,7 @@ void	run_game(t_data *data)
 // # error make one image only and update it layer 1 : the scene, layer 2 : the maps, layer 3 : the player , layer 4 : the player raycasts :) 
 	map_size.x = data->scene_info.maps_xsize * 26;
 	map_size.y = data->scene_info.maps_ysize * 26;
-	data->scene_layer =  t_image_create(WIN_SIZEX, WIN_SIZEY, 0xffffffff);
+	data->scene_layer =  t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
 	data->minimaps_layer =  t_image_create(data->scene_info.maps_xsize * 26, data->scene_info.maps_ysize * 26, 0xffffffff);
 	init_player(data);
 	init_keys(data);

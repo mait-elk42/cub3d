@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/05 09:48:34 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/05 10:44:53 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_SIZEX 1924
-# define WIN_SIZEY 1092
+# define WIN_WIDTH 1924  // x
+# define WIN_HEIGHT 1092 // y
 
 /*
 	* STRUCTS
