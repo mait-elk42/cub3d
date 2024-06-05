@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 19:08:27 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:57:36 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,15 +151,14 @@ typedef struct s_player
 	t_vector2	pos;
 	t_vector	cam_pos;
 	t_image		texture;
+	double		angle;
 }	t_player;
 
 typedef struct s_data
 {
 	t_mlx				mlx;
 	t_player			player;
-	double				angle;
 	t_keys_status		keys;
-	t_vector			pp;
 	char				**lines;
 	char				**maps;
 	int					fd_file_input;
@@ -229,6 +228,8 @@ void	logger(char *msg);
 /*
 	* GAME
 */
+void	init_keys(t_data *data);
+void	init_player(t_data *data);
 void	run_game(t_data	*data);
 
 /*
