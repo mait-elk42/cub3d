@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/06 12:38:48 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:47:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	put_maps(char **maps, t_mlx mlx)
 
 double	send_ray(double angle, int color)
 {
-	t_vector	vec;
 	t_data		*data;
 	double		step_x;
 	double		step_y;
@@ -60,12 +59,8 @@ double	send_ray(double angle, int color)
 	ray_dir = (t_vector2){data->player.cam_pos.x, data->player.cam_pos.y};
 	step_x = cos(mth_degtorad(angle));
 	step_y = sin(mth_degtorad(angle));
-	while (1)
+	while (data->maps[(int)ray_dir.y / 26][(int)ray_dir.x / 26] != '1')
 	{
-		vec.x = (int)(ray_dir.x / 26);
-		vec.y = (int)(ray_dir.y / 26);
-		if (data->maps[vec.y][vec.x] == '1')
-			break;
 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
 		ray_dir.x += step_x;
 		ray_dir.y += step_y;
@@ -148,7 +143,6 @@ int	game_loop(t_data *data)
 	// int rayscount = 0;
 	double i = 0;
 	// int y = 0;
-	draw_cf();
 	while (i < WIN_WIDTH)
 	{
 		if (i == WIN_WIDTH / 2 || 1)
@@ -156,7 +150,8 @@ int	game_loop(t_data *data)
 			double distance = send_ray(angle, 0xff0000);
 			if (distance > 1)
 			{
-				int wallHeight = (WIN_HEIGHT / distance) * 25;
+				// distance = fabs(distance * cos(mth_degtorad(angle)));
+				int wallHeight = (WIN_HEIGHT / distance) * 30;
 				int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 				int btm = top + wallHeight;
 				if (top < 0)
@@ -166,13 +161,23 @@ int	game_loop(t_data *data)
 				// printf("pixel %d : %f\n", (int)o, length);
 				int opacity = distance * 0.9;
 				(void)opacity;
+				int y = 0;
+				while (y < top)
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, 0x000055);
+					y++;
+				}
 				// printf("%d %f , wall : %f\n",y, ((WIN_HEIGHT / 2) - (wallHeight / 2)), wallHeight);
-				// while (top < btm)
-				// {
-				// 	t_image_update_pixel(&data->scene_layer, i, top, RGB_DARK);
-				// 	top++;
-				// }
-				// int j = WIN_HEIGHT / 2;
+				while (y < btm)
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, 0x00ff00 * opacity);
+					y++;
+				}
+				while (y < WIN_HEIGHT)
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, 0xffff00);
+					y++;
+				}
 			}
 		}
 		// rayscount++;
