@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/06 10:29:33 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:38:09 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ double	send_ray(double angle, int color)
 		ray_dir.y += step_y;
 	}
 	double distence = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
-	// double ray_angle = data->player.angle - 30;
-	// printf("[%f]\n", ray_angle);
+	distence *= cos(mth_degtorad(angle - data->player.angle));
 	return (distence);
 }
 
@@ -150,21 +149,27 @@ int	game_loop(t_data *data)
 		if (i == WIN_WIDTH / 2 || 1)
 		{
 			double distance = send_ray(angle, 0xff0000);
-			if (distance > 0)
+			if (distance > 1)
 			{
 				// distance = fabs(distance * cos(mth_degtorad(angle)));
-				double wallHeight = (WIN_HEIGHT / distance) * 30;
-				printf("distance : %f, wallheight : %f\n", distance, wallHeight);
+				int wallHeight = (WIN_HEIGHT / distance) * 25;
+				int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
+				int btm = top + wallHeight;
+				if (top < 0)
+					top = 0;
+				if (btm > WIN_HEIGHT)
+					btm = WIN_HEIGHT;
 				// printf("pixel %d : %f\n", (int)o, length);
-				// int opacity = distance * 0.9;
+				int opacity = distance * 0.9;
+				(void)opacity;
 				int y = 0;
-				while (y < (WIN_HEIGHT / 2) - (wallHeight / 2))
+				while (y < top)
 				{
 					t_image_update_pixel(&data->scene_layer, i, y, 0x0000ff);
 					y++;
 				}
-
-				while (y < (WIN_HEIGHT / 2) + (wallHeight / 2))
+				// printf("%d %f , wall : %f\n",y, ((WIN_HEIGHT / 2) - (wallHeight / 2)), wallHeight);
+				while (y < btm)
 				{
 					t_image_update_pixel(&data->scene_layer, i, y, RGB_DARKRED);
 					y++;
