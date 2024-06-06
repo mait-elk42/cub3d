@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/05 17:38:39 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:34:03 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,5 +252,9 @@ double	mth_degtorad(double angle);
 int		ev_key_up(int keycode, t_data *data);
 int		ev_key_down(int keycode, t_data *data);
 
+/**
+	* DRAW
+ */
+void	draw_cf(void);
 
 #endif
