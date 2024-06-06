@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/06 10:37:42 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:10:51 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,20 @@ double	send_ray(double angle, int color)
 	step_y = sin(mth_degtorad(angle));
 	while (data->maps[(int)ray_dir.y / 26][(int)ray_dir.x / 26] != '1')
 	{
-		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
+		// printf("%f %f\n", ray_dir.x, ray_dir.y);
+		// if ((int)ray_dir.x == 26 || (int)ray_dir.y == 26)
+		// 	t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, 0xffff00);
+		// else
+			t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
 		ray_dir.x += step_x;
 		ray_dir.y += step_y;
+		// if (data->maps[(int)ray_dir.y / 26][(int)ray_dir.x / 26] == '1' && ((int)ray_dir.x % 26 == 0 || (int)ray_dir.y % 26 == 0))
+		// 	t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, 0x00ff00);
+
 	}
-	return (sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2)));
+	double distence = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
+	distence *= cos(mth_degtorad(angle - data->player.angle));
+	return (distence);
 }
 
 void	put_player_shape(t_image *minimap_layer, int color, double size)
@@ -129,17 +138,29 @@ void	handle_input(t_data *data, double radi)
 }
 // # error there two errors : 1:{Raycasting rendering - wall's edge crossing issue} , 2{the wall is too bad like a circle}
 
+int	get_color_distance(double distance)
+{
+	unsigned char	r,g,b;
+
+	if ((distance / 30) < 1)
+		distance = 1;
+	r = 0 / (distance / 30);
+	g = 255 / (distance / 30);
+	b = 0 / (distance / 30);
+	
+	return (0 << 24 | r << 16 | g << 8 | b);
+}
+
 int	game_loop(t_data *data)
 {
 	handle_input(data, mth_degtorad(data->player.angle));
-	data->player.cam_pos = (t_vector){data->player.pos.x + (13)
-								, data->player.pos.y + (13)};
+	data->player.cam_pos = (t_vector){data->player.pos.x + 13, data->player.pos.y + 13};
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_maps(data->maps, data->mlx);
-	// int rayscount = 0;
 	double angle = data->player.angle - 30;
+	// int rayscount = 0;
 	double i = 0;
 	while (i < WIN_WIDTH)
 	{
@@ -148,7 +169,6 @@ int	game_loop(t_data *data)
 			double distance = send_ray(angle, 0xff0000);
 			if (distance > 1)
 			{
-				// distance = fabs(distance * cos(mth_degtorad(angle)));
 				int wallHeight = (WIN_HEIGHT / distance) * 30;
 				int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 				int btm = top + wallHeight;
@@ -156,10 +176,7 @@ int	game_loop(t_data *data)
 					top = 0;
 				if (btm > WIN_HEIGHT)
 					btm = WIN_HEIGHT;
-				printf("distance : %f, wallheight : %d\n", distance, wallHeight);
 				// printf("pixel %d : %f\n", (int)o, length);
-				int opacity = distance * 0.9;
-				(void)opacity;
 				int y = 0;
 				while (y < top)
 				{
@@ -169,7 +186,7 @@ int	game_loop(t_data *data)
 				// printf("%d %f , wall : %f\n",y, ((WIN_HEIGHT / 2) - (wallHeight / 2)), wallHeight);
 				while (y < btm)
 				{
-					t_image_update_pixel(&data->scene_layer, i, y, 0x00ff00 * opacity);
+					t_image_update_pixel(&data->scene_layer, i, y, get_color_distance(distance));
 					y++;
 				}
 				while (y < WIN_HEIGHT)
@@ -180,10 +197,9 @@ int	game_loop(t_data *data)
 			}
 		}
 		// rayscount++;
-		angle += (double)60 / WIN_WIDTH;
+		angle += (double) 60 / WIN_WIDTH;
 		i++;
 	}
-	// printf("rays count : %d\n", rayscount);
 	put_player_shape(&data->minimaps_layer, RGB_GREEN, 5);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
@@ -194,7 +210,7 @@ void	run_game(t_data *data)
 {
 	t_vector	map_size;
 
-// # error make one image only and update it layer 1 : the scene, layer 2 : the maps, layer 3 : the player , layer 4 : the player raycasts :) 
+	// # error make one image only and update it layer 1 : the scene, layer 2 : the maps, layer 3 : the player , layer 4 : the player raycasts :) 
 	map_size.x = data->scene_info.maps_xsize * 26;
 	map_size.y = data->scene_info.maps_ysize * 26;
 	data->scene_layer =  t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);

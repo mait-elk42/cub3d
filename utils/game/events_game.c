@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 20:32:45 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/04 20:58:42 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int ev_key_up(int keycode, t_data *data)
 
 	keys = &data->keys.w;
 	i = 0;
-	while (i < 8)
+	while (i < 9)
 	{
 		// printf("released : %d, expected : %d\n", keycode, keys[i].keycode);
 		if (keys[i].keycode == keycode)
@@ -38,7 +38,7 @@ int ev_key_down(int keycode, t_data *data)
 		safe_exit(0);
 	keys = &data->keys.w;
 	i = 0;
-	while (i < 8)
+	while (i < 9)
 	{
 		// printf("pressed : %d, expected : %d\n", keycode, keys[i].keycode);
 		if (keys[i].keycode == keycode)
