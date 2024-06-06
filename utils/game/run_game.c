@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/06 09:56:53 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:29:33 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ double	send_ray(double angle, int color)
 		ray_dir.x += step_x;
 		ray_dir.y += step_y;
 	}
-	// double distence = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
+	double distence = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
 	// double ray_angle = data->player.angle - 30;
 	// printf("[%f]\n", ray_angle);
-	return (0);
+	return (distence);
 }
 
 void	put_player_shape(t_image *minimap_layer, int color, double size)
@@ -136,11 +136,8 @@ void	handle_input(t_data *data, double radi)
 
 int	game_loop(t_data *data)
 {
-	t_player	player;
-
-	player = data->player;
-	handle_input(data, mth_degtorad(player.angle));
-	player.cam_pos = (t_vector){player.pos.x + 13, player.pos.y + 13};
+	handle_input(data, mth_degtorad(data->player.angle));
+	data->player.cam_pos = (t_vector){data->player.pos.x + 13, data->player.pos.y + 13};
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
@@ -150,32 +147,33 @@ int	game_loop(t_data *data)
 	double i = 0;
 	while (i < WIN_WIDTH)
 	{
-		if (i == WIN_WIDTH / 2)
+		if (i == WIN_WIDTH / 2 || 1)
 		{
 			double distance = send_ray(angle, 0xff0000);
-	return 0;
-			// distance = fabs(distance * cos(mth_degtorad(angle)));
-			double wallHeight = floor(distance);
-			// double wallHeight = (WIN_HEIGHT / 2) - distance;
-			double half_height = WIN_HEIGHT / 2;
-			printf("distance : %f, wallheight : %f\n", distance, wallHeight);
-			// printf("pixel %d : %f\n", (int)o, length);
-			// double opacity = wallHeight * 0.9;
-			int y = 0;
-			while (y < (half_height - wallHeight))
+			if (distance > 0)
 			{
-				t_image_update_pixel(&data->scene_layer, i, y, 0x0000ff);
-				y++;
-			}
-			while (y < (half_height + wallHeight))
-			{
-				t_image_update_pixel(&data->scene_layer, i, y, 0x00ff00 );
-				y++;
-			}
-			while (y < WIN_HEIGHT)
-			{
-				t_image_update_pixel(&data->scene_layer, i, y, 0xffff00);
-				y++;
+				// distance = fabs(distance * cos(mth_degtorad(angle)));
+				double wallHeight = (WIN_HEIGHT / distance) * 30;
+				printf("distance : %f, wallheight : %f\n", distance, wallHeight);
+				// printf("pixel %d : %f\n", (int)o, length);
+				// int opacity = distance * 0.9;
+				int y = 0;
+				while (y < (WIN_HEIGHT / 2) - (wallHeight / 2))
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, 0x0000ff);
+					y++;
+				}
+
+				while (y < (WIN_HEIGHT / 2) + (wallHeight / 2))
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, RGB_DARKRED);
+					y++;
+				}
+				while (y < WIN_HEIGHT)
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, 0xffff00);
+					y++;
+				}
 			}
 		}
 		// rayscount++;
