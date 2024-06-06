@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/05 16:31:16 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/06 09:52:58 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,26 +148,29 @@ int	game_loop(t_data *data)
 		if (i == WIN_WIDTH / 2 || 1)
 		{
 			double distance = send_ray(angle, 0xff0000);
-			// distance = fabs(distance * cos(mth_degtorad(angle)));
-			double wallHeight = (WIN_HEIGHT / 2) - distance;
-			printf("distance : %f, wallheight : %f\n", distance, wallHeight);
-			// printf("pixel %d : %f\n", (int)o, length);
-			int opacity = distance * 0.9;
-			int y = 0;
-			while (y < (WIN_HEIGHT / 2) - wallHeight)
+			if (distance > 0)
 			{
-				t_image_update_pixel(&data->scene_layer, i, y, 0x0000ff);
-				y++;
-			}
-			while (y < (WIN_HEIGHT / 2) + wallHeight)
-			{
-				t_image_update_pixel(&data->scene_layer, i, y, 0x00ff00 * opacity);
-				y++;
-			}
-			while (y < WIN_HEIGHT)
-			{
-				t_image_update_pixel(&data->scene_layer, i, y, 0xffff00);
-				y++;
+				// distance = fabs(distance * cos(mth_degtorad(angle)));
+				double wallHeight = (WIN_HEIGHT / distance) * 30;
+				printf("distance : %f, wallheight : %f\n", distance, wallHeight);
+				// printf("pixel %d : %f\n", (int)o, length);
+				int opacity = distance * 0.9;
+				int y = 0;
+				while (y < (WIN_HEIGHT / 2) - (wallHeight / 2))
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, 0x0000ff);
+					y++;
+				}
+				while (y < (WIN_HEIGHT / 2) + (wallHeight / 2))
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, 0x00ff00 * opacity);
+					y++;
+				}
+				while (y < WIN_HEIGHT)
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, 0xffff00);
+					y++;
+				}
 			}
 		}
 		// rayscount++;
