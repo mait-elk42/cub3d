@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/05 17:38:39 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/07 20:36:50 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,16 @@
 # define WIN_HEIGHT 1092 // y
 
 /*
+	* ATTRIBUTES
+*/
+# define MINIMAP_TILE 30
+# define PLAYER_SPEED 2.0
+# define CAM_SENS 2
+
+/*
 	* STRUCTS
 */
+
 
 typedef struct s_key
 {
@@ -117,6 +125,12 @@ typedef struct s_color
 	unsigned char	b;
 }	t_color;
 
+typedef struct s_ray
+{
+	t_vector2	hit_wall;
+	double		distance;
+}	t_ray;
+
 typedef struct s_image
 {
 	void		*img_ptr;
@@ -148,8 +162,7 @@ typedef struct s_mlx
 
 typedef struct s_player
 {
-	t_vector2	pos;
-	t_vector	cam_pos;
+	t_vector2	cam_pos;
 	t_image		texture;
 	double		angle;
 }	t_player;
@@ -239,7 +252,6 @@ t_image	t_image_create(int sizex, int sizey, int default_color);
 void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
 void	t_image_clear_color(t_image *imgptr, int color);
 t_image	t_image_loadfromxpm(char *filename);
-void	t_image_set_angle(t_image *imgptr, double angle);
 
 /*
 	* MATH
