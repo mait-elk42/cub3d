@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/06 12:34:03 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/07 19:41:19 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,11 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH 1924  // x
-# define WIN_HEIGHT 1092 // y
+# define WIN_WIDTH 1080 // x
+# define WIN_HEIGHT 720 // y
+# define MAP_SIZE 10
+# define SPEED 0.5
+# define SCAL 10
 
 /*
 	* STRUCTS
