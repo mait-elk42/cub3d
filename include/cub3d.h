@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/07 20:36:50 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:54:44 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,22 @@
 /*
 	* ATTRIBUTES
 */
-# define MINIMAP_TILE 30
+# define MINIMAP_TILE 20
 # define PLAYER_SPEED 2.0
 # define CAM_SENS 2
+
+
+/*
+	* ENUMS
+*/
+typedef enum e_side
+{
+	UNKNOWN,
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+}	t_side;
 
 /*
 	* STRUCTS
@@ -129,6 +142,7 @@ typedef struct s_ray
 {
 	t_vector2	hit_wall;
 	double		distance;
+	t_side		side;
 }	t_ray;
 
 typedef struct s_image

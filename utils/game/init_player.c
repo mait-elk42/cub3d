@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/07 11:25:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/08 09:39:23 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ static void	init_angle_pos(char **maps, t_player *player)
 					player->angle = 270;
 				maps[v.y][v.x] = '0';
 				// player->cam_pos = (t_vector2){v.x * MINIMAP_TILE, v.y * MINIMAP_TILE};
+				printf("player in coord : x%d y%d\n", v.x, v.y);
 				player->cam_pos = (t_vector2){(v.x * MINIMAP_TILE ) + (MINIMAP_TILE / 2), (v.y * MINIMAP_TILE ) + (MINIMAP_TILE / 2)};
+				printf("cam_player in coord : x%f y%f\n", player->cam_pos.x, player->cam_pos.y);
 				
 				
 			}

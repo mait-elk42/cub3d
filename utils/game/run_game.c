@@ -6,67 +6,72 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/07 21:05:30 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/08 12:28:49 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	put_maps(char **maps, t_mlx mlx)
+void	put_maps(char **maps, t_image *img_layer)
 {
-	t_data		*data;
-	double		step_x;
-	double		step_y;
-	t_vector2	ray_dir;
+	t_vector	i;
+	t_vector	j;
 
-	(void)mlx;
-	(void)maps;
-	data = data_hook(NULL);
-	double i = data->player.angle;
-	while (i < 360 + data->player.angle)
+	i.y = 0;
+	j.y = 0;
+	while (maps[i.y])
 	{
-		ray_dir = (t_vector2){(data->scene_info.maps_xsize / 2) * MINIMAP_TILE, (data->scene_info.maps_ysize / 2) * MINIMAP_TILE};
-		step_x = cos(mth_degtorad(i));
-		step_y = sin(mth_degtorad(i));
-		while (1)
+		i.x = 0;
+		j.x = 0;
+		while (maps[i.y][i.x])
 		{
-			if (maps[(int)ray_dir.y / MINIMAP_TILE][(int)ray_dir.x / MINIMAP_TILE] == '1')
-				t_image_update_pixel(&data_hook(NULL)->minimaps_layer, ray_dir.x, ray_dir.y, 0xff0000);
-			else
-				t_image_update_pixel(&data_hook(NULL)->minimaps_layer, ray_dir.x, ray_dir.y, 0x0000ff);
-			ray_dir.x += cos(mth_degtorad(i));
-			ray_dir.y += sin(mth_degtorad(i));
-			if (sqrt(pow((data->scene_info.maps_xsize / 2) * MINIMAP_TILE - ray_dir.x, 2) + pow((data->scene_info.maps_ysize / 2) * MINIMAP_TILE - ray_dir.y, 2)) >= 100)
-				break;
+			int	y = 0;
+			while (y < MINIMAP_TILE)
+			{
+				//try to draw circle minimap :) using cos, sin and the map
+				int	x = 0;
+				while (x < MINIMAP_TILE)
+				{
+					if (maps[i.y][i.x] == '1')
+						t_image_update_pixel(img_layer, j.x + x, j.y + y, 0x0000ff);
+					else if (maps[i.y][i.x] == '0' || safe_strchr("NSEW", maps[i.y][i.x]))
+						t_image_update_pixel(img_layer, j.x + x, j.y + y, 0xffffff);
+					x++;
+				}
+				y++;
+			}
+			i.x++;
+			j.x+= MINIMAP_TILE;
 		}
-		i+=0.2;
+		i.y++;
+		j.y+= MINIMAP_TILE;
 	}
-	// while (maps[i.y])
+}
+
+void	init_ray_side(t_ray *ray, double stepx, double stepy)
+{
+	double	i;
+	double	j;
+
+	(void)stepx;
+	(void)stepy;
+	(void)ray;
+	#error debugging here :)
+	i = ray->hit_wall.x - ((int)ray->hit_wall.x);
+	j = ray->hit_wall.y - ((int)ray->hit_wall.y);
+	// printf("i%f j%f\n", i, j);
+	if (i > j)
+	{
+		system("clear");
+		printf("i%f j%f\n\r", i, j);
+	}
+	// if (i > j)
 	// {
-	// 	i.x = 0;
-	// 	j.x = 0;
-	// 	while (maps[i.y][i.x])
-	// 	{
-	// 		int	y = 0;
-	// 		while (y < MINIMAP_TILE)
-	// 		{
-	// 			//try to draw circle minimap :) using cos, sin and the map
-	// 			int	x = 0;
-	// 			while (x < MINIMAP_TILE)
-	// 			{
-	// 				if (maps[i.y][i.x] == '1')
-	// 					t_image_update_pixel(&data_hook(NULL)->minimaps_layer, j.x + x, j.y + y, 0x0000ff);
-	// 				else if (maps[i.y][i.x] == '0' || safe_strchr("NSEW", maps[i.y][i.x]))
-	// 					t_image_update_pixel(&data_hook(NULL)->minimaps_layer, j.x + x, j.y + y, 0xffffff);
-	// 				x++;
-	// 			}
-	// 			y++;
-	// 		}
-	// 		i.x++;
-	// 		j.x+= MINIMAP_TILE;
-	// 	}
-	// 	i.y++;
-	// 	j.y+= MINIMAP_TILE;
+	// 	ray->side = NORTH;
+	// }
+	// if (i < j)
+	// {
+	// 	ray->side = SOUTH;
 	// }
 }
 
@@ -84,16 +89,15 @@ t_ray	send_ray(double angle, int color)
 	step_y = sin(mth_degtorad(angle));
 	while (1)
 	{
-		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
 		if (data->maps[(int)ray_dir.y / MINIMAP_TILE][(int)ray_dir.x / MINIMAP_TILE] == '1')
 			break;
+		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
 		ray_dir.x += step_x;
 		ray_dir.y += step_y;
-		if (data->maps[(int)ray_dir.y / 26][(int)ray_dir.x / 26] == '1' && ((int)ray_dir.x % 26 == 0 || (int)ray_dir.y % 26 == 0))
-			t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, 0x00ff00);
 	}
 	ray.hit_wall = ray_dir;
 	ray.distance = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
+	init_ray_side(&ray, step_x, step_y);
 	// distance *= cos(mth_degtorad(angle - data->player.angle));
 	return (ray);
 }
@@ -159,15 +163,33 @@ void	handle_input(t_data *data, double radi)
 }
 // # error there two errors : 1:{Raycasting rendering - wall's edge crossing issue} , 2{the wall is too bad like a circle}
 
-int	get_color_distance(double distance)
+int	get_color_distance(t_ray ray)
 {
 	unsigned char	r,g,b;
 
-	if ((distance / 40) < 1)
-		distance = 1;
-	r = 0 / (distance / 40);
-	g = 255 / (distance / 40);
-	b = 0 / (distance / 40);
+	if ((ray.distance / 20) < 1)
+		ray.distance = 1;
+	if (ray.side == NORTH)
+	{
+		r = 255;
+		g = 0;
+		b = 0;
+	}
+	else
+	if (ray.side == SOUTH)
+	{
+		r = 255;
+		g = 255;
+		b = 0;
+	}else
+	{
+		r = 0;
+		g = 255;
+		b = 0;
+	}
+	r /= (ray.distance / 20);
+	g /= (ray.distance / 20);
+	b /= (ray.distance / 20);
 	
 	return (0 << 24 | r << 16 | g << 8 | b);
 }
@@ -178,57 +200,58 @@ int	game_loop(t_data *data)
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
-	put_maps(data->maps, data->mlx);
-	// double angle = data->player.angle - 30;
+	put_maps(data->maps, &data->minimaps_layer);
+	double angle = data->player.angle - 30;
 	// int rayscount = 0;
-	// int i = 0;
-	// while (i < WIN_WIDTH)
-	// {
-	// 	if (i == WIN_WIDTH / 2 || 1)
-	// 	{
-	// 		t_ray ray = send_ray(angle, 0xff0000);
-	// 		if (ray.distance > 1)
-	// 		{
-	// 			// int wallHeight = floor ((WIN_HEIGHT / ray.distance) * 30) ;
-	// 			int wallHeight = (WIN_HEIGHT / ray.distance) * MINIMAP_TILE;
-	// 			// printf("%d\n", wallHeight);
-	// 			int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
-	// 			int btm = top + wallHeight;
-	// 			if (top < 0)
-	// 				top = 0;
-	// 			if (btm > WIN_HEIGHT)
-	// 				btm = WIN_HEIGHT;
+	int i = 0;
+	while (i < WIN_WIDTH)
+	{
+		if (i == WIN_WIDTH / 2 || 0)
+		{
+			t_ray ray = send_ray(angle, 0xff0000);
+			// printf("side : %s\n", (ray.side == NORTH) ? "North" : ((ray.side == SOUTH) ? "SOUTH" : ((ray.side == EAST) ? "EAST" : ((ray.side == WEST) ? "WEST" : "UNKNOWN"))));
+			if (ray.distance > 1)
+			{
+				// int wallHeight = floor ((WIN_HEIGHT / ray.distance) * 30) ;
+				int wallHeight = (WIN_HEIGHT / ray.distance) * MINIMAP_TILE;
+				// printf("%d\n", wallHeight);
+				int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
+				int btm = top + wallHeight;
+				if (top < 0)
+					top = 0;
+				if (btm > WIN_HEIGHT)
+					btm = WIN_HEIGHT;
 				// printf("ray num %d : %f\n", i, distance);
-				// int y = 0;
+				int y = 0;
 				// while (y < WIN_HEIGHT / distance)
 				// {
 				// 	t_image_update_pixel(&data->scene_layer, i, y + 100, get_color_distance(distance));
 				// 	y++;
 				// }
 				
-				// while (y < top)
-				// {
-				// 	t_image_update_pixel(&data->scene_layer, i, y, 0x000055);
-				// 	y++;
-				// }
-				// // printf("%d %f , wall : %f\n",y, ((WIN_HEIGHT / 2) - (wallHeight / 2)), wallHeight);
-				// while (y < btm)
-				// {
-				// 	t_image_update_pixel(&data->scene_layer, i, y, get_color_distance(ray.distance));
-				// 	y++;
-				// }
-				// while (y < WIN_HEIGHT)
-				// {
-				// 	t_image_update_pixel(&data->scene_layer, i, y, 0xffff00);
-				// 	y++;
-				// }
-		// 	}
-		// }
+				while (y < top)
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, 0x000055);
+					y++;
+				}
+				// printf("%d %f , wall : %f\n",y, ((WIN_HEIGHT / 2) - (wallHeight / 2)), wallHeight);
+				while (y < btm)
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, get_color_distance(ray));
+					y++;
+				}
+				while (y < WIN_HEIGHT)
+				{
+					t_image_update_pixel(&data->scene_layer, i, y, 0xffff00);
+					y++;
+				}
+			}
+		}
 		// rayscount++;
-	// 	angle += (double) 60 / WIN_WIDTH;
-	// 	i++;
-	// }
-	put_player_shape(&data->minimaps_layer, RGB_GREEN, 5);
+		angle += (double) 60 / WIN_WIDTH;
+		i++;
+	}
+	put_player_shape(&data->minimaps_layer, RGB_GREEN, MINIMAP_TILE / 3);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	return (0);
