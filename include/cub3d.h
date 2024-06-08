@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/07 21:11:08 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/08 09:20:53 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@
 /*
 	* ATTRIBUTES
 */
-# define MINIMAP_TILE 30
+# define MINIMAP_TILE 10
 # define PLAYER_SPEED 2.0
 # define CAM_SENS 2
 
