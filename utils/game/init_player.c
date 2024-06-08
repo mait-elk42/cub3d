@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/07 19:16:43 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/07 21:08:06 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ static void	init_angle_pos(char **maps, t_player *player)
 				if (maps[v.y][v.x] == 'N')
 					player->angle = 270;
 				maps[v.y][v.x] = '0';
-				player->pos = (t_vector2){v.x * MAP_SIZE, v.y * MAP_SIZE};
+				// player->cam_pos = (t_vector2){v.x * MINIMAP_TILE, v.y * MINIMAP_TILE};
+				player->cam_pos = (t_vector2){(v.x * MINIMAP_TILE ) + (MINIMAP_TILE / 2), (v.y * MINIMAP_TILE ) + (MINIMAP_TILE / 2)};
+				
+				
 			}
 			v.x++;
 		}
