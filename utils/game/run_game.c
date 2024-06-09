@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/08 12:28:49 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/09 13:27:36 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,30 +50,49 @@ void	put_maps(char **maps, t_image *img_layer)
 
 void	init_ray_side(t_ray *ray, double stepx, double stepy)
 {
-	double	i;
-	double	j;
+	// double	xdiff;
+	// double	ydiff;
 
 	(void)stepx;
 	(void)stepy;
 	(void)ray;
-	#error debugging here :)
-	i = ray->hit_wall.x - ((int)ray->hit_wall.x);
-	j = ray->hit_wall.y - ((int)ray->hit_wall.y);
-	// printf("i%f j%f\n", i, j);
-	if (i > j)
-	{
-		system("clear");
-		printf("i%f j%f\n\r", i, j);
-	}
-	// if (i > j)
-	// {
-	// 	ray->side = NORTH;
-	// }
-	// if (i < j)
-	// {
-	// 	ray->side = SOUTH;
-	// }
+	// #error debugging here :)
+
+	// xdiff = ray->hit_wall.x - (floor(ray->hit_wall.x));
+	// ydiff = ray->hit_wall.y - (floor(ray->hit_wall.y));
+	// printf("\033[H\033[2Jinformations : \n \
+	// stepx\t: %f \n \
+	// stepy\t: %f \n \
+	// hit_x\t: %f \n \
+	// hit_y\t: %f\n \
+	// diffx\t: %f \n \
+	// diffy\t: %f \n",
+	// stepx, stepy, ray->hit_wall.x, ray->hit_wall.y, xdiff, ydiff);
+	// printf("<%s>\n", (ray->hit_wall.x > ray->hit_wall.y) ? "more than" : "less than");
 }
+
+//
+// void	send_ray2(double angle, int color, t_ray *ray_)
+// {
+// 	t_data		*data;
+// 	double		step_x;
+// 	double		step_y;
+// 	t_vector2	ray_dir;
+// 	data = data_hook(NULL);
+// 	ray_dir = (t_vector2){ray_->hit_wall.x, ray_->hit_wall.y};
+// 	step_x = cos(mth_degtorad(angle));
+// 	step_y = sin(mth_degtorad(angle));
+// 	while (1)
+// 	{
+// 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
+// 		ray_dir.x += step_x;
+// 		ray_dir.y += step_y;
+// 		if (sqrt(pow(ray_->hit_wall.x - ray_dir.x, 2) + pow(ray_->hit_wall.y - ray_dir.y, 2)) >= 15)
+// 			break;
+// 	}
+// 	if (angle < 360)
+// 		send_ray2(angle + 90, color, ray_);
+// }
 
 t_ray	send_ray(double angle, int color)
 {
@@ -98,6 +117,7 @@ t_ray	send_ray(double angle, int color)
 	ray.hit_wall = ray_dir;
 	ray.distance = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
 	init_ray_side(&ray, step_x, step_y);
+	// send_ray2(0, 0x000000, &ray);
 	// distance *= cos(mth_degtorad(angle - data->player.angle));
 	return (ray);
 }
@@ -134,6 +154,7 @@ void	put_player_shape(t_image *minimap_layer, int color, double size)
 	}
 }
 
+#error working in collition :)
 void	handle_input(t_data *data, double radi)
 {
 	if (data->keys.w.pressed == true)
@@ -169,21 +190,12 @@ int	get_color_distance(t_ray ray)
 
 	if ((ray.distance / 20) < 1)
 		ray.distance = 1;
-	if (ray.side == NORTH)
+	r = 0;
+	g = 255;
+	b = 0;
+	if (ray.side == EAST)
 	{
 		r = 255;
-		g = 0;
-		b = 0;
-	}
-	else
-	if (ray.side == SOUTH)
-	{
-		r = 255;
-		g = 255;
-		b = 0;
-	}else
-	{
-		r = 0;
 		g = 255;
 		b = 0;
 	}
@@ -206,7 +218,7 @@ int	game_loop(t_data *data)
 	int i = 0;
 	while (i < WIN_WIDTH)
 	{
-		if (i == WIN_WIDTH / 2 || 0)
+		if (i == WIN_WIDTH / 2 || 1)
 		{
 			t_ray ray = send_ray(angle, 0xff0000);
 			// printf("side : %s\n", (ray.side == NORTH) ? "North" : ((ray.side == SOUTH) ? "SOUTH" : ((ray.side == EAST) ? "EAST" : ((ray.side == WEST) ? "WEST" : "UNKNOWN"))));
