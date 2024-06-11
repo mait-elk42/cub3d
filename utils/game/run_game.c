@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/11 15:05:02 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:46:57 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,8 +236,8 @@ void	handle_input(t_data *data, double radi)
 	data->player.angle -= (data->keys.left.pressed == true) * CAM_SENS;
 	data->player.angle += (data->keys.right.pressed == true) * CAM_SENS;
 	
-	data->player.top_down += (data->keys.up.pressed == true) * CAM_SENS * 10;
-	data->player.top_down -= (data->keys.down.pressed == true) * CAM_SENS * 10;
+	// data->player.top_down += (data->keys.up.pressed == true) * CAM_SENS * 10;
+	// data->player.top_down -= (data->keys.down.pressed == true) * CAM_SENS * 10;
 	if (data->player.angle > 360 || data->player.angle < 0)
 		data->player.angle = 360 * (data->player.angle < 0);
 }
@@ -269,7 +269,12 @@ int	game_loop(t_data *data)
 {
 	handle_input(data, mth_degtorad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
-	t_image_clear_color(&data->scene_layer, 0xffffffff);
+	if (data->game_started == false)
+	{
+		splash_screen(data);
+		return (0);
+	}
+	// t_image_clear_color(&data->scene_layer, 0xffffffff);
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
 	double angle = data->player.angle - 30;
@@ -291,13 +296,13 @@ int	game_loop(t_data *data)
 				if (btm > WIN_HEIGHT)
 					btm = WIN_HEIGHT;
 				int y = 0;
-				while (y < top + data->player.top_down)
+				while (y < top)
 				{
 					t_image_update_pixel(&data->scene_layer, i, y, 0x000055);
 					y++;
 				}
 				// printf("%d %f , wall : %f\n",y, ((WIN_HEIGHT / 2) - (wallHeight / 2)), wallHeight);
-				while (y < btm + data->player.top_down)
+				while (y < btm)
 				{
 					t_image_update_pixel(&data->scene_layer, i, y, get_color_distance(ray));
 					y++;
@@ -315,7 +320,7 @@ int	game_loop(t_data *data)
 	}
 	// put_player_shape(MINIMAP_TILE / 3);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
-	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	return (0);
 }
 

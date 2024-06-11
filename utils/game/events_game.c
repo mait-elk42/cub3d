@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 20:58:42 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:44:18 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ int ev_key_up(int keycode, t_data *data)
 
 	keys = &data->keys.w;
 	i = 0;
-	while (i < 9)
+	if (data->game_started == true)
 	{
-		// printf("released : %d, expected : %d\n", keycode, keys[i].keycode);
-		if (keys[i].keycode == keycode)
-			keys[i].pressed = false;
-		i++;
+		while (i < 9)
+		{
+			// printf("released : %d, expected : %d\n", keycode, keys[i].keycode);
+			if (keys[i].keycode == keycode)
+				keys[i].pressed = false;
+			i++;
+		}
 	}
 	return (0);
 }
@@ -34,16 +37,24 @@ int ev_key_down(int keycode, t_data *data)
 	int		i;
 	t_key	*keys;
 
+	// printf("%d\n", keycode);
+	if (keycode == 35) // p character in keyboard
+		data->game_started = false;
+	if (keycode == KEY_SPACE)
+		data->game_started = true;
 	if (keycode == KEY_ESC)
 		safe_exit(0);
-	keys = &data->keys.w;
-	i = 0;
-	while (i < 9)
+	if (data->game_started == true)
 	{
-		// printf("pressed : %d, expected : %d\n", keycode, keys[i].keycode);
-		if (keys[i].keycode == keycode)
-			keys[i].pressed = true;
-		i++;
+		keys = &data->keys.w;
+		i = 0;
+		while (i < 9)
+		{
+			// printf("pressed : %d, expected : %d\n", keycode, keys[i].keycode);
+			if (keys[i].keycode == keycode)
+				keys[i].pressed = true;
+			i++;
+		}
 	}
 	return (0);
 }
