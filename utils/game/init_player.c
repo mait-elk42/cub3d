@@ -32,7 +32,7 @@ static void	init_angle_pos(char **maps, t_player *player)
 					player->angle = 180;
 				if (maps[v.y][v.x] == 'N')
 					player->angle = 270;
-				maps[v.y][v.x] = '0';
+				maps[v.y][v.x] = 'P';
 				// player->cam_pos = (t_vector2){v.x * MINIMAP_TILE, v.y * MINIMAP_TILE};
 				printf("player in coord : x%d y%d\n", v.x, v.y);
 				player->cam_pos = (t_vector2){(v.x * MINIMAP_TILE ) + (MINIMAP_TILE / 2), (v.y * MINIMAP_TILE ) + (MINIMAP_TILE / 2)};

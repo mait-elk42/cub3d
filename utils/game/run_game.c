@@ -6,103 +6,11 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/10 09:51:02 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:26:34 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-void	put_maps(char **maps, t_image *img_layer)
-{
-	t_vector	i;
-	t_vector	j;
-
-	i.y = 0;
-	j.y = 0;
-	while (maps[i.y])
-	{
-		i.x = 0;
-		j.x = 0;
-		while (maps[i.y][i.x])
-		{
-			int	y = 0;
-			while (y < MINIMAP_TILE)
-			{
-				//try to draw circle minimap :) using cos, sin and the map
-				int	x = 0;
-				while (x < MINIMAP_TILE)
-				{
-					if (maps[i.y][i.x] == '1')
-						t_image_update_pixel(img_layer, j.x + x, j.y + y, 0x0000ff);
-					else if (maps[i.y][i.x] == '0' || safe_strchr("NSEW", maps[i.y][i.x]))
-						t_image_update_pixel(img_layer, j.x + x, j.y + y, 0xffffff);
-					x++;
-				}
-				y++;
-			}
-			i.x++;
-			j.x+= MINIMAP_TILE;
-		}
-		i.y++;
-		j.y+= MINIMAP_TILE;
-	}
-}
-
-void	init_ray_side(t_ray *ray, double stepx, double stepy)
-{
-	double	i;
-	double	j;
-
-	(void)stepx;
-	(void)stepy;
-	(void)ray;
-	// #error debugging here :)
-	i = ray->hit_wall.x - ((int)ray->hit_wall.x);
-	j = ray->hit_wall.y - ((int)ray->hit_wall.y);
-	// printf("i%f j%f\n", i, j);
-	// if (i > j)
-	// {
-		// system("clear");
-		// printf("i%f j%f\n\r", i, j);
-	// }
-	// if (i > j)
-	// {
-	// 	ray->side = NORTH;
-	// }
-	// if (i < j)
-	// {
-	// 	ray->side = SOUTH;
-	// }
-	// i.y = 0;
-	// j.y = 0;
-	// while (maps[i.y])
-	// {
-	// 	i.x = 0;
-	// 	j.x = 0;
-	// 	while (maps[i.y][i.x])
-	// 	{
-	// 		int	y = 0;
-	// 		while (y < MINIMAP_TILE)
-	// 		{
-	// 			//try to draw circle minimap :) using cos, sin and the map
-	// 			int	x = 0;
-	// 			while (x < MINIMAP_TILE)
-	// 			{
-	// 				if (maps[i.y][i.x] == '1')
-	// 					t_image_update_pixel(&data_hook(NULL)->minimaps_layer, j.x + x, j.y + y, 0x0000ff);
-	// 				else if (maps[i.y][i.x] == '0' || safe_strchr("NSEW", maps[i.y][i.x]))
-	// 					t_image_update_pixel(&data_hook(NULL)->minimaps_layer, j.x + x, j.y + y, 0xffffff);
-	// 				x++;
-	// 			}
-	// 			y++;
-	// 		}
-	// 		i.x++;
-	// 		j.x+= MINIMAP_TILE;
-	// 	}
-	// 	i.y++;
-	// 	j.y+= MINIMAP_TILE;
-	// }
-}
 
 void	draw_line(t_vector2 from, t_vector2 to)
 {
@@ -127,44 +35,140 @@ void	draw_line(t_vector2 from, t_vector2 to)
 	}
 }
 
-t_ray	send_ray(double ray_angle, int color)
+void	put_maps(char **maps, t_image *img_layer)
+{
+	t_vector	i;
+	t_vector	j;
+
+	i.y = 0;
+	j.y = 0;
+	while (maps[i.y])
+	{
+		i.x = 0;
+		j.x = 0;
+		while (maps[i.y][i.x])
+		{
+			int	y = 0;
+			while (y < MINIMAP_TILE)
+			{
+				//try to draw circle minimap :) using cos, sin and the map
+				int	x = 0;
+				while (x < MINIMAP_TILE)
+				{
+					if (maps[i.y][i.x] == '1')
+						t_image_update_pixel(img_layer, j.x + x, j.y + y, 0x0000ff);
+					else if (maps[i.y][i.x] == '0' || maps[i.y][i.x] == 'P')
+						t_image_update_pixel(img_layer, j.x + x, j.y + y, 0xffffff);
+					x++;
+				}
+				y++;
+			}
+			i.x++;
+			j.x+= MINIMAP_TILE;
+		}
+		i.y++;
+		j.y+= MINIMAP_TILE;
+	}
+}
+
+void	init_ray_side(t_ray *ray, double stepx, double stepy, int hori)
+{
+	double	xdiff;
+	double	ydiff;
+
+	(void)stepx;
+	(void)stepy;
+	(void)ray;
+	(void)hori;
+	(void)xdiff;
+	(void)ydiff;
+	// #error debugging here :)
+
+	if (ray->hit_wall.x > ray->hit_wall.y)
+	{
+		ray->side = EAST;
+	}else
+		ray->side = UNKNOWN;
+	xdiff = ray->hit_wall.x - (floor(ray->hit_wall.x));
+	ydiff = ray->hit_wall.y - (floor(ray->hit_wall.y));
+	// printf("\033[H\033[2Jinformations : \n \
+	// stepx\t: %f \n \
+	// stepy\t: %f \n \
+	// hit_x\t: %f \n \
+	// hit_y\t: %f\n \
+	// diffx\t: %f \n \
+	// diffy\t: %f \n",
+	// stepx, stepy, ray->hit_wall.x, ray->hit_wall.y, xdiff, ydiff);
+	// printf("<%s>\n", (ray->hit_wall.x > ray->hit_wall.y) ? "more than" : "less than");
+}
+
+//
+// void	send_ray2(double angle, int color, t_ray *ray_)
+// {
+// 	t_data		*data;
+// 	double		step_x;
+// 	double		step_y;
+// 	t_vector2	ray_dir;
+// 	data = data_hook(NULL);
+// 	ray_dir = (t_vector2){ray_->hit_wall.x, ray_->hit_wall.y};
+// 	step_x = cos(mth_degtorad(angle));
+// 	step_y = sin(mth_degtorad(angle));
+// 	while (1)
+// 	{
+// 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
+// 		ray_dir.x += step_x;
+// 		ray_dir.y += step_y;
+// 		if (sqrt(pow(ray_->hit_wall.x - ray_dir.x, 2) + pow(ray_->hit_wall.y - ray_dir.y, 2)) >= 15)
+// 			break;
+// 	}
+// 	if (angle < 360)
+// 		send_ray2(angle + 90, color, ray_);
+// }
+
+t_ray	send_ray(double angle, int color)
 {
 	t_data		*data;
 	t_ray		ray;
 	double		step_x;
 	double		step_y;
 	t_vector2	ray_dir;
-	char		**mp;
-	int			x;
-	int			y;
+	char	**map;
 
 	data = data_hook(NULL);
-	mp = data->maps;
+	map = data->maps;
 	ray_dir = (t_vector2){data->player.cam_pos.x, data->player.cam_pos.y};
-	step_x = cos(mth_degtorad(ray_angle)) * 0.2;
-	step_y = sin(mth_degtorad(ray_angle)) * 0.2;
-	t_vector	v;
+	step_x = cos(mth_degtorad(angle)) * 0.2;
+	step_y = sin(mth_degtorad(angle)) * 0.2;
+	int	x;
+	int	y;
+	// printf("[%f]\n", data->player.angle);
 	while (1)
 	{
-		t_vector	cam;
-		x = (int)ray_dir.x;
-		y = (int)ray_dir.y;
-		v = (t_vector){x / 20, y / 20};
-		cam = (t_vector) {data->player.cam_pos.x / 20, data->player.cam_pos.y / 20};
-		// printf("[%d -- %d] [%d -- %d]\n", );
-		if ((y / 20) <= 0 || (x / 20) <= 0)
-			 break ;
-		if (mp[y / 20][x / 20] == '1')
-			break;
+		x = (int)ray_dir.x / MINIMAP_TILE;
+		y = (int)ray_dir.y / MINIMAP_TILE;
+		if (map[y][x] == '0')
+		{
+			if (angle >= 270 && angle <= 360 && map[y][x - 1] == '1' && map[y + 1][x] == '1' && map[y + 1][x - 1] == '0')
+				break;
+			if (angle >= 90 && angle <= 180 && map[y - 1][x] == '1' && map[y][x + 1] == '1' && map[y - 1][x + 1] == '0')
+				break;
+			if (angle >= 0 && angle <= 90 && map[y - 1][x] == '1' && map[y][x - 1] == '1' && map[y - 1][x - 1] == '0')
+				break;
+			if (angle >= 180 && angle <= 270 && map[y + 1][x] == '1' && map[y][x + 1] == '1' && map[y + 1][x + 1] == '0')
+				break;
+		}
+		if (map[y][x] == '1')
+			break ;
 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
 		ray_dir.x += step_x;
 		ray_dir.y += step_y;
 	}
-	(void)color;
-	ray.distance = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
 	ray.hit_wall = ray_dir;
-	init_ray_side(&ray, step_x, step_y);
-	ray.distance *= cos(mth_degtorad(ray_angle - data->player.angle));
+	ray.distance = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
+	// init_ray_side(&ray, step_x, step_y, hori);
+	// printf("%d\n", hori);
+	// send_ray2(0, 0x000000, &ray);
+	ray.distance *= cos(mth_degtorad(angle - data->player.angle));
 	return (ray);
 }
 
@@ -190,35 +194,43 @@ void	put_player_shape(int size)
 	draw_line(v1, v3);
 }
 
+bool	is_collided_wall(t_data	*data, t_vector2 npos)
+{
+	npos.x = floor((npos.x / MINIMAP_TILE));
+	npos.y = floor((npos.y / MINIMAP_TILE));
+	return (data->maps[(int)npos.y][(int)npos.x] == '1');
+}
+
+// #error working in collition :)
 void	handle_input(t_data *data, double radi)
 {
-	char		**map;
-	t_vector2	*camera;
-	t_vector	i;
+	t_vector2	new_pos;
 
-	camera = &data->player.cam_pos;
-	map = data->maps;
-	i.x = camera->x / MINIMAP_TILE;
-	i.y = camera->y / MINIMAP_TILE;
+	new_pos = data->player.cam_pos;
 	if (data->keys.w.pressed == true)
 	{
-		camera->x += cos(radi) * PLAYER_SPEED;
-		camera->y += sin(radi) * PLAYER_SPEED;
+		new_pos.x += cos(radi) * PLAYER_SPEED;
+		new_pos.y += sin(radi) * PLAYER_SPEED;
 	}
 	if (data->keys.s.pressed == true)
 	{
-		camera->x -= cos(radi) * PLAYER_SPEED;
-		camera->y -= sin(radi) * PLAYER_SPEED;
+		new_pos.x -= cos(radi) * PLAYER_SPEED;
+		new_pos.y -= sin(radi) * PLAYER_SPEED;
 	}
 	if (data->keys.d.pressed == true)
 	{
-		camera->x -= sin(radi) * PLAYER_SPEED;
-		camera->y += cos(radi) * PLAYER_SPEED;
+		new_pos.x -= sin(radi) * PLAYER_SPEED;
+		new_pos.y += cos(radi) * PLAYER_SPEED;
 	}
 	if (data->keys.a.pressed == true)
 	{
-		camera->x += sin(radi) * PLAYER_SPEED;
-		camera->y -= cos(radi) * PLAYER_SPEED;
+		new_pos.x += sin(radi) * PLAYER_SPEED;
+		new_pos.y -= cos(radi) * PLAYER_SPEED;
+	}
+	if (is_collided_wall(data, new_pos) == false)
+	{
+		data->player.cam_pos.x = new_pos.x;
+		data->player.cam_pos.y = new_pos.y;
 	}
 	data->player.angle -= (data->keys.left.pressed == true) * CAM_SENS;
 	data->player.angle += (data->keys.right.pressed == true) * CAM_SENS;
@@ -233,21 +245,12 @@ int	get_color_distance(t_ray ray)
 
 	if ((ray.distance / 20) < 1)
 		ray.distance = 1;
-	if (ray.side == NORTH)
+	r = 0;
+	g = 255;
+	b = 0;
+	if (ray.side == EAST)
 	{
 		r = 255;
-		g = 0;
-		b = 0;
-	}
-	else
-	if (ray.side == SOUTH)
-	{
-		r = 255;
-		g = 255;
-		b = 0;
-	}else
-	{
-		r = 0;
 		g = 255;
 		b = 0;
 	}
@@ -265,7 +268,6 @@ int	game_loop(t_data *data)
 	// t_image_clear_color(&data->scene_layer, 0xffffffff);
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
-	printf("[%f]\n", data->player.angle);
 	double angle = data->player.angle - 30;
 	// int rayscount = 0;
 	int i = 0;
@@ -275,25 +277,16 @@ int	game_loop(t_data *data)
 		{
 			t_ray ray = send_ray(angle, 0xff0000);
 			// printf("side : %s\n", (ray.side == NORTH) ? "North" : ((ray.side == SOUTH) ? "SOUTH" : ((ray.side == EAST) ? "EAST" : ((ray.side == WEST) ? "WEST" : "UNKNOWN"))));
-			if (ray.distance > 1)
+			if (ray.distance > 0)
 			{
-				// int wallHeight = floor ((WIN_HEIGHT / ray.distance) * 30) ;
 				int wallHeight = (WIN_HEIGHT / ray.distance) * MINIMAP_TILE;
-				// printf("%d\n", wallHeight);
 				int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 				int btm = top + wallHeight;
 				if (top < 0)
 					top = 0;
 				if (btm > WIN_HEIGHT)
 					btm = WIN_HEIGHT;
-				// printf("ray num %d : %f\n", i, distance);
 				int y = 0;
-				// while (y < WIN_HEIGHT / distance)
-				// {
-				// 	t_image_update_pixel(&data->scene_layer, i, y + 100, get_color_distance(distance));
-				// 	y++;
-				// }
-				
 				while (y < top)
 				{
 					t_image_update_pixel(&data->scene_layer, i, y, 0x000055);
