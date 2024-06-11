@@ -36,6 +36,7 @@ void	safe_exit(int status)
 		mlx_destroy_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	free(data->mlx.mlx_ptr);
 	data->mlx.mlx_ptr = NULL;
+	system("kill $(ps | grep 'afplay audios/background_music.mp3' | head -n 1 | awk '{printf $1}')");
 	exit(status);
 }
 

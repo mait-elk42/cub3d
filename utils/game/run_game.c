@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/10 12:26:34 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:05:02 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	init_ray_side(t_ray *ray, double stepx, double stepy, int hori)
 t_ray	send_ray(double angle, int color)
 {
 	t_data		*data;
+	t_vector	pp;
 	t_ray		ray;
 	double		step_x;
 	double		step_y;
@@ -135,6 +136,8 @@ t_ray	send_ray(double angle, int color)
 	char		**map;
 
 	data = data_hook(NULL);
+	pp.x = (int)data->player.cam_pos.x / 20;
+	pp.y = (int)data->player.cam_pos.y / 20;
 	map = data->maps;
 	ray_dir = (t_vector2){data->player.cam_pos.x, data->player.cam_pos.y};
 	step_x = cos(mth_degtorad(angle)) * 0.2;
@@ -146,23 +149,18 @@ t_ray	send_ray(double angle, int color)
 	{
 		x = (int)ray_dir.x / MINIMAP_TILE;
 		y = (int)ray_dir.y / MINIMAP_TILE;
-		if (data->player.cam_pos.x != x && data->player.cam_pos.y != y)
+		if (map[y][x] == '0' && pp.x != x && pp.y != y)
 		{
-		// 	// if (angle >= 0 && angle <= 90 && map[y - 1][x] == '1' && map[y][x - 1] == '1' && map[y - 1][x - 1] == '0')
-		// 		// break;
-
-			if (angle >= 90 && angle <= 180 && map[y - 1][x] == '1' && map[y][x + 1] == '1' && map[y - 1][x + 1] == '0')
-			{
-				printf("[x > %d - y > %d]\n", x, y);
+			if (angle >= 270 && angle <= 360 && map[y][x - 1] == '1' && map[y + 1][x] == '1' && map[y + 1][x - 1] == '0')
 				break;
-			}
-
-			// if (angle >= 180 && angle <= 270 && map[y + 1][x] == '1' && map[y][x + 1] == '1' && map[y + 1][x + 1] == '0')
-			// 	break;
-			// if (angle >= 270 && angle <= 360 && map[y][x - 1] == '1' && map[y + 1][x] == '1' && map[y + 1][x - 1] == '0')
-			// 	break;
+			if (angle >= 90 && angle <= 180 && map[y - 1][x] == '1' && map[y][x + 1] == '1' && map[y - 1][x + 1] == '0')
+				break;
+			if (angle >= 0 && angle <= 90 && map[y - 1][x] == '1' && map[y][x - 1] == '1' && map[y - 1][x - 1] == '0')
+				break;
+			if (angle >= 180 && angle <= 270 && map[y + 1][x] == '1' && map[y][x + 1] == '1' && map[y + 1][x + 1] == '0')
+				break;
 		}
-		// printf("[%f]\n", angle);
+		// if (((int)ray_dir.x % MINIMAP_TILE == 0 || (int)ray_dir.y % MINIMAP_TILE == 0) &&
 		if (map[y][x] == '1')
 			break ;
 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
@@ -186,6 +184,7 @@ void	put_player_shape(int size)
 	t_vector2	v3;
 	
 	data = data_hook(NULL);
+
 	v1.x = cos(mth_degtorad(data->player.angle)) * size + data->player.cam_pos.x;
 	v1.y = sin(mth_degtorad(data->player.angle)) * size + data->player.cam_pos.y;
 
@@ -217,43 +216,33 @@ void	handle_input(t_data *data, double radi)
 	maps = data->maps;
 	if (data->keys.w.pressed == true)
 	{
-		maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = '0';
 		new_pos.x += cos(radi) * PLAYER_SPEED;
 		new_pos.y += sin(radi) * PLAYER_SPEED;
-		if (maps[(int)new_pos.y / 20][(int)new_pos.x / 20] == '0')
-			maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = 'P';
 	}
 	if (data->keys.s.pressed == true)
 	{
-		maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = '0';
 		new_pos.x -= cos(radi) * PLAYER_SPEED;
 		new_pos.y -= sin(radi) * PLAYER_SPEED;
-		if (maps[(int)new_pos.y / 20][(int)new_pos.x / 20] == '0')
-			maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = 'P';
 	}
 	if (data->keys.d.pressed == true)
 	{
-		maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = '0';
 		new_pos.x -= sin(radi) * PLAYER_SPEED;
 		new_pos.y += cos(radi) * PLAYER_SPEED;
-		if (maps[(int)new_pos.y / 20][(int)new_pos.x / 20] == '0')
-			maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = 'P';
 	}
 	if (data->keys.a.pressed == true)
 	{
-		maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = '0';
 		new_pos.x += sin(radi) * PLAYER_SPEED;
 		new_pos.y -= cos(radi) * PLAYER_SPEED;
-		if (maps[(int)new_pos.y / 20][(int)new_pos.x / 20] == '0')
-			maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = 'P';
 	}
 	if (is_collided_wall(data, new_pos) == false)
 	{
 		data->player.cam_pos.x = new_pos.x;
 		data->player.cam_pos.y = new_pos.y;
 	}
-	data->player.angle -= (data->keys.left.pressed == true) * CAM_SENS;
-	data->player.angle += (data->keys.right.pressed == true) * CAM_SENS;
+	data->player.angle -= (data->keys.left.pressed == true) * PLAYER_SPEED;
+	data->player.angle += (data->keys.right.pressed == true) * PLAYER_SPEED;
+	// data->player.top_down += (data->keys.up.pressed == true) * CAM_SENS * 10;
+	// data->player.top_down -= (data->keys.down.pressed == true) * CAM_SENS * 10;
 	if (data->player.angle > 360 || data->player.angle < 0)
 		data->player.angle = 360 * (data->player.angle < 0);
 }
@@ -285,12 +274,12 @@ int	game_loop(t_data *data)
 {
 	handle_input(data, mth_degtorad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
-	// t_image_clear_color(&data->scene_layer, 0xffffffff);
+	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
 	double angle = data->player.angle - 30;
-	// if (angle < 0)
-	// 	angle = 360 - (30 - data->player.angle);
+	if (angle < 0)
+		angle = 360 - (30 - data->player.angle);
 	// int rayscount = 0;
 	int i = 0;
 	while (i < WIN_WIDTH)
@@ -333,7 +322,7 @@ int	game_loop(t_data *data)
 		// 	angle = 0;
 		i++;
 	}
-	// put_player_shape(&data->minimaps_layer, RGB_GREEN, MINIMAP_TILE / 3);
+	// put_player_shape(MINIMAP_TILE / 3);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	return (0);

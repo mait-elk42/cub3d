@@ -33,6 +33,7 @@ int	main(int ac, char **av)
 	data_init(&data, ac, av);
 	printf("mapx %d\n", data.scene_info.maps_xsize);
 	printf("mapy %d\n", data.scene_info.maps_ysize);
+	system("afplay audios/background_music.mp3 &");
 	run_game(&data);
 	safe_exit(0);
 }

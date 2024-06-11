@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/09 15:32:56 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:59:50 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH 1080 // x
-# define WIN_HEIGHT 720 // y
+# define WIN_WIDTH 1080 // x 2160
+# define WIN_HEIGHT 720 // y 1080
 // # define MAP_SIZE 10
 // # define SPEED 0.5
 // # define SCAL 10
@@ -83,7 +83,7 @@
 */
 # define MINIMAP_TILE 20
 # define PLAYER_SPEED 2.0
-# define CAM_SENS 2
+# define CAM_SENS 1.5
 
 
 /*
@@ -182,6 +182,7 @@ typedef struct s_player
 	t_vector2	cam_pos;
 	t_image		texture;
 	double		angle;
+	double		top_down;
 }	t_player;
 
 typedef struct s_data
