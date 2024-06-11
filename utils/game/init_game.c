@@ -23,4 +23,3 @@ void	init_keys(t_data *data)
 	data->keys.down.keycode = KEY_DOWN;
 	data->keys.left.keycode = KEY_LEFT;
 }
-

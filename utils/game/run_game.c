@@ -132,7 +132,7 @@ t_ray	send_ray(double angle, int color)
 	double		step_x;
 	double		step_y;
 	t_vector2	ray_dir;
-	char	**map;
+	char		**map;
 
 	data = data_hook(NULL);
 	map = data->maps;
@@ -146,17 +146,23 @@ t_ray	send_ray(double angle, int color)
 	{
 		x = (int)ray_dir.x / MINIMAP_TILE;
 		y = (int)ray_dir.y / MINIMAP_TILE;
-		if (map[y][x] == '0')
+		if (data->player.cam_pos.x != x && data->player.cam_pos.y != y)
 		{
-			if (angle >= 270 && angle <= 360 && map[y][x - 1] == '1' && map[y + 1][x] == '1' && map[y + 1][x - 1] == '0')
-				break;
+		// 	// if (angle >= 0 && angle <= 90 && map[y - 1][x] == '1' && map[y][x - 1] == '1' && map[y - 1][x - 1] == '0')
+		// 		// break;
+
 			if (angle >= 90 && angle <= 180 && map[y - 1][x] == '1' && map[y][x + 1] == '1' && map[y - 1][x + 1] == '0')
+			{
+				printf("[x > %d - y > %d]\n", x, y);
 				break;
-			if (angle >= 0 && angle <= 90 && map[y - 1][x] == '1' && map[y][x - 1] == '1' && map[y - 1][x - 1] == '0')
-				break;
-			if (angle >= 180 && angle <= 270 && map[y + 1][x] == '1' && map[y][x + 1] == '1' && map[y + 1][x + 1] == '0')
-				break;
+			}
+
+			// if (angle >= 180 && angle <= 270 && map[y + 1][x] == '1' && map[y][x + 1] == '1' && map[y + 1][x + 1] == '0')
+			// 	break;
+			// if (angle >= 270 && angle <= 360 && map[y][x - 1] == '1' && map[y + 1][x] == '1' && map[y + 1][x - 1] == '0')
+			// 	break;
 		}
+		// printf("[%f]\n", angle);
 		if (map[y][x] == '1')
 			break ;
 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
@@ -204,28 +210,42 @@ bool	is_collided_wall(t_data	*data, t_vector2 npos)
 // #error working in collition :)
 void	handle_input(t_data *data, double radi)
 {
+	char		**maps;
 	t_vector2	new_pos;
 
 	new_pos = data->player.cam_pos;
+	maps = data->maps;
 	if (data->keys.w.pressed == true)
 	{
+		maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = '0';
 		new_pos.x += cos(radi) * PLAYER_SPEED;
 		new_pos.y += sin(radi) * PLAYER_SPEED;
+		if (maps[(int)new_pos.y / 20][(int)new_pos.x / 20] == '0')
+			maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = 'P';
 	}
 	if (data->keys.s.pressed == true)
 	{
+		maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = '0';
 		new_pos.x -= cos(radi) * PLAYER_SPEED;
 		new_pos.y -= sin(radi) * PLAYER_SPEED;
+		if (maps[(int)new_pos.y / 20][(int)new_pos.x / 20] == '0')
+			maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = 'P';
 	}
 	if (data->keys.d.pressed == true)
 	{
+		maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = '0';
 		new_pos.x -= sin(radi) * PLAYER_SPEED;
 		new_pos.y += cos(radi) * PLAYER_SPEED;
+		if (maps[(int)new_pos.y / 20][(int)new_pos.x / 20] == '0')
+			maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = 'P';
 	}
 	if (data->keys.a.pressed == true)
 	{
+		maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = '0';
 		new_pos.x += sin(radi) * PLAYER_SPEED;
 		new_pos.y -= cos(radi) * PLAYER_SPEED;
+		if (maps[(int)new_pos.y / 20][(int)new_pos.x / 20] == '0')
+			maps[(int)new_pos.y / 20][(int)new_pos.x / 20] = 'P';
 	}
 	if (is_collided_wall(data, new_pos) == false)
 	{
@@ -269,6 +289,8 @@ int	game_loop(t_data *data)
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
 	double angle = data->player.angle - 30;
+	// if (angle < 0)
+	// 	angle = 360 - (30 - data->player.angle);
 	// int rayscount = 0;
 	int i = 0;
 	while (i < WIN_WIDTH)
@@ -307,6 +329,8 @@ int	game_loop(t_data *data)
 		}
 		// rayscount++;
 		angle += (double) 60 / WIN_WIDTH;
+		// if (angle > 360)
+		// 	angle = 0;
 		i++;
 	}
 	// put_player_shape(&data->minimaps_layer, RGB_GREEN, MINIMAP_TILE / 3);
