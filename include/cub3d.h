@@ -197,6 +197,7 @@ typedef struct s_data
 	t_scene_info		scene_info;
 	t_image				scene_layer;
 	t_image				minimaps_layer;
+	int					background_music;
 }	t_data;
 
 /*
