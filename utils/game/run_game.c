@@ -17,6 +17,7 @@ void	draw_line(t_vector2 from, t_vector2 to)
 	t_vector2	diff;
 	double		step;
 
+
 	diff.x = to.x - from.x;
 	diff.y = to.y - from.y;
 	if (fabs(diff.x) > fabs(diff.y))
@@ -147,20 +148,8 @@ t_ray	send_ray(double angle, int color)
 	// printf("[%f]\n", data->player.angle);
 	while (1)
 	{
-		x = (int)ray_dir.x / MINIMAP_TILE;
-		y = (int)ray_dir.y / MINIMAP_TILE;
-		if (map[y][x] == '0' && pp.x != x && pp.y != y)
-		{
-			if (angle >= 270 && angle <= 360 && map[y][x - 1] == '1' && map[y + 1][x] == '1' && map[y + 1][x - 1] == '0')
-				break;
-			if (angle >= 90 && angle <= 180 && map[y - 1][x] == '1' && map[y][x + 1] == '1' && map[y - 1][x + 1] == '0')
-				break;
-			if (angle >= 0 && angle <= 90 && map[y - 1][x] == '1' && map[y][x - 1] == '1' && map[y - 1][x - 1] == '0')
-				break;
-			if (angle >= 180 && angle <= 270 && map[y + 1][x] == '1' && map[y][x + 1] == '1' && map[y + 1][x + 1] == '0')
-				break;
-		}
-		// if (((int)ray_dir.x % MINIMAP_TILE == 0 || (int)ray_dir.y % MINIMAP_TILE == 0) &&
+		x = (int)(ray_dir.x) / MINIMAP_TILE;
+		y = (int)(ray_dir.y) / MINIMAP_TILE;
 		if (map[y][x] == '1')
 			break ;
 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
@@ -171,7 +160,6 @@ t_ray	send_ray(double angle, int color)
 	ray.distance = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
 	// init_ray_side(&ray, step_x, step_y, hori);
 	// printf("%d\n", hori);
-	// send_ray2(0, 0x000000, &ray);
 	ray.distance *= cos(mth_degtorad(angle - data->player.angle));
 	return (ray);
 }
@@ -201,9 +189,22 @@ void	put_player_shape(int size)
 
 bool	is_collided_wall(t_data	*data, t_vector2 npos)
 {
-	npos.x = floor((npos.x / MINIMAP_TILE));
-	npos.y = floor((npos.y / MINIMAP_TILE));
-	return (data->maps[(int)npos.y][(int)npos.x] == '1');
+	char		**map;
+	t_vector	player_pos;
+	t_vector	next_pos;
+
+	map = data->maps;
+	player_pos = (t_vector) {data->player.cam_pos.x / MINIMAP_TILE, data->player.cam_pos.y / MINIMAP_TILE};
+	// the following commented part is to add some space between player and the wall
+	// if (player_pos.x <= ((npos.x) / MINIMAP_TILE) && player_pos.y <= ((npos.y) / MINIMAP_TILE))
+	// {
+	// 	npos.x += 10;
+	// 	npos.y += 10;
+	// }
+	next_pos = (t_vector) {(npos.x) / MINIMAP_TILE, npos.y / MINIMAP_TILE};
+	if (map[next_pos.y][player_pos.x] == '1'&& map[player_pos.y][next_pos.x] == '1')
+		return (1);
+	return (map[next_pos.y][next_pos.x] == '1');
 }
 
 // #error working in collition :)
@@ -280,20 +281,17 @@ int	game_loop(t_data *data)
 		splash_screen(data);
 		return (0);
 	}
-	// t_image_clear_color(&data->scene_layer, 0xffffffff);
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
 	double angle = data->player.angle - 30;
 	if (angle < 0)
 		angle = 360 - (30 - data->player.angle);
-	// int rayscount = 0;
 	int i = 0;
 	while (i < WIN_WIDTH)
 	{
 		if (i == WIN_WIDTH / 2 || 1)
 		{
 			t_ray ray = send_ray(angle, 0xff0000);
-			// printf("side : %s\n", (ray.side == NORTH) ? "North" : ((ray.side == SOUTH) ? "SOUTH" : ((ray.side == EAST) ? "EAST" : ((ray.side == WEST) ? "WEST" : "UNKNOWN"))));
 			if (ray.distance > 0)
 			{
 				int wallHeight = (WIN_HEIGHT / ray.distance) * MINIMAP_TILE;
@@ -309,7 +307,6 @@ int	game_loop(t_data *data)
 					t_image_update_pixel(&data->scene_layer, i, y, 0x000055);
 					y++;
 				}
-				// printf("%d %f , wall : %f\n",y, ((WIN_HEIGHT / 2) - (wallHeight / 2)), wallHeight);
 				while (y < btm)
 				{
 					t_image_update_pixel(&data->scene_layer, i, y, get_color_distance(ray));
@@ -338,6 +335,7 @@ void	run_game(t_data *data)
 {
 	t_vector	map_size;
 
+	
 	// # layer 1 : the scene, layer 2 : the maps &&  the player && raycasts
 	map_size.x = data->scene_info.maps_xsize * MINIMAP_TILE;
 	map_size.y = data->scene_info.maps_ysize * MINIMAP_TILE;

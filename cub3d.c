@@ -40,7 +40,6 @@ int	main(int ac, char **av)
 	// 	while (system("afplay audios/background_music.mp3") == 0);
 	// 	exit (0);
 	// }
-	
 	data.game_started = false;
 	run_game(&data);
 	safe_exit(0);
