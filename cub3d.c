@@ -33,7 +33,7 @@ int	main(int ac, char **av)
 	data_init(&data, ac, av);
 	printf("mapx %d\n", data.scene_info.maps_xsize);
 	printf("mapy %d\n", data.scene_info.maps_ysize);
-	//
+	
 	// data.background_music = fork();
 	// if (data.background_music == 0)
 	// {
