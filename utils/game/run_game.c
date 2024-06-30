@@ -12,26 +12,30 @@
 
 #include <cub3d.h>
 
-void	draw_line(t_vector2 from, t_vector2 to)
+void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 {
 	t_vector2	diff;
+	t_vector2	inc;
 	double		step;
 
 
+	// printf("%f | %f : %f | %f\n", from.x, from.y, to.x, to.y);
+	// return ;
 	diff.x = to.x - from.x;
 	diff.y = to.y - from.y;
 	if (fabs(diff.x) > fabs(diff.y))
 		step = fabs(diff.x);
 	else
 		step = fabs(diff.y);
-	double xinc = diff.x / step;
-	double yinc = diff.y / step;
+	inc.x = diff.x / step;
+	inc.y = diff.y / step;
 	int i = 0;
-	while (i <= step)
+	(void)image;
+	while (i < step)
 	{
-		t_image_update_pixel(&data_hook(NULL)->minimaps_layer, round(from.x), round(from.y), RGB_CYAN);
-		from.x += xinc;
-		from.y += yinc;
+		t_image_update_pixel(image, round(from.x), round(from.y), color);
+		from.x += inc.x;
+		from.y += inc.y;
 		i++;
 	}
 }
@@ -72,36 +76,36 @@ void	put_maps(char **maps, t_image *img_layer)
 	}
 }
 
-void	init_ray_side(t_ray *ray, double stepx, double stepy, int hori)
-{
-	double	xdiff;
-	double	ydiff;
+// void	init_ray_side(t_ray *ray, double stepx, double stepy, int hori)
+// {
+// 	double	xdiff;
+// 	double	ydiff;
 
-	(void)stepx;
-	(void)stepy;
-	(void)ray;
-	(void)hori;
-	(void)xdiff;
-	(void)ydiff;
-	// #error debugging here :)
+// 	(void)stepx;
+// 	(void)stepy;
+// 	(void)ray;
+// 	(void)hori;
+// 	(void)xdiff;
+// 	(void)ydiff;
+// 	// #error debugging here :)
 
-	if (ray->hit_wall.x > ray->hit_wall.y)
-	{
-		ray->side = EAST;
-	}else
-		ray->side = UNKNOWN;
-	xdiff = ray->hit_wall.x - (floor(ray->hit_wall.x));
-	ydiff = ray->hit_wall.y - (floor(ray->hit_wall.y));
-	// printf("\033[H\033[2Jinformations : \n \
-	// stepx\t: %f \n \
-	// stepy\t: %f \n \
-	// hit_x\t: %f \n \
-	// hit_y\t: %f\n \
-	// diffx\t: %f \n \
-	// diffy\t: %f \n",
-	// stepx, stepy, ray->hit_wall.x, ray->hit_wall.y, xdiff, ydiff);
-	// printf("<%s>\n", (ray->hit_wall.x > ray->hit_wall.y) ? "more than" : "less than");
-}
+// 	if (ray->hit_wall.x > ray->hit_wall.y)
+// 	{
+// 		ray->side = EAST;
+// 	}else
+// 		ray->side = UNKNOWN;
+// 	xdiff = ray->hit_wall.x - (floor(ray->hit_wall.x));
+// 	ydiff = ray->hit_wall.y - (floor(ray->hit_wall.y));
+// 	// printf("\033[H\033[2Jinformations : \n \
+// 	// stepx\t: %f \n \
+// 	// stepy\t: %f \n \
+// 	// hit_x\t: %f \n \
+// 	// hit_y\t: %f\n \
+// 	// diffx\t: %f \n \
+// 	// diffy\t: %f \n",
+// 	// stepx, stepy, ray->hit_wall.x, ray->hit_wall.y, xdiff, ydiff);
+// 	// printf("<%s>\n", (ray->hit_wall.x > ray->hit_wall.y) ? "more than" : "less than");
+// }
 
 //
 // void	send_ray2(double angle, int color, t_ray *ray_)
@@ -126,45 +130,137 @@ void	init_ray_side(t_ray *ray, double stepx, double stepy, int hori)
 // 		send_ray2(angle + 90, color, ray_);
 // }
 
-t_ray	send_ray(double angle, int color)
+
+double	get_distence(t_vector2 end)
 {
-	t_data		*data;
-	t_vector	pp;
-	t_ray		ray;
-	double		step_x;
-	double		step_y;
-	t_vector2	ray_dir;
-	char		**map;
+	double	distence;
+	t_data	*data;
 
 	data = data_hook(NULL);
-	pp.x = (int)data->player.cam_pos.x / 20;
-	pp.y = (int)data->player.cam_pos.y / 20;
-	map = data->maps;
-	ray_dir = (t_vector2){data->player.cam_pos.x, data->player.cam_pos.y};
-	step_x = cos(mth_degtorad(angle)) * 0.2;
-	step_y = sin(mth_degtorad(angle)) * 0.2;
-	int	x;
-	int	y;
-	// printf("[%f]\n", data->player.angle);
-	int side = 0;
-	while (1)
+	distence = sqrt(pow(data->player.cam_pos.x - end.x, 2) + pow(data->player.cam_pos.y - end.y, 2));
+	// distance *= cos(mth_degtorad( data->player.angle));
+	return (distence);
+}
+t_side	ray_side(double angle);
+
+t_vector2	get_hori_interseption(double ray_angle)
+{
+	t_vector2	player_pos;
+	t_vector2	intersept;
+	t_data		*data;
+	t_side		side;
+
+	data = data_hook(NULL);
+	player_pos = data->player.cam_pos;
+	side = ray_side(ray_angle);
+	intersept.y = floor(player_pos.y / TAILE_SIZE) * TAILE_SIZE;
+	if (side == DOWN)
+		intersept.y += TAILE_SIZE;
+	intersept.x = player_pos.x + (intersept.y - player_pos.y) / tan(ray_angle);
+	return (intersept);
+}
+
+t_side	ray_side(double angle)
+{
+	if (angle < 0)
+		angle += 360;
+	else if (angle > 360)
+		angle -= 360;
+	if ((angle >= 0 && angle < 90) || (angle >= 270 && angle <= 360))
+		return (RIGHT);
+	if (angle >= 0 && angle < 180)
+		return (DOWN);
+	if (angle >= 90 && angle < 270)
+		return (LEFT);
+	if (angle >= 180 && angle < 360)
+		return (UP);
+	return (UNKNOWN);
+}
+
+int	hit_wall_at(t_vector2 cords)
+{
+	t_data	*data;
+
+	data = data_hook(NULL);
+	if (cords.x < 0 || cords.x > 15 || cords.y < 0 || cords.y > 11)
+		return (1);
+	return (data->maps[(int) floor(cords.y / TAILE_SIZE)][(int) floor(cords.x / TAILE_SIZE)] == '1');
+}
+
+t_ray	send_ray(double ray_angle)
+{
+	t_ray		ray;
+	t_vector2	step;
+	t_vector2	intersept;
+	t_vector2	next_hori_touch;
+	t_side		side;
+
+	step.y = TAILE_SIZE;
+	step.x = TAILE_SIZE / tan(ray_angle);
+	intersept = get_hori_interseption(ray_angle);
+	side = ray_side(ray_angle);
+	if (side == UP)
+		step.y *= -1;
+	if ((side == LEFT && step.x > 0) || (side == RIGHT && step.x < 0))
+		step.x *= -1;
+	next_hori_touch = intersept;
+	if (side == UP)
+		next_hori_touch.y--;
+	while (next_hori_touch.x >= 0 && next_hori_touch.y <= 15 && next_hori_touch.y >= 0 && next_hori_touch.y <= 11)
 	{
-		x = (int)(ray_dir.x) / MINIMAP_TILE;
-		y = (int)(ray_dir.y) / MINIMAP_TILE;
-		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
-		ray_dir.x += step_x;
-		ray_dir.y += step_y;
-		if (map[y][x] == '1' || map[(int)(ray_dir.y) / MINIMAP_TILE][(int)(ray_dir.x - step_x) / MINIMAP_TILE] == '1')
-			break ;
+		if (hit_wall_at(next_hori_touch))
+		{
+			break;
+		} else {
+			next_hori_touch.x += step.x;
+			next_hori_touch.y += step.y;
+		}
 	}
-	ray.hit_wall = ray_dir;
-	ray.distance = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
-	// init_ray_side(&ray, step_x, step_y, hori);
-	// if (side)
-	// printf("%d\n", hori);
-	ray.distance *= cos(mth_degtorad(angle - data->player.angle));
+	ray.distance = get_distence(next_hori_touch);
+	// draw_line(&data_hook(NULL)->minimaps_layer, RGB_BLACK, data_hook(NULL)->player.cam_pos, next_hori_touch);
+	// printf("%f\n", ray.distance);
 	return (ray);
 }
+
+// t_ray	send_ray(double angle, int color)
+// {
+// 	t_data		*data;
+// 	t_vector	pp;
+// 	t_ray		ray;
+// 	double		step_x;
+// 	double		step_y;
+// 	t_vector2	ray_dir;
+// 	char		**map;
+
+// 	data = data_hook(NULL);
+// 	pp.x = (int)data->player.cam_pos.x / 20;
+// 	pp.y = (int)data->player.cam_pos.y / 20;
+// 	map = data->maps;
+// 	ray_dir = (t_vector2){data->player.cam_pos.x, data->player.cam_pos.y};
+// 	step_x = cos(mth_degtorad(angle)) * 0.2;
+// 	step_y = sin(mth_degtorad(angle)) * 0.2;
+// 	int	x;
+// 	int	y;
+// 	while (1)
+// 	{
+// 		x = (int)(ray_dir.x) / MINIMAP_TILE;
+// 		y = (int)(ray_dir.y) / MINIMAP_TILE;
+// 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
+// 		ray_dir.x += step_x;
+// 		ray_dir.y += step_y;
+// 		if (map[y][x] == '1' || map[(int)(ray_dir.y) / MINIMAP_TILE][(int)(ray_dir.x - step_x) / MINIMAP_TILE] == '1')
+// 			break ;
+// 	}
+// 	ray.hit_wall = ray_dir;
+// 	ray.distance = sqrt(pow(data->player.cam_pos.x - ray_dir.x, 2) + pow(data->player.cam_pos.y - ray_dir.y, 2));
+// 	// init_ray_side(&ray, step_x, step_y, hori);
+// 	// if (side)
+// 	// printf("%d\n", hori);
+// 	ray.distance *= cos(mth_degtorad(angle - data->player.angle));
+// 	return (ray);
+// }
+
+
 
 void	put_player_shape(int size)
 {
@@ -184,9 +280,9 @@ void	put_player_shape(int size)
 	v3.x = cos(mth_degtorad(data->player.angle + 270)) * size + data->player.cam_pos.x;
 	v3.y = sin(mth_degtorad(data->player.angle + 270)) * size + data->player.cam_pos.y;
 
-	draw_line(v1, v2);
+	// draw_line(v1, v2);
+	// // draw_line(v1, v3);
 	// draw_line(v1, v3);
-	draw_line(v1, v3);
 }
 
 bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
@@ -263,7 +359,7 @@ int	get_color_distance(t_ray ray)
 	r = 0;
 	g = 255;
 	b = 0;
-	// if (ray.side == EAST)
+	// if (ray.side == HORIZONTAL)
 	// {
 	// 	r = 255;
 	// 	g = 255;
@@ -280,12 +376,14 @@ int	game_loop(t_data *data)
 {
 	handle_input(data, mth_degtorad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
+	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
 	{
 		splash_screen(data);
 		return (0);
 	}
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
+	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
 	double angle = data->player.angle - 30;
 	// if (angle < 0)
@@ -295,7 +393,8 @@ int	game_loop(t_data *data)
 	{
 		if (i == WIN_WIDTH / 2 || 1)
 		{
-			t_ray ray = send_ray(angle, 0xff0000);
+			// t_ray ray = send_ray(angle, 0xff0000);
+			t_ray ray = send_ray(angle);
 			if (ray.distance > 0)
 			{
 				int wallHeight = (WIN_HEIGHT / ray.distance) * MINIMAP_TILE;
@@ -306,24 +405,28 @@ int	game_loop(t_data *data)
 				if (top < 0)
 					top = 0;
 				int y = 0;
+				// int tex_y, tex_x;
 				while (y < top)
 				{
-					t_image_update_pixel(&data->scene_layer, i, y, 0x000055);
+					// t_image_update_pixel(&data->scene_layer, i, y, 0x000055);
 					y++;
 				}
-				while (y < btm)
-				{
-					t_image_update_pixel(&data->scene_layer, i, y, get_color_distance(ray));
-					y++;
-				}
-				while (y < WIN_HEIGHT)
-				{
-					t_image_update_pixel(&data->scene_layer, i, y, 0xffff00);
-					y++;
-				}
+				draw_line(&data->scene_layer, RGB_GREEN, (t_vector2){i, y}, (t_vector2){i, btm});
+				// while (y < btm)
+				// {
+				// 		// t_image_update_pixel(&data->scene_layer, i, y, RGB_RED);
+				// 	// t_image_update_pixel(&data->scene_layer, i, y, get_color_distance(ray));
+				// 	y++;
+				// }
+				// while (y < WIN_HEIGHT)
+				// {
+				// 	t_image_update_pixel(&data->scene_layer, i, y, 0xffff00);
+				// 	y++;
+				// }
 			}
 		}
 		// rayscount++;
+		// angle += (double) 60 / WIN_WIDTH;
 		angle += (double) 60 / WIN_WIDTH;
 		// if (angle > 360)
 		// 	angle = 0;

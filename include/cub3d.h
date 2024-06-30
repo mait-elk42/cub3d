@@ -45,6 +45,9 @@
 # define COLOR_UNDERLINE_WHITE   "\033[4;37m"
 # define COLOR_RESET             "\033[0m"
 
+
+# define VERTICAL 0
+# define HORIZONTAL 1
 /*
 	* 	MLX KEYS AND EVENTS
 */
@@ -81,6 +84,7 @@
 /*
 	* ATTRIBUTES
 */
+# define TAILE_SIZE 20
 # define MINIMAP_TILE 20
 # define PLAYER_SPEED 2.0
 # define CAM_SENS 2.0
@@ -89,13 +93,22 @@
 /*
 	* ENUMS
 */
+// typedef enum e_side
+// {
+// 	UNKNOWN,
+// 	NORTH,
+// 	SOUTH,
+// 	WEST,
+// 	EAST
+// }	t_side;
+
 typedef enum e_side
 {
 	UNKNOWN,
-	NORTH,
-	SOUTH,
-	WEST,
-	EAST
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN
 }	t_side;
 
 /*
