@@ -75,8 +75,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH 1920 // x
-# define WIN_HEIGHT 1080 // y
+# define WIN_WIDTH 1080 // x 1920
+# define WIN_HEIGHT 720 // y 1080
 // # define MAP_SIZE 10
 // # define SPEED 0.5
 // # define SCAL 10
@@ -156,8 +156,13 @@ typedef struct s_color
 
 typedef struct s_ray
 {
-	t_vector2	hit_wall;
+	t_vector2	vertical;
+	t_vector2	horizontal;
 	double		distance;
+	bool		facing_up;
+	bool		facing_down;
+	bool		facing_left;
+	bool		facing_right;
 	t_side		side;
 }	t_ray;
 
@@ -212,6 +217,7 @@ typedef struct s_data
 	t_image				minimaps_layer;
 	int					background_music;
 	void				*logo;
+	t_ray				rays[WIN_WIDTH];
 }	t_data;
 
 /*

@@ -12,7 +12,17 @@
 
 #include <cub3d.h>
 
+double	periodic(double angle)
+{
+	if (angle > 2.0 * M_PI)
+		angle -= 2.0 * M_PI;
+	else if (angle < 0)
+		angle += 2.0 * M_PI;
+	return (angle);
+}
+
+
 double	mth_degtorad(double angle)
 {
-	return ((angle * M_PI) / 180.0);
+	return (periodic((angle * M_PI) / 180.0));
 }
