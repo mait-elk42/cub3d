@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 15:53:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/11 17:48:21 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/11 18:00:46 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	splash_screen(t_data *data)
 	// }
 	// opacity++;
 	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,  p.img_ptr, (WIN_WIDTH / 2) - p.sizex / 2, (WIN_HEIGHT / 2) - p.sizey / 2);
-	t_image i = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
+	t_image i = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0x77ffffff);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, i.img_ptr, 0, 0);
 	mlx_string_put(data->mlx.mlx_ptr, data->mlx.window_ptr, (WIN_WIDTH / 2) - 100, (WIN_HEIGHT / 2), 0xff0000, "Press Space To Continue.");

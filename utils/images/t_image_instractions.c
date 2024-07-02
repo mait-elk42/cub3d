@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 10:05:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/11 17:41:53 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/11 18:42:16 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	t_image_clear_color(t_image *imgptr, int color)
 				imgptr->buffer[pixel_byte + 0] = (color);
 				imgptr->buffer[pixel_byte + 1] = (color >> 8);
 				imgptr->buffer[pixel_byte + 2] = (color >> 16);
+				// slh > y * width_img + x;
 				imgptr->buffer[pixel_byte + 3] = (color >> 24);
 			}
 			x++;

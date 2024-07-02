@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/11 17:46:57 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:23:45 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,19 +149,7 @@ t_ray	send_ray(double angle, int color)
 	{
 		x = (int)ray_dir.x / MINIMAP_TILE;
 		y = (int)ray_dir.y / MINIMAP_TILE;
-		if (map[y][x] == '0' && pp.x != x && pp.y != y)
-		{
-			if (angle >= 270 && angle <= 360 && map[y][x - 1] == '1' && map[y + 1][x] == '1' && map[y + 1][x - 1] == '0')
-				break;
-			if (angle >= 90 && angle <= 180 && map[y - 1][x] == '1' && map[y][x + 1] == '1' && map[y - 1][x + 1] == '0')
-				break;
-			if (angle >= 0 && angle <= 90 && map[y - 1][x] == '1' && map[y][x - 1] == '1' && map[y - 1][x - 1] == '0')
-				break;
-			if (angle >= 180 && angle <= 270 && map[y + 1][x] == '1' && map[y][x + 1] == '1' && map[y + 1][x + 1] == '0')
-				break;
-		}
-		// if (((int)ray_dir.x % MINIMAP_TILE == 0 || (int)ray_dir.y % MINIMAP_TILE == 0) &&
-		if (map[y][x] == '1')
+		if (map[y][x] == '1' || (map[y][(int)(ray_dir.x - step_x) / 20] == '1' && map[(int)(ray_dir.y - step_y) / 20][x] == '1'))
 			break ;
 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
 		ray_dir.x += step_x;
@@ -199,10 +187,11 @@ void	put_player_shape(int size)
 	draw_line(v1, v3);
 }
 
-bool	is_collided_wall(t_data	*data, t_vector2 npos)
+bool	is_collided_wall(t_data	*data, t_vector2 opos, t_vector2 npos)
 {
-	npos.x = floor((npos.x / MINIMAP_TILE));
-	npos.y = floor((npos.y / MINIMAP_TILE));
+	(void)opos;
+	npos.x = ((npos.x + opos.x) / MINIMAP_TILE);
+	npos.y = ((npos.y + opos.y) / MINIMAP_TILE);
 	return (data->maps[(int)npos.y][(int)npos.x] == '1');
 }
 
@@ -210,34 +199,34 @@ bool	is_collided_wall(t_data	*data, t_vector2 npos)
 void	handle_input(t_data *data, double radi)
 {
 	char		**maps;
-	t_vector2	new_pos;
+	t_vector2	step;
 
-	new_pos = data->player.cam_pos;
+	step = (t_vector2){0 ,0};
 	maps = data->maps;
 	if (data->keys.w.pressed == true)
 	{
-		new_pos.x += cos(radi) * PLAYER_SPEED;
-		new_pos.y += sin(radi) * PLAYER_SPEED;
+		step.x += cos(radi) * PLAYER_SPEED;
+		step.y += sin(radi) * PLAYER_SPEED;
 	}
 	if (data->keys.s.pressed == true)
 	{
-		new_pos.x -= cos(radi) * PLAYER_SPEED;
-		new_pos.y -= sin(radi) * PLAYER_SPEED;
+		step.x -= cos(radi) * PLAYER_SPEED;
+		step.y -= sin(radi) * PLAYER_SPEED;
 	}
 	if (data->keys.d.pressed == true)
 	{
-		new_pos.x -= sin(radi) * PLAYER_SPEED;
-		new_pos.y += cos(radi) * PLAYER_SPEED;
+		step.x -= sin(radi) * PLAYER_SPEED;
+		step.y += cos(radi) * PLAYER_SPEED;
 	}
 	if (data->keys.a.pressed == true)
 	{
-		new_pos.x += sin(radi) * PLAYER_SPEED;
-		new_pos.y -= cos(radi) * PLAYER_SPEED;
+		step.x += sin(radi) * PLAYER_SPEED;
+		step.y -= cos(radi) * PLAYER_SPEED;
 	}
-	if (is_collided_wall(data, new_pos) == false)
+	if (is_collided_wall(data, data->player.cam_pos ,step) == false)
 	{
-		data->player.cam_pos.x = new_pos.x;
-		data->player.cam_pos.y = new_pos.y;
+		data->player.cam_pos.x += step.x;
+		data->player.cam_pos.y += step.y;
 	}
 	data->player.angle -= (data->keys.left.pressed == true) * CAM_SENS;
 	data->player.angle += (data->keys.right.pressed == true) * CAM_SENS;
@@ -284,9 +273,6 @@ int	game_loop(t_data *data)
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
 	double angle = data->player.angle - 30;
-	if (angle < 0)
-		angle = 360 - (30 - data->player.angle);
-	// int rayscount = 0;
 	int i = 0;
 	while (i < WIN_WIDTH)
 	{
@@ -322,10 +308,7 @@ int	game_loop(t_data *data)
 				}
 			}
 		}
-		// rayscount++;
 		angle += (double) 60 / WIN_WIDTH;
-		// if (angle > 360)
-		// 	angle = 0;
 		i++;
 	}
 	// put_player_shape(MINIMAP_TILE / 3);
