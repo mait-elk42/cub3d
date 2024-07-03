@@ -60,7 +60,7 @@ void	splash_screen(t_data *data)
 	// opacity++;
 	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,  p.img_ptr, (WIN_WIDTH / 2) - p.sizex / 2, (WIN_HEIGHT / 2) - p.sizey / 2);
 	
-	t_image image = t_image_create(WIN_WIDTH, WIN_HEIGHT, RGB_BLACK);
+	t_image image = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0x00000000);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, image.img_ptr, 0, 0);
 	t_image background = t_image_create(WIN_WIDTH, 100, RGB_BLUE);
