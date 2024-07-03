@@ -20,7 +20,7 @@ t_data	*data_hook(t_data *data)
 		save_data = data;
 	return (save_data);
 }
-# include <signal.h>
+
 void	safe_exit(int status)
 {
 	t_data	*data;
@@ -38,6 +38,22 @@ void	safe_exit(int status)
 	data->mlx.mlx_ptr = NULL;
 	// system("kill $(ps | grep 'afplay audios/background_music.mp3' | head -n 1 | awk '{printf $1}')");
 	exit(status);
+}
+
+void	set_screen_size()
+{
+	t_data	*data;
+	t_size	size;
+
+	data = data_hook(NULL);
+	size.height = 0;
+	while (data->maps[size.height])
+	{
+		if (size.height == 0)
+			size.width = safe_strlen(data->maps[size.height]);
+		size.height++;
+	}
+	data->screen = size;
 }
 
 void	logger(char *msg)

@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/03 10:20:03 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/03 11:23:32 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	check_leaks(int i)
 		logger("=====================================================");
 	}
 }
+
 int	main(int ac, char **av)
 {
 	t_data	data;
@@ -33,7 +34,6 @@ int	main(int ac, char **av)
 	data_init(&data, ac, av);
 	printf("mapx %d\n", data.scene_info.maps_xsize);
 	printf("mapy %d\n", data.scene_info.maps_ysize);
-
 	// data.background_music = fork();
 	// if (data.background_music == 0)
 	// {

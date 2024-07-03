@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/03 10:07:48 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/03 11:24:47 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,12 @@ void	put_maps(char **maps, t_image *img_layer)
 
 float	get_distence(float angle, t_vector2 end)
 {
-	float	distence;
-	t_data	*data;
+	double		distence;
+	t_player	player;
 
-	data = data_hook(NULL);
-	distence = sqrt(pow(data->player.cam_pos.x - end.x, 2) + pow(data->player.cam_pos.y - end.y, 2));
-	distence *= cos(mth_degtorad((angle * 180 / M_PI) - data->player.angle));
+	player = data_hook(NULL)->player;
+	distence = sqrt(pow(player.cam_pos.x - end.x, 2) + pow(player.cam_pos.y - end.y, 2));
+	distence *= cos(mth_degtorad((angle * 180 / M_PI) - player.angle));
 	return (distence);
 }
 
@@ -169,6 +169,7 @@ int	hit_wall_at(t_vector2 cords)
 
 	data = data_hook(NULL);
 	grid = (t_vector) {(int) floor(cords.x / TAILE_SIZE), (int) floor(cords.y / TAILE_SIZE)};
+	printf("%d | %d\n", grid.x, grid.y);
 	return (data->maps[grid.y][grid.x] == '1');
 }
 
@@ -179,6 +180,7 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 	t_vector2	step;
 	t_vector2	intersept;
 	t_vector2	increase;
+	t_vector2	cords;
 	bool		hori_hit;
 
 	hori_hit = false;
@@ -197,12 +199,12 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 		step.x *= -1;
 	increase.x = intersept.x;
 	increase.y = intersept.y;
-	// if (ray->facing_up)
-	// 	increase.y--;
-	while (increase.x > 0 && increase.x < (15 * TAILE_SIZE) && increase.y > 0 && (increase.y < 11 * TAILE_SIZE))
+	while (increase.x > 0 && increase.x < (data->screen.width * TAILE_SIZE) && increase.y > 0 && (increase.y < data->screen.height * TAILE_SIZE))
 	{
-		// if (hit_wall_at(increase))
-		if (hit_wall_at((t_vector2){increase.x, ray->facing_up ? increase.y - 1 : increase.y}))
+		cords = (t_vector2){increase.x, increase.y};
+		if (ray->facing_up)
+			cords.y--;
+		if (hit_wall_at(cords))
 		{
 			hori_hit = true;
 			break;
@@ -230,6 +232,7 @@ t_ray	send_virtical_ray(t_ray *ray, float ray_angle)
 	t_vector2	step;
 	t_vector2	intersept;
 	t_vector2	increase;
+	t_vector2	cords;
 	bool		vertical_hit;
 
 	data = data_hook(NULL);
@@ -248,12 +251,12 @@ t_ray	send_virtical_ray(t_ray *ray, float ray_angle)
 		step.y *= -1;
 	increase.x = intersept.x;
 	increase.y = intersept.y;
-	// if (ray->facing_left)
-	// 	increase.x--;
-	while (increase.x > 0 && increase.x < 15 * TAILE_SIZE && increase.y > 0 && increase.y < 11 * TAILE_SIZE)
+	while (increase.x > 0 && increase.x < (data->screen.width * TAILE_SIZE) && increase.y > 0 && increase.y < (data->screen.height * TAILE_SIZE))
 	{
-		if (hit_wall_at((t_vector2) {ray->facing_left ? increase.x - 1 : increase.x, increase.y}))
-		// if (hit_wall_at(increase))
+		cords = (t_vector2){increase.x, increase.y};
+		if (ray->facing_left)
+			cords.x--;
+		if (hit_wall_at(cords))
 		{
 			vertical_hit = true;
 			break;
@@ -264,6 +267,8 @@ t_ray	send_virtical_ray(t_ray *ray, float ray_angle)
 	if (vertical_hit == true)
 	{
 		ray->vertical = increase;
+		if (ray->facing_left)
+			ray->vertical.x--;
 		ray->distance = get_distence(ray_angle, increase);
 	} else {
 		ray->vertical = (t_vector2) {0,0};
@@ -446,19 +451,17 @@ int	game_loop(t_data *data)
 	handle_input(data, mth_degtorad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
-	// data->keys.left.pressed = true;
-	// data->keys.d.pressed = true;
 	if (data->game_started == false)
 	{
-		splash_screen(data);
+		data->keys.left.pressed = true;
+		data->keys.d.pressed = true;
+		// splash_screen(data);
 		return (0);
 	}
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
-	// float angle = data->player.angle - 30;
 	float angle = data->player.angle - 30;
-	// float fov_angle = 60 * (M_PI / 180);
 	// if (angle < 0)
 	// 	angle = 360 - (30 - data->player.angle);
 	int i = 0;
@@ -493,13 +496,13 @@ int	game_loop(t_data *data)
 
 void	run_game(t_data *data)
 {
-	t_vector	mmap_size;
+	t_vector	map_size;
 
-	// # layer 1 : the scene, layer 2 : the maps &&  the player && rays
-	mmap_size.x = data->scene_info.maps_xsize * MINIMAP_TILE;
-	mmap_size.y = data->scene_info.maps_ysize * MINIMAP_TILE;
+	// # layer 1 : the scene, layer 2 : the maps &&  the player && raycasts
+	map_size.x = data->scene_info.maps_xsize * MINIMAP_TILE;
+	map_size.y = data->scene_info.maps_ysize * MINIMAP_TILE;
 	data->scene_layer = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
-	data->minimaps_layer = t_image_create(mmap_size.x, mmap_size.y, 0xffffffff);
+	data->minimaps_layer = t_image_create(map_size.x, map_size.y, 0xffffffff);
 	init_player(data);
 	init_keys(data);
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
@@ -507,3 +510,4 @@ void	run_game(t_data *data)
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);
 	mlx_loop(data->mlx.mlx_ptr);
 }
+

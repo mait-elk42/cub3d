@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/02 19:11:10 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/03 11:23:41 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,8 @@ typedef struct s_vector
 
 typedef struct s_vector2
 {
-	float		x;
-	float		y;
+	float	x;
+	float	y;
 }	t_vector2;
 
 typedef struct s_color
@@ -166,6 +166,13 @@ typedef struct s_ray
 	bool		facing_right;
 	t_side		side;
 }	t_ray;
+
+typedef struct s_size
+{
+	size_t	width;
+	size_t	height;
+}	t_size;
+
 
 typedef struct s_image
 {
@@ -217,6 +224,7 @@ typedef struct s_data
 	t_image				scene_layer;
 	t_image				minimaps_layer;
 	int					background_music;
+	t_size				screen;
 	void				*logo;
 	t_ray				rays[WIN_WIDTH];
 }	t_data;
@@ -275,6 +283,7 @@ void	free_tab(char **array);
 	* IO OPERATORS
 */
 char	**append_2d(char **old_tab, char *to_append);
+void	set_screen_size();
 void	print(int fd, char *msg, int endl);
 void	print_2d(char **arr);
 void	logger(char *msg);
