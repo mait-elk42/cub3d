@@ -43,7 +43,10 @@ int ev_key_down(int keycode, t_data *data)
 	if (keycode == KEY_SPACE)
 		data->game_started = true;
 	if (keycode == KEY_ESC)
+	{
+		system ("kill $(ps | grep afplay | head -n 1 | awk '{print $1}')");
 		safe_exit(0);
+	}
 	if (data->game_started == true)
 	{
 		keys = &data->keys.w;

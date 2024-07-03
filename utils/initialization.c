@@ -37,5 +37,7 @@ void	data_init(t_data *data, int ac, char **av)
 	data->mlx.window_ptr = mlx_new_window(data->mlx.mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "cub3d");
 	if (data->mlx.window_ptr == NULL)
 		eput_error("cannot open mlx window", "[MLX_DYLIB]", 1);
+	t_vector v;
+	data->logo = mlx_xpm_file_to_image(data->mlx.mlx_ptr, "textures/cube.xpm", &v.x, &v.y);
 	print_data_collected(data);
 }

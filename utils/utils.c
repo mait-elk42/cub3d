@@ -20,7 +20,7 @@ t_data	*data_hook(t_data *data)
 		save_data = data;
 	return (save_data);
 }
-
+# include <signal.h>
 void	safe_exit(int status)
 {
 	t_data	*data;
@@ -36,7 +36,7 @@ void	safe_exit(int status)
 		mlx_destroy_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	free(data->mlx.mlx_ptr);
 	data->mlx.mlx_ptr = NULL;
-	system("kill $(ps | grep 'afplay audios/background_music.mp3' | head -n 1 | awk '{printf $1}')");
+	// system("kill $(ps | grep 'afplay audios/background_music.mp3' | head -n 1 | awk '{printf $1}')");
 	exit(status);
 }
 

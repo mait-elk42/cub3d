@@ -28,6 +28,7 @@ t_image	t_image_create(int sizex, int sizey, int default_color)
 	img.buffer = mlx_get_data_addr(img.img_ptr, &img.bits_per_pixel, &img.line_bytes, &img.endian);
 	img.sizex = sizex;
 	img.sizey = sizey;
+	int *add = (int *) img.buffer;
 	y = 0;
 	while (y < sizey)
 	{
@@ -37,6 +38,7 @@ t_image	t_image_create(int sizex, int sizey, int default_color)
 			int pixel_byte = (y * img.line_bytes) + (x * 4);
 			if (img.endian == 1) // Most significant (Alpha) byte first
 			{
+				add[pixel_byte] = default_color;
 				img.buffer[pixel_byte + 0] = (default_color >> 24);
 				img.buffer[pixel_byte + 1] = (default_color >> 16);
 				img.buffer[pixel_byte + 2] = (default_color >> 8);

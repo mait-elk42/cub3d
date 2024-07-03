@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/11 17:03:08 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:11:10 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <colors.h>
+# include <stdio.h>
 
 /*
 	* Text Colors
@@ -45,6 +46,9 @@
 # define COLOR_UNDERLINE_WHITE   "\033[4;37m"
 # define COLOR_RESET             "\033[0m"
 
+
+# define VERTICAL 0
+# define HORIZONTAL 1
 /*
 	* 	MLX KEYS AND EVENTS
 */
@@ -72,8 +76,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH 1920 // x
-# define WIN_HEIGHT 1080 // y
+# define WIN_WIDTH 1080 // x 1920
+# define WIN_HEIGHT 720 // y 1080
 // # define MAP_SIZE 10
 // # define SPEED 0.5
 // # define SCAL 10
@@ -81,21 +85,31 @@
 /*
 	* ATTRIBUTES
 */
+# define TAILE_SIZE 20
 # define MINIMAP_TILE 20
-# define PLAYER_SPEED 2.0
-# define CAM_SENS 2.0
+# define PLAYER_SPEED 1.0
+# define CAM_SENS 1.0
 
 
 /*
 	* ENUMS
 */
+// typedef enum e_side
+// {
+// 	UNKNOWN,
+// 	NORTH,
+// 	SOUTH,
+// 	WEST,
+// 	EAST
+// }	t_side;
+
 typedef enum e_side
 {
 	UNKNOWN,
-	NORTH,
-	SOUTH,
-	WEST,
-	EAST
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN
 }	t_side;
 
 /*
@@ -130,8 +144,8 @@ typedef struct s_vector
 
 typedef struct s_vector2
 {
-	double		x;
-	double		y;
+	float		x;
+	float		y;
 }	t_vector2;
 
 typedef struct s_color
@@ -143,8 +157,13 @@ typedef struct s_color
 
 typedef struct s_ray
 {
-	t_vector2	hit_wall;
-	double		distance;
+	t_vector2	vertical;
+	t_vector2	horizontal;
+	float		distance;
+	bool		facing_up;
+	bool		facing_down;
+	bool		facing_left;
+	bool		facing_right;
 	t_side		side;
 }	t_ray;
 
@@ -181,8 +200,8 @@ typedef struct s_player
 {
 	t_vector2	cam_pos;
 	t_image		texture;
-	double		angle;
-	// double		top_down;
+	float		angle;
+	// float		top_down;
 }	t_player;
 
 typedef struct s_data
@@ -197,6 +216,9 @@ typedef struct s_data
 	t_scene_info		scene_info;
 	t_image				scene_layer;
 	t_image				minimaps_layer;
+	int					background_music;
+	void				*logo;
+	t_ray				rays[WIN_WIDTH];
 }	t_data;
 
 /*
@@ -275,7 +297,7 @@ t_image	t_image_loadfromxpm(char *filename);
 /*
 	* MATH
 */
-double	mth_degtorad(double angle);
+float	mth_degtorad(float angle);
 
 /*
 	* EVENTS

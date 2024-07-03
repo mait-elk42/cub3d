@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+		"cub3d.h": "c",
+		"string": "c",
+		"string_view": "c",
+		"libft.h": "c",
+		"colors.h": "c",
+		"errno.h": "c",
+		"stdio.h": "c"
+	},
+    "C_Cpp.errorSquiggles": "disabled"
+}
