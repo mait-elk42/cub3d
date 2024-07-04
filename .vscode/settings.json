@@ -6,7 +6,8 @@
 		"libft.h": "c",
 		"colors.h": "c",
 		"errno.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"iterator": "c"
 	},
     "C_Cpp.errorSquiggles": "disabled"
 }
