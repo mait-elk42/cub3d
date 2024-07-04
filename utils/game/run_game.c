@@ -28,8 +28,12 @@ void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 	inc.x = diff.x / step;
 	inc.y = diff.y / step;
 	int i = 0;
+	static int kk;
 	while (i < step)
 	{
+		#include <pthread.h>
+		pthread
+		ft_printf("%d\n", kk++);
 		t_image_update_pixel(image, round(from.x), round(from.y), color);
 		from.x += inc.x;
 		from.y += inc.y;
@@ -147,7 +151,7 @@ t_vector2	get_vert_interseption(double ray_angle)
 
 	data = data_hook(NULL);
 	player_pos = (t_vector2) {data->player.cam_pos.x, data->player.cam_pos.y};
-	intersept.x = floor(player_pos.x / TAILE_SIZE) * TAILE_SIZE;
+	intersept.x = floor(player_pos.x / TILE_SIZE) * TILE_SIZE;
 	intersept.y = player_pos.y + (player_pos.x - intersept.x) / tan(ray_angle);
 	// printf("[%f | %f || %f]\n", intersept.x, intersept.y, ray_angle);
 	return (intersept);
@@ -168,8 +172,8 @@ int	hit_wall_at(t_vector2 cords)
 	t_data		*data;
 
 	data = data_hook(NULL);
-	grid = (t_vector) {(int) floor(cords.x / TAILE_SIZE), (int) floor(cords.y / TAILE_SIZE)};
-	printf("%d | %d\n", grid.x, grid.y);
+	grid = (t_vector) {(int) floor(cords.x / TILE_SIZE), (int) floor(cords.y / TILE_SIZE)};
+	// printf("%d | %d\n", grid.x, grid.y);
 	return (data->maps[grid.y][grid.x] == '1');
 }
 
@@ -180,18 +184,17 @@ t_ray	send_horizontal_ray(t_ray *ray, double ray_angle)
 	t_vector2	step;
 	t_vector2	intersept;
 	t_vector2	increase;
-	t_vector2	cords;
 	bool		hori_hit;
 
 	hori_hit = false;
 	data = data_hook(NULL);
 	set_ray_side(ray, ray_angle);
 	player_pos = data->player.cam_pos;
-	intersept.y = floor(player_pos.y / TAILE_SIZE) * TAILE_SIZE;
+	intersept.y = floor(player_pos.y / TILE_SIZE) * TILE_SIZE;
 	if (ray->facing_down)
-		intersept.y += TAILE_SIZE;
-	step.y = TAILE_SIZE;
-	step.x = TAILE_SIZE / tan(ray_angle);
+		intersept.y += TILE_SIZE;
+	step.y = TILE_SIZE;
+	step.x = TILE_SIZE / tan(ray_angle);
 	intersept.x = data->player.cam_pos.x + (intersept.y - data->player.cam_pos.y) / tan(ray_angle);
 	if (ray->facing_up)
 		step.y *= -1;
@@ -199,12 +202,11 @@ t_ray	send_horizontal_ray(t_ray *ray, double ray_angle)
 		step.x *= -1;
 	increase.x = intersept.x;
 	increase.y = intersept.y;
-	while (increase.x > 0 && increase.x < (data->screen.width * TAILE_SIZE) && increase.y > 0 && (increase.y < data->screen.height * TAILE_SIZE))
+	// printf("[%f | %f] | [%f | %f]\n",increase.x, increase.y, step.x, step.y);
+	while (increase.x > 0 && increase.x < (data->screen.width * TILE_SIZE) && increase.y > 0 && increase.y < (data->screen.height * TILE_SIZE))
 	{
-		cords = (t_vector2){increase.x, increase.y};
-		if (ray->facing_up)
-			cords.y--;
-		if (hit_wall_at(cords))
+		// if ((ray->facing_up && hit_wall_at((t_vector2){increase.x, increase.y - 1})) || hit_wall_at(increase))
+		if (hit_wall_at(increase))
 		{
 			hori_hit = true;
 			break;
@@ -215,11 +217,13 @@ t_ray	send_horizontal_ray(t_ray *ray, double ray_angle)
 	if (hori_hit == true)
 	{
 		ray->horizontal = increase;
-		ray->distance = get_distence(ray_angle, increase);
+		// if (ray->facing_up)
+		// 	ray->horizontal.y--;
+		ray->distance = get_distence(ray_angle, ray->horizontal);
 	}
 	else
 	{
-		ray->horizontal = (t_vector2) {0,0};
+		ray->horizontal = increase;
 		ray->distance = INT_MAX;
 	}
 	return(*ray);
@@ -232,31 +236,27 @@ t_ray	send_virtical_ray(t_ray *ray, double ray_angle)
 	t_vector2	step;
 	t_vector2	intersept;
 	t_vector2	increase;
-	t_vector2	cords;
 	bool		vertical_hit;
 
 	data = data_hook(NULL);
 	vertical_hit = false;
 	player_pos = data->player.cam_pos;
 	set_ray_side(ray, ray_angle);
-	step.x = TAILE_SIZE;
+	step.x = TILE_SIZE;
 	if (ray->facing_left)
 		step.x *= -1;
-	step.y = TAILE_SIZE * tan(ray_angle);
-	intersept.x = floor(player_pos.x / TAILE_SIZE) * TAILE_SIZE;
+	step.y = TILE_SIZE * tan(ray_angle);
+	intersept.x = floor(player_pos.x / TILE_SIZE) * TILE_SIZE;
 	if (ray->facing_right)
-		intersept.x += TAILE_SIZE;
+		intersept.x += TILE_SIZE;
 	intersept.y = player_pos.y + (intersept.x - player_pos.x) * tan(ray_angle);
 	if ((ray->facing_up && step.y > 0) || (ray->facing_down && step.y < 0))
 		step.y *= -1;
 	increase.x = intersept.x;
 	increase.y = intersept.y;
-	while (increase.x > 0 && increase.x < (data->screen.width * TAILE_SIZE) && increase.y > 0 && increase.y < (data->screen.height * TAILE_SIZE))
+	while (increase.x > 0 && increase.x < (data->screen.width * TILE_SIZE) && increase.y > 0 && increase.y < (data->screen.height * TILE_SIZE))
 	{
-		cords = (t_vector2){increase.x, increase.y};
-		if (ray->facing_left)
-			cords.x--;
-		if (hit_wall_at(cords))
+		if ((ray->facing_left && hit_wall_at((t_vector2){increase.x - 1, increase.y})) || hit_wall_at(increase))
 		{
 			vertical_hit = true;
 			break;
@@ -267,35 +267,39 @@ t_ray	send_virtical_ray(t_ray *ray, double ray_angle)
 	if (vertical_hit == true)
 	{
 		ray->vertical = increase;
-		if (ray->facing_left)
-			ray->vertical.x--;
-		ray->distance = get_distence(ray_angle, increase);
+		// if (ray->facing_left)
+		// 	ray->vertical.x--;
+		ray->distance = get_distence(ray_angle, ray->vertical);
 	} else {
-		ray->vertical = (t_vector2) {0,0};
+		// ray->vertical = (t_vector2) {-1,-1};
+		ray->vertical = increase;
 		ray->distance = INT_MAX;
 	}
 	return (*ray);
 }
 
-t_ray	send_ray(t_ray *ray, double ray_angle)
+void	send_ray(t_ray *ray, double ray_angle)
 {
 	t_data	*data;
 	t_ray	vertical;
 	t_ray	horizontal;
 
 	data = data_hook(NULL);
+	// ft_bzero(ray, sizeof (t_ray));
 	ray_angle = mth_degtorad(ray_angle);
 	horizontal = send_horizontal_ray(ray, ray_angle);
 	vertical = send_virtical_ray(ray, ray_angle);
+	// printf("[%f ||| %f]\n", horizontal.distance, vertical.distance);
 	if (horizontal.distance < vertical.distance)
 	{
 		draw_line(&data->minimaps_layer, RGB_BLACK, data->player.cam_pos, ray->horizontal);
-		ray->side = HORIZONTAL;
-		return (horizontal);
+		horizontal.side = HORIZONTAL;
+		*ray = horizontal;
+		return ;
 	}
 	draw_line(&data->minimaps_layer, RGB_BLACK, data->player.cam_pos, ray->vertical);
-	ray->side = VERTICAL;
-	return (vertical);
+	vertical.side = VERTICAL;
+	*ray = vertical;
 }
 
 // t_ray	send_ray(double angle, int color)
@@ -466,20 +470,24 @@ int	game_loop(t_data *data)
 	int i = 0;
 	while (i < WIN_WIDTH)
 	{
-		if (i == WIN_WIDTH / 2 || 1)
+		if (i == WIN_WIDTH / 2 || i % 2 == 0)
 		{
 			// t_ray ray = send_ray(angle, 0xff0000);
-			t_ray ray = send_ray(&data->rays[i], angle);
-			int wallHeight = (WIN_HEIGHT / ray.distance) * MINIMAP_TILE;
+			 send_ray(&data->rays[i], angle);
+			// if (i == WIN_WIDTH / 2)
+			// {
+			// 	printf("%f | %d\n", data->rays[i].distance, data->rays[i].side);
+			// }
+			int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * MINIMAP_TILE;
 			int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 			int btm = top + wallHeight;
 			if (btm > WIN_HEIGHT)
 				btm = WIN_HEIGHT;
 			if (top < 0)
 				top = 0;
-			if (ray.side == HORIZONTAL)
+			if (data->rays[i].side == HORIZONTAL)
 				draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			else
+			else if (data->rays[i].side == VERTICAL)
 				draw_line(&data->scene_layer, RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
 		}
 		angle += (float) 60 / WIN_WIDTH;

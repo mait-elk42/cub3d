@@ -84,10 +84,10 @@
 /*
 	* ATTRIBUTES
 */
-# define TAILE_SIZE 20
+# define TILE_SIZE 20
 # define MINIMAP_TILE 20
-# define PLAYER_SPEED 2.0
-# define CAM_SENS 2.0
+# define PLAYER_SPEED 1.0
+# define CAM_SENS 1.0
 
 
 /*
