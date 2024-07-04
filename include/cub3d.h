@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/03 11:23:41 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/03 13:15:35 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@
 */
 # define TAILE_SIZE 20
 # define MINIMAP_TILE 20
-# define PLAYER_SPEED 1.0
-# define CAM_SENS 1.0
+# define PLAYER_SPEED 0.1
+# define CAM_SENS 0.1
 
 
 /*

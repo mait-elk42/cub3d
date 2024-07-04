@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/03 11:24:47 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/03 13:33:25 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ int	hit_wall_at(t_vector2 cords)
 
 	data = data_hook(NULL);
 	grid = (t_vector) {(int) floor(cords.x / TAILE_SIZE), (int) floor(cords.y / TAILE_SIZE)};
-	printf("%d | %d\n", grid.x, grid.y);
+	// printf("%d | %d\n", grid.x, grid.y);
 	return (data->maps[grid.y][grid.x] == '1');
 }
 
@@ -287,8 +287,7 @@ t_ray	send_ray(t_ray *ray, float ray_angle)
 	ray_angle = mth_degtorad(ray_angle);
 	horizontal = send_horizontal_ray(ray, ray_angle);
 	vertical = send_virtical_ray(ray, ray_angle);
-	// printf("%f %f\n", horizontal.distance, vertical.distance);
-	if ((horizontal.distance) < (vertical.distance))
+	if ((horizontal.distance) <= (vertical.distance))
 	{
 		draw_line(&data->minimaps_layer, RGB_BLACK, data->player.cam_pos, ray->horizontal);
 		ray->side = HORIZONTAL;
@@ -465,12 +464,15 @@ int	game_loop(t_data *data)
 	// if (angle < 0)
 	// 	angle = 360 - (30 - data->player.angle);
 	int i = 0;
+	t_ray ray;
 	while (i < WIN_WIDTH)
 	{
-		if (i == WIN_WIDTH / 2 || 1)
+		// if (i == WIN_WIDTH / 2 || 1)
+		if (i > WIN_WIDTH / 2 - 50 && i < WIN_WIDTH / 2 + 50 && i % 2 == 0)
 		{
+			// ft_printf("%d\n", i);
 			// t_ray ray = send_ray(angle, 0xff0000);
-			t_ray ray = send_ray(&data->rays[i], angle);
+			ray = send_ray(&data->rays[i], angle);
 			int wallHeight = (WIN_HEIGHT / ray.distance) * MINIMAP_TILE;
 			int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 			int btm = top + wallHeight;
@@ -482,6 +484,8 @@ int	game_loop(t_data *data)
 				draw_line(&data->scene_layer, RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
 			if (ray.side == VERTICAL)
 				draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
+			// the rays saves the old value 
+			// data->rays[i].side = 5;
 		}
 		angle += (float) 60 / WIN_WIDTH;
 		if (angle > 360)
