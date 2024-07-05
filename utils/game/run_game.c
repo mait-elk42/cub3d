@@ -131,7 +131,6 @@ void	put_maps(char **maps, t_image *img_layer)
 // 		send_ray2(angle + 90, color, ray_);
 // }
 
-
 float	get_distence(float angle, t_vector2 end)
 {
 	double		distance;
@@ -139,7 +138,7 @@ float	get_distence(float angle, t_vector2 end)
 
 	player = data_hook(NULL)->player;
 	distance = sqrt(pow(player.position.x - end.x, 2) + pow(player.position.y - end.y, 2));
-	distance *= cos(deg_to_rad((angle * 180 / M_PI) - player.angle));
+	distance *= cos(deg_to_rad(((angle * 180) / M_PI) - player.angle));
 	return (distance);
 }
 
@@ -161,7 +160,7 @@ void	set_ray_side(t_ray *ray, float angle)
 {
 	ray->facing_down = angle > 0 && angle < M_PI;
 	ray->facing_up = ray->facing_down == false;
-	ray->facing_right = (angle >= 0 && angle < M_PI / 2) || (angle > ((3 * M_PI) / 2) && angle <= (M_PI * 2));
+	ray->facing_right = (angle >= 0 && angle < (M_PI / 2)) || (angle > ((3 * M_PI) / 2) && angle <= (M_PI * 2));
 	// ray->facing_right = angle < 0.5 * M_PI || angle > 1.5 * M_PI;
 	ray->facing_left = ray->facing_right == false;
 	// printf ("up %d down %d left %d right %d\n", ray->facing_up, ray->facing_down, ray->facing_left, ray->facing_right);
@@ -173,7 +172,7 @@ int	hit_wall_at(t_vector2 cords)
 	t_data		*data;
 
 	data = data_hook(NULL);
-	grid = (t_vector) {floor (cords.x / TILE_SIZE), floor (cords.y / TILE_SIZE)};
+	grid = (t_vector) {(cords.x / TILE_SIZE), (cords.y / TILE_SIZE)};
 	// printf("%d | %d\n", grid.x, grid.y);
 	return (data->maps[grid.y][grid.x] == '1');
 }
@@ -196,10 +195,12 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 		intersept.y += TILE_SIZE;
 	step.y = TILE_SIZE;
 	step.x = TILE_SIZE / tan(ray_angle);
-	intersept.x = data->player.position.x + (intersept.y - data->player.position.y) / tan(ray_angle);
+	intersept.x = data->player.position.x + ((intersept.y - data->player.position.y) / tan(ray_angle));
 	if (ray->facing_up)
 		step.y *= -1;
-	if ((ray->facing_left && step.x > 0) || (ray->facing_right && step.x < 0))
+	if ((ray->facing_left && step.x > 0))
+		step.x *= -1;
+	if ((ray->facing_right && step.x < 0))
 		step.x *= -1;
 	increase.x = intersept.x;
 	increase.y = intersept.y;
@@ -207,7 +208,7 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 	while (increase.x > 0 && increase.x < (data->screen.width * TILE_SIZE) && increase.y > 0 && increase.y < (data->screen.height * TILE_SIZE))
 	{
 		// if (hit_wall_at(increase))
-		if ((ray->facing_up && hit_wall_at((t_vector2){increase.x, increase.y - 1})) || hit_wall_at(increase))
+		if ((hit_wall_at((t_vector2){increase.x, increase.y - (ray->facing_up ? 1 : 0)})))
 		{
 			hori_hit = true;
 			break;
@@ -223,6 +224,7 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 	else
 	{
 		ray->horizontal = increase;
+		ray->vertical = (t_vector2) {0,0};
 		ray->distance = INT_MAX;
 	}
 	return(*ray);
@@ -255,7 +257,7 @@ t_ray	send_virtical_ray(t_ray *ray, float ray_angle)
 	increase.y = intersept.y;
 	while (increase.x > 0 && increase.x < (data->screen.width * TILE_SIZE) && increase.y > 0 && increase.y < (data->screen.height * TILE_SIZE))
 	{
-		if ((ray->facing_left && hit_wall_at((t_vector2){increase.x - 1.0, increase.y})) || hit_wall_at(increase))
+		if (hit_wall_at((t_vector2){increase.x - (ray->facing_left ? 1 : 0), increase.y}))
 		{
 			vertical_hit = true;
 			break;
@@ -266,10 +268,12 @@ t_ray	send_virtical_ray(t_ray *ray, float ray_angle)
 	if (vertical_hit == true)
 	{
 		ray->vertical = increase;
+		// if (ray->facing_left)
+		// 	 (ray->vertical = (t_vector2){increase.x - 1, increase.y});
 		ray->distance = get_distence(ray_angle, ray->vertical);
 	} else {
-		// ray->vertical = (t_vector2) {-1,-1};
-		ray->vertical = increase;
+		ray->vertical = (t_vector2) {0,0};
+		// ray->vertical = increase;
 		ray->distance = INT_MAX;
 	}
 	return (*ray);
@@ -467,9 +471,10 @@ int	game_loop(t_data *data)
 	int i = 0;
 	while (i < WIN_WIDTH)
 	{
-		if (i == WIN_WIDTH / 2 || 1)
+		if ((i == (WIN_WIDTH - 100) / 2 || i == (WIN_WIDTH + 100) / 2) || 1)
 		{
 			send_ray(&data->rays[i], angle);
+			// printf ("[%f]\n", data->rays[i].distance);
 			int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
 			int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 			int btm = top + wallHeight;
