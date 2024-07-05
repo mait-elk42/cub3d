@@ -12,17 +12,19 @@
 
 #include <cub3d.h>
 
-float	periodic(float angle)
+float	normalize_angle(float angle)
 {
-	if (angle > 2.0 * M_PI)
-		angle -= 2.0 * M_PI;
+	// this function makes the angle between 0 and 360°
+	// (2.0 * M_PI) means 360°
+	if (angle > (2.0 * M_PI))
+		angle -= (2.0 * M_PI);
 	else if (angle < 0)
-		angle += 2.0 * M_PI;
+		angle += (2.0 * M_PI);
 	return (angle);
 }
 
 
-float	mth_degtorad(float angle)
+float	deg_to_rad(float angle)
 {
-	return (periodic((angle * M_PI) / 180.0));
+	return (normalize_angle((angle * M_PI) / 180.0));
 }

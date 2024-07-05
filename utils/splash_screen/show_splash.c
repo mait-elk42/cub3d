@@ -29,9 +29,9 @@ void	splash_screen(t_data *data)
 	// 	x = 0;
 	// 	while (x < WIN_WIDTH)
 	// 	{
-	// 		if (x % (MINIMAP_TILE * 10) == 0 || y % (MINIMAP_TILE * 10) == 0)
+	// 		if (x % (TILE_SIZE * 10) == 0 || y % (TILE_SIZE * 10) == 0)
 	// 			color = 0xff0000;
-	// 		else if (x % (MINIMAP_TILE * 5) == 0 || y % (MINIMAP_TILE * 5) == 0)
+	// 		else if (x % (TILE_SIZE * 5) == 0 || y % (TILE_SIZE * 5) == 0)
 	// 			color = 0xffff00;
 	// 		t_image_update_pixel(&i, x, y, color);
 	// 		x++;

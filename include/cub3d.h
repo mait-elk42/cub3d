@@ -85,10 +85,10 @@
 /*
 	* ATTRIBUTES
 */
-# define TILE_SIZE 20
-# define MINIMAP_TILE 20
+# define TILE_SIZE 32
+# define MINIMAP_TILE 40
 # define PLAYER_SPEED 1.0
-# define CAM_SENS 1.0
+# define CAM_SENS 2
 
 
 /*
@@ -205,7 +205,7 @@ typedef struct s_mlx
 
 typedef struct s_player
 {
-	t_vector2	cam_pos;
+	t_vector2	position;
 	t_image		texture;
 	float		angle;
 	// float		top_down;
@@ -306,7 +306,7 @@ t_image	t_image_loadfromxpm(char *filename);
 /*
 	* MATH
 */
-float	mth_degtorad(float angle);
+float	deg_to_rad(float angle);
 
 /*
 	* EVENTS

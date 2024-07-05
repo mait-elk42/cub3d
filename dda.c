@@ -54,18 +54,25 @@ void	dda(int sx, int sy, int ex, int ey)
 	float	xinc;
 	float	yinc;
 
+	// sx and sy is the start point
+	// ex and ey is the target point
+	
+	// calculate the diff between start point and the target point
 	dx = ex - sx;
 	dy = ey - sy;
 	if (abs(dx) > abs(dy))
 		step = abs(dx);
 	else
 		step = abs(dy);
+	// calculate the increment value
 	xinc = (float) dx / step;
 	yinc = (float) dy / step;
 	float	x = sx, y = sy;
 	for (int i = 0; i < step; i++)
 	{
+		// start drawing here 
 		table[(int)round(y)][(int)round(x)] = ' ';
+		// the following 2 lines will increament until (x and y) in the target position
 		x += xinc;
 		y += yinc;
 	}
