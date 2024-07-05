@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/04 13:26:43 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/05 16:06:11 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,8 @@ int	hit_wall_at(t_vector2 cords)
 
 t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 {
-	t_vector2	player_pos;
 	t_data		*data;
+	t_vector2	player_pos;
 	t_vector2	step;
 	t_vector2	intersept;
 	t_vector2	increase;
@@ -284,7 +284,6 @@ void	send_ray(t_ray *ray, double ray_angle)
 	t_ray	horizontal;
 
 	data = data_hook(NULL);
-	// ft_bzero(ray, sizeof (t_ray));
 	ray_angle = mth_degtorad(ray_angle);
 	horizontal = send_horizontal_ray(ray, ray_angle);
 	vertical = send_virtical_ray(ray, ray_angle);
@@ -451,7 +450,6 @@ int	get_color_distance(t_ray ray)
 int	game_loop(t_data *data)
 {
 	handle_input(data, mth_degtorad(data->player.angle));
-	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
 	{
