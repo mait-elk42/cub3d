@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/11 15:41:46 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:29:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	print_data_collected(t_data	*data)
 	printf("C: R %d\n", data->scene_info.ceiling_color.r);
 	printf("C: G %d\n", data->scene_info.ceiling_color.g);
 	printf("C: B %d\n", data->scene_info.ceiling_color.b);
+	printf("F: R %d\n", data->scene_info.floor_color.r);
+	printf("F: G %d\n", data->scene_info.floor_color.g);
+	printf("F: B %d\n", data->scene_info.floor_color.b);
 	printf("√ NORTH_texture : %s\n", data->scene_info.north_texture);
 	printf("√ WEST_texture : %s\n", data->scene_info.west_texture);
 	printf("√ EAST_texture : %s\n", data->scene_info.east_texture);
@@ -37,8 +40,7 @@ void	data_init(t_data *data, int ac, char **av)
 	data->mlx.window_ptr = mlx_new_window(data->mlx.mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "cub3d");
 	if (data->mlx.window_ptr == NULL)
 		eput_error("cannot open mlx window", "[MLX_DYLIB]", 1);
-	t_vector v;
-	data->logo = mlx_xpm_file_to_image(data->mlx.mlx_ptr, "textures/cube.xpm", &v.x, &v.y);
+	data->logo = t_image_loadfromxpm("textures/cube.xpm");
 	set_screen_size();
 	print_data_collected(data);
 }

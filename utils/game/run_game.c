@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/04 13:26:43 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:04:48 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 	t_vector2	inc;
 	float		step;
 
-
 	diff.x = to.x - from.x;
 	diff.y = to.y - from.y;
 	if (fabs(diff.x) > fabs(diff.y))
@@ -28,13 +27,9 @@ void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 	inc.x = diff.x / step;
 	inc.y = diff.y / step;
 	int i = 0;
-	// static int kk;
-	while (i < step)
+	while (i <= step)
 	{
-		// #include <pthread.h>
-		// pthread
-		// ft_printf("%d\n", kk++);
-		t_image_update_pixel(image, round(from.x), round(from.y), color);
+		t_image_update_pixel(image, from.x, from.y, color);
 		from.x += inc.x;
 		from.y += inc.y;
 		i++;
@@ -77,93 +72,25 @@ void	put_maps(char **maps, t_image *img_layer)
 	}
 }
 
-// void	init_ray_side(t_ray *ray, float stepx, float stepy, int hori)
-// {
-// 	float	xdiff;
-// 	float	ydiff;
-
-// 	(void)stepx;
-// 	(void)stepy;
-// 	(void)ray;
-// 	(void)hori;
-// 	(void)xdiff;
-// 	(void)ydiff;
-// 	// #error debugging here :)
-
-// 	if (ray->hit_wall.x > ray->hit_wall.y)
-// 	{
-// 		ray->side = EAST;
-// 	}else
-// 		ray->side = UNKNOWN;
-// 	xdiff = ray->hit_wall.x - (floor(ray->hit_wall.x));
-// 	ydiff = ray->hit_wall.y - (floor(ray->hit_wall.y));
-// 	// printf("\033[H\033[2Jinformations : \n \
-// 	// stepx\t: %f \n \
-// 	// stepy\t: %f \n \
-// 	// hit_x\t: %f \n \
-// 	// hit_y\t: %f\n \
-// 	// diffx\t: %f \n \
-// 	// diffy\t: %f \n",
-// 	// stepx, stepy, ray->hit_wall.x, ray->hit_wall.y, xdiff, ydiff);
-// 	// printf("<%s>\n", (ray->hit_wall.x > ray->hit_wall.y) ? "more than" : "less than");
-// }
-
-//
-// void	send_ray2(float angle, int color, t_ray *ray_)
-// {
-// 	t_data		*data;
-// 	float		step_x;
-// 	float		step_y;
-// 	t_vector2	ray_dir;
-// 	data = data_hook(NULL);
-// 	ray_dir = (t_vector2){ray_->hit_wall.x, ray_->hit_wall.y};
-// 	step_x = cos(deg_to_rad(angle));
-// 	step_y = sin(deg_to_rad(angle));
-// 	while (1)
-// 	{
-// 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
-// 		ray_dir.x += step_x;
-// 		ray_dir.y += step_y;
-// 		if (sqrt(pow(ray_->hit_wall.x - ray_dir.x, 2) + pow(ray_->hit_wall.y - ray_dir.y, 2)) >= 15)
-// 			break;
-// 	}
-// 	if (angle < 360)
-// 		send_ray2(angle + 90, color, ray_);
-// }
-
 float	get_distence(float angle, t_vector2 end)
 {
 	double		distance;
 	t_player	player;
 
 	player = data_hook(NULL)->player;
-	distance = sqrt(pow(player.position.x - end.x, 2) + pow(player.position.y - end.y, 2));
-	distance *= cos(deg_to_rad(((angle * 180) / M_PI) - player.angle));
+	distance = sqrt(pow(end.x - player.position.x, 2) + pow(end.y - player.position.y, 2));
+	// distance *= cos(deg_to_rad(((angle * 180) / M_PI) - player.angle));
+	distance *= cos(deg_to_rad(rad_to_deg(angle) - player.angle));
 	return (distance);
-}
-
-t_vector2	get_vert_interseption(float ray_angle)
-{
-	t_vector2	player_pos;
-	t_vector2	intersept;
-	t_data		*data;
-
-	data = data_hook(NULL);
-	player_pos = (t_vector2) {data->player.position.x, data->player.position.y};
-	intersept.x = floor(player_pos.x / TILE_SIZE) * TILE_SIZE;
-	intersept.y = player_pos.y + (player_pos.x - intersept.x) / tan(ray_angle);
-	// printf("[%f | %f || %f]\n", intersept.x, intersept.y, ray_angle);
-	return (intersept);
 }
 
 void	set_ray_side(t_ray *ray, float angle)
 {
 	ray->facing_down = angle > 0 && angle < M_PI;
-	ray->facing_up = ray->facing_down == false;
-	ray->facing_right = (angle >= 0 && angle < (M_PI / 2)) || (angle > ((3 * M_PI) / 2) && angle <= (M_PI * 2));
-	// ray->facing_right = angle < 0.5 * M_PI || angle > 1.5 * M_PI;
-	ray->facing_left = ray->facing_right == false;
-	// printf ("up %d down %d left %d right %d\n", ray->facing_up, ray->facing_down, ray->facing_left, ray->facing_right);
+	ray->facing_up = angle > M_PI && angle < (M_PI * 2);
+	// ray->facing_right = (angle >= 0 && angle <= (M_PI / 2)) || ((angle > ((2 * M_PI) - (M_PI / 2))) && (angle <= (M_PI * 2)));
+	ray->facing_right = angle < 0.5 * M_PI || angle > 1.5 * M_PI;
+	ray->facing_left = angle > 0.5 * M_PI && angle < (1.5 * M_PI);
 }
 
 int	hit_wall_at(t_vector2 cords)
@@ -172,8 +99,7 @@ int	hit_wall_at(t_vector2 cords)
 	t_data		*data;
 
 	data = data_hook(NULL);
-	grid = (t_vector) {(cords.x / TILE_SIZE), (cords.y / TILE_SIZE)};
-	// printf("%d | %d\n", grid.x, grid.y);
+	grid = (t_vector) {(cords.x / TILE_SIZE), cords.y / TILE_SIZE};
 	return (data->maps[grid.y][grid.x] == '1');
 }
 
@@ -191,24 +117,18 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 	set_ray_side(ray, ray_angle);
 	player_pos = data->player.position;
 	intersept.y = floor(player_pos.y / TILE_SIZE) * TILE_SIZE;
-	if (ray->facing_down)
-		intersept.y += TILE_SIZE;
+	intersept.y += (TILE_SIZE * ray->facing_down);
 	step.y = TILE_SIZE;
 	step.x = TILE_SIZE / tan(ray_angle);
-	intersept.x = data->player.position.x + ((intersept.y - data->player.position.y) / tan(ray_angle));
+	if ((ray->facing_left && step.x > 0) || (ray->facing_right && step.x < 0))
+		step.x *= -1;
+	intersept.x = player_pos.x + (intersept.y - player_pos.y) / tan(ray_angle);
 	if (ray->facing_up)
 		step.y *= -1;
-	if ((ray->facing_left && step.x > 0))
-		step.x *= -1;
-	if ((ray->facing_right && step.x < 0))
-		step.x *= -1;
-	increase.x = intersept.x;
-	increase.y = intersept.y;
-	// printf("[%f | %f] | [%f | %f]\n",increase.x, increase.y, step.x, step.y);
+	increase = intersept;
 	while (increase.x > 0 && increase.x < (data->screen.width * TILE_SIZE) && increase.y > 0 && increase.y < (data->screen.height * TILE_SIZE))
 	{
-		// if (hit_wall_at(increase))
-		if ((hit_wall_at((t_vector2){increase.x, increase.y - (ray->facing_up ? 1 : 0)})))
+		if (hit_wall_at((t_vector2){increase.x, increase.y - (ray->facing_up == true)}))
 		{
 			hori_hit = true;
 			break;
@@ -223,8 +143,7 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 	}
 	else
 	{
-		ray->horizontal = increase;
-		ray->vertical = (t_vector2) {0,0};
+		ray->horizontal = (t_vector2){0, 0};
 		ray->distance = INT_MAX;
 	}
 	return(*ray);
@@ -253,11 +172,10 @@ t_ray	send_virtical_ray(t_ray *ray, float ray_angle)
 	intersept.y = player_pos.y + (intersept.x - player_pos.x) * tan(ray_angle);
 	if ((ray->facing_up && step.y > 0) || (ray->facing_down && step.y < 0))
 		step.y *= -1;
-	increase.x = intersept.x;
-	increase.y = intersept.y;
+	increase = intersept;
 	while (increase.x > 0 && increase.x < (data->screen.width * TILE_SIZE) && increase.y > 0 && increase.y < (data->screen.height * TILE_SIZE))
 	{
-		if (hit_wall_at((t_vector2){increase.x - (ray->facing_left ? 1 : 0), increase.y}))
+		if (hit_wall_at((t_vector2){increase.x - ray->facing_left, increase.y}))
 		{
 			vertical_hit = true;
 			break;
@@ -268,12 +186,10 @@ t_ray	send_virtical_ray(t_ray *ray, float ray_angle)
 	if (vertical_hit == true)
 	{
 		ray->vertical = increase;
-		// if (ray->facing_left)
-		// 	 (ray->vertical = (t_vector2){increase.x - 1, increase.y});
 		ray->distance = get_distence(ray_angle, ray->vertical);
-	} else {
-		ray->vertical = (t_vector2) {0,0};
-		// ray->vertical = increase;
+	} else
+	{
+		ray->vertical = (t_vector2) {0, 0};
 		ray->distance = INT_MAX;
 	}
 	return (*ray);
@@ -286,19 +202,19 @@ void	send_ray(t_ray *ray, double ray_angle)
 	t_ray	horizontal;
 
 	data = data_hook(NULL);
-	// ft_bzero(ray, sizeof (t_ray));
+	ft_bzero(ray, sizeof (t_ray));
 	ray_angle = deg_to_rad(ray_angle);
 	horizontal = send_horizontal_ray(ray, ray_angle);
 	vertical = send_virtical_ray(ray, ray_angle);
 	// printf("[%f ||| %f]\n", horizontal.distance, vertical.distance);
-	if (horizontal.distance <= vertical.distance)
+	if (horizontal.distance < vertical.distance)
 	{
-		draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->horizontal);
+		// draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->horizontal);
 		horizontal.side = HORIZONTAL;
 		*ray = horizontal;
 		return ;
 	}
-	draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->vertical);
+	// draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->vertical);
 	vertical.side = VERTICAL;
 	*ray = vertical;
 }
@@ -343,27 +259,27 @@ void	send_ray(t_ray *ray, double ray_angle)
 
 
 
-void	put_player_shape(int size)
+void	put_player_shape(double size)
 {
 	t_data		*data;
-	t_vector2	v1;
-	t_vector2	v2;
-	t_vector2	v3;
+	t_vector2	player_pos;
+	t_vector2	p1;
+	t_vector2	p2;
+	t_vector2	p3;
 	
 	data = data_hook(NULL);
+	player_pos = data->player.position;
+	p1.x = cos(deg_to_rad(data->player.angle - 120)) * size + player_pos.x;
+	p1.y = sin(deg_to_rad(data->player.angle - 120)) * size + player_pos.y;
 
-	v1.x = cos(deg_to_rad(data->player.angle)) * size + data->player.position.x;
-	v1.y = sin(deg_to_rad(data->player.angle)) * size + data->player.position.y;
+	p2.x = cos(deg_to_rad(data->player.angle + 120)) * size + player_pos.x;
+	p2.y = sin(deg_to_rad(data->player.angle + 120)) * size + player_pos.y;
 
-	v2.x = cos(deg_to_rad(data->player.angle + 120)) * size + data->player.position.x;
-	v2.y = sin(deg_to_rad(data->player.angle + 120)) * size + data->player.position.y;
+	p3.x = cos(deg_to_rad(data->player.angle)) * size + player_pos.x;
+	p3.y = sin(deg_to_rad(data->player.angle)) * size + player_pos.y;
 
-	v3.x = cos(deg_to_rad(data->player.angle + 270)) * size + data->player.position.x;
-	v3.y = sin(deg_to_rad(data->player.angle + 270)) * size + data->player.position.y;
-
-	// draw_line(v1, v2);
-	// // draw_line(v1, v3);
-	// draw_line(v1, v3);
+	draw_line(&data->minimaps_layer, 0xff0000,p1, p3);
+	draw_line(&data->minimaps_layer, 0xff0000,p2, p3);
 }
 
 bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
@@ -373,8 +289,8 @@ bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
 	t_vector	n_pos;
 
 	map = data->maps;
-	p_pos.x = (int) data->player.position.x / TILE_SIZE;
-	p_pos.y = (int) data->player.position.y / TILE_SIZE;
+	p_pos.x = (int) (data->player.position.x) / TILE_SIZE;
+	p_pos.y = (int) (data->player.position.y) / TILE_SIZE;
 	// the following commented part is to add some space between player and the wall
 	// if (p_pos.x <= ((n_pos.x) / TILE_SIZE) && p_pos.y <= ((n_pos.y) / TILE_SIZE))
 	// {
@@ -391,32 +307,32 @@ bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
 void	handle_input(t_data *data, float radi)
 {
 	char		**maps;
-	t_vector2	step;
+	t_vector2	next_pos;
 
-	step = data->player.position;
+	next_pos = data->player.position;
 	maps = data->maps;
 	if (data->keys.w.pressed == true)
 	{
-		step.x += cos(radi) * PLAYER_SPEED;
-		step.y += sin(radi) * PLAYER_SPEED;
+		next_pos.x += cos(radi) * PLAYER_SPEED;
+		next_pos.y += sin(radi) * PLAYER_SPEED;
 	}
 	if (data->keys.s.pressed == true)
 	{
-		step.x -= cos(radi) * PLAYER_SPEED;
-		step.y -= sin(radi) * PLAYER_SPEED;
+		next_pos.x -= cos(radi) * PLAYER_SPEED;
+		next_pos.y -= sin(radi) * PLAYER_SPEED;
 	}
 	if (data->keys.d.pressed == true)
 	{
-		step.x -= sin(radi) * PLAYER_SPEED;
-		step.y += cos(radi) * PLAYER_SPEED;
+		next_pos.x -= sin(radi) * PLAYER_SPEED;
+		next_pos.y += cos(radi) * PLAYER_SPEED;
 	}
 	if (data->keys.a.pressed == true)
 	{
-		step.x += sin(radi) * PLAYER_SPEED;
-		step.y -= cos(radi) * PLAYER_SPEED;
+		next_pos.x += sin(radi) * PLAYER_SPEED;
+		next_pos.y -= cos(radi) * PLAYER_SPEED;
 	}
-	if (is_collided_wall(data, step) == false)
-		data->player.position = step;
+	if (is_collided_wall(data, next_pos) == false)
+		data->player.position = next_pos;
 	data->player.angle -= (data->keys.left.pressed == true) * CAM_SENS;
 	data->player.angle += (data->keys.right.pressed == true) * CAM_SENS;
 	
@@ -459,7 +375,7 @@ int	game_loop(t_data *data)
 	{
 		data->keys.left.pressed = true;
 		data->keys.d.pressed = true;
-		// splash_screen(data);
+		splash_screen(data);
 		return (0);
 	}
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
@@ -471,7 +387,8 @@ int	game_loop(t_data *data)
 	int i = 0;
 	while (i < WIN_WIDTH)
 	{
-		if ((i == (WIN_WIDTH - 100) / 2 || i == (WIN_WIDTH + 100) / 2) || 1)
+		// (i == (WIN_WIDTH - 100) / 2 || i == (WIN_WIDTH + 100) / 2)
+		if (1)
 		{
 			send_ray(&data->rays[i], angle);
 			// printf ("[%f]\n", data->rays[i].distance);
@@ -483,18 +400,19 @@ int	game_loop(t_data *data)
 			if (top < 0)
 				top = 0;
 			if (data->rays[i].side == HORIZONTAL)
-				draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			else if (data->rays[i].side == VERTICAL)
-				draw_line(&data->scene_layer, RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			// the rays saves the old value 
-			// data->rays[i].side = 5;
+				draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top + 1}, (t_vector2) {i, btm - 1});
+			else
+				draw_line(&data->scene_layer, RGB_DARK_GREEN, (t_vector2) {i, top + 1}, (t_vector2) {i, btm - 1});
 		}
 		angle += (float) 60 / WIN_WIDTH;
-		if (angle > 360)
-			angle = 0;
 		i++;
 	}
-	// put_player_shape(TILE_SIZE / 3);
+	double size = 1;
+	while (size <= 10)
+	{
+		put_player_shape(size);
+		size++;
+	}
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	return (0);
@@ -516,4 +434,3 @@ void	run_game(t_data *data)
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);
 	mlx_loop(data->mlx.mlx_ptr);
 }
-

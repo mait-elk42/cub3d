@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maps_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/11 15:41:42 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:17:54 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	check_texture(char *varname, char *value)
 	t_data	*data;
 	int		fd;
 
-	(void)varname;
 	data = data_hook(NULL);
 	if (check_file_ext(value, ".xpm") == false)
 		safe_exit(1);
@@ -80,7 +79,7 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 		line = str_skip_wsp(line);
 		value = ft_strchr(line, ' ');
 		*value = '\0';
-		value = str_skip_wsp(value +1);
+		value = str_skip_wsp(value + 1);
 		if (*line == '\0')
 			return (put_error("found empty name", line), false);
 		if (!is_valid_name_index(line, i))
@@ -89,7 +88,9 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 			check_texture(line, value);
 		else if (i > 3 && i <= 5)
 			check_color(line[0], value);
-		return (*value = ' ', true);
+		// the error here >
+		// return (*value = ' ', true);
+		return (true);
 	}
 	if ((int)safe_strlen(line) > data->scene_info.maps_xsize)
 		data->scene_info.maps_xsize = safe_strlen(line);

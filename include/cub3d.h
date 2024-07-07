@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/04 12:56:03 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/07 18:34:47 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,8 @@
 	* ATTRIBUTES
 */
 # define TILE_SIZE 32
-# define MINIMAP_TILE 40
-# define PLAYER_SPEED 1.0
-# define CAM_SENS 2
+# define PLAYER_SPEED 2
+# define CAM_SENS 4
 
 
 /*
@@ -225,7 +224,7 @@ typedef struct s_data
 	t_image				minimaps_layer;
 	int					background_music;
 	t_size				screen;
-	void				*logo;
+	t_image				logo;
 	t_ray				rays[WIN_WIDTH];
 }	t_data;
 
@@ -307,6 +306,7 @@ t_image	t_image_loadfromxpm(char *filename);
 	* MATH
 */
 float	deg_to_rad(float angle);
+float	rad_to_deg(float angle);
 
 /*
 	* EVENTS
