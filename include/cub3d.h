@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/05 16:06:07 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:04:57 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@
 /*
 	* ATTRIBUTES
 */
-# define TILE_SIZE 20
-# define MINIMAP_TILE 20
+# define TILE_SIZE 32
+# define MINIMAP_TILE 32
 # define PLAYER_SPEED 1.0
-# define CAM_SENS 1.0
+# define CAM_SENS 2
 
 
 /*
@@ -205,7 +205,7 @@ typedef struct s_mlx
 
 typedef struct s_player
 {
-	t_vector2	cam_pos;
+	t_vector2	position;
 	t_image		texture;
 	float		angle;
 	// float		top_down;
@@ -227,6 +227,7 @@ typedef struct s_data
 	t_size				screen;
 	void				*logo;
 	t_ray				rays[WIN_WIDTH];
+	t_image				texture_beta;
 }	t_data;
 
 /*
@@ -306,7 +307,7 @@ t_image	t_image_loadfromxpm(char *filename);
 /*
 	* MATH
 */
-float	mth_degtorad(float angle);
+float	deg_to_rad(float angle);
 
 /*
 	* EVENTS

@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/11 15:41:42 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:20:06 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 			check_texture(line, value);
 		else if (i > 3 && i <= 5)
 			check_color(line[0], value);
-		return (*value = ' ', true);
+		// return (*value = ' ', true);
+		return (true);
 	}
 	if ((int)safe_strlen(line) > data->scene_info.maps_xsize)
 		data->scene_info.maps_xsize = safe_strlen(line);
