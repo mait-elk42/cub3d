@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/07 13:04:57 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/07 18:13:54 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@
 # define TILE_SIZE 32
 # define MINIMAP_TILE 32
 # define PLAYER_SPEED 1.0
-# define CAM_SENS 2
+# define CAM_SENS 1.0
 
 
 /*
@@ -177,7 +177,7 @@ typedef struct s_size
 typedef struct s_image
 {
 	void		*img_ptr;
-	char		*buffer;
+	int			*buffer;
 	int			sizex;
 	int			sizey;
 	int			bits_per_pixel;

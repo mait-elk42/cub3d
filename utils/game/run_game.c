@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/07 13:52:50 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:00:28 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 	int i = 0;
 	while (i <= step)
 	{
-		t_image_update_pixel(image, (from.x), (from.y), color);
+		t_image_update_pixel(image, from.x, from.y, color);
 		from.x += inc.x;
 		from.y += inc.y;
 		i++;
@@ -449,20 +449,38 @@ int	get_color_distance(t_ray ray)
 
 void	put_pixels_vertical(t_data *data, t_image texture, int i, int top, int btm)
 {
+	// old soo close
 	(void)data;
 	(void)texture;
 	(void)i;
 	(void)top;
 	(void)btm;
-	// int xp = ((int)(data->rays[i].vertical.x)) % TILE_SIZE;
-	
+	int texture_offset_X = (int)data->rays[i].vertical.y % TILE_SIZE;
+	// int c = (int)texture.buffer[ (xp * 4) ];
 	while (top < btm)
 	{
-		// int c = (int)texture.buffer[(0 * texture.line_bytes) + (xp * 4)];
-		// t_image_update_pixel(&data->scene_layer, i, top, c);
-		t_image_update_pixel(&data->scene_layer, i, top, 0xff0000);
+		int c = (int)texture.buffer[ (top / TILE_SIZE * (texture.line_bytes / 4)) + texture_offset_X];
+		t_image_update_pixel(&data->scene_layer, i, top, c);
+		// printf("[xp:%d][i:%d][top:%d][c:%d]\n", xp, i, top, c);
 		top++;
 	}
+
+	// new soo far
+	// (void)data;
+	// (void)texture;
+	// (void)i;
+	// (void)top;
+	// (void)btm;
+	// int texture_offset_X = (int)data->rays[i].vertical.y % TILE_SIZE;
+	// int y = top;
+	// while (y < btm)
+	// {
+	// 	int texture_offset_Y = (y - top) * TILE_SIZE / 2;
+	// 	int c = (int)texture.buffer[ (TILE_SIZE * texture_offset_Y) + texture_offset_X];
+	// 	t_image_update_pixel(&data->scene_layer, i, top, c);
+	// 	// printf("[xp:%d][i:%d][top:%d][c:%d]\n", xp, i, top, c);
+	// 	y++;
+	// }
 }
 
 int	game_loop(t_data *data)
@@ -516,6 +534,12 @@ int	game_loop(t_data *data)
 			angle = 0;
 		i++;
 	}
+	// int p = 1;
+	// while (p <= 21)
+	// {
+	// 	printf("[%d\t: %f]\n", p, data->rays[WIN_WIDTH -p].distance);
+	// 	p++;
+	// }
 	// put_player_shape(TILE_SIZE / 3);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
