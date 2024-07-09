@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 20:03:46 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:09:38 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ float	get_distence(float angle, t_vector2 end)
 	player = data_hook(NULL)->player;
 	distance = sqrt(pow(end.x - player.position.x, 2) + pow(end.y - player.position.y, 2));
 	// distance *= cos(deg_to_rad(((angle * 180) / M_PI) - player.angle));
-	distance *= cos(deg_to_rad(rad_to_deg(angle) - player.angle));
+	distance *= cos(deg_to_rad(((angle * 180) / M_PI) - player.angle));
 	return (distance);
 }
 
@@ -147,6 +147,8 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 		ray->horizontal = (t_vector2){0, 0};
 		ray->distance = INT_MAX;
 	}
+	// if ((int)ray->horizontal.x % TILE_SIZE)
+	// 	ray->test = true;
 	return(*ray);
 }
 
@@ -210,55 +212,15 @@ void	send_ray(t_ray *ray, double ray_angle)
 	// printf("[%f ||| %f]\n", horizontal.distance, vertical.distance);
 	if (horizontal.distance < vertical.distance)
 	{
-		// draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->horizontal);
+		draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->horizontal);
 		horizontal.side = HORIZONTAL;
 		*ray = horizontal;
 		return ;
 	}
-	// draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->vertical);
+	draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->vertical);
 	vertical.side = VERTICAL;
 	*ray = vertical;
 }
-
-// t_ray	send_ray(float angle, int color)
-// {
-// 	t_data		*data;
-// 	t_vector	pp;
-// 	t_ray		ray;
-// 	float		step_x;
-// 	float		step_y;
-// 	t_vector2	ray_dir;
-// 	char		**map;
-
-// 	data = data_hook(NULL);
-// 	pp.x = (int)data->player.position.x / TILE_SIZE;
-// 	pp.y = (int)data->player.position.y / TILE_SIZE;
-// 	map = data->maps;
-// 	ray_dir = (t_vector2){data->player.position.x, data->player.position.y};
-// 	step_x = cos(deg_to_rad(angle)) * 0.2;
-// 	step_y = sin(deg_to_rad(angle)) * 0.2;
-// 	int	x;
-// 	int	y;
-// 	while (1)
-// 	{
-// 		x = (int)(ray_dir.x) / TILE_SIZE;
-// 		y = (int)(ray_dir.y) / TILE_SIZE;
-// 		t_image_update_pixel(&data->minimaps_layer, ray_dir.x, ray_dir.y, color);
-// 		ray_dir.x += step_x;
-// 		ray_dir.y += step_y;
-// 		if (map[y][x] == '1' || map[(int)(ray_dir.y) / TILE_SIZE][(int)(ray_dir.x - step_x) / TILE_SIZE] == '1')
-// 			break ;
-// 	}
-// 	ray.hit_wall = ray_dir;
-// 	ray.distance = sqrt(pow(data->player.position.x - ray_dir.x, 2) + pow(data->player.position.y - ray_dir.y, 2));
-// 	// init_ray_side(&ray, step_x, step_y, hori);
-// 	// if (side)
-// 	// printf("%d\n", hori);
-// 	ray.distance *= cos(deg_to_rad(angle - data->player.angle));
-// 	return (ray);
-// }
-
-
 
 void	put_player_shape(double size)
 {
@@ -330,7 +292,9 @@ void	handle_input(t_data *data, float radi)
 		next_pos.y -= cos(radi) * PLAYER_SPEED;
 	}
 	if (is_collided_wall(data, next_pos) == false)
+	{
 		data->player.position = next_pos;
+	}
 	data->player.angle -= (data->keys.left.pressed == true) * CAM_SENS;
 	data->player.angle += (data->keys.right.pressed == true) * CAM_SENS;
 	
@@ -342,62 +306,22 @@ void	handle_input(t_data *data, float radi)
 
 // # error there two errors : 1:{Raycasting rendering - wall's edge crossing issue} , 2{the wall is too bad like a circle}
 
-int	get_color_distance(t_ray ray)
+int	get_color_distance(t_ray ray, int color)
 {
 	unsigned char	r,g,b;
+	char	*defc = (char *)&color;
 
-	if ((ray.distance / TILE_SIZE) < 1)
+	if ((ray.distance / 30) < 1)
 		ray.distance = 1;
-	r = 0;
-	g = 255;
-	b = 0;
-	// if (ray.side == HORIZONTAL)
-	// {
-	// 	r = 255;
-	// 	g = 255;
-	// 	b = 0;
-	// }
-	r /= (ray.distance / TILE_SIZE);
-	g /= (ray.distance / TILE_SIZE);
-	b /= (ray.distance / TILE_SIZE);
+	r = defc[0];
+	g = defc[1];
+	b = defc[2];
+
+	r /= (ray.distance / 30);
+	g /= (ray.distance / 30);
+	b /= (ray.distance / 30);
 	
 	return (0 << 24 | r << 16 | g << 8 | b);
-}
-
-void	put_pixels_vertical(t_data *data, t_image texture, int i, int top, int btm)
-{
-	// old soo close
-	(void)data;
-	(void)texture;
-	(void)i;
-	(void)top;
-	(void)btm;
-	int texture_offset_X = (int)data->rays[i].vertical.y % TILE_SIZE;
-	// int c = (int)texture.buffer[ (xp * 4) ];
-	while (top < btm)
-	{
-		int c = (int)texture.buffer[ (top / TILE_SIZE * (texture.line_bytes / 4)) + texture_offset_X];
-		t_image_update_pixel(&data->scene_layer, i, top, c);
-		// printf("[xp:%d][i:%d][top:%d][c:%d]\n", xp, i, top, c);
-		top++;
-	}
-
-	// new soo far
-	// (void)data;
-	// (void)texture;
-	// (void)i;
-	// (void)top;
-	// (void)btm;
-	// int texture_offset_X = (int)data->rays[i].vertical.y % TILE_SIZE;
-	// int y = top;
-	// while (y < btm)
-	// {
-	// 	int texture_offset_Y = (y - top) * TILE_SIZE / 2;
-	// 	int c = (int)texture.buffer[ (TILE_SIZE * texture_offset_Y) + texture_offset_X];
-	// 	t_image_update_pixel(&data->scene_layer, i, top, c);
-	// 	// printf("[xp:%d][i:%d][top:%d][c:%d]\n", xp, i, top, c);
-	// 	y++;
-	// }
 }
 
 void	put_wall(t_data *data, int i)
@@ -405,17 +329,39 @@ void	put_wall(t_data *data, int i)
 	// int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
 	// int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 	// int btm = top + wallHeight;
+	// printf("%f\n", data->rays[i].distance);
 	int wallHeight = (double)(WIN_HEIGHT / data->rays[i].distance) * 30.0;// 30.0 is the scale of the walls -- recommanded to create a macro for it
 	int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 	int btm = top + wallHeight;
-	if (btm > WIN_HEIGHT)
-		 btm = WIN_HEIGHT;
+	// printf("%f %d %d\n", data->rays[i].distance, top, btm);
+	// if (btm > WIN_HEIGHT)
+	// 	btm = WIN_HEIGHT;
 	// if (top < 0)
-	//	 top = 0;
+	// 	top = 0;
 	draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
 	if (data->rays[i].side == HORIZONTAL)
 	{
 		float px = data->rays[i].horizontal.x / (float)TILE_SIZE;
+		int texture_offset_X = (int)(px * data->texture_beta.sizex) % data->texture_beta.sizex;
+		int y = top;
+		if (y < 0)
+			y = 0;
+		// printf("%d %d\n", y, btm);
+		while (y < btm)
+		{
+			if (y > WIN_HEIGHT)
+				break ;
+			float proportion = (float)(y - top) / wallHeight;
+			int texture_offset_Y = (int)(proportion * data->texture_beta.sizey) % data->texture_beta.sizey;
+			int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
+			c = get_color_distance(data->rays[i], c); // useful
+			t_image_update_pixel(&data->scene_layer, i, y, c);
+			y++;
+		}
+	}
+	else
+	{
+		float px = data->rays[i].vertical.y / (float)TILE_SIZE;
 		int texture_offset_X = (int)(px * data->texture_beta.sizex) % data->texture_beta.sizex;
 		int y = top;
 		while (y < btm)
@@ -423,15 +369,47 @@ void	put_wall(t_data *data, int i)
 			float proportion = (float)(y - top) / wallHeight;
 			int texture_offset_Y = (int)(proportion * data->texture_beta.sizey) % data->texture_beta.sizey;
 			int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
+			// c = get_color_distance(data->rays[i], c); // useful
 			t_image_update_pixel(&data->scene_layer, i, y, c);
 			y++;
 		}
+		// draw_line(&data->scene_layer,  0x00309E, (t_vector2) {i, top}, (t_vector2) {i, btm});
 	}
-	else if (data->rays[i].side == VERTICAL)
-		draw_line(&data->scene_layer,  RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-
 	draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
 }
+
+// void	put_wall(t_data *data, int i)
+// {
+// 	// int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
+// 	// int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
+// 	// int btm = top + wallHeight;
+// 	int wallHeight = (double)(WIN_HEIGHT / data->rays[i].distance) * 30.0;// 30.0 is the scale of the walls -- recommanded to create a macro for it
+// 	int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
+// 	int btm = top + wallHeight;
+// 	if (btm > WIN_HEIGHT)
+// 		 btm = WIN_HEIGHT;
+// 	// if (top < 0)
+// 	//	 top = 0;
+// 	draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
+// 	if (data->rays[i].side == HORIZONTAL)
+// 	{
+// 		float px = data->rays[i].horizontal.x / (float)TILE_SIZE;
+// 		int texture_offset_X = (int)(px * data->texture_beta.sizex) % data->texture_beta.sizex;
+// 		int y = top;
+// 		while (y < btm)
+// 		{
+// 			float proportion = (float)(y - top) / wallHeight;
+// 			int texture_offset_Y = (int)(proportion * data->texture_beta.sizey) % data->texture_beta.sizey;
+// 			int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
+// 			t_image_update_pixel(&data->scene_layer, i, y, c);
+// 			y++;
+// 		}
+// 	}
+// 	else if (data->rays[i].side == VERTICAL)
+// 		draw_line(&data->scene_layer,  RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
+
+// 	draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
+// }
 
 int	game_loop(t_data *data)
 {
@@ -459,41 +437,18 @@ int	game_loop(t_data *data)
 		{
 			send_ray(&data->rays[i], angle);
 			put_wall(data, i);
-			// // printf ("[%f]\n", data->rays[i].distance);
-			// int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
-			// int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
-			// int btm = top + wallHeight;
-			// if (btm > WIN_HEIGHT)
-			// 	btm = WIN_HEIGHT;
-			// if (top < 0)
-			// 	top = 0;
-			// draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
-			// // if (data->rays[i].side == HORIZONTAL)
-			// 	// draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			// // else if (data->rays[i].side == VERTICAL)
-			// 	// draw_line(&data->scene_layer, RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			// if (data->rays[i].side == VERTICAL)
-			// 	put_pixels_vertical(data, data->texture_beta , i, top, btm);
-			// 	// draw_line(&data->scene_layer, get_correct_color(data->texture_beta, data->rays[i]), (t_vector2) {i, top}, (t_vector2) {i, btm});
-			// else
-			// 	draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			
-			// draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
-			// the rays saves the old value 
-			// data->rays[i].side = 5;
 		}
 		angle += (float) 60 / WIN_WIDTH;
 		i++;
 	}
-	double size = 1;
-	while (size <= 10)
-	{
-		put_player_shape(size);
-		size++;
-	}
+	// double size = 1;
+	// while (size <= 10)
+	// {
+	// 	put_player_shape(size);
+	// 	size++;
+	// }
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
-	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->texture_beta.img_ptr, 0, 0);
 	return (0);
 }
 
@@ -508,7 +463,7 @@ void	run_game(t_data *data)
 	data->minimaps_layer = t_image_create(data->screen.width * TILE_SIZE, data->screen.height * TILE_SIZE, 0xffffffff);
 	init_player(data);
 	init_keys(data);
-	data->texture_beta = t_image_loadfromxpm("textures/EA.xpm");
+	data->texture_beta = t_image_loadfromxpm("textures/brick.xpm");
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);

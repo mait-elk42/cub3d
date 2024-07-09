@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/07 19:12:08 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:11:49 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int ac, char **av)
 	// data.background_music = fork();
 	// if (data.background_music == 0)
 	// {
-	// 	while (system("afplay audios/background_music.mp3") == 0);
+	// 	while (system("afplay Assets/audios/background_music.mp3") == 0);
 	// 	exit (0);
 	// }
 	data.game_started = true;

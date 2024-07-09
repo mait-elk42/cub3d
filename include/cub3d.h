@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 20:06:43 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:08:26 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ typedef struct s_ray
 	bool		facing_down;
 	bool		facing_left;
 	bool		facing_right;
+	bool		test;
 	t_side		side;
 }	t_ray;
 
