@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 11:28:48 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:47:53 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -375,8 +375,8 @@ bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
 	// the following commented part is to add some space between player and the wall
 	// if (p_pos.x <= ((n_pos.x) / TILE_SIZE) && p_pos.y <= ((n_pos.y) / TILE_SIZE))
 	// {
-			// n_pos.x += 10;
-			// n_pos.y += 10;
+	// 		n_pos.x += 10;
+	// 		n_pos.y += 10;
 	// }
 	n_pos = (t_vector) {next_pos.x / TILE_SIZE, next_pos.y / TILE_SIZE};
 	if ((map[(int)n_pos.y][p_pos.x] == '1' && map[p_pos.y][(int)n_pos.x] == '1'))
@@ -493,33 +493,24 @@ void	put_wall(t_data *data, int i)
 	int btm = top + wallHeight;
 	// if (btm > WIN_HEIGHT)
 	// 	btm = WIN_HEIGHT;
-	if (top < 0)
-		top = 0;
+	// if (top < 0)
+	// 	top = 0;
 	draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
 
 	if (data->rays[i].side == HORIZONTAL)
 	{
 		float px = data->rays[i].horizontal.x / (float)TILE_SIZE;
-		int texture_offset_X = px * data->texture_beta.sizex;
-		
-		while (top < btm && top < WIN_HEIGHT)
+		int texture_offset_X = (int)(px * data->texture_beta.sizex) % data->texture_beta.sizex;
+
+		int y = top;
+		while (y < btm)
 		{
-			double o = 1.0 - (double)(btm-top) / (double)wallHeight;
-			int texture_offset_Y =  o * TILE_SIZE;
-			// printf("%f\n", o * TILE_SIZE);
-			// exit(100);
-			int c = data->texture_beta.buffer[(texture_offset_Y * (data->texture_beta.line_bytes / 4) + texture_offset_X)];
-			t_image_update_pixel(&data->scene_layer, i, top, c);
-			top++;
+			float proportion = (float)(y - top) / wallHeight;
+			int texture_offset_Y = (int)(proportion * data->texture_beta.sizey) % data->texture_beta.sizey;
+			int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
+			t_image_update_pixel(&data->scene_layer, i, y, c);
+			y++;
 		}
-		// bad!
-		// for (int y = top; y < btm; y++)
-        // {
-        //     int texture_offset_Y =(double)((y - top) * data->texture_beta.sizey) / wallHeight;
-        //     int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
-        //     t_image_update_pixel(&data->scene_layer, i, y, c);
-        // }
-		// draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
 	}
 	else if (data->rays[i].side == VERTICAL)
 		draw_line(&data->scene_layer,  RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
@@ -574,7 +565,7 @@ void	run_game(t_data *data)
 	data->minimaps_layer = t_image_create(data->screen.width * TILE_SIZE, data->screen.height * TILE_SIZE, 0xffffffff);
 	init_player(data);
 	init_keys(data);
-	data->texture_beta = t_image_loadfromxpm("textures/EA.xpm");
+	data->texture_beta = t_image_loadfromxpm("textures/brick.xpm");
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);
