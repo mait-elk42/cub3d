@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 16:06:54 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:09:16 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -497,23 +497,23 @@ void	put_wall(t_data *data, int i)
 	// 	top = 0;
 	draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
 
-	if (data->rays[i].side == HORIZONTAL)
-	{
-		float px = data->rays[i].horizontal.x / (float)TILE_SIZE;
-		int texture_offset_X = (int)(px * data->texture_beta.sizex) % data->texture_beta.sizex;
+	// if (data->rays[i].side == HORIZONTAL)
+	// {
+	// 	float px = data->rays[i].horizontal.x / (float)TILE_SIZE;
+	// 	int texture_offset_X = (int)(px * data->texture_beta.sizex) % data->texture_beta.sizex;
 
-		int y = top;
-		while (y < btm)
-		{
-			float proportion = (float)(y - top) / wallHeight;
-			int texture_offset_Y = (int)(proportion * data->texture_beta.sizey) % data->texture_beta.sizey;
-			int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
-			t_image_update_pixel(&data->scene_layer, i, y, c);
-			y++;
-		}
-	}
-	else if (data->rays[i].side == VERTICAL)
-		draw_line(&data->scene_layer,  RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
+	// 	int y = top;
+	// 	while (y < btm)
+	// 	{
+	// 		float proportion = (float)(y - top) / wallHeight;
+	// 		int texture_offset_Y = (int)(proportion * data->texture_beta.sizey) % data->texture_beta.sizey;
+	// 		int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
+	// 		t_image_update_pixel(&data->scene_layer, i, y, c);
+	// 		y++;
+	// 	}
+	// }
+	// else if (data->rays[i].side == VERTICAL)
+	// draw_line(&data->scene_layer,  RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
 
 	draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
 }
