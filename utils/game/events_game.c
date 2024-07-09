@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/11 17:44:18 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:47:08 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int ev_key_down(int keycode, t_data *data)
 		data->game_started = true;
 	if (keycode == KEY_ESC)
 	{
-		system ("kill $(ps | grep afplay | head -n 1 | awk '{print $1}')");
+		// system ("kill $(ps | grep afplay | head -n 1 | awk '{print $1}')");
 		safe_exit(0);
 	}
 	if (data->game_started == true)

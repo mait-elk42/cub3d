@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 16:02:51 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:59:54 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ typedef struct s_ray
 	bool		facing_down;
 	bool		facing_left;
 	bool		facing_right;
+	bool		test;
 	t_side		side;
 }	t_ray;
 
@@ -225,7 +226,7 @@ typedef struct s_data
 	t_image				minimaps_layer;
 	int					background_music;
 	t_size				screen;
-	void				*logo;
+	t_image				logo;
 	t_ray				rays[WIN_WIDTH];
 	t_image				texture_beta;
 }	t_data;
@@ -308,6 +309,7 @@ t_image	t_image_loadfromxpm(char *filename);
 	* MATH
 */
 float	deg_to_rad(float angle);
+float	rad_to_deg(float angle);
 
 /*
 	* EVENTS
@@ -318,6 +320,7 @@ int		ev_key_down(int keycode, t_data *data);
 /**
 	* DRAW
  */
+void	draw_mini_map();
 void	draw_cf(void);
 
 /*

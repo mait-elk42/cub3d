@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   show_splash.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 15:53:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/02 12:20:12 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/07 13:05:44 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	splash_screen(t_data *data)
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, image.img_ptr, 0, 0);
 	t_image background = t_image_create(WIN_WIDTH, 100, RGB_BLUE);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, background.img_ptr, 0, (WIN_HEIGHT - 200));
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->logo, 700, 150);
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->logo.img_ptr, 700, 150);
 	if (n % 2)
 	{
 		mlx_string_put(data->mlx.mlx_ptr, data->mlx.window_ptr, (WIN_WIDTH / 2) - 100, (WIN_HEIGHT - 160), RGB_WHITE, "Press Space To Continue.");
