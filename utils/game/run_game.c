@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 14:47:53 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/09 16:06:54 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -543,9 +543,7 @@ int	game_loop(t_data *data)
 			send_ray(&data->rays[i], angle);
 			put_wall(data, i);
 		}
-		angle += (float) 60 / WIN_WIDTH;
-		if (angle > 360)
-			angle = 0;
+		angle += ((float)60 / WIN_WIDTH);
 		i++;
 	}
 	// put_player_shape(TILE_SIZE / 3);
