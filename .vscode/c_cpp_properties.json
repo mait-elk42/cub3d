@@ -13,7 +13,8 @@
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "macos-clang-x64"
+            "intelliSenseMode": "macos-clang-x64",
+            "compilerPath": "/Library/Developer/CommandLineTools/usr/bin/clangd"
         }
     ],
     "version": 4

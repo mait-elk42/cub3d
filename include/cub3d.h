@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/07 18:34:47 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/08 09:23:55 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@
 	* ATTRIBUTES
 */
 # define TILE_SIZE 32
-# define PLAYER_SPEED 2
-# define CAM_SENS 4
+# define MINIMAP_TILE 32
+# define PLAYER_SPEED 1.0
+# define CAM_SENS 1.0
 
 
 /*
@@ -176,7 +177,7 @@ typedef struct s_size
 typedef struct s_image
 {
 	void		*img_ptr;
-	char		*buffer;
+	int			*buffer;
 	int			sizex;
 	int			sizey;
 	int			bits_per_pixel;
@@ -226,6 +227,7 @@ typedef struct s_data
 	t_size				screen;
 	t_image				logo;
 	t_ray				rays[WIN_WIDTH];
+	t_image				texture_beta;
 }	t_data;
 
 /*
@@ -317,6 +319,7 @@ int		ev_key_down(int keycode, t_data *data);
 /**
 	* DRAW
  */
+void	draw_mini_map();
 void	draw_cf(void);
 
 /*

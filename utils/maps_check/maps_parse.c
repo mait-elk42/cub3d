@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/07 13:17:54 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:07:03 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 			check_texture(line, value);
 		else if (i > 3 && i <= 5)
 			check_color(line[0], value);
-		// the error here >
 		// return (*value = ' ', true);
 		return (true);
 	}
