@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/08 09:24:12 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/09 20:03:46 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,14 +293,11 @@ bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
 	p_pos.x = (int) (data->player.position.x) / TILE_SIZE;
 	p_pos.y = (int) (data->player.position.y) / TILE_SIZE;
 	// the following commented part is to add some space between player and the wall
-	// if (p_pos.x <= ((n_pos.x) / TILE_SIZE) && p_pos.y <= ((n_pos.y) / TILE_SIZE))
-	// {
-			// n_pos.x += 10;
-			// n_pos.y += 10;
-	// }
-	n_pos = (t_vector) {next_pos.x / TILE_SIZE, next_pos.y / TILE_SIZE};
-	if ((map[(int)n_pos.y][p_pos.x] == '1' && map[p_pos.y][(int)n_pos.x] == '1'))
-		return (1);
+	float n_pos_x = cos(deg_to_rad(data->player.angle)) * 20.0;
+	float n_pos_y = sin(deg_to_rad(data->player.angle)) * 20.0;
+	n_pos = (t_vector) {(next_pos.x + n_pos_x) / TILE_SIZE, (next_pos.y + n_pos_y) / TILE_SIZE};
+	// if ((map[(int)n_pos.y][p_pos.x] == '1' && map[p_pos.y][(int)n_pos.x] == '1'))
+	// 	return (1);
 	return (map[(int) n_pos.y][(int) n_pos.x] == '1');
 }
 
@@ -403,6 +400,39 @@ void	put_pixels_vertical(t_data *data, t_image texture, int i, int top, int btm)
 	// }
 }
 
+void	put_wall(t_data *data, int i)
+{
+	// int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
+	// int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
+	// int btm = top + wallHeight;
+	int wallHeight = (double)(WIN_HEIGHT / data->rays[i].distance) * 30.0;// 30.0 is the scale of the walls -- recommanded to create a macro for it
+	int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
+	int btm = top + wallHeight;
+	if (btm > WIN_HEIGHT)
+		 btm = WIN_HEIGHT;
+	// if (top < 0)
+	//	 top = 0;
+	draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
+	if (data->rays[i].side == HORIZONTAL)
+	{
+		float px = data->rays[i].horizontal.x / (float)TILE_SIZE;
+		int texture_offset_X = (int)(px * data->texture_beta.sizex) % data->texture_beta.sizex;
+		int y = top;
+		while (y < btm)
+		{
+			float proportion = (float)(y - top) / wallHeight;
+			int texture_offset_Y = (int)(proportion * data->texture_beta.sizey) % data->texture_beta.sizey;
+			int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
+			t_image_update_pixel(&data->scene_layer, i, y, c);
+			y++;
+		}
+	}
+	else if (data->rays[i].side == VERTICAL)
+		draw_line(&data->scene_layer,  RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
+
+	draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
+}
+
 int	game_loop(t_data *data)
 {
 	handle_input(data, deg_to_rad(data->player.angle));
@@ -416,8 +446,9 @@ int	game_loop(t_data *data)
 	}
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	t_image_clear_color(&data->scene_layer, 0xffffffff);
-	// put_maps(data->maps, &data->minimaps_layer);
-	draw_mini_map();
+	// draw_mini_map();
+	put_maps(data->maps, &data->minimaps_layer);
+	
 	float angle = data->player.angle - 30;
 	// if (angle < 0)
 	// 	angle = 360 - (30 - data->player.angle);
@@ -427,26 +458,27 @@ int	game_loop(t_data *data)
 		if (i == WIN_WIDTH / 2 || 1)
 		{
 			send_ray(&data->rays[i], angle);
-			// printf ("[%f]\n", data->rays[i].distance);
-			int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
-			int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
-			int btm = top + wallHeight;
-			if (btm > WIN_HEIGHT)
-				btm = WIN_HEIGHT;
-			if (top < 0)
-				top = 0;
-			draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
-			// if (data->rays[i].side == HORIZONTAL)
-				// draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			// else if (data->rays[i].side == VERTICAL)
-				// draw_line(&data->scene_layer, RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			if (data->rays[i].side == VERTICAL)
-				put_pixels_vertical(data, data->texture_beta , i, top, btm);
-				// draw_line(&data->scene_layer, get_correct_color(data->texture_beta, data->rays[i]), (t_vector2) {i, top}, (t_vector2) {i, btm});
-			else
-				draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
+			put_wall(data, i);
+			// // printf ("[%f]\n", data->rays[i].distance);
+			// int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
+			// int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
+			// int btm = top + wallHeight;
+			// if (btm > WIN_HEIGHT)
+			// 	btm = WIN_HEIGHT;
+			// if (top < 0)
+			// 	top = 0;
+			// draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
+			// // if (data->rays[i].side == HORIZONTAL)
+			// 	// draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
+			// // else if (data->rays[i].side == VERTICAL)
+			// 	// draw_line(&data->scene_layer, RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
+			// if (data->rays[i].side == VERTICAL)
+			// 	put_pixels_vertical(data, data->texture_beta , i, top, btm);
+			// 	// draw_line(&data->scene_layer, get_correct_color(data->texture_beta, data->rays[i]), (t_vector2) {i, top}, (t_vector2) {i, btm});
+			// else
+			// 	draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
 			
-			draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
+			// draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
 			// the rays saves the old value 
 			// data->rays[i].side = 5;
 		}
