@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 10:43:34 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/09 11:28:48 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -485,11 +485,14 @@ void	put_pixels_vertical(t_data *data, t_image texture, int i, int top, int btm)
 
 void	put_wall(t_data *data, int i)
 {
-	int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
+	// int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
+	// int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
+	// int btm = top + wallHeight;
+	int wallHeight = (double)(WIN_HEIGHT / data->rays[i].distance) * 30.0;// 30.0 is the scale of the walls -- recommanded to create a macro for it
 	int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 	int btm = top + wallHeight;
-	if (btm > WIN_HEIGHT)
-		btm = WIN_HEIGHT;
+	// if (btm > WIN_HEIGHT)
+	// 	btm = WIN_HEIGHT;
 	if (top < 0)
 		top = 0;
 	draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
@@ -499,20 +502,23 @@ void	put_wall(t_data *data, int i)
 		float px = data->rays[i].horizontal.x / (float)TILE_SIZE;
 		int texture_offset_X = px * data->texture_beta.sizex;
 		
-		
-		// int texture_offset_Y = ((btm-top) / (double)wallHeight) * TILE_SIZE;// this value is not correct
-		// while (top < btm)
-		// {
-		// 	int c = data->texture_beta.buffer[((texture_offset_Y / TILE_SIZE) * (data->texture_beta.line_bytes / 4) + texture_offset_X)];
-		// 	t_image_update_pixel(&data->scene_layer, i, top, c);
-		// 	top++;
-		// }
-		for (int y = top; y < btm; y++)
-        {
-            int texture_offset_Y = ((y - top) * data->texture_beta.sizey) / wallHeight;
-            int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
-            t_image_update_pixel(&data->scene_layer, i, y, c);
-        }
+		while (top < btm && top < WIN_HEIGHT)
+		{
+			double o = 1.0 - (double)(btm-top) / (double)wallHeight;
+			int texture_offset_Y =  o * TILE_SIZE;
+			// printf("%f\n", o * TILE_SIZE);
+			// exit(100);
+			int c = data->texture_beta.buffer[(texture_offset_Y * (data->texture_beta.line_bytes / 4) + texture_offset_X)];
+			t_image_update_pixel(&data->scene_layer, i, top, c);
+			top++;
+		}
+		// bad!
+		// for (int y = top; y < btm; y++)
+        // {
+        //     int texture_offset_Y =(double)((y - top) * data->texture_beta.sizey) / wallHeight;
+        //     int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
+        //     t_image_update_pixel(&data->scene_layer, i, y, c);
+        // }
 		// draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
 	}
 	else if (data->rays[i].side == VERTICAL)
