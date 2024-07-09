@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/07 19:00:28 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:43:34 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -425,15 +425,15 @@ void	handle_input(t_data *data, float radi)
 
 // # error there two errors : 1:{Raycasting rendering - wall's edge crossing issue} , 2{the wall is too bad like a circle}
 
-int	get_color_distance(t_ray ray)
+int	get_color_distance(t_ray ray, t_color defc)
 {
 	unsigned char	r,g,b;
 
 	if ((ray.distance / TILE_SIZE) < 1)
 		ray.distance = 1;
-	r = 0;
-	g = 255;
-	b = 0;
+	r = defc.r;
+	g = defc.g;
+	b = defc.b;
 	// if (ray.side == HORIZONTAL)
 	// {
 	// 	r = 255;
@@ -483,6 +483,44 @@ void	put_pixels_vertical(t_data *data, t_image texture, int i, int top, int btm)
 	// }
 }
 
+void	put_wall(t_data *data, int i)
+{
+	int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
+	int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
+	int btm = top + wallHeight;
+	if (btm > WIN_HEIGHT)
+		btm = WIN_HEIGHT;
+	if (top < 0)
+		top = 0;
+	draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
+
+	if (data->rays[i].side == HORIZONTAL)
+	{
+		float px = data->rays[i].horizontal.x / (float)TILE_SIZE;
+		int texture_offset_X = px * data->texture_beta.sizex;
+		
+		
+		// int texture_offset_Y = ((btm-top) / (double)wallHeight) * TILE_SIZE;// this value is not correct
+		// while (top < btm)
+		// {
+		// 	int c = data->texture_beta.buffer[((texture_offset_Y / TILE_SIZE) * (data->texture_beta.line_bytes / 4) + texture_offset_X)];
+		// 	t_image_update_pixel(&data->scene_layer, i, top, c);
+		// 	top++;
+		// }
+		for (int y = top; y < btm; y++)
+        {
+            int texture_offset_Y = ((y - top) * data->texture_beta.sizey) / wallHeight;
+            int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
+            t_image_update_pixel(&data->scene_layer, i, y, c);
+        }
+		// draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
+	}
+	else if (data->rays[i].side == VERTICAL)
+		draw_line(&data->scene_layer,  RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
+
+	draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
+}
+
 int	game_loop(t_data *data)
 {
 	handle_input(data, deg_to_rad(data->player.angle));
@@ -506,44 +544,16 @@ int	game_loop(t_data *data)
 		if (i == WIN_WIDTH / 2 || 1)
 		{
 			send_ray(&data->rays[i], angle);
-			// printf ("[%f]\n", data->rays[i].distance);
-			int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
-			int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
-			int btm = top + wallHeight;
-			if (btm > WIN_HEIGHT)
-				btm = WIN_HEIGHT;
-			if (top < 0)
-				top = 0;
-			draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
-			// if (data->rays[i].side == HORIZONTAL)
-				// draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			// else if (data->rays[i].side == VERTICAL)
-				// draw_line(&data->scene_layer, RGB_DARK_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			if (data->rays[i].side == VERTICAL)
-				put_pixels_vertical(data, data->texture_beta , i, top, btm);
-				// draw_line(&data->scene_layer, get_correct_color(data->texture_beta, data->rays[i]), (t_vector2) {i, top}, (t_vector2) {i, btm});
-			else
-				draw_line(&data->scene_layer, RGB_GREEN, (t_vector2) {i, top}, (t_vector2) {i, btm});
-			
-			draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
-			// the rays saves the old value 
-			// data->rays[i].side = 5;
+			put_wall(data, i);
 		}
 		angle += (float) 60 / WIN_WIDTH;
 		if (angle > 360)
 			angle = 0;
 		i++;
 	}
-	// int p = 1;
-	// while (p <= 21)
-	// {
-	// 	printf("[%d\t: %f]\n", p, data->rays[WIN_WIDTH -p].distance);
-	// 	p++;
-	// }
 	// put_player_shape(TILE_SIZE / 3);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
-	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->texture_beta.img_ptr, 0, 0);
 	return (0);
 }
 
