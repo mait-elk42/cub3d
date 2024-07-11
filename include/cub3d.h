@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 13:59:42 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:55:53 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,11 @@ typedef enum e_direction
 	* STRUCTS
 */
 
-
+typedef struct s_size
+{
+	int	width;
+	int	height;
+}	t_size;
 typedef struct s_key
 {
 	int		keycode;
@@ -175,12 +179,6 @@ typedef struct s_ray
 	bool		facing_right;
 	short		side;
 }	t_ray;
-
-typedef struct s_size
-{
-	size_t	width;
-	size_t	height;
-}	t_size;
 
 
 typedef struct s_image
@@ -233,10 +231,10 @@ typedef struct s_data
 	t_image				scene_layer;
 	t_image				minimaps_layer;
 	int					background_music;
-	t_size				screen;
 	t_image				logo;
 	t_ray				rays[WIN_WIDTH];
 	t_image				texture_beta;
+	t_size				screen;
 }	t_data;
 
 /*

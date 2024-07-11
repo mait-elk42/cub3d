@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 13:59:53 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/11 17:59:09 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,12 +205,12 @@ void	send_ray(t_ray *ray, double ray_angle)
 			horizontal.direction = SOUTH;
 		else
 			horizontal.direction = UNKNOWN;
-		draw_line(&data->minimaps_layer, RGB_RED, (t_vector2){data->screen.x}, horizontal.intersept_point);
+		draw_line(&data->minimaps_layer, RGB_RED, (t_vector2){((data->screen.width / 2) * 32) + 32, ((data->screen.height / 2) * 32) + 32}, horizontal.intersept_point);
 		horizontal.side = HORIZONTAL;
 		*ray = horizontal;
 		return ;
 	}
-	draw_line(&data->minimaps_layer, RGB_RED, (t_vector2){data->screen}, vertical.intersept_point);
+	draw_line(&data->minimaps_layer, RGB_RED, (t_vector2){((data->screen.width / 2) * 32) + 32, ((data->screen.height / 2) * 32) + 32}, vertical.intersept_point);
 	vertical.side = VERTICAL;
 	if (vertical.facing_right)
 		vertical.direction = EAST;
@@ -247,16 +247,15 @@ void	put_player_shape(double size)
 bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
 {
 	char		**map;
-	t_vector2	p_player;
-	t_vector	g_player;
-	// t_vector	n_pos;
+	t_vector2	p_pos;
+	t_vector	n_pos;
 
-	p_player.x = data->player.position.x;
-	p_player.y = data->player.position.y;
+	p_pos.x = data->player.position.x / TILE_SIZE;
+	p_pos.y = data->player.position.y / TILE_SIZE;
+	n_pos = (t_vector) {(data->player.position.x + next_pos.x) / 32, ((data->player.position.y + next_pos.y) / 32};
 	map = data->maps;
-	// n_pos = (t_vector) {(next_pos.x + next_px), (next_pos.y + next_py)};
-	// if ((map[(int)n_pos.y][p_pos.x] == '1' && map[p_pos.y][(int)n_pos.x] == '1'))
-	// 	return (1);
+	if ((map[(int)n_pos.y][p_pos.x] == '1' && map[p_pos.y][(int)n_pos.x] == '1'))
+		return (1);
 	// the following commented part is to add some space between player and the wall
 	if (map[(int) (data->player.position.y + (next_pos.y * 2)) / TILE_SIZE][(int) (data->player.position.x + (next_pos.x * 2)) / TILE_SIZE] == '1')
 		return (1);
@@ -441,8 +440,8 @@ int	game_loop(t_data *data)
 	}
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	t_image_clear_color(&data->scene_layer, 0xffffffff);
-	draw_mini_map();
-	// put_maps(data->maps, &data->minimaps_layer);
+	// draw_mini_map();
+	put_maps(data->maps, &data->minimaps_layer);
 	
 	float angle = data->player.angle - 30;
 	// if (angle < 0)

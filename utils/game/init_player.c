@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/07 19:07:09 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:43:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	init_angle_pos(char **maps, t_player *player)
 					player->angle = 180;
 				if (maps[v.y][v.x] == 'N')
 					player->angle = 270;
-				maps[v.y][v.x] = 'P';
+				maps[v.y][v.x] = '0';
 				// player->position = (t_vector2){v.x * TILE_SIZE, v.y * TILE_SIZE};
 				printf("player in coord : x%d y%d\n", v.x, v.y);
 				player->position = (t_vector2){(v.x * TILE_SIZE ) + (TILE_SIZE / 2), (v.y * TILE_SIZE ) + (TILE_SIZE / 2)};
