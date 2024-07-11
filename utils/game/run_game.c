@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 13:58:34 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 17:25:48 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,33 +248,22 @@ void	put_player_shape(double size)
 bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
 {
 	char		**map;
-	t_vector2	p_player;
-	t_vector	g_player;
-	// t_vector	n_pos;
-
-	p_player.x = data->player.position.x;
-	p_player.y = data->player.position.y;
+	t_vector2	step;
+	t_vector2	g_player;
+	
+	(void)next_pos;
+	step.x = 0;
+	step.y = 0;
+	g_player = data->player.position;
 	map = data->maps;
-	// n_pos = (t_vector) {(next_pos.x + next_px), (next_pos.y + next_py)};
-	// if ((map[(int)n_pos.y][p_pos.x] == '1' && map[p_pos.y][(int)n_pos.x] == '1'))
-	// 	return (1);
-	// the following commented part is to add some space between player and the wall
-	if (map[(int) (data->player.position.y + (next_pos.y * 2)) / TILE_SIZE][(int) (data->player.position.x + (next_pos.x * 2)) / TILE_SIZE] == '1')
-		return (1);
-	// printf("[%f %f]\n", next_pos.x, next_pos.y);
-	if ((int) next_pos.x < 0)
-		next_pos.x -= COLISION;
-	else if ((int) next_pos.x > 0)
-		next_pos.x += COLISION;
-	if ((int) next_pos.y < 0)
-		next_pos.y -= COLISION;
-	else if ((int) next_pos.y > 0)
-		next_pos.y += COLISION;
-	p_player.x += next_pos.x;
-	p_player.y += next_pos.y;
-	g_player.x = p_player.x / TILE_SIZE;
-	g_player.y = p_player.y / TILE_SIZE;
-	return (map[g_player.y][g_player.x] == '1');
+	if (map[(int)((data->player.position.y + (next_pos.y * 20)) / TILE_SIZE)][(int)(data->player.position.x / TILE_SIZE)] != '1')
+		step.y = next_pos.y * PLAYER_SPEED;
+	if (map[(int)(data->player.position.y / TILE_SIZE)][(int)((data->player.position.x + (next_pos.x * 20)) / TILE_SIZE)] != '1')
+		step.x = next_pos.x * PLAYER_SPEED;
+	g_player.x += (step.x);
+	g_player.y += (step.y);
+	data->player.position = g_player;
+	return (false);
 	// return (map[(int) (data->player.position.y + (next_pos.y + (next_pos.y < 0 ? -15 : +15))) / 32][(int) (data->player.position.x + (next_pos.x + (next_pos.x < 0 ? -15 : +15))) / 32] == '1');
 }
 
@@ -289,29 +278,29 @@ void	handle_input(t_data *data, float radi)
 	maps = data->maps;
 	if (data->keys.w.pressed == true)
 	{
-		next_pos.x += cos(radi) * PLAYER_SPEED;
-		next_pos.y += sin(radi) * PLAYER_SPEED;
+		next_pos.x += cos(radi);
+		next_pos.y += sin(radi);
 	}
 	if (data->keys.s.pressed == true)
 	{
-		next_pos.x -= cos(radi) * PLAYER_SPEED;
-		next_pos.y -= sin(radi) * PLAYER_SPEED;
+		next_pos.x -= cos(radi);
+		next_pos.y -= sin(radi);
 	}
 	if (data->keys.d.pressed == true)
 	{
-		next_pos.x -= sin(radi) * PLAYER_SPEED;
-		next_pos.y += cos(radi) * PLAYER_SPEED;
+		next_pos.x -= sin(radi);
+		next_pos.y += cos(radi);
 	}
 	if (data->keys.a.pressed == true)
 	{
-		next_pos.x += sin(radi) * PLAYER_SPEED;
-		next_pos.y -= cos(radi) * PLAYER_SPEED;
+		next_pos.x += sin(radi);
+		next_pos.y -= cos(radi);
 	}
 	if (is_collided_wall(data, next_pos) == false)
 	{
 		// data->player.position = (t_vector2) next_pos;
-		data->player.position.x += next_pos.x;
-		data->player.position.y += next_pos.y;
+		// data->player.position.x += next_pos.x;
+		// data->player.position.y += next_pos.y;
 	}
 	data->player.angle -= (data->keys.left.pressed == true) * CAM_SENS;
 	data->player.angle += (data->keys.right.pressed == true) * CAM_SENS;
@@ -358,28 +347,34 @@ void	put_wall(t_data *data, int i)
 	if (data->rays[i].side == HORIZONTAL)
 	{
 		t_image t = data->texture_so;
-		// if (data->rays[i].direction == NORTH)
-		// 	t = data->texture_no;
+		if (data->rays[i].direction == NORTH)
+			t = data->texture_no;
 		float px = data->rays[i].intersept_point.x / (float)TILE_SIZE;
 		int texture_offset_X = (int)(px * t.sizex) % t.sizex;
 		int y = top;
-		while (y < btm)
+		
+		// if (y < 0)
+		// 	y = 0;
+		if (y < 0)
+			y = 0;
+		
+		while (y < btm && y < WIN_HEIGHT)
 		{
-			if (y > WIN_HEIGHT)
-				break ;
+			// if (y > WIN_HEIGHT)
+			// 	break ;
 			float proportion = (float)(y - top) / wallHeight;
 			int texture_offset_Y = (int)(proportion * t.sizey) % t.sizey;
 			int c = t.buffer[texture_offset_Y * t.sizex + texture_offset_X];
 			// c = get_color_distance(data->rays[i], c); // useful
-			t_image_update_pixel(&data->scene_layer, i, y, c);
+				t_image_update_pixel(&data->scene_layer, i, y, c);
 			y++;
 		}
 	}
 	else if (data->rays[i].side == VERTICAL)
 	{
 		t_image t = data->texture_ea;
-		// if (data->rays[i].direction == WEST)
-		// 	t = data->texture_we;
+		if (data->rays[i].direction == WEST)
+			t = data->texture_we;
 		float px = data->rays[i].intersept_point.y / (float)TILE_SIZE;
 		int texture_offset_X = (int)(px * t.sizex) % t.sizex;
 		int y = top;
