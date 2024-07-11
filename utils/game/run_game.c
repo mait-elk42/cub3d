@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 18:48:57 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:45:50 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,70 +245,68 @@ void	put_player_shape(double size)
 	draw_line(&data->minimaps_layer, 0xff0000,p2, p3);
 }
 
-bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
+bool	is_collided_wall(t_data	*data, t_vector2 axis)
 {
 	char		**map;
-	t_vector2	step;
 	t_vector2	g_player;
-	
-	(void)next_pos;
-	step.x = 0;
-	step.y = 0;
+
 	g_player = data->player.position;
 	map = data->maps;
-	printf("%f %f -> %f %f\n", data->player.position.x, data->player.position.y, next_pos.x, next_pos.y);
-	
-	return false;
-	if (map[(int)(floor(data->player.position.y + (next_pos.y * 20)) / TILE_SIZE)][(int)floor(data->player.position.x / TILE_SIZE)] != '1')
-		step.y = next_pos.y * PLAYER_SPEED;
-	if (map[(int)floor(data->player.position.y / TILE_SIZE)][(int)(floor(data->player.position.x + (next_pos.x * 20)) / TILE_SIZE)] != '1')
-		step.x = next_pos.x * PLAYER_SPEED;
-	g_player.x += (step.x);
-	g_player.y += (step.y);
-	data->player.position = g_player;
+	// if ((map[(int) (g_player.y + (axis.y * 15)) / 32][(int) g_player.x / 32] == '1' && map[(int) g_player.y / 32][(int) (g_player.x + (axis.y * 15)) / 32] == '1'))
+	// {
+	// 	printf("[YES]\n");
+	// 	return (true);
+	// }
+	// if (map[(int)(g_player.y + (axis.y * 10)) / TILE_SIZE][(int)(g_player.x + (axis.x * 10)) / TILE_SIZE] != '1')
+	// {
+	// 	data->player.position.x += axis.x * PLAYER_SPEED;
+	// 	data->player.position.y += axis.y * PLAYER_SPEED;
+	// }
+	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 15)) / TILE_SIZE] != '1')
+		data->player.position.x += axis.x * PLAYER_SPEED;
+	if (map[(int)(g_player.y + (axis.y * 15)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] != '1')
+		data->player.position.y += axis.y * PLAYER_SPEED;
 	return (false);
-	// return (map[(int) (data->player.position.y + (next_pos.y + (next_pos.y < 0 ? -15 : +15))) / 32][(int) (data->player.position.x + (next_pos.x + (next_pos.x < 0 ? -15 : +15))) / 32] == '1');
 }
 
 // #error working in collition :)
 void	handle_input(t_data *data, float radi)
 {
 	char		**maps;
-	t_vector2	next_pos;
+	t_vector2	axis;
 	bool		press = false;
 
-	// next_pos = data->player.position;
-	next_pos = data->player.position;
+	axis = (t_vector2){0,0};
 	maps = data->maps;
 	if (data->keys.w.pressed == true)
 	{
-		next_pos.x += cos(radi);
-		next_pos.y += sin(radi);
+		axis.x += cos(radi);
+		axis.y += sin(radi);
 		press = true;
 	}
 	if (data->keys.s.pressed == true)
 	{
-		next_pos.x -= cos(radi);
-		next_pos.y -= sin(radi);
+		axis.x -= cos(radi);
+		axis.y -= sin(radi);
 		press = true;
 	}
 	if (data->keys.d.pressed == true)
 	{
-		next_pos.x -= sin(radi);
-		next_pos.y += cos(radi);
+		axis.x -= sin(radi);
+		axis.y += cos(radi);
 		press = true;
 	}
 	if (data->keys.a.pressed == true)
 	{
-		next_pos.x += sin(radi);
-		next_pos.y -= cos(radi);
+		axis.x += sin(radi);
+		axis.y -= cos(radi);
 		press = true;
 	}
-	if (press && is_collided_wall(data, next_pos) == false)
+	if (press && is_collided_wall(data, axis) == false)
 	{
 		// data->player.position = (t_vector2) next_pos;
-		// data->player.position.x += next_pos.x;
-		// data->player.position.y += next_pos.y;
+		// data->player.position.x += axis.x * PLAYER_SPEED;
+		// data->player.position.y += axis.y * PLAYER_SPEED;
 	}
 	data->player.angle -= (data->keys.left.pressed == true) * CAM_SENS;
 	data->player.angle += (data->keys.right.pressed == true) * CAM_SENS;
