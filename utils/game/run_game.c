@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 13:47:21 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:59:53 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,12 +205,12 @@ void	send_ray(t_ray *ray, double ray_angle)
 			horizontal.direction = SOUTH;
 		else
 			horizontal.direction = UNKNOWN;
-		draw_line(&data->minimaps_layer, RGB_RED, data->player.position, horizontal.intersept_point);
+		draw_line(&data->minimaps_layer, RGB_RED, (t_vector2){data->screen.x}, horizontal.intersept_point);
 		horizontal.side = HORIZONTAL;
 		*ray = horizontal;
 		return ;
 	}
-	draw_line(&data->minimaps_layer, RGB_RED, data->player.position, vertical.intersept_point);
+	draw_line(&data->minimaps_layer, RGB_RED, (t_vector2){data->screen}, vertical.intersept_point);
 	vertical.side = VERTICAL;
 	if (vertical.facing_right)
 		vertical.direction = EAST;
@@ -441,8 +441,8 @@ int	game_loop(t_data *data)
 	}
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	t_image_clear_color(&data->scene_layer, 0xffffffff);
-	// draw_mini_map();
-	put_maps(data->maps, &data->minimaps_layer);
+	draw_mini_map();
+	// put_maps(data->maps, &data->minimaps_layer);
 	
 	float angle = data->player.angle - 30;
 	// if (angle < 0)
