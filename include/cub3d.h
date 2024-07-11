@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 10:44:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:32:22 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ typedef struct s_color
 
 typedef struct s_ray
 {
+	t_vector2	hitpoint; // use this insead ver and hor
+	bool		hitted_hori;
 	t_vector2	vertical;
 	t_vector2	horizontal;
 	double		distance;
@@ -164,7 +166,6 @@ typedef struct s_ray
 	bool		facing_down;
 	bool		facing_left;
 	bool		facing_right;
-	bool		test;
 	t_side		side;
 }	t_ray;
 

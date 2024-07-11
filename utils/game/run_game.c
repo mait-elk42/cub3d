@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 10:45:57 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:32:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,6 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 		ray->horizontal = (t_vector2){0, 0};
 		ray->distance = INT_MAX;
 	}
-	// if ((int)ray->horizontal.x % TILE_SIZE)
-	ray->test = true;
 	return(*ray);
 }
 
@@ -196,7 +194,6 @@ t_ray	send_virtical_ray(t_ray *ray, float ray_angle)
 		ray->vertical = (t_vector2) {0, 0};
 		ray->distance = INT_MAX;
 	}
-	ray->test = true;
 	return (*ray);
 }
 
@@ -214,16 +211,14 @@ void	send_ray(t_ray *ray, double ray_angle)
 	// printf("[%f ||| %f]\n", horizontal.distance, vertical.distance);
 	if ((horizontal.distance) <= (vertical.distance))
 	{
-		draw_line(&data->minimaps_layer, RGB_BROWN, data->player.position, ray->horizontal);
+		draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->horizontal);
 		horizontal.side = HORIZONTAL;
 		*ray = horizontal;
+		return ;
 	}
-	if ((horizontal.distance) > (vertical.distance))
-	{
-		draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->vertical);
-		vertical.side = VERTICAL;
-		*ray = vertical;
-	}
+	draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->vertical);
+	vertical.side = VERTICAL;
+	*ray = vertical;
 }
 
 void	put_player_shape(double size)
@@ -391,13 +386,11 @@ int	game_loop(t_data *data)
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
 	{
-		data->keys.left.pressed = true;
-		data->keys.d.pressed = true;
 		splash_screen(data);
 		return (0);
 	}
-	// t_image_clear_color(&data->minimaps_layer, 0xffffffff);
-	// t_image_clear_color(&data->scene_layer, 0xffffffff);
+	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
+	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
 	// draw_mini_map();
 	float angle = data->player.angle - 30;
@@ -444,7 +437,7 @@ void	run_game(t_data *data)
 	data->minimaps_layer = t_image_create(data->screen.width * TILE_SIZE, data->screen.height * TILE_SIZE, 0xffffffff);
 	init_player(data);
 	init_keys(data);
-	data->texture_beta = t_image_loadfromxpm("textures/b.xpm");
+	data->texture_beta = t_image_loadfromxpm("textures/aa.xpm");
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);
