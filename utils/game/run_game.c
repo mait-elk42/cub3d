@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 20:09:38 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:36:19 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 			hori_hit = true;
 			break;
 		}
+		// draw_line(&data->minimaps_layer, RGB_RED, data->player.position, (t_vector2){intercept.x, intercept.y});;
 		increase.y += step.y;
 		increase.x += step.x;
 	}
@@ -248,19 +249,32 @@ void	put_player_shape(double size)
 bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
 {
 	char		**map;
-	t_vector	p_pos;
-	t_vector	n_pos;
+	t_vector2	player_pos_pixel;
+	t_vector	player_pos_grid;
+	// t_vector	n_pos;
 
+	player_pos_pixel.x = data->player.position.x;
+	player_pos_pixel.y = data->player.position.y;
 	map = data->maps;
-	p_pos.x = (int) (data->player.position.x) / TILE_SIZE;
-	p_pos.y = (int) (data->player.position.y) / TILE_SIZE;
-	// the following commented part is to add some space between player and the wall
-	float n_pos_x = cos(deg_to_rad(data->player.angle)) * 20.0;
-	float n_pos_y = sin(deg_to_rad(data->player.angle)) * 20.0;
-	n_pos = (t_vector) {(next_pos.x + n_pos_x) / TILE_SIZE, (next_pos.y + n_pos_y) / TILE_SIZE};
+	// n_pos = (t_vector) {(next_pos.x + next_px), (next_pos.y + next_py)};
 	// if ((map[(int)n_pos.y][p_pos.x] == '1' && map[p_pos.y][(int)n_pos.x] == '1'))
 	// 	return (1);
-	return (map[(int) n_pos.y][(int) n_pos.x] == '1');
+	// the following commented part is to add some space between player and the wall
+	printf("[%f %f]\n", next_pos.x, next_pos.y);
+	if (next_pos.x < 0)
+		next_pos.x -= COLISION;
+	else if (next_pos.x > 0)
+		next_pos.x += COLISION;
+	if (next_pos.y < 0)
+		next_pos.y -= COLISION;
+	else if (next_pos.y > 0)
+		next_pos.y += COLISION;
+	player_pos_pixel.x += next_pos.x;
+	player_pos_pixel.y += next_pos.y;
+	player_pos_grid.x = player_pos_pixel.x / TILE_SIZE;
+	player_pos_grid.y = player_pos_pixel.y / TILE_SIZE;
+	return (map[player_pos_grid.y][player_pos_grid.x] == '1');
+	// return (map[(int) (data->player.position.y + (next_pos.y + (next_pos.y < 0 ? -15 : +15))) / 32][(int) (data->player.position.x + (next_pos.x + (next_pos.x < 0 ? -15 : +15))) / 32] == '1');
 }
 
 // #error working in collition :)
@@ -269,7 +283,8 @@ void	handle_input(t_data *data, float radi)
 	char		**maps;
 	t_vector2	next_pos;
 
-	next_pos = data->player.position;
+	// next_pos = data->player.position;
+	next_pos = (t_vector2) {0, 0};
 	maps = data->maps;
 	if (data->keys.w.pressed == true)
 	{
@@ -293,7 +308,9 @@ void	handle_input(t_data *data, float radi)
 	}
 	if (is_collided_wall(data, next_pos) == false)
 	{
-		data->player.position = next_pos;
+		// data->player.position = (t_vector2) next_pos;
+		data->player.position.x += next_pos.x;
+		data->player.position.y += next_pos.y;
 	}
 	data->player.angle -= (data->keys.left.pressed == true) * CAM_SENS;
 	data->player.angle += (data->keys.right.pressed == true) * CAM_SENS;

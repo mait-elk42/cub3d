@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 20:08:26 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:25:39 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,9 @@
 */
 # define TILE_SIZE 32
 # define MINIMAP_TILE 32
-# define PLAYER_SPEED 1.5
+# define PLAYER_SPEED 2
 # define CAM_SENS 2.0
+# define COLISION 15
 
 
 /*
