@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 18:59:54 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:44:33 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@
 # define TILE_SIZE 32
 # define MINIMAP_TILE 32
 # define PLAYER_SPEED 1.0
-# define CAM_SENS 1.0
+# define CAM_SENS 1.1
 
 
 /*
@@ -159,7 +159,7 @@ typedef struct s_ray
 {
 	t_vector2	vertical;
 	t_vector2	horizontal;
-	float		distance;
+	double		distance;
 	bool		facing_up;
 	bool		facing_down;
 	bool		facing_left;

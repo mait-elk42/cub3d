@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 20:05:55 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:45:57 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ float	get_distence(float angle, t_vector2 end)
 	double		distance;
 	t_player	player;
 
+	(void)angle;
 	player = data_hook(NULL)->player;
 	distance = sqrt(pow(end.x - player.position.x, 2) + pow(end.y - player.position.y, 2));
 	// distance *= cos(deg_to_rad(((angle * 180) / M_PI) - player.angle));
@@ -148,7 +149,7 @@ t_ray	send_horizontal_ray(t_ray *ray, float ray_angle)
 		ray->distance = INT_MAX;
 	}
 	// if ((int)ray->horizontal.x % TILE_SIZE)
-	// 	ray->test = true;
+	ray->test = true;
 	return(*ray);
 }
 
@@ -195,6 +196,7 @@ t_ray	send_virtical_ray(t_ray *ray, float ray_angle)
 		ray->vertical = (t_vector2) {0, 0};
 		ray->distance = INT_MAX;
 	}
+	ray->test = true;
 	return (*ray);
 }
 
@@ -210,16 +212,18 @@ void	send_ray(t_ray *ray, double ray_angle)
 	horizontal = send_horizontal_ray(ray, ray_angle);
 	vertical = send_virtical_ray(ray, ray_angle);
 	// printf("[%f ||| %f]\n", horizontal.distance, vertical.distance);
-	if (horizontal.distance < vertical.distance)
+	if ((horizontal.distance) <= (vertical.distance))
 	{
-		draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->horizontal);
+		draw_line(&data->minimaps_layer, RGB_BROWN, data->player.position, ray->horizontal);
 		horizontal.side = HORIZONTAL;
 		*ray = horizontal;
-		return ;
 	}
-	draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->vertical);
-	vertical.side = VERTICAL;
-	*ray = vertical;
+	if ((horizontal.distance) > (vertical.distance))
+	{
+		draw_line(&data->minimaps_layer, RGB_RED, data->player.position, ray->vertical);
+		vertical.side = VERTICAL;
+		*ray = vertical;
+	}
 }
 
 void	put_player_shape(double size)
@@ -357,7 +361,7 @@ void	put_wall(t_data *data, int i)
 			float proportion = (float)(y - top) / wallHeight;
 			int texture_offset_Y = (int)(proportion * data->texture_beta.sizey) % data->texture_beta.sizey;
 			int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
-			c = get_color_distance(data->rays[i], c); // useful
+			// c = get_color_distance(data->rays[i], c); // useful
 			t_image_update_pixel(&data->scene_layer, i, y, c);
 			y++;
 		}
@@ -392,8 +396,8 @@ int	game_loop(t_data *data)
 		splash_screen(data);
 		return (0);
 	}
-	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
-	t_image_clear_color(&data->scene_layer, 0xffffffff);
+	// t_image_clear_color(&data->minimaps_layer, 0xffffffff);
+	// t_image_clear_color(&data->scene_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
 	// draw_mini_map();
 	float angle = data->player.angle - 30;
@@ -404,6 +408,7 @@ int	game_loop(t_data *data)
 	{
 		if (i == WIN_WIDTH / 2 || 1)
 		{
+			// printf("%f\n", angle);
 			send_ray(&data->rays[i], angle);
 			put_wall(data, i);
 		}
@@ -415,6 +420,13 @@ int	game_loop(t_data *data)
 	// {
 	// 	put_player_shape(size);
 	// 	size++;
+	// }
+	// system("clear");
+	// int s = 0;
+	// while (s < 20)
+	// {
+	// 	printf("%d => %f\n",s , data->rays[s].distance);
+	// 	s++;
 	// }
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
@@ -432,7 +444,7 @@ void	run_game(t_data *data)
 	data->minimaps_layer = t_image_create(data->screen.width * TILE_SIZE, data->screen.height * TILE_SIZE, 0xffffffff);
 	init_player(data);
 	init_keys(data);
-	data->texture_beta = t_image_loadfromxpm("textures/brick.xpm");
+	data->texture_beta = t_image_loadfromxpm("textures/b.xpm");
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);
