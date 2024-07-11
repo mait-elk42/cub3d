@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 10:25:39 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:40:36 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,20 @@
 
 typedef enum e_side
 {
-	UNKNOWN,
 	LEFT,
 	RIGHT,
 	UP,
 	DOWN
 }	t_side;
+
+typedef enum e_direction
+{
+	UNKNOWN,
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+}	t_direction;
 
 /*
 	* STRUCTS
@@ -158,15 +166,14 @@ typedef struct s_color
 
 typedef struct s_ray
 {
-	t_vector2	vertical;
-	t_vector2	horizontal;
+	t_vector2	intersept_point;
+	t_direction	direction;
 	float		distance;
 	bool		facing_up;
 	bool		facing_down;
 	bool		facing_left;
 	bool		facing_right;
-	bool		test;
-	t_side		side;
+	short		side;
 }	t_ray;
 
 typedef struct s_size
