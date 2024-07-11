@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/08 10:08:00 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/09 19:01:09 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,28 @@ void	draw_square(t_size s, int color)
 
 void	draw_mini_map()
 {
+	t_vector	player_pos;
 	t_data	*data;
 	t_size	size;
 	t_size	s;
 	char	**grid;
 
 	data = data_hook((void *)0);
+	player_pos.x = data->player.position.x / TILE_SIZE;
+	player_pos.y = data->player.position.y / TILE_SIZE;
 	grid = data->maps;
-	size.height = (data->player.position.y / TILE_SIZE) - 2;
-	size.width = 0;
-	s.height = 0;
-	while (grid[size.height])
+	size.height = player_pos.y - 2;
+	s.height = player_pos.y;
+	while (grid[size.height] && size.height <= (size_t) player_pos.y + 2)
 	{
 		s.width = 0;
-		size.width = (data->player.position.x / TILE_SIZE) - 2;
-		while (grid[size.height][size.width])
+		size.width = player_pos.x - 2;
+		while (grid[size.height][size.width] && size.width <= (size_t) player_pos.x + 2)
 		{
 			if (grid[size.height][size.width] == '1')
 				draw_square(s, RGB_RED);
+			else if (grid[size.height][size.width] == '0')
+				draw_square(s, RGB_WHITE);
 			size.width++;
 			s.width += TILE_SIZE;
 		}

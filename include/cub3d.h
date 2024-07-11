@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 13:29:11 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:49:42 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,9 @@
 */
 # define TILE_SIZE 32
 # define MINIMAP_TILE 32
-# define PLAYER_SPEED 1.0
-# define CAM_SENS 1.1
+# define PLAYER_SPEED 2
+# define CAM_SENS 2.0
+# define COLISION 15
 
 
 /*
@@ -105,12 +106,20 @@
 
 typedef enum e_side
 {
-	UNKNOWN,
 	LEFT,
 	RIGHT,
 	UP,
 	DOWN
 }	t_side;
+
+typedef enum e_direction
+{
+	UNKNOWN,
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+}	t_direction;
 
 /*
 	* STRUCTS
@@ -157,16 +166,14 @@ typedef struct s_color
 
 typedef struct s_ray
 {
-	t_vector2	hitpoint; // use this insead ver and hor
-	bool		hitted_hori;
-	t_vector2	vertical;
-	t_vector2	horizontal;
-	double		distance;
+	t_vector2	intersept_point;
+	t_direction	direction;
+	float		distance;
 	bool		facing_up;
 	bool		facing_down;
 	bool		facing_left;
 	bool		facing_right;
-	t_side		side;
+	short		side;
 }	t_ray;
 
 typedef struct s_size
