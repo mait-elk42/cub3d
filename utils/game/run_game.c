@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 19:45:50 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 19:48:33 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,9 +262,9 @@ bool	is_collided_wall(t_data	*data, t_vector2 axis)
 	// 	data->player.position.x += axis.x * PLAYER_SPEED;
 	// 	data->player.position.y += axis.y * PLAYER_SPEED;
 	// }
-	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 15)) / TILE_SIZE] != '1')
+	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] != '1')
 		data->player.position.x += axis.x * PLAYER_SPEED;
-	if (map[(int)(g_player.y + (axis.y * 15)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] != '1')
+	if (map[(int)(g_player.y + (axis.y * 5)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] != '1')
 		data->player.position.y += axis.y * PLAYER_SPEED;
 	return (false);
 }
