@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 17:25:48 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:48:57 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,9 +256,12 @@ bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
 	step.y = 0;
 	g_player = data->player.position;
 	map = data->maps;
-	if (map[(int)((data->player.position.y + (next_pos.y * 20)) / TILE_SIZE)][(int)(data->player.position.x / TILE_SIZE)] != '1')
+	printf("%f %f -> %f %f\n", data->player.position.x, data->player.position.y, next_pos.x, next_pos.y);
+	
+	return false;
+	if (map[(int)(floor(data->player.position.y + (next_pos.y * 20)) / TILE_SIZE)][(int)floor(data->player.position.x / TILE_SIZE)] != '1')
 		step.y = next_pos.y * PLAYER_SPEED;
-	if (map[(int)(data->player.position.y / TILE_SIZE)][(int)((data->player.position.x + (next_pos.x * 20)) / TILE_SIZE)] != '1')
+	if (map[(int)floor(data->player.position.y / TILE_SIZE)][(int)(floor(data->player.position.x + (next_pos.x * 20)) / TILE_SIZE)] != '1')
 		step.x = next_pos.x * PLAYER_SPEED;
 	g_player.x += (step.x);
 	g_player.y += (step.y);
@@ -272,31 +275,36 @@ void	handle_input(t_data *data, float radi)
 {
 	char		**maps;
 	t_vector2	next_pos;
+	bool		press = false;
 
 	// next_pos = data->player.position;
-	next_pos = (t_vector2) {0, 0};
+	next_pos = data->player.position;
 	maps = data->maps;
 	if (data->keys.w.pressed == true)
 	{
 		next_pos.x += cos(radi);
 		next_pos.y += sin(radi);
+		press = true;
 	}
 	if (data->keys.s.pressed == true)
 	{
 		next_pos.x -= cos(radi);
 		next_pos.y -= sin(radi);
+		press = true;
 	}
 	if (data->keys.d.pressed == true)
 	{
 		next_pos.x -= sin(radi);
 		next_pos.y += cos(radi);
+		press = true;
 	}
 	if (data->keys.a.pressed == true)
 	{
 		next_pos.x += sin(radi);
 		next_pos.y -= cos(radi);
+		press = true;
 	}
-	if (is_collided_wall(data, next_pos) == false)
+	if (press && is_collided_wall(data, next_pos) == false)
 	{
 		// data->player.position = (t_vector2) next_pos;
 		// data->player.position.x += next_pos.x;
@@ -352,13 +360,11 @@ void	put_wall(t_data *data, int i)
 		float px = data->rays[i].intersept_point.x / (float)TILE_SIZE;
 		int texture_offset_X = (int)(px * t.sizex) % t.sizex;
 		int y = top;
-		
-		// if (y < 0)
-		// 	y = 0;
 		if (y < 0)
-			y = 0;
-		
-		while (y < btm && y < WIN_HEIGHT)
+			y += -top;
+		if (btm > WIN_HEIGHT)
+			btm = WIN_HEIGHT;
+		while (y < btm)
 		{
 			// if (y > WIN_HEIGHT)
 			// 	break ;
@@ -378,6 +384,12 @@ void	put_wall(t_data *data, int i)
 		float px = data->rays[i].intersept_point.y / (float)TILE_SIZE;
 		int texture_offset_X = (int)(px * t.sizex) % t.sizex;
 		int y = top;
+		if (y < 0)
+			y += -top;
+		if (btm > WIN_HEIGHT)
+			btm = WIN_HEIGHT;
+		// printf("\t\t%d %d\n", y, btm);
+
 		while (y < btm)
 		{
 			float proportion = (float)(y - top) / wallHeight;
