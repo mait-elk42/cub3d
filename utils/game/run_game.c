@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 12:32:30 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:43:37 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,11 +331,9 @@ void	put_wall(t_data *data, int i)
 	// int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
 	// int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 	// int btm = top + wallHeight;
-	// printf("%f\n", data->rays[i].distance);
-	int wallHeight = (double)(WIN_HEIGHT / data->rays[i].distance) * 30.0;// 30.0 is the scale of the walls -- recommanded to create a macro for it
+	int wallHeight = (double)(WIN_HEIGHT / data->rays[i].distance) * 30.0; // 30.0 is the scale of the walls -- recommanded to create a macro for it
 	int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 	int btm = top + wallHeight;
-	// printf("%f %d %d\n", data->rays[i].distance, top, btm);
 	// if (btm > WIN_HEIGHT)
 	// 	btm = WIN_HEIGHT;
 	// if (top < 0)
@@ -344,18 +342,15 @@ void	put_wall(t_data *data, int i)
 	if (data->rays[i].side == HORIZONTAL)
 	{
 		float px = data->rays[i].horizontal.x / (float)TILE_SIZE;
-		int texture_offset_X = (int)(px * data->texture_beta.sizex) % data->texture_beta.sizex;
+		int texture_offset_X = (int)(px * data->texture_ea.sizex) % data->texture_ea.sizex;
 		int y = top;
-		if (y < 0)
-			y = 0;
-		// printf("%d %d\n", y, btm);
 		while (y < btm)
 		{
 			if (y > WIN_HEIGHT)
 				break ;
 			float proportion = (float)(y - top) / wallHeight;
-			int texture_offset_Y = (int)(proportion * data->texture_beta.sizey) % data->texture_beta.sizey;
-			int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
+			int texture_offset_Y = (int)(proportion * data->texture_ea.sizey) % data->texture_ea.sizey;
+			int c = data->texture_ea.buffer[texture_offset_Y * data->texture_ea.sizex + texture_offset_X];
 			// c = get_color_distance(data->rays[i], c); // useful
 			t_image_update_pixel(&data->scene_layer, i, y, c);
 			y++;
@@ -364,13 +359,13 @@ void	put_wall(t_data *data, int i)
 	else
 	{
 		float px = data->rays[i].vertical.y / (float)TILE_SIZE;
-		int texture_offset_X = (int)(px * data->texture_beta.sizex) % data->texture_beta.sizex;
+		int texture_offset_X = (int)(px * data->texture_so.sizex) % data->texture_so.sizex;
 		int y = top;
 		while (y < btm)
 		{
 			float proportion = (float)(y - top) / wallHeight;
-			int texture_offset_Y = (int)(proportion * data->texture_beta.sizey) % data->texture_beta.sizey;
-			int c = data->texture_beta.buffer[texture_offset_Y * data->texture_beta.sizex + texture_offset_X];
+			int texture_offset_Y = (int)(proportion * data->texture_so.sizey) % data->texture_so.sizey;
+			int c = data->texture_so.buffer[texture_offset_Y * data->texture_so.sizex + texture_offset_X];
 			// c = get_color_distance(data->rays[i], c); // useful
 			t_image_update_pixel(&data->scene_layer, i, y, c);
 			y++;
@@ -392,7 +387,6 @@ int	game_loop(t_data *data)
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
-	// draw_mini_map();
 	float angle = data->player.angle - 30;
 	// if (angle < 0)
 	// 	angle = 360 - (30 - data->player.angle);
@@ -401,26 +395,12 @@ int	game_loop(t_data *data)
 	{
 		if (i == WIN_WIDTH / 2 || 1)
 		{
-			// printf("%f\n", angle);
 			send_ray(&data->rays[i], angle);
 			put_wall(data, i);
 		}
 		angle += (float) 60 / WIN_WIDTH;
 		i++;
 	}
-	// double size = 1;
-	// while (size <= 10)
-	// {
-	// 	put_player_shape(size);
-	// 	size++;
-	// }
-	// system("clear");
-	// int s = 0;
-	// while (s < 20)
-	// {
-	// 	printf("%d => %f\n",s , data->rays[s].distance);
-	// 	s++;
-	// }
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	return (0);
@@ -437,7 +417,10 @@ void	run_game(t_data *data)
 	data->minimaps_layer = t_image_create(data->screen.width * TILE_SIZE, data->screen.height * TILE_SIZE, 0xffffffff);
 	init_player(data);
 	init_keys(data);
-	data->texture_beta = t_image_loadfromxpm("textures/aa.xpm");
+	data->texture_ea = t_image_loadfromxpm("textures/EA.xpm");
+	data->texture_we = t_image_loadfromxpm("textures/WE.xpm");
+	data->texture_so = t_image_loadfromxpm("textures/SO.xpm");
+	data->texture_no = t_image_loadfromxpm("textures/NO.xpm");
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);

@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 12:32:22 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:29:11 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,10 @@ typedef struct s_data
 	t_size				screen;
 	t_image				logo;
 	t_ray				rays[WIN_WIDTH];
-	t_image				texture_beta;
+	t_image				texture_ea;
+	t_image				texture_no;
+	t_image				texture_so;
+	t_image				texture_we;
 }	t_data;
 
 /*
