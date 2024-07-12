@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 19:48:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/12 10:00:19 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,10 +262,18 @@ bool	is_collided_wall(t_data	*data, t_vector2 axis)
 	// 	data->player.position.x += axis.x * PLAYER_SPEED;
 	// 	data->player.position.y += axis.y * PLAYER_SPEED;
 	// }
+	// printf("draw from : {%f || %f}, to :{%f || %f}\n", data->player.position.x, data->player.position.y, data->player.position.x + (axis.x * 5), data->player.position.x + (axis.y * 5));
+	draw_line(&data->minimaps_layer, 0x00ff00, data->player.position, (t_vector2){data->player.position.x + (axis.x * 20), data->player.position.y + (axis.y * 20)});
+	// return (false);
 	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] != '1')
 		data->player.position.x += axis.x * PLAYER_SPEED;
 	if (map[(int)(g_player.y + (axis.y * 5)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] != '1')
 		data->player.position.y += axis.y * PLAYER_SPEED;
+	// if (map[(int)(g_player.y + (axis.y * 5)) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] != '1')
+	// {
+	// 	data->player.position.x += axis.x;
+	// 	data->player.position.y += axis.y;
+	// }
 	return (false);
 }
 
@@ -302,6 +310,7 @@ void	handle_input(t_data *data, float radi)
 		axis.y -= cos(radi);
 		press = true;
 	}
+
 	if (press && is_collided_wall(data, axis) == false)
 	{
 		// data->player.position = (t_vector2) next_pos;
@@ -386,8 +395,7 @@ void	put_wall(t_data *data, int i)
 			y += -top;
 		if (btm > WIN_HEIGHT)
 			btm = WIN_HEIGHT;
-		// printf("\t\t%d %d\n", y, btm);
-
+		// printf("\t\t%d %d {%d}\n", y, btm, i);
 		while (y < btm)
 		{
 			float proportion = (float)(y - top) / wallHeight;
@@ -400,6 +408,7 @@ void	put_wall(t_data *data, int i)
 		// draw_line(&data->scene_layer,  0x00309E, (t_vector2) {i, top}, (t_vector2) {i, btm});
 	}
 	draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
+
 }
 
 // void	put_wall(t_data *data, int i)
@@ -437,7 +446,6 @@ void	put_wall(t_data *data, int i)
 
 int	game_loop(t_data *data)
 {
-	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
 	{
@@ -453,6 +461,7 @@ int	game_loop(t_data *data)
 	int i = 0;
 	while (i < WIN_WIDTH)
 	{
+		// printf("%f\n", angle);
 		if (i == WIN_WIDTH / 2 || 1)
 		{
 			send_ray(&data->rays[i], angle);
@@ -461,6 +470,7 @@ int	game_loop(t_data *data)
 		angle += (float) 60 / WIN_WIDTH;
 		i++;
 	}
+	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	return (0);
