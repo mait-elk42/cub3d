@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/13 10:23:39 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/13 11:19:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,7 +301,7 @@ bool	is_collided_wall(t_data	*data, t_vector2 axis)
 	// 	data->player.position.x += axis.x * PLAYER_SPEED;
 	// 	data->player.position.y += axis.y * PLAYER_SPEED;
 	// }
-	return (false);
+	return (map[(int) (data->player.position.y + (axis.y * 2)) / 32][(int) (data->player.position.x + (axis.x * 2)) / 32] == '1');
 }
 
 void	handle_input(t_data *data, float radi)
@@ -386,7 +386,7 @@ void	put_wall(t_data *data, int i)
 	// 	top = 0;
 	if (data->rays[i].distance > 0.0)
 	{
-		draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
+		// draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
 		if (data->rays[i].side == HORIZONTAL)
 		{
 			t_image t = data->texture_so;
@@ -433,9 +433,29 @@ void	put_wall(t_data *data, int i)
 			}
 			// draw_line(&data->scene_layer,  0x00309E, (t_vector2) {i, top}, (t_vector2) {i, btm});
 		}
-		draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
+		// draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
 	}
 
+}
+
+void	set_celling_floor(t_image *image)
+{
+	t_size	size;
+
+	size.height = 0;
+	while (size.height < WIN_HEIGHT)
+	{
+		size.width = 0;
+		while (size.width < WIN_WIDTH)
+		{
+			// if (size.height < (WIN_HEIGHT / 2))
+			// 	t_image_update_pixel(image->img_ptr, size.width, size.height, RGB_BLUE);
+			// else
+				t_image_update_pixel(image->img_ptr, size.width, size.height, RGB_GREEN);
+			size.width++;
+		}
+		size.height++;
+	}
 }
 
 int	game_loop(t_data *data)
@@ -447,7 +467,7 @@ int	game_loop(t_data *data)
 		return (0);
 	}
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
-	// t_image_clear_color(&data->scene_layer, 0xffffffff);
+	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	put_maps(data->maps, &data->minimaps_layer);
 	float angle = data->player.angle - 30;
 	// if (angle < 0)
@@ -472,8 +492,9 @@ int	game_loop(t_data *data)
 	// 	put_player_shape(size);
 	// 	size++;
 	// }
+	set_celling_floor(data->scene_layer.img_ptr);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
+	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	return (0);
 }
 
