@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 14:55:53 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/12 08:32:46 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,7 @@ int		ev_key_down(int keycode, t_data *data);
 	* DRAW
  */
 void	draw_mini_map();
-void	draw_cf(void);
+void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
 
 /*
 	* SPLASH SCREEN
