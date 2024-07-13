@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 13:33:01 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/13 14:46:31 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	data_init(t_data *data, int ac, char **av)
 		eput_error("Cannot Init Mlx Connection", "[MLX_DYLIB]", 1);
 	init_lines();
 	check_maps();
-	data->mlx.window_ptr = mlx_new_window(data->mlx.mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "cub3d");
+	data->mlx.window_ptr = mlx_new_window(data->mlx.mlx_ptr,
+			WIN_WIDTH, WIN_HEIGHT, "cub3d");
 	if (data->mlx.window_ptr == NULL)
 		eput_error("cannot open mlx window", "[MLX_DYLIB]", 1);
-	// data->logo = t_image_loadfromxpm("textures/cube.xpm");
 	set_screen_size();
 	print_data_collected(data);
 }
