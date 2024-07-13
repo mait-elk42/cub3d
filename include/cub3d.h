@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/12 08:32:46 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/13 10:08:08 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@
 */
 # define TILE_SIZE 32
 # define MINIMAP_TILE 32
-# define PLAYER_SPEED 2
+# define PLAYER_SPEED 1.0
 # define CAM_SENS 2.0
 # define COLISION 15
 
@@ -233,8 +233,11 @@ typedef struct s_data
 	int					background_music;
 	t_image				logo;
 	t_ray				rays[WIN_WIDTH];
-	t_image				texture_beta;
 	t_size				screen;
+	t_image				texture_ea;
+	t_image				texture_no;
+	t_image				texture_so;
+	t_image				texture_we;
 }	t_data;
 
 /*
