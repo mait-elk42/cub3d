@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/13 08:23:00 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/13 09:59:22 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,65 +244,91 @@ void	put_player_shape(double size)
 	draw_line(&data->scene_layer, 0xff0000,p2, p3);
 }
 
-// bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
-// {
-// 	char		**map;
-// 	t_vector	p_pos;
-// 	t_vector	n_pos;
-
-// 	p_pos.x = (int) data->player.position.x / TILE_SIZE;
-// 	p_pos.y = (int) data->player.position.y / TILE_SIZE;
-// 	n_pos = (t_vector) {(data->player.position.x + next_pos.x) / 32, (data->player.position.y + next_pos.y) / 32};
-// 	map = data->maps;
-// 	if ((map[(int)n_pos.y][p_pos.x] == '1' && map[p_pos.y][(int)n_pos.x] == '1'))
-// 		return (1);
-// 	// the following commented part is to add some space between player and the wall
-// 	if (map[(int) (data->player.position.y + (next_pos.y * 2)) / TILE_SIZE][(int) (data->player.position.x + (next_pos.x * 2)) / TILE_SIZE] == '1')
-// 		return (1);
-// 	// printf("[%f %f]\n", next_pos.x, next_pos.y);
-// 	if ((int) next_pos.x < 0)
-// 		next_pos.x -= COLISION;
-// 	else if ((int) next_pos.x > 0)
-// 		next_pos.x += COLISION;
-// 	if ((int) next_pos.y < 0)
-// 		next_pos.y -= COLISION;
-// 	else if ((int) next_pos.y > 0)
-// 		next_pos.y += COLISION;
-// 	// p_player.x += next_pos.x;
-// 	// p_player.y += next_pos.y;
-// 	// g_player.x = p_player.x / TILE_SIZE;
-// 	// g_player.y = p_player.y / TILE_SIZE;
-// 	// return (map[g_player.y][g_player.x] == '1');
-// 	// return (map[(int) (data->player.position.y + (next_pos.y + (next_pos.y < 0 ? -15 : +15))) / 32][(int) (data->player.position.x + (next_pos.x + (next_pos.x < 0 ? -15 : +15))) / 32] == '1');
-// 	return (false);
-// }
-
-
-bool	is_collided_wall()
+bool	is_collided_wall(t_data	*data, t_vector2 next_pos)
 {
-	t_data		*data;
-	t_vector2	plyr_pos;
-	t_vector2	end_point;
-	t_vector	grid;
 	char		**map;
-	
-	data = data_hook(NULL);
+	t_vector	p_pos;
+	t_vector	n_pos;
+
+	p_pos.x = (int) data->player.position.x / TILE_SIZE;
+	p_pos.y = (int) data->player.position.y / TILE_SIZE;
+	n_pos = (t_vector) {(data->player.position.x + (next_pos.x < 0 ? next_pos.x - 5 : next_pos.x + 5)) / 32, (data->player.position.y + (next_pos.y < 0 ? next_pos.y - 5 : next_pos.y + 5)) / 32};
 	map = data->maps;
-	plyr_pos = data->player.position;
-	int i = 0;
-	while (i <= 360)
-	{
-		end_point.x = plyr_pos.x + cos(deg_to_rad(i)) * 10;
-		end_point.y = plyr_pos.y + sin(deg_to_rad(i)) * 10;
-		draw_line(&data->minimaps_layer, RGB_BROWN, data->player.position, end_point);
-		grid.x = (int) (end_point.x / TILE_SIZE);
-		grid.y = (int) (end_point.y / TILE_SIZE);
-		if (map[grid.y][grid.y] == '1')
-			return (true);
-		i++;
-	}
-	return (false);
+	if ((map[(int)n_pos.y][p_pos.x] == '1' && map[p_pos.y][n_pos.x] == '1'))
+		return (true);
+	// the following commented part is to add some space between player and the wall
+	if (map[(int) (data->player.position.y + (next_pos.y)) / TILE_SIZE][(int) (data->player.position.x + (next_pos.x)) / TILE_SIZE] == '1')
+		return (true);
+	// printf("[%f %f]\n", next_pos.x, next_pos.y);
+	// p_player.x += next_pos.x;
+	// p_player.y += next_pos.y;
+	// g_player.x = p_player.x / TILE_SIZE;
+	// g_player.y = p_player.y / TILE_SIZE;
+	// return (map[g_player.y][g_player.x] == '1');
+	// return (map[(int) (data->player.position.y + (next_pos.y + (next_pos.y < 0 ? -15 : +15))) / 32][(int) (data->player.position.x + (next_pos.x + (next_pos.x < 0 ? -15 : +15))) / 32] == '1');
+	return (map[p_pos.y][p_pos.x] == '1');
 }
+
+t_direction	player_facing(float angle)
+{
+	t_direction	player_dir;
+	angle = deg_to_rad(angle);
+	printf("%f\n", angle);
+	bool facing_down = angle > 0 && angle < M_PI;
+	// ray->facing_up = ray->facing_down == false;
+	bool facing_up = angle > M_PI && angle < (M_PI * 2);
+	bool facing_right = angle < 0.5 * M_PI || angle > 1.5 * M_PI;
+	bool facing_left = angle > 0.5 * M_PI && angle < (1.5 * M_PI);
+	// bool facing_right = (angle >= 0 && angle <= (M_PI / 2)) || ((angle > ((2 * M_PI) - (M_PI / 2))) && (angle <= (M_PI * 2)));
+	if (facing_up)
+		player_dir = NORTH;
+	else if (facing_down)
+		player_dir = SOUTH;
+	else if (facing_left)
+		player_dir = WEST;
+	else if (facing_right)
+		player_dir = EAST;
+	else
+		player_dir = UNKNOWN;
+	return (player_dir);
+}
+
+// bool	is_collided_wall()
+// {
+// 	t_data		*data;
+// 	t_vector2	plyr_pos;
+// 	t_vector2	end_point;
+// 	t_vector	grid;
+// 	char		**map;
+	
+// 	data = data_hook(NULL);
+// 	map = data->maps;
+// 	plyr_pos = data->player.position;
+// 	int i = 0;
+// 	bool wall_hit = false;
+// 	while (i <= 360)
+// 	{
+// 		end_point.x = plyr_pos.x + cos(deg_to_rad(i)) * 10;
+// 		end_point.y = plyr_pos.y + sin(deg_to_rad(i)) * 10;
+// 		draw_line(&data->minimaps_layer, RGB_BROWN, data->player.position, end_point);
+// 		grid.x = (int) (end_point.x / TILE_SIZE);
+// 		grid.y = (int) (end_point.y / TILE_SIZE);
+// 		if (map[grid.y][grid.x] == '1')
+// 		{
+// 			t_direction	player_direction;
+// 			player_direction = player_facing(data->player.angle);
+// 			if (
+// 				data->keys.w.pressed == false
+// 			)
+// 				wall_hit = false;
+// 			else
+// 				wall_hit = true;
+// 			printf ("%d %d %c %d\n", grid.x, grid.y, map[grid.y][grid.x], player_facing(data->player.angle));
+// 		}
+// 		i++;
+// 	}
+// 	return (wall_hit);
+// }
 
 // #error working in collition :)
 void	handle_input(t_data *data, float radi)
@@ -333,7 +359,7 @@ void	handle_input(t_data *data, float radi)
 		next_pos.x += sin(radi) * PLAYER_SPEED;
 		next_pos.y -= cos(radi) * PLAYER_SPEED;
 	}
-	if (is_collided_wall())
+	if (is_collided_wall(data, next_pos) == false)
 	{
 		// data->player.position = (t_vector2) next_pos;
 		data->player.position.x += next_pos.x;
