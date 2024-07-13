@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/13 10:08:08 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/13 11:32:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,6 +305,9 @@ void	logger(char *msg);
 void	init_keys(t_data *data);
 void	init_player(t_data *data);
 void	run_game(t_data	*data);
+void	put_wall(t_data *data, int i);
+void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
+void	put_bgd(t_image *image, int ceil_color, int floor_color);
 
 /*
 	* IMAGES
