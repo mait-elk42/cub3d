@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 19:45:35 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/13 09:30:55 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@
 */
 # define TILE_SIZE 32
 # define MINIMAP_TILE 32
-# define PLAYER_SPEED 2
+# define PLAYER_SPEED 1.0
 # define CAM_SENS 2.0
 # define COLISION 15
 
