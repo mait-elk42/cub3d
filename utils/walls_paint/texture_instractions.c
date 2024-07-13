@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/13 11:26:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/13 11:53:04 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	put_wall(t_data *data, int i)
 	int btm = top + wallHeight;
 	// printf("distance : %f %d %d\n", data->rays[i].distance, i , top);
 	// draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
-	if (data->rays[i].distance != 2147483647)
+	if (data->rays[i].distance != 2147483647.0)
 	{
 		if (data->rays[i].side == HORIZONTAL)
 		{

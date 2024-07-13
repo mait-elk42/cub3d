@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/13 11:28:06 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/13 11:55:21 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,44 +249,50 @@ void	put_player_shape(double size)
 
 bool	is_collided_wall(t_data	*data, t_vector2 axis)
 {
-	bool		mv_x;
-	bool		mv_y;
+	// bool		mv_x;
+	// bool		mv_y;
 	char		**map;
 	t_vector2	g_player;
 
 	g_player = data->player.position;
 	map = data->maps;
-	mv_x = false;
-	mv_y = false;
-	draw_line(&data->minimaps_layer, 0x00ff00, data->player.position, (t_vector2){data->player.position.x + (axis.x * 20), data->player.position.y + (axis.y * 20)});
-	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 10)) / TILE_SIZE] != '1')
-	{
-		mv_x = true;
-		data->player.position.x += axis.x * PLAYER_SPEED;
-	}
-	if (map[(int)(g_player.y + (axis.y * 10)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] != '1')
-	{
-		mv_y = true;
-		data->player.position.y += axis.y * PLAYER_SPEED;
-	}
-	if (mv_y != mv_x)
-	{
-		if (mv_x == true)
-		{
-			if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + 10) / TILE_SIZE] == '1')
-				data->player.position.x -= axis.x * PLAYER_SPEED;
-			if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x - 10) / TILE_SIZE] == '1')
-				data->player.position.x -= axis.x * PLAYER_SPEED;
-		}
-		if (mv_y == true)
-		{
-			if (map[(int)(g_player.y + 10) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
-				data->player.position.y -= axis.y * PLAYER_SPEED;
-			if (map[(int)(g_player.y - 10) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
-				data->player.position.y -= axis.y * PLAYER_SPEED;
-		}
+
+	if (map[(int)(g_player.y + (axis.y * 5)) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] == '1')
+		return (true);
+	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] == '1'
+		&& map[(int)(g_player.y + (axis.y * 5)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
+		return (true);
+	// mv_x = false;
+	// mv_y = false;
+	// draw_line(&data->minimaps_layer, 0x00ff00, data->player.position, (t_vector2){data->player.position.x + (axis.x * 20), data->player.position.y + (axis.y * 20)});
+	// if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 10)) / TILE_SIZE] != '1')
+	// {
+	// 	mv_x = true;
+	// 	data->player.position.x += axis.x * PLAYER_SPEED;
+	// }
+	// if (map[(int)(g_player.y + (axis.y * 10)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] != '1')
+	// {
+	// 	mv_y = true;
+	// 	data->player.position.y += axis.y * PLAYER_SPEED;
+	// }
+	// if (mv_y != mv_x)
+	// {
+		// if (mv_x == true)
+		// {
+		// 	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + 10) / TILE_SIZE] == '1')
+		// 		data->player.position.x -= axis.x * PLAYER_SPEED;
+		// 	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x - 10) / TILE_SIZE] == '1')
+		// 		data->player.position.x -= axis.x * PLAYER_SPEED;
+		// }
+		// if (mv_y == true)
+		// {
+		// 	if (map[(int)(g_player.y + 10) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
+		// 		data->player.position.y -= axis.y * PLAYER_SPEED;
+		// 	if (map[(int)(g_player.y - 10) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
+		// 		data->player.position.y -= axis.y * PLAYER_SPEED;
+		// }
 		// printf("%d asdasdasd %f\n", k++, axis.x);
-	}
+	// }
 	// if (map[(int)(g_player.y + (axis.y * 5)) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] != '1')
 	// {
 	// 	data->player.position.x += axis.x * PLAYER_SPEED;
@@ -331,9 +337,8 @@ void	handle_input(t_data *data, float radi)
 
 	if (press && is_collided_wall(data, axis) == false)
 	{
-		// data->player.position = (t_vector2) next_pos;
-		// data->player.position.x += axis.x * PLAYER_SPEED;
-		// data->player.position.y += axis.y * PLAYER_SPEED;
+		data->player.position.x += axis.x * PLAYER_SPEED;
+		data->player.position.y += axis.y * PLAYER_SPEED;
 	}
 	data->player.angle -= (data->keys.left.pressed == true) * CAM_SENS;
 	data->player.angle += (data->keys.right.pressed == true) * CAM_SENS;
