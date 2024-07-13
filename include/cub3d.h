@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/13 11:25:00 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/13 14:11:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdbool.h>
 # include <colors.h>
 # include <stdio.h>
+#include <sys/time.h>
 
 /*
 	* Text Colors
@@ -86,7 +87,7 @@
 	* ATTRIBUTES
 */
 # define TILE_SIZE 32
-# define MINIMAP_TILE 32
+# define MINIMAP_TILE 10
 # define PLAYER_SPEED 1.0
 # define CAM_SENS 2.0
 # define COLISION 15
@@ -323,7 +324,7 @@ t_image	t_image_loadfromxpm(char *filename);
 	* MATH
 */
 float	deg_to_rad(float angle);
-float	rad_to_deg(float angle);
+long	get_time();
 
 /*
 	* EVENTS

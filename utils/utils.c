@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/04 18:32:08 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/13 14:09:12 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,11 @@ void	logger(char *msg)
 	print(1, COLOR_BLUE"LOG : ", 0);
 	print(1, msg, 1);
 	print(1, COLOR_RESET, 0);
+}
+
+long	get_time()
+{
+	struct timeval	t;
+	gettimeofday(&t, 0);
+	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
 }

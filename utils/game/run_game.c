@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/13 11:55:21 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/13 14:09:47 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,6 +353,12 @@ void	handle_input(t_data *data, float radi)
 
 int	game_loop(t_data *data)
 {
+	static int	fps;
+	static int	tfps;
+	static long	ltime;
+
+	if (ltime == 0)
+		ltime = get_time();
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
 	{
@@ -380,6 +386,15 @@ int	game_loop(t_data *data)
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
+	mlx_string_put(data->mlx.mlx_ptr, data->mlx.window_ptr, WIN_WIDTH / 10, WIN_HEIGHT / 10, 0x00ff00, ft_itoa(tfps));
+	// printf("FPS : %d\n", fps);
+	if (get_time() - ltime >= 1000)
+	{
+		tfps = fps;
+		fps = 0;
+		ltime = get_time();
+	}
+	fps++;
 	return (0);
 }
 
