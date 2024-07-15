@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 08:55:29 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/15 10:40:58 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,13 @@ void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 	t_vector2	inc;
 	float		step;
 
-	diff.x = to.x - from.x;
-	diff.y = to.y - from.y;
-	if (fabs(diff.x) > fabs(diff.y))
+	from.x = round(from.x);
+	from.y = round(from.y);
+	to.x = round(to.x);
+	to.y = round(to.y);
+	diff.x = (to.x) - (from.x);
+	diff.y = (to.y) -  (from.y);
+	if (fabs(diff.x) >= fabs(diff.y))
 		step = fabs(diff.x);
 	else
 		step = fabs(diff.y);
@@ -98,7 +102,13 @@ int	hit_wall_at(t_vector2 cords)
 
 	data = data_hook(NULL);
 	grid = (t_vector) {(cords.x / TILE_SIZE), cords.y / TILE_SIZE};
-	return (data->maps[grid.y][grid.x] == '1');
+	if (data->maps[grid.y][grid.x] == '1')
+		return (true);
+	if (data->maps[(int)((cords.y) / TILE_SIZE)][(int)((cords.x + 50) / TILE_SIZE)] == '1')
+	{
+		return (true);
+	}
+	return (false);
 }
 
 t_ray	send_horizontal_ray(float ray_angle)
@@ -195,7 +205,7 @@ void	send_ray(t_ray *ray, double ray_angle)
 	ray_angle = deg_to_rad(ray_angle);
 	horizontal = send_horizontal_ray(ray_angle);
 	vertical = send_virtical_ray(ray_angle);
-	if (horizontal.distance < vertical.distance)
+	if (horizontal.distance <= vertical.distance)
 	{
 		if (horizontal.facing_up)
 			horizontal.direction = NORTH;
@@ -358,12 +368,12 @@ int	game_loop(t_data *data)
 {
 	t_ray	ray;
 	// FPS PART 1
-	static int	fps;
-	static int	tfps;
-	static long	ltime;
-	if (ltime == 0)
-		ltime = get_time();
-	
+	// static int	fps;
+	// static int	tfps;
+	// static long	ltime;
+	// if (ltime == 0)
+	// 	ltime = get_time();
+	// printf("%f\n", data->player.angle);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
@@ -397,14 +407,14 @@ int	game_loop(t_data *data)
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	
 	// FPS PART 2
-	printf("FPS : %d\n", tfps);
-	if (get_time() - ltime >= 1000)
-	{
-		tfps = fps;
-		fps = 0;
-		ltime = get_time();
-	}
-	fps++;
+	// printf("FPS : %d\n", tfps);
+	// if (get_time() - ltime >= 1000)
+	// {
+	// 	tfps = fps;
+	// 	fps = 0;
+	// 	ltime = get_time();
+	// }
+	// fps++;
 	
 	return (0);
 }
@@ -423,7 +433,7 @@ void	run_game(t_data *data)
 	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);
 	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
-	data->player.angle = 45;
+	data->player.angle = 75;
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);
