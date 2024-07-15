@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:55:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/06/03 10:39:34 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/13 14:40:37 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,5 @@
 # define RGB_BLUE                0x0111CD
 # define RGB_WHITE               0xffffff
 # define RGB_BLACK               0x000000
-# endif
+
+#endif

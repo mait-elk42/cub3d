@@ -6,7 +6,11 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/13 11:47:04 by aabouqas         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/13 15:45:32 by mait-elk         ###   ########.fr       */
+>>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +55,24 @@ int	get_color_distance(t_ray ray, int color)
 	return (0 << 24 | r << 16 | g << 8 | b);
 }
 
-void	put_wall(t_data *data, int i)
+void	put_wall(t_data *data, int i, t_ray *ray)
 {
-	int wallHeight = (WIN_HEIGHT / data->rays[i].distance) * TILE_SIZE;
+	int wallHeight = (WIN_HEIGHT / ray->distance) * TILE_SIZE;
 	int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 	int btm = top + wallHeight;
-	// printf("distance : %f %d %d\n", data->rays[i].distance, i , top);
 	// draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
+<<<<<<< HEAD
 	if (data->rays[i].distance > 0.0)
+=======
+	if (ray->distance != 2147483647.0)
+>>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 	{
-		if (data->rays[i].side == HORIZONTAL)
+		if (ray->side == HORIZONTAL)
 		{
 			t_image t = data->texture_so;
-			if (data->rays[i].direction == NORTH)
+			if (ray->direction == NORTH)
 				t = data->texture_no;
-			float px = data->rays[i].intersept_point.x / (float)TILE_SIZE;
+			float px = ray->intersept_point.x / (float)TILE_SIZE;
 			int texture_offset_X = (int)(px * t.sizex) % t.sizex;
 			int y = top;
 			if (y < 0)
@@ -79,17 +86,17 @@ void	put_wall(t_data *data, int i)
 				float proportion = (float)(y - top) / wallHeight;
 				int texture_offset_Y = (int)(proportion * t.sizey) % t.sizey;
 				int c = t.buffer[texture_offset_Y * t.sizex + texture_offset_X];
-				// c = get_color_distance(data->rays[i], c); // useful
+				// c = get_color_distance(ray-> c); // useful
 					t_image_update_pixel(&data->scene_layer, i, y, c);
 				y++;
 			}
 		}
-		else if (data->rays[i].side == VERTICAL)
+		else if (ray->side == VERTICAL)
 		{
 			t_image t = data->texture_ea;
-			if (data->rays[i].direction == WEST)
+			if (ray->direction == WEST)
 				t = data->texture_we;
-			float px = data->rays[i].intersept_point.y / (float)TILE_SIZE;
+			float px = ray->intersept_point.y / (float)TILE_SIZE;
 			int texture_offset_X = (int)(px * t.sizex) % t.sizex;
 			int y = top;
 			if (y < 0)
@@ -101,7 +108,7 @@ void	put_wall(t_data *data, int i)
 				float proportion = (float)(y - top) / wallHeight;
 				int texture_offset_Y = (int)(proportion * t.sizey) % t.sizey;
 				int c = t.buffer[texture_offset_Y * t.sizex + texture_offset_X];
-				// c = get_color_distance(data->rays[i], c); // useful
+				// c = get_color_distance(ray-> c); // useful
 				t_image_update_pixel(&data->scene_layer, i, y, c);
 				y++;
 			}

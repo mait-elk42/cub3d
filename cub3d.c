@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/11 08:29:29 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/13 14:40:04 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,7 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 
-	// check_leaks(1);
 	data_init(&data, ac, av);
-	// printf("mapx %d\n", data.scene_info.maps_xsize);
-	// printf("mapy %d\n", data.scene_info.maps_ysize);
-	// data.background_music = fork();
-	// if (data.background_music == 0)
-	// {
-	// 	while (system("afplay Assets/audios/background_music.mp3") == 0);
-	// 	exit (0);
-	// }
 	data.game_started = true;
 	run_game(&data);
 	safe_exit(0);

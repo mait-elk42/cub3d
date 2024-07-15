@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:17:48 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/09 16:20:05 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/13 13:46:49 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,3 @@ float	deg_to_rad(float angle)
 {
 	return (normalize_angle((angle * M_PI) / 180.0));
 }
-

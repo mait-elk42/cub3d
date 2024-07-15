@@ -6,7 +6,11 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/13 11:32:07 by aabouqas         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/13 15:50:38 by mait-elk         ###   ########.fr       */
+>>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +28,7 @@
 # include <stdbool.h>
 # include <colors.h>
 # include <stdio.h>
+# include <sys/time.h>
 
 /*
 	* Text Colors
@@ -45,7 +50,6 @@
 # define COLOR_UNDERLINE_CYAN    "\033[4;36m"
 # define COLOR_UNDERLINE_WHITE   "\033[4;37m"
 # define COLOR_RESET             "\033[0m"
-
 
 # define VERTICAL 0
 # define HORIZONTAL 1
@@ -72,7 +76,6 @@
 # define ON_EXPOSE     12
 # define ON_DESTROY    17
 
-
 /*
 	* 	WIN SIZE
 */
@@ -86,23 +89,15 @@
 	* ATTRIBUTES
 */
 # define TILE_SIZE 32
-# define MINIMAP_TILE 32
+# define MINIMAP_TILE 10
 # define PLAYER_SPEED 1.0
-# define CAM_SENS 2.0
+# define CAM_SENS 1.0
 # define COLISION 15
-
+# define FOV 60
 
 /*
 	* ENUMS
 */
-// typedef enum e_side
-// {
-// 	UNKNOWN,
-// 	NORTH,
-// 	SOUTH,
-// 	WEST,
-// 	EAST
-// }	t_side;
 
 typedef enum e_side
 {
@@ -125,6 +120,7 @@ typedef enum e_direction
 	* STRUCTS
 */
 
+<<<<<<< HEAD
 typedef struct s_size
 {
 	int	width;
@@ -136,17 +132,19 @@ typedef struct s_key
 	bool	pressed;
 }	t_key;
 
+=======
+>>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 typedef struct s_keys_status
 {
-	t_key	w;
-	t_key	a;
-	t_key	s;
-	t_key	d;
-	t_key	up;
-	t_key	down;
-	t_key	left;
-	t_key	right;
-	t_key	space;
+	bool	w;
+	bool	a;
+	bool	s;
+	bool	d;
+	bool	up;
+	bool	down;
+	bool	left;
+	bool	right;
+	bool	space;
 }	t_keys_status;
 
 typedef struct s_vector
@@ -180,6 +178,14 @@ typedef struct s_ray
 	short		side;
 }	t_ray;
 
+<<<<<<< HEAD
+=======
+typedef struct s_size
+{
+	size_t	width;
+	size_t	height;
+}	t_size;
+>>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 
 typedef struct s_image
 {
@@ -223,7 +229,7 @@ typedef struct s_data
 	bool				game_started;
 	t_mlx				mlx;
 	t_player			player;
-	t_keys_status		keys;
+	t_keys_status		key_pressed;
 	char				**lines;
 	char				**maps;
 	int					fd_file_input;
@@ -232,8 +238,11 @@ typedef struct s_data
 	t_image				minimaps_layer;
 	int					background_music;
 	t_image				logo;
+<<<<<<< HEAD
 	t_ray				rays[WIN_WIDTH];
 	t_size				screen;
+=======
+>>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 	t_image				texture_ea;
 	t_image				texture_no;
 	t_image				texture_so;
@@ -293,8 +302,9 @@ void	free_tab(char **array);
 /*
 	* IO OPERATORS
 */
+
 char	**append_2d(char **old_tab, char *to_append);
-void	set_screen_size();
+void	set_screen_size(void);
 void	print(int fd, char *msg, int endl);
 void	print_2d(char **arr);
 void	logger(char *msg);
@@ -305,7 +315,7 @@ void	logger(char *msg);
 void	init_keys(t_data *data);
 void	init_player(t_data *data);
 void	run_game(t_data	*data);
-void	put_wall(t_data *data, int i);
+void	put_wall(t_data *data, int i, t_ray *ray);
 void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
 
@@ -321,7 +331,7 @@ t_image	t_image_loadfromxpm(char *filename);
 	* MATH
 */
 float	deg_to_rad(float angle);
-float	rad_to_deg(float angle);
+long	get_time(void);
 
 /*
 	* EVENTS
@@ -332,8 +342,12 @@ int		ev_key_down(int keycode, t_data *data);
 /**
 	* DRAW
  */
+<<<<<<< HEAD
 void	draw_mini_map();
 void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
+=======
+void	draw_mini_map(void);
+>>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 
 /*
 	* SPLASH SCREEN
