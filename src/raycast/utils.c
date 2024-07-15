@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/15 13:39:33 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:27:13 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ float	get_distence(float angle, t_vector2 end)
 void	set_distence(t_ray *ray)
 {
 	t_data		*data;
-	t_vector2	intercept_point;
 
 	data = data_hook(NULL);
-	intercept_point = ray->intersept_point;
 	if (ray->hit_wall == true)
 	{
-		ray->distance = get_distence(ray->angle, intercept_point);
+		ray->distance = get_distence(ray->angle, ray->intercept);
 		return ;
 	}
 	ray->distance = INT_MAX;
@@ -41,35 +39,35 @@ void	set_distence(t_ray *ray)
 
 void	set_ray_side(t_ray *ray, float angle)
 {
-	ray->facing_down = angle > 0 && angle < M_PI;
-	ray->facing_up = angle > M_PI && angle < (M_PI * 2);
-	ray->facing_right = angle < 0.5 * M_PI || angle > 1.5 * M_PI;
-	ray->facing_left = angle > 0.5 * M_PI && angle < (1.5 * M_PI);
+	ray->face_down = angle > 0 && angle < M_PI;
+	ray->face_up = angle > M_PI && angle < (M_PI * 2);
+	ray->face_right = angle < 0.5 * M_PI || angle > 1.5 * M_PI;
+	ray->face_left = angle > 0.5 * M_PI && angle < (1.5 * M_PI);
 }
 
 void	set_directions(t_ray *ray, int ray_type)
 {
 	if (ray_type == HORIZONTAL)
 	{
-		if (ray->facing_up)
+		if (ray->face_up)
 			ray->direction = NORTH;
-		else if (ray->facing_down)
+		else if (ray->face_down)
 			ray->direction = SOUTH;
 		else
 			ray->direction = UNKNOWN;
 		ray->side = HORIZONTAL;
 		return ;
 	}
-	if (ray->facing_right)
+	if (ray->face_right)
 		ray->direction = EAST;
-	else if (ray->facing_left)
+	else if (ray->face_left)
 		ray->direction = WEST;
 	else
 		ray->direction = UNKNOWN;
 	ray->side = VERTICAL;
 }
 
-int	hit_wall_at(t_vector2 coords)
+int	check_wall(t_vector2 coords)
 {
 	t_vector	grid;
 	t_data		*data;

@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 13:39:22 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:52:58 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@
 */
 # define TILE_SIZE 32
 # define MINIMAP_TILE 10
-# define PLAYER_SPEED 1.0
-# define CAM_SENS 1.0
+# define PLAYER_SPEED 2.0
+# define CAM_SENS 2
 # define COLISION 15
 # define FOV 60
 
@@ -150,14 +150,14 @@ typedef struct s_color
 
 typedef struct s_ray
 {
-	t_vector2	intersept_point;
+	t_vector2	intercept;
 	t_direction	direction;
 	float		distance;
 	float		angle;
-	bool		facing_up;
-	bool		facing_down;
-	bool		facing_left;
-	bool		facing_right;
+	bool		face_up;
+	bool		face_down;
+	bool		face_left;
+	bool		face_right;
 	bool		hit_wall;
 	short		side;
 }	t_ray;
@@ -284,6 +284,7 @@ char	**append_2d(char **old_tab, char *to_append);
 void	set_screen_size(void);
 void	print(int fd, char *msg, int endl);
 void	print_2d(char **arr);
+float	normalize_angle(float angle);
 void	logger(char *msg);
 
 /*
@@ -295,13 +296,13 @@ void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
 void	send_ray(t_ray *ray, double ray_angle);
-t_ray	send_horizontal_ray(float ray_angle);
-t_ray	send_virtical_ray(float ray_angle);
+t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
+t_ray	send_virtical_ray(float ray_angle, t_size screen_size);
 float	get_distence(float angle, t_vector2 end);
 void	set_distence(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray, float angle);
-int		hit_wall_at(t_vector2 coords);
+int		check_wall(t_vector2 coords);
 
 /*
 	* IMAGES

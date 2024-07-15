@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 10:45:07 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/15 17:15:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 			t_image t = data->texture_so;
 			if (ray->direction == NORTH)
 				t = data->texture_no;
-			float px = ray->intersept_point.x / (float)TILE_SIZE;
+			float px = ray->intercept.x / (float)TILE_SIZE;
 			int texture_offset_X = (int)(px * t.sizex) % t.sizex;
 			int y = top;
 			if (y < 0)
@@ -88,7 +88,7 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 			t_image t = data->texture_ea;
 			if (ray->direction == WEST)
 				t = data->texture_we;
-			float px = ray->intersept_point.y / (float)TILE_SIZE;
+			float px = ray->intercept.y / (float)TILE_SIZE;
 			int texture_offset_X = (int)(px * t.sizex) % t.sizex;
 			int y = top;
 			if (y < 0)

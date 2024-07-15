@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 13:41:30 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:47:20 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,54 +209,47 @@ int	game_loop(t_data *data)
 {
 	t_ray	ray;
 	// FPS PART 1
-	// static int	fps;
-	// static int	tfps;
-	// static long	ltime;
-	// if (ltime == 0)
-	// 	ltime = get_time();
+	static int	fps;
+	static int	tfps;
+	static long	ltime;
+	if (ltime == 0)
+		ltime = get_time();
 	// printf("%f\n", data->player.angle);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
-	if (data->game_started == false)
-	{
-		splash_screen(data);
-		return (0);
-	}
+	// if (data->game_started == false)
+	// {
+	// 	splash_screen(data);
+	// 	return (0);
+	// }
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_bgd(&data->scene_layer, 0x79c0ff, 0xe5c359);
 	put_maps(data->maps, &data->minimaps_layer);
 	float angle = data->player.angle - (FOV / 2);
-	if (angle < 0)
-		angle += 360;
-	if (angle > 360)
-		angle -= 360;
 	int i = 0;
-	handle_input(data, deg_to_rad(data->player.angle));
 	while (i < WIN_WIDTH)
 	{
-		// printf("%f\n", angle);
+		// 	// printf("%f\n", angle);
 		if (i == WIN_WIDTH / 2 || 1)
 		{
 			send_ray(&ray, angle);
 			put_wall(data, i, &ray);
 		}
 		// printf("ray :\t%d\t->[ angle: %f , intercept (x: %f, y: %f)]\n", i, angle, ray.intersept_point.x, ray.intersept_point.y);
-		angle += (float) FOV / WIN_WIDTH;
+		angle += (float)FOV / WIN_WIDTH;
 		i++;
 	}
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
-	
 	// FPS PART 2
-	// printf("FPS : %d\n", tfps);
-	// if (get_time() - ltime >= 1000)
-	// {
-	// 	tfps = fps;
-	// 	fps = 0;
-	// 	ltime = get_time();
-	// }
-	// fps++;
-	
+	printf("FPS : %d\n", tfps);
+	if (get_time() - ltime >= 1000)
+	{
+		tfps = fps;
+		fps = 0;
+		ltime = get_time();
+	}
+	fps++;
 	return (0);
 }
 
