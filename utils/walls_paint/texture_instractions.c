@@ -6,11 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/13 11:47:04 by aabouqas         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/13 15:45:32 by mait-elk         ###   ########.fr       */
->>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
+/*   Updated: 2024/07/15 10:45:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +57,7 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
 	int btm = top + wallHeight;
 	// draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
-<<<<<<< HEAD
-	if (data->rays[i].distance > 0.0)
-=======
 	if (ray->distance != 2147483647.0)
->>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 	{
 		if (ray->side == HORIZONTAL)
 		{

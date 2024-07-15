@@ -6,11 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/13 11:32:07 by aabouqas         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/13 15:50:38 by mait-elk         ###   ########.fr       */
->>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
+/*   Updated: 2024/07/15 10:07:25 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,20 +116,6 @@ typedef enum e_direction
 	* STRUCTS
 */
 
-<<<<<<< HEAD
-typedef struct s_size
-{
-	int	width;
-	int	height;
-}	t_size;
-typedef struct s_key
-{
-	int		keycode;
-	bool	pressed;
-}	t_key;
-
-=======
->>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 typedef struct s_keys_status
 {
 	bool	w;
@@ -178,14 +160,11 @@ typedef struct s_ray
 	short		side;
 }	t_ray;
 
-<<<<<<< HEAD
-=======
 typedef struct s_size
 {
 	size_t	width;
 	size_t	height;
 }	t_size;
->>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 
 typedef struct s_image
 {
@@ -238,15 +217,11 @@ typedef struct s_data
 	t_image				minimaps_layer;
 	int					background_music;
 	t_image				logo;
-<<<<<<< HEAD
-	t_ray				rays[WIN_WIDTH];
-	t_size				screen;
-=======
->>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 	t_image				texture_ea;
 	t_image				texture_no;
 	t_image				texture_so;
 	t_image				texture_we;
+	t_size				screen;
 }	t_data;
 
 /*
@@ -316,7 +291,6 @@ void	init_keys(t_data *data);
 void	init_player(t_data *data);
 void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
-void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
 
 /*
@@ -342,12 +316,8 @@ int		ev_key_down(int keycode, t_data *data);
 /**
 	* DRAW
  */
-<<<<<<< HEAD
 void	draw_mini_map();
 void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
-=======
-void	draw_mini_map(void);
->>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 
 /*
 	* SPLASH SCREEN

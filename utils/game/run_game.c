@@ -6,11 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/13 11:43:42 by aabouqas         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/13 16:07:36 by mait-elk         ###   ########.fr       */
->>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
+/*   Updated: 2024/07/15 10:44:54 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +29,7 @@ void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 	int i = 0;
 	while (i <= step)
 	{
-		t_image_update_pixel(image, from.x, from.y, color);
+		t_image_update_pixel(image, round(from.x), round(from.y), color);
 		from.x += inc.x;
 		from.y += inc.y;
 		i++;
@@ -248,17 +244,34 @@ void	put_player_shape(double size)
 	draw_line(&data->scene_layer, 0xff0000,p2, p3);
 }
 
+// bool	is_collided_wall(t_data	*data, t_vector2 axis)
+// {
+// 	char		**map;
+// 	t_vector2	g_player;
+
+// 	g_player = data->player.position;
+// 	map = data->maps;
+
+// 	if (map[(int)(g_player.y + (axis.y * 10)) / TILE_SIZE][(int)(g_player.x + (axis.x * 10)) / TILE_SIZE] == '1')
+// 		return (true);
+// 	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 10)) / TILE_SIZE] == '1'
+// 		&& map[(int)(g_player.y + (axis.y * 10)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
+// 		return (true);
+// 	return (false);
+// }
+
 bool	is_collided_wall(t_data	*data, t_vector2 axis)
 {
+	bool		mv_x;
+	bool		mv_y;
 	char		**map;
 	t_vector2	g_player;
 
 	g_player = data->player.position;
 	map = data->maps;
-<<<<<<< HEAD
 	mv_x = false;
 	mv_y = false;
-	draw_line(&data->minimaps_layer, 0x00ff00, data->player.position, (t_vector2){data->player.position.x + (axis.x * 20), data->player.position.y + (axis.y * 20)});
+	// draw_line(&data->minimaps_layer, 0x00ff00, data->player.position, (t_vector2){data->player.position.x + (axis.x * 20), data->player.position.y + (axis.y * 20)});
 	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 10)) / TILE_SIZE] != '1')
 	{
 		mv_x = true;
@@ -285,23 +298,13 @@ bool	is_collided_wall(t_data	*data, t_vector2 axis)
 			if (map[(int)(g_player.y - 10) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
 				data->player.position.y -= axis.y * PLAYER_SPEED;
 		}
-		// printf("%d asdasdasd %f\n", k++, axis.x);
 	}
-	// if (map[(int)(g_player.y + (axis.y * 5)) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] != '1')
-	// {
-	// 	data->player.position.x += axis.x * PLAYER_SPEED;
-	// 	data->player.position.y += axis.y * PLAYER_SPEED;
-	// }
-	return (map[(int) (data->player.position.y + (axis.y * 2)) / 32][(int) (data->player.position.x + (axis.x * 2)) / 32] == '1');
-=======
-
 	if (map[(int)(g_player.y + (axis.y * 5)) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] == '1')
-		return (true);
-	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] == '1'
-		&& map[(int)(g_player.y + (axis.y * 5)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
-		return (true);
+	{
+		data->player.position.x -= axis.x * PLAYER_SPEED;
+		data->player.position.y -= axis.y * PLAYER_SPEED;
+	}
 	return (false);
->>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 }
 
 void	handle_input(t_data *data, float radi)
@@ -339,28 +342,29 @@ void	handle_input(t_data *data, float radi)
 
 	if (press && is_collided_wall(data, axis) == false)
 	{
-		data->player.position.x += axis.x * PLAYER_SPEED;
-		data->player.position.y += axis.y * PLAYER_SPEED;
+		// data->player.position.x += axis.x * PLAYER_SPEED;
+		// data->player.position.y += axis.y * PLAYER_SPEED;
 	}
 	data->player.angle -= (data->key_pressed.left == true) * CAM_SENS;
 	data->player.angle += (data->key_pressed.right == true) * CAM_SENS;
 
 	if (data->player.angle > 360)
-		data->player.angle -= data->player.angle;
+		data->player.angle -= 360;
 	if (data->player.angle < 0)
-		data->player.angle += data->player.angle;
+		data->player.angle += 360;
 }
 
 int	game_loop(t_data *data)
 {
 	t_ray	ray;
 	// FPS PART 1
-	// static int	fps;
-	// static int	tfps;
-	// static long	ltime;
-	// if (ltime == 0)
-	// 	ltime = get_time();
+	static int	fps;
+	static int	tfps;
+	static long	ltime;
+	if (ltime == 0)
+		ltime = get_time();
 	
+	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
 	{
@@ -372,10 +376,9 @@ int	game_loop(t_data *data)
 	put_maps(data->maps, &data->minimaps_layer);
 	float angle = data->player.angle - (FOV / 2);
 	if (angle < 0)
-		angle = 360 + angle;
-	// if (angle < 0)
-	// 	angle = 360 - (-data->player.angle);
-	// printf("%f\n", angle);
+		angle += 360;
+	if (angle > 360)
+		angle -= 360;
 	int i = 0;
 	handle_input(data, deg_to_rad(data->player.angle));
 	while (i < WIN_WIDTH)
@@ -386,36 +389,22 @@ int	game_loop(t_data *data)
 			send_ray(&ray, angle);
 			put_wall(data, i, &ray);
 		}
-		printf("ray :\t%d\t->[ angle: %f , intercept (x: %f, y: %f)]\n", i, angle, ray.intersept_point.x, ray.intersept_point.y);
+		// printf("ray :\t%d\t->[ angle: %f , intercept (x: %f, y: %f)]\n", i, angle, ray.intersept_point.x, ray.intersept_point.y);
 		angle += (float) FOV / WIN_WIDTH;
 		i++;
 	}
-<<<<<<< HEAD
-	// draw_mini_map();
-	// double size = 1;
-	// while (size <= 10)
-	// {
-	// 	put_player_shape(size);
-	// 	size++;
-	// }
-	// set_celling_floor(data->scene_layer.img_ptr);
-=======
-	exit(1);
-	handle_input(data, deg_to_rad(data->player.angle));
->>>>>>> 9f80157f39dcea3e2af4ddb0b5284d25570c0e7c
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	
 	// FPS PART 2
-	// mlx_string_put(data->mlx.mlx_ptr, data->mlx.window_ptr, WIN_WIDTH / 10, WIN_HEIGHT / 10, 0x00ff00, ft_itoa(tfps));
-	// printf("FPS : %d\n", fps);
-	// if (get_time() - ltime >= 1000)
-	// {
-	// 	tfps = fps;
-	// 	fps = 0;
-	// 	ltime = get_time();
-	// }
-	// fps++;
+	printf("FPS : %d\n", tfps);
+	if (get_time() - ltime >= 1000)
+	{
+		tfps = fps;
+		fps = 0;
+		ltime = get_time();
+	}
+	fps++;
 	
 	return (0);
 }
