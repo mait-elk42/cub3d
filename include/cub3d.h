@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 09:44:25 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:07:29 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@
 # define TILE_SIZE 32
 # define MINIMAP_TILE 10
 # define PLAYER_SPEED 1.0
-# define CAM_SENS 1.0
+# define CAM_SENS 1.5
 # define COLISION 15
 # define FOV 60
 
@@ -317,7 +317,9 @@ int		ev_key_down(int keycode, t_data *data);
 /**
 	* DRAW
  */
-void	draw_mini_map(void);
+void	put_maps(char **maps, t_image *img_layer);
+void	put_player_shape(double size);
+void	handle_input(t_data *data, float radi);
 
 /*
 	* SPLASH SCREEN

@@ -3,65 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/09 19:01:09 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:05:46 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	draw_square(t_size s, int color)
+void	put_maps(char **maps, t_image *img_layer)
 {
-	t_image	image;
-	t_size	size;
-	t_data	*data;
+	t_vector	i;
+	t_vector	j;
 
-	size.height = 0;
-	size.width = 0;
-	data = data_hook(NULL);
-	image = data->minimaps_layer;
-	while (size.height < TILE_SIZE)
+	i.y = 0;
+	j.y = 0;
+	while (maps[i.y])
 	{
-		size.width = 0;
-		while (size.width < TILE_SIZE)
+		i.x = 0;
+		j.x = 0;
+		while (maps[i.y][i.x])
 		{
-			t_image_update_pixel(&image, size.width + s.width, size.height + s.height, color);
-			size.width++;
+			int	y = 0;
+			while (y < TILE_SIZE)
+			{
+				int	x = 0;
+				while (x < TILE_SIZE)
+				{
+					if (maps[i.y][i.x] == '1')
+						t_image_update_pixel(img_layer, j.x + x, j.y + y, 0x0000ff);
+					else if (maps[i.y][i.x] == '0' || maps[i.y][i.x] == 'P')
+						t_image_update_pixel(img_layer, j.x + x, j.y + y, 0xffffff);
+					x++;
+				}
+				y++;
+			}
+			i.x++;
+			j.x+= TILE_SIZE;
 		}
-		size.height++;
+		i.y++;
+		j.y+= TILE_SIZE;
 	}
 }
 
-void	draw_mini_map()
-{
-	t_vector	player_pos;
-	t_data	*data;
-	t_size	size;
-	t_size	s;
-	char	**grid;
-
-	data = data_hook((void *)0);
-	player_pos.x = data->player.position.x / TILE_SIZE;
-	player_pos.y = data->player.position.y / TILE_SIZE;
-	grid = data->maps;
-	size.height = player_pos.y - 2;
-	s.height = player_pos.y;
-	while (grid[size.height] && size.height <= (size_t) player_pos.y + 2)
-	{
-		s.width = 0;
-		size.width = player_pos.x - 2;
-		while (grid[size.height][size.width] && size.width <= (size_t) player_pos.x + 2)
-		{
-			if (grid[size.height][size.width] == '1')
-				draw_square(s, RGB_RED);
-			else if (grid[size.height][size.width] == '0')
-				draw_square(s, RGB_WHITE);
-			size.width++;
-			s.width += TILE_SIZE;
-		}
-		s.height += TILE_SIZE;
-		size.height++;
-	}
-}

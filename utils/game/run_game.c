@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 10:40:58 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:09:00 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,41 +40,6 @@ void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 	}
 }
 
-void	put_maps(char **maps, t_image *img_layer)
-{
-	t_vector	i;
-	t_vector	j;
-
-	i.y = 0;
-	j.y = 0;
-	while (maps[i.y])
-	{
-		i.x = 0;
-		j.x = 0;
-		while (maps[i.y][i.x])
-		{
-			int	y = 0;
-			while (y < TILE_SIZE)
-			{
-				int	x = 0;
-				while (x < TILE_SIZE)
-				{
-					if (maps[i.y][i.x] == '1')
-						t_image_update_pixel(img_layer, j.x + x, j.y + y, 0x0000ff);
-					else if (maps[i.y][i.x] == '0' || maps[i.y][i.x] == 'P')
-						t_image_update_pixel(img_layer, j.x + x, j.y + y, 0xffffff);
-					x++;
-				}
-				y++;
-			}
-			i.x++;
-			j.x+= TILE_SIZE;
-		}
-		i.y++;
-		j.y+= TILE_SIZE;
-	}
-}
-
 float	get_distence(float angle, t_vector2 end)
 {
 	double		distance;
@@ -104,10 +69,10 @@ int	hit_wall_at(t_vector2 cords)
 	grid = (t_vector) {(cords.x / TILE_SIZE), cords.y / TILE_SIZE};
 	if (data->maps[grid.y][grid.x] == '1')
 		return (true);
-	if (data->maps[(int)((cords.y) / TILE_SIZE)][(int)((cords.x + 50) / TILE_SIZE)] == '1')
-	{
-		return (true);
-	}
+	// if (data->maps[(int)((cords.y) / TILE_SIZE)][(int)((cords.x + 50) / TILE_SIZE)] == '1')
+	// {
+	// 	return (true);
+	// }
 	return (false);
 }
 
@@ -229,29 +194,6 @@ void	send_ray(t_ray *ray, double ray_angle)
 	*ray = vertical;
 }
 
-void	put_player_shape(double size)
-{
-	t_data		*data;
-	t_vector2	player_pos;
-	t_vector2	p1;
-	t_vector2	p2;
-	t_vector2	p3;
-	
-	data = data_hook(NULL);
-	player_pos = data->player.position;
-	p1.x = cos(deg_to_rad(data->player.angle - 120)) * size + player_pos.x;
-	p1.y = sin(deg_to_rad(data->player.angle - 120)) * size + player_pos.y;
-
-	p2.x = cos(deg_to_rad(data->player.angle + 120)) * size + player_pos.x;
-	p2.y = sin(deg_to_rad(data->player.angle + 120)) * size + player_pos.y;
-
-	p3.x = cos(deg_to_rad(data->player.angle)) * size + player_pos.x;
-	p3.y = sin(deg_to_rad(data->player.angle)) * size + player_pos.y;
-
-	draw_line(&data->minimaps_layer, 0xff0000,p1, p3);
-	draw_line(&data->minimaps_layer, 0xff0000,p2, p3);
-}
-
 // bool	is_collided_wall(t_data	*data, t_vector2 axis)
 // {
 // 	char		**map;
@@ -268,101 +210,6 @@ void	put_player_shape(double size)
 // 	return (false);
 // }
 
-bool	is_collided_wall(t_data	*data, t_vector2 axis)
-{
-	bool		mv_x;
-	bool		mv_y;
-	char		**map;
-	t_vector2	g_player;
-
-	g_player = data->player.position;
-	map = data->maps;
-	bool	is_collided_wall(t_data	*data, t_vector2 axis);
-	draw_line(&data->minimaps_layer, 0x00ff00, data->player.position, (t_vector2){data->player.position.x + (axis.x * 20), data->player.position.y + (axis.y * 20)});
-	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] != '1')
-	mv_x = false;
-	mv_y = false;
-	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 10)) / TILE_SIZE] != '1')
-	{
-		mv_x = true;
-		data->player.position.x += axis.x * PLAYER_SPEED;
-	}
-	if (map[(int)(g_player.y + (axis.y * 10)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] != '1')
-	{
-		mv_y = true;
-		data->player.position.y += axis.y * PLAYER_SPEED;
-	}
-	if (mv_y != mv_x)
-	{
-		if (mv_x == true)
-		{
-			if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + 10) / TILE_SIZE] == '1')
-				data->player.position.x -= axis.x * PLAYER_SPEED;
-			if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x - 10) / TILE_SIZE] == '1')
-				data->player.position.x -= axis.x * PLAYER_SPEED;
-		}
-		if (mv_y == true)
-		{
-			if (map[(int)(g_player.y + 10) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
-				data->player.position.y -= axis.y * PLAYER_SPEED;
-			if (map[(int)(g_player.y - 10) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
-				data->player.position.y -= axis.y * PLAYER_SPEED;
-		}
-	}
-	if (map[(int)(g_player.y + (axis.y * 5)) / TILE_SIZE][(int)(g_player.x + (axis.x * 5)) / TILE_SIZE] == '1')
-	{
-		data->player.position.x -= axis.x * PLAYER_SPEED;
-		data->player.position.y -= axis.y * PLAYER_SPEED;
-	}
-	return (false);
-}
-
-void	handle_input(t_data *data, float radi)
-{
-	char		**maps;
-	t_vector2	axis;
-	bool		press = false;
-
-	axis = (t_vector2){0,0};
-	maps = data->maps;
-	if (data->key_pressed.w == true)
-	{
-		axis.x += cos(radi);
-		axis.y += sin(radi);
-		press = true;
-	}
-	if (data->key_pressed.s == true)
-	{
-		axis.x -= cos(radi);
-		axis.y -= sin(radi);
-		press = true;
-	}
-	if (data->key_pressed.d == true)
-	{
-		axis.x -= sin(radi);
-		axis.y += cos(radi);
-		press = true;
-	}
-	if (data->key_pressed.a == true)
-	{
-		axis.x += sin(radi);
-		axis.y -= cos(radi);
-		press = true;
-	}
-
-	if (press && is_collided_wall(data, axis) == false)
-	{
-		// data->player.position.x += axis.x * PLAYER_SPEED;
-		// data->player.position.y += axis.y * PLAYER_SPEED;
-	}
-	data->player.angle -= (data->key_pressed.left == true) * CAM_SENS;
-	data->player.angle += (data->key_pressed.right == true) * CAM_SENS;
-
-	if (data->player.angle > 360)
-		data->player.angle -= 360;
-	if (data->player.angle < 0)
-		data->player.angle += 360;
-}
 
 int	game_loop(t_data *data)
 {

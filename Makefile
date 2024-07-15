@@ -6,7 +6,7 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/15 10:41:21 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/07/15 13:08:47 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC= utils/utils.c utils/print.c utils/initialization.c \
 	utils/images/t_image_instractions.c \
 	utils/splash_screen/show_splash.c \
 	utils/math/angle.c \
-	utils/game/init_player.c utils/game/run_game.c utils/game/events_game.c utils/game/init_game.c \
+	utils/game/init_player.c utils/game/run_game.c utils/game/events_game.c utils/game/init_game.c utils/game/utils_game.c \
 	utils/map_utils/draw_map.c \
 	utils/walls_paint/texture_instractions.c
 OBJ= $(SRC:.c=.o)
