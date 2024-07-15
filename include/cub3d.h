@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 10:07:25 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:39:22 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,12 @@ typedef struct s_ray
 	t_vector2	intersept_point;
 	t_direction	direction;
 	float		distance;
+	float		angle;
 	bool		facing_up;
 	bool		facing_down;
 	bool		facing_left;
 	bool		facing_right;
+	bool		hit_wall;
 	short		side;
 }	t_ray;
 
@@ -292,6 +294,14 @@ void	init_player(t_data *data);
 void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
+void	send_ray(t_ray *ray, double ray_angle);
+t_ray	send_horizontal_ray(float ray_angle);
+t_ray	send_virtical_ray(float ray_angle);
+float	get_distence(float angle, t_vector2 end);
+void	set_distence(t_ray *ray);
+void	set_directions(t_ray *ray, int ray_type);
+void	set_ray_side(t_ray *ray, float angle);
+int		hit_wall_at(t_vector2 coords);
 
 /*
 	* IMAGES
