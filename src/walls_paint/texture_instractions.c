@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 10:41:28 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:42:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ t_image	wall_side(t_ray *ray, float *pxunit)
 		t = data->texture_so;
 		if (ray->direction == NORTH)
 			t = data->texture_no;
-		*pxunit = ray->intersept_point.x / (float)TILE_SIZE;
+		*pxunit = ray->intercept.x / (float)TILE_SIZE;
 	}
 	else
 	{
 		t = data->texture_ea;
 		if (ray->direction == WEST)
 			t = data->texture_we;
-		*pxunit = ray->intersept_point.y / (float)TILE_SIZE;
+		*pxunit = ray->intercept.y / (float)TILE_SIZE;
 	}
 	return (t);
 }
@@ -60,12 +60,15 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 {
 	t_wall_text	w;
 
-	w.wallheight = (WIN_HEIGHT / ray->distance) * TILE_SIZE;
+	w.wallheight = (WIN_HEIGHT / ray->distance) * 40;
 	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2);
 	w.btm = w.top + w.wallheight;
 	w.t = wall_side(ray, &w.pxunit);
 	w.y = w.top;
-	w.t_offset.x = (int)(w.pxunit * w.t.sizex) % w.t.sizex;
+	if (ray->direction == NORTH || ray->direction == EAST)
+		w.t_offset.x = w.t.sizex - (int)(w.pxunit * w.t.sizex) % w.t.sizex;
+	else
+		w.t_offset.x = (int)(w.pxunit * w.t.sizex) % w.t.sizex;
 	if (w.y < 0)
 		w.y = 0;
 	if (w.btm > WIN_HEIGHT)

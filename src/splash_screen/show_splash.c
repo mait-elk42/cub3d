@@ -3,12 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   show_splash.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 15:53:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 09:53:27 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:45:11 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-#include <sys/time.h>

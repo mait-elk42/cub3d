@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   send_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/17 08:48:39 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:16:45 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ void	send_ray(t_ray *ray, double ray_angle)
 		return ;
 	}
 	set_directions(&verti, VERTICAL);
-	draw_line(&data->minimaps_layer, RGB_DARK_GREEN, plyrpos, verti.intercept);
+	draw_line(&data->minimaps_layer, 0x115852, plyrpos, verti.intercept);
 	*ray = verti;
 }

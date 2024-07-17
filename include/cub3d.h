@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 09:59:19 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/17 12:17:18 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <math.h>
 # include <fcntl.h>
 # include <stdbool.h>
-# include <colors.h>
 # include <stdio.h>
 # include <sys/time.h>
 
@@ -49,6 +48,7 @@
 
 # define VERTICAL 0
 # define HORIZONTAL 1
+
 /*
 	* 	MLX KEYS AND EVENTS
 */
@@ -75,11 +75,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH 1080 // x 1920
-# define WIN_HEIGHT 720 // y 1080
-// # define MAP_SIZE 10
-// # define SPEED 0.5
-// # define SCAL 10
+# define WIN_WIDTH  1080
+# define WIN_HEIGHT 720
 
 /*
 	* ATTRIBUTES
@@ -88,7 +85,6 @@
 # define MINIMAP_TILE 10
 # define PLAYER_SPEED 1.0
 # define CAM_SENS 1.5
-# define COLISION 15
 # define FOV 60
 
 /*
@@ -150,13 +146,15 @@ typedef struct s_color
 
 typedef struct s_ray
 {
-	t_vector2	intersept_point;
+	t_vector2	intercept;
 	t_direction	direction;
 	float		distance;
-	bool		facing_up;
-	bool		facing_down;
-	bool		facing_left;
-	bool		facing_right;
+	float		angle;
+	bool		face_up;
+	bool		face_down;
+	bool		face_left;
+	bool		face_right;
+	bool		hit_wall;
 	short		side;
 }	t_ray;
 
@@ -200,7 +198,6 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
-	// float		top_down;
 }	t_player;
 
 typedef struct s_data
@@ -216,12 +213,14 @@ typedef struct s_data
 	t_image				scene_layer;
 	t_image				minimaps_layer;
 	int					background_music;
-	t_size				screen;
+	int					ceiling;
+	int					floor;
 	t_image				logo;
 	t_image				texture_ea;
 	t_image				texture_no;
 	t_image				texture_so;
 	t_image				texture_we;
+	t_size				screen;
 }	t_data;
 
 typedef struct s_wall_text
@@ -295,6 +294,7 @@ char	**append_2d(char **old_tab, char *to_append);
 void	set_screen_size(void);
 void	print(int fd, char *msg, int endl);
 void	print_2d(char **arr);
+float	normalize_angle(float angle);
 void	logger(char *msg);
 
 /*
@@ -303,8 +303,15 @@ void	logger(char *msg);
 void	init_player(t_data *data);
 void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
-void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
+void	send_ray(t_ray *ray, double ray_angle);
+t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
+t_ray	send_virtical_ray(float ray_angle, t_size screen_size);
+float	get_distence(float angle, t_vector2 end);
+void	set_distence(t_ray *ray);
+void	set_directions(t_ray *ray, int ray_type);
+void	set_ray_side(t_ray *ray, float angle);
+int		check_wall(t_vector2 coords);
 
 /*
 	* IMAGES
@@ -329,8 +336,8 @@ int		ev_key_down(int keycode, t_data *data);
 /**
 	* DRAW
  */
+void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
 void	put_maps(char **maps, t_image *img_layer);
-void	put_player_shape(double size);
 void	handle_input(t_data *data, float radi);
 
 /*
