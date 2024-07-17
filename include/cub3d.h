@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 10:34:16 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:50:31 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH 1080 // x 1920
-# define WIN_HEIGHT 720 // y 1080
-// # define MAP_SIZE 10
-// # define SPEED 0.5
-// # define SCAL 10
+# define WIN_WIDTH  1920
+# define WIN_HEIGHT 1080
 
 /*
 	* ATTRIBUTES
@@ -202,7 +199,6 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
-	// float		top_down;
 }	t_player;
 
 typedef struct s_data

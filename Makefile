@@ -6,7 +6,7 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/17 10:35:32 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/07/17 10:49:50 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC= src/utils.c src/print.c src/initialization.c \
 	src/images/t_image_instractions.c \
 	src/splash_screen/show_splash.c \
 	src/math/angle.c \
-	src/game/init_player.c src/game/run_game.c src/game/events_game.c src/game/init_game.c src/game/utils_game.c \
+	src/game/init_player.c src/game/run_game.c src/game/events_game.c src/game/utils_game.c \
 	src/map_utils/draw_map.c \
 	src/walls_paint/texture_instractions.c \
 	src/raycast/send_ray.c src/raycast/send_horizontal.c src/raycast/send_vertical.c src/raycast/utils.c 

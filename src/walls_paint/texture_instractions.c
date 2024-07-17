@@ -6,11 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/15 17:15:18 by aabouqas         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/17 10:39:43 by mait-elk         ###   ########.fr       */
->>>>>>> 8eb13c5a91a60235c2f392014ad0f250c9224e1b
+/*   Updated: 2024/07/17 10:44:24 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,80 +33,49 @@ void	put_bgd(t_image *image, int ceil_color, int floor_color)
 	}
 }
 
-int	get_color_distance(t_ray ray, int color)
+t_image	wall_side(t_ray *ray, float *pxunit)
 {
-	unsigned char	r,g,b;
-	char	*defc = (char *)&color;
+	t_data	*data;
+	t_image	t;
 
-	if ((ray.distance / 30) < 1)
-		ray.distance = 1;
-	r = defc[0];
-	g = defc[1];
-	b = defc[2];
-
-	r /= (ray.distance / 30);
-	g /= (ray.distance / 30);
-	b /= (ray.distance / 30);
-	
-	return (0 << 24 | r << 16 | g << 8 | b);
+	data = data_hook(NULL);
+	if (ray->side == HORIZONTAL)
+	{
+		t = data->texture_so;
+		if (ray->direction == NORTH)
+			t = data->texture_no;
+		*pxunit = ray->intercept.x / (float)TILE_SIZE;
+	}
+	else
+	{
+		t = data->texture_ea;
+		if (ray->direction == WEST)
+			t = data->texture_we;
+		*pxunit = ray->intercept.y / (float)TILE_SIZE;
+	}
+	return (t);
 }
 
 void	put_wall(t_data *data, int i, t_ray *ray)
 {
-	int wallHeight = (WIN_HEIGHT / ray->distance) * TILE_SIZE;
-	int	top = (WIN_HEIGHT / 2) - (wallHeight / 2);
-	int btm = top + wallHeight;
-	// draw_line(&data->scene_layer, 0x79c0ff, (t_vector2) {i, 0}, (t_vector2) {i, top});
-	if (ray->distance != 2147483647.0)
-	{
-		if (ray->side == HORIZONTAL)
-		{
-			t_image t = data->texture_so;
-			if (ray->direction == NORTH)
-				t = data->texture_no;
-			float px = ray->intercept.x / (float)TILE_SIZE;
-			int texture_offset_X = (int)(px * t.sizex) % t.sizex;
-			int y = top;
-			if (y < 0)
-				y += -top;
-			if (btm > WIN_HEIGHT)
-				btm = WIN_HEIGHT;
-			while (y < btm)
-			{
-				// if (y > WIN_HEIGHT)
-				// 	break ;
-				float proportion = (float)(y - top) / wallHeight;
-				int texture_offset_Y = (int)(proportion * t.sizey) % t.sizey;
-				int c = t.buffer[texture_offset_Y * t.sizex + texture_offset_X];
-				// c = get_color_distance(ray-> c); // useful
-					t_image_update_pixel(&data->scene_layer, i, y, c);
-				y++;
-			}
-		}
-		else if (ray->side == VERTICAL)
-		{
-			t_image t = data->texture_ea;
-			if (ray->direction == WEST)
-				t = data->texture_we;
-			float px = ray->intercept.y / (float)TILE_SIZE;
-			int texture_offset_X = (int)(px * t.sizex) % t.sizex;
-			int y = top;
-			if (y < 0)
-				y += -top;
-			if (btm > WIN_HEIGHT)
-				btm = WIN_HEIGHT;
-			while (y < btm)
-			{
-				float proportion = (float)(y - top) / wallHeight;
-				int texture_offset_Y = (int)(proportion * t.sizey) % t.sizey;
-				int c = t.buffer[texture_offset_Y * t.sizex + texture_offset_X];
-				// c = get_color_distance(ray-> c); // useful
-				t_image_update_pixel(&data->scene_layer, i, y, c);
-				y++;
-			}
-			// draw_line(&data->scene_layer,  0x00309E, (t_vector2) {i, top}, (t_vector2) {i, btm});
-		}
-	}
-	// draw_line(&data->scene_layer, 0xe5c359, (t_vector2) {i, btm}, (t_vector2) {i, WIN_HEIGHT});
+	t_wall_text	w;
 
+	w.wallheight = (WIN_HEIGHT / ray->distance) * TILE_SIZE;
+	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2);
+	w.btm = w.top + w.wallheight;
+	w.t = wall_side(ray, &w.pxunit);
+	w.y = w.top;
+	w.t_offset.x = (int)(w.pxunit * w.t.sizex) % w.t.sizex;
+	if (w.y < 0)
+		w.y = 0;
+	if (w.btm > WIN_HEIGHT)
+		w.btm = WIN_HEIGHT;
+	while (w.y < w.btm)
+	{
+		w.unit = (float)(w.y - w.top) / w.wallheight;
+		w.t_offset.y = (int)(w.unit * w.t.sizey) % w.t.sizey;
+		w.color = w.t.buffer[w.t_offset.y * w.t.sizex + w.t_offset.x];
+		t_image_update_pixel(&data->scene_layer, i, w.y, w.color);
+		w.y++;
+	}
 }
