@@ -6,51 +6,54 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/17 10:33:34 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 18:44:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	draw_square(char **maps, t_image *img_layer, t_vector i, t_vector j)
+void	custom_draw_line(t_image *image, char **map, t_vector2 from, t_vector2 to)
 {
-	int		y;
-	int		x;
+	t_vector2	diff;
+	t_vector2	inc;
+	float		step;
 
-	y = 0;
-	while (y < TILE_SIZE)
+	diff.x = to.x - from.x;
+	diff.y = to.y - from.y;
+	if (fabs(diff.x) > fabs(diff.y))
+		step = fabs(diff.x);
+	else
+		step = fabs(diff.y);
+	inc.x = diff.x / step;
+	inc.y = diff.y / step;
+	int i = 0;
+	while (i <= step)
 	{
-		x = 0;
-		while (x < TILE_SIZE)
-		{
-			if (maps[i.y][i.x] == '1')
-				t_image_update_pixel(img_layer, j.x + x, j.y + y, 0x0000ff);
-			else if (maps[i.y][i.x] == '0' || maps[i.y][i.x] == 'P')
-				t_image_update_pixel(img_layer, j.x + x, j.y + y, 0xffffff);
-			x++;
-		}
-		y++;
+		if ((from.y / TILE_SIZE) < data_hook(NULL)->screen.height && map[(int) (from.y / TILE_SIZE)][(int) (from.x / TILE_SIZE)] == '1')
+			t_image_update_pixel(image, from.x, from.y, RGB_DARK_GREEN);
+		if ((from.y / TILE_SIZE) < data_hook(NULL)->screen.height && map[(int) (from.y / TILE_SIZE)][(int) (from.x / TILE_SIZE)] == '0')
+			t_image_update_pixel(image, from.x, from.y, RGB_WHITE);
+		else
+			t_image_update_pixel(image, from.x, from.y, RGB_BLUE);
+		from.x += inc.x;
+		from.y += inc.y;
+		i++;
 	}
 }
 
-void	put_maps(char **maps, t_image *img_layer)
+void	draw_mini_map()
 {
-	t_vector	i;
-	t_vector	j;
+	t_data		*data;
+	t_size		size;
+	t_vector2	end_point;
 
-	i.y = 0;
-	j.y = 0;
-	while (maps[i.y])
-	{
-		i.x = 0;
-		j.x = 0;
-		while (maps[i.y][i.x])
-		{
-			draw_square(maps, img_layer, i, j);
-			i.x++;
-			j.x += TILE_SIZE;
-		}
-		i.y++;
-		j.y += TILE_SIZE;
+	data = data_hook(NULL);
+	size = (t_size) {0, 0};
+	double i = 0;
+	while (i <= 360) {
+		end_point.x = data->player.position.x + cos (deg_to_rad(i)) * 100;
+		end_point.y = data->player.position.y + sin (deg_to_rad(i)) * 100;
+		custom_draw_line(&data->scene_layer, data->maps, (t_vector2){(data->screen.width / 2) * 32, (data->screen.height / 2) * 32}, end_point);
+		i += 0.2;
 	}
 }

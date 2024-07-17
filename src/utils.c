@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 16:40:56 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:15:05 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void	set_screen_size(void)
 		size.height++;
 	}
 	data->screen = size;
-	// data->screen.height = size.height * TILE_SIZE;
-	// data->screen.width = size.width * TILE_SIZE;
 }
 
 void	logger(char *msg)

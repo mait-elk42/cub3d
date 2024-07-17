@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:40:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 09:44:25 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/17 12:43:29 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,18 @@ void	maps_iteri(char **maps, t_vector pos, bool *found_plr)
 	{
 		if ((pos.y == 0 && valid_roundwall(maps[pos.y]) == false)
 			|| (pos.x == 0 && maps[pos.y][pos.x] == '0'))
-			eput_error("maps must be rounded by walls", maps[pos.y], 1);
-		if (pos.y > 0 && (safe_strlen(maps[pos.y -1]) < (size_t)pos.x
-				|| maps[pos.y -1][pos.x] == ' '))
-			eput_error("maps must be rounded by walls", maps[pos.y], 1);
+			eput_error("must be rounded by walls", maps[pos.y], 1);
+		if ((pos.y > 0 && (safe_strlen(maps[pos.y -1]) < (size_t)pos.x))
+			|| maps[pos.y -1][pos.x] == ' ' || maps[pos.y - 1][pos.x] == '\0')
+			eput_error("must be rounded by walls", maps[pos.y], 1);
 		if (safe_strlen(maps[pos.y +1]) < (size_t)pos.x
-			|| maps[pos.y +1][pos.x] == ' ')
-			eput_error("maps must be rounded by walls", maps[pos.y], 1);
-		if (pos.x > 0 && maps[pos.y][pos.x -1] == ' ')
-			eput_error("maps must be rounded by walls", maps[pos.y], 1);
-		if (maps[pos.y][pos.x +1] == ' ')
-			eput_error("maps must be rounded by walls", maps[pos.y], 1);
+			|| maps[pos.y +1][pos.x] == ' ' || maps[pos.y + 1][pos.x] == '\0')
+			eput_error("must be rounded by walls", maps[pos.y], 1);
+		if (pos.x > 0 && (maps[pos.y][pos.x -1] == ' '
+			|| maps[pos.y][pos.x - 1] == '\0'))
+			eput_error("must be rounded by walls", maps[pos.y], 1);
+		if (maps[pos.y][pos.x +1] == ' ' || maps[pos.y][pos.x +1] == '\0')
+			eput_error("must be rounded by walls", maps[pos.y], 1);
 	}
 }
 

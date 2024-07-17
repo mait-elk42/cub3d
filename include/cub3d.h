@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 15:23:06 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 18:27:47 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 
 # define VERTICAL 0
 # define HORIZONTAL 1
+
 /*
 	* 	MLX KEYS AND EVENTS
 */
@@ -74,8 +75,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH  1920
-# define WIN_HEIGHT 1080
+# define WIN_WIDTH  1080
+# define WIN_HEIGHT 720
 
 /*
 	* ATTRIBUTES
@@ -212,6 +213,8 @@ typedef struct s_data
 	t_image				scene_layer;
 	t_image				minimaps_layer;
 	int					background_music;
+	int					ceiling;
+	int					floor;
 	t_image				logo;
 	t_image				texture_ea;
 	t_image				texture_no;

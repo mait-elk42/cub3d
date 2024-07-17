@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_instractions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 10:44:24 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:42:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,15 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 {
 	t_wall_text	w;
 
-	w.wallheight = (WIN_HEIGHT / ray->distance) * TILE_SIZE;
+	w.wallheight = (WIN_HEIGHT / ray->distance) * 40;
 	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2);
 	w.btm = w.top + w.wallheight;
 	w.t = wall_side(ray, &w.pxunit);
 	w.y = w.top;
-	w.t_offset.x = (int)(w.pxunit * w.t.sizex) % w.t.sizex;
+	if (ray->direction == NORTH || ray->direction == EAST)
+		w.t_offset.x = w.t.sizex - (int)(w.pxunit * w.t.sizex) % w.t.sizex;
+	else
+		w.t_offset.x = (int)(w.pxunit * w.t.sizex) % w.t.sizex;
 	if (w.y < 0)
 		w.y = 0;
 	if (w.btm > WIN_HEIGHT)

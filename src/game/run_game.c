@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 10:48:28 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 14:55:16 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 {
+	int			i;
 	t_vector2	diff;
 	t_vector2	inc;
 	float		step;
@@ -26,7 +27,7 @@ void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 		step = fabs(diff.y);
 	inc.x = diff.x / step;
 	inc.y = diff.y / step;
-	int i = 0;
+	i = 0;
 	while (i <= step)
 	{
 		t_image_update_pixel(image, round (from.x), round (from.y), color);
@@ -36,44 +37,42 @@ void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 	}
 }
 
+void	generate_cf_color(t_data *data)
+{
+	t_color	crgb;
+	t_color	frgb;
+
+	crgb = data->scene_info.ceiling_color;
+	frgb = data->scene_info.floor_color;
+	data->ceiling = (crgb.r << 16 | crgb.g << 8 | crgb.b);
+	data->floor = (frgb.r << 16 | frgb.g << 8 | frgb.b);
+}
+
 int	game_loop(t_data *data)
 {
 	t_ray	ray;
-	static int	fps;
-	static int	tfps;
-	static long	ltime;
-	if (ltime == 0)
-		ltime = get_time();
+	float	angle;
+	int		i;
+
+	generate_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
-	if (data->game_started == false)
-	{
-		return (0);
-	}
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
-	put_bgd(&data->scene_layer, 0x79c0ff, 0xe5c359);
+	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	put_maps(data->maps, &data->minimaps_layer);
-	float angle = data->player.angle - (FOV / 2);
-	int i = 0;
+	angle = data->player.angle - (FOV / 2);
+	i = 0;
 	while (i < WIN_WIDTH)
 	{
-		if (i == WIN_WIDTH / 2 || 1)
-		{
-			send_ray(&ray, angle);
-			put_wall(data, i, &ray);
-		}
+		send_ray(&ray, angle);
+		put_wall(data, i, &ray);
 		angle += (float)FOV / WIN_WIDTH;
 		i++;
 	}
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
-	if (get_time() - ltime >= 1000)
-	{
-		tfps = fps;
-		fps = 0;
-		ltime = get_time();
-	}
-	fps++;
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
+		data->scene_layer.img_ptr, 0, 0);
+	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
+	// 	data->minimaps_layer.img_ptr, 0, 0);
 	return (0);
 }
 
