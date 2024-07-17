@@ -6,23 +6,23 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/15 13:08:47 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/07/17 10:21:30 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
 CFLAGS= -Wall -Werror -Wextra -I include -I libft #-fsanitize=address -g
-SRC= utils/utils.c utils/print.c utils/initialization.c \
-	utils/maps_check/maps_parse.c utils/maps_check/check_maps.c utils/maps_check/check_colors.c \
-	utils/io_operators/append2d.c utils/strings.c \
-	utils/errors_handling/errors_args.c utils/errors_handling/put_error.c \
-	utils/io_operators/safe_str1.c utils/io_operators/safe_str2.c \
-	utils/images/t_image_instractions.c \
-	utils/splash_screen/show_splash.c \
-	utils/math/angle.c \
-	utils/game/init_player.c utils/game/run_game.c utils/game/events_game.c utils/game/init_game.c utils/game/utils_game.c \
-	utils/map_utils/draw_map.c \
-	utils/walls_paint/texture_instractions.c
+SRC= src/utils.c src/print.c src/initialization.c \
+	src/maps_check/maps_parse.c src/maps_check/check_maps.c src/maps_check/check_colors.c \
+	src/io_operators/append2d.c src/strings.c \
+	src/errors_handling/errors_args.c src/errors_handling/put_error.c \
+	src/io_operators/safe_str1.c src/io_operators/safe_str2.c \
+	src/images/t_image_instractions.c \
+	src/splash_screen/show_splash.c \
+	src/math/angle.c \
+	src/game/init_player.c src/game/run_game.c src/game/events_game.c src/game/init_game.c src/game/utils_game.c \
+	src/map_utils/draw_map.c \
+	src/walls_paint/texture_instractions.c
 OBJ= $(SRC:.c=.o)
 NAME= cub3d
 LIBFT = libft/libft.a
