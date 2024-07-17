@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 11:10:24 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:23:06 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <math.h>
 # include <fcntl.h>
 # include <stdbool.h>
-# include <colors.h>
 # include <stdio.h>
 # include <sys/time.h>
 
@@ -83,9 +82,8 @@
 */
 # define TILE_SIZE 32
 # define MINIMAP_TILE 10
-# define PLAYER_SPEED 1.0
-# define CAM_SENS 1.5
-# define COLISION 15
+# define PLAYER_SPEED 2.0
+# define CAM_SENS 2
 # define FOV 60
 
 /*
