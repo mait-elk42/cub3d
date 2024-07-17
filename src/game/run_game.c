@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 08:40:54 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:03:25 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,22 +94,6 @@ void	put_player_shape(double size)
 	draw_line(&data->scene_layer, 0xff0000,p1, p3);
 	draw_line(&data->scene_layer, 0xff0000,p2, p3);
 }
-
-// bool	is_collided_wall(t_data	*data, t_vector2 axis)
-// {
-// 	char		**map;
-// 	t_vector2	g_player;
-
-// 	g_player = data->player.position;
-// 	map = data->maps;
-
-// 	if (map[(int)(g_player.y + (axis.y * 10)) / TILE_SIZE][(int)(g_player.x + (axis.x * 10)) / TILE_SIZE] == '1')
-// 		return (true);
-// 	if (map[(int)(g_player.y) / TILE_SIZE][(int)(g_player.x + (axis.x * 10)) / TILE_SIZE] == '1'
-// 		&& map[(int)(g_player.y + (axis.y * 10)) / TILE_SIZE][(int)(g_player.x) / TILE_SIZE] == '1')
-// 		return (true);
-// 	return (false);
-// }
 
 bool	is_collided_wall(t_data	*data, t_vector2 axis)
 {
