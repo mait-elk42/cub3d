@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/15 17:35:17 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:43:46 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_vector2	get_horizontal_intercept(t_ray ray, float ray_angle)
 	return (intercpt);
 }
 
-int	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
+static int	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 {
 	size_t	width;
 	size_t	height;
@@ -43,7 +43,7 @@ int	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 			if (check_wall((t_vector2){ray->intercept.x, ray->intercept.y -1}))
 				return (ray->hit_wall = true, 1);
 		if (check_wall(ray->intercept))
-				return (ray->hit_wall = true, 1);
+			return (ray->hit_wall = true, 1);
 		ray->intercept.x += step.x;
 		ray->intercept.y += step.y;
 	}
@@ -69,5 +69,5 @@ t_ray	send_horizontal_ray(float ray_angle, t_size screen_size)
 		step.x *= -1;
 	ray.intercept = get_horizontal_intercept(ray, ray_angle);
 	cast_the_ray(step, screen_size, &ray);
-	return(ray);
+	return (ray);
 }

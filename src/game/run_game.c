@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 16:47:20 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:40:54 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,15 +205,16 @@ void	handle_input(t_data *data, float radi)
 		data->player.angle += 360;
 }
 
+
 int	game_loop(t_data *data)
 {
 	t_ray	ray;
 	// FPS PART 1
-	static int	fps;
-	static int	tfps;
-	static long	ltime;
-	if (ltime == 0)
-		ltime = get_time();
+	// static int	fps;
+	// static int	tfps;
+	// static long	ltime;
+	// if (ltime == 0)
+	// 	ltime = get_time();
 	// printf("%f\n", data->player.angle);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
@@ -242,14 +243,14 @@ int	game_loop(t_data *data)
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, data->minimaps_layer.img_ptr, 0, 0);
 	// FPS PART 2
-	printf("FPS : %d\n", tfps);
-	if (get_time() - ltime >= 1000)
-	{
-		tfps = fps;
-		fps = 0;
-		ltime = get_time();
-	}
-	fps++;
+	// printf("FPS : %d\n", tfps);
+	// if (get_time() - ltime >= 1000)
+	// {
+	// 	tfps = fps;
+	// 	fps = 0;
+	// 	ltime = get_time();
+	// }
+	// fps++;
 	return (0);
 }
 

@@ -6,45 +6,66 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/15 16:49:15 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:49:56 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-t_ray	send_virtical_ray(float ray_angle, t_size ss)
+t_vector2	get_virtical_intercept(t_ray ray)
+{
+	t_vector2	intercept;
+	t_vector2	plyrpos;
+
+	plyrpos = data_hook(NULL)->player.position;
+	intercept.x = floor(plyrpos.x / TILE_SIZE) * TILE_SIZE;
+	if (ray.face_right)
+		intercept.x += TILE_SIZE;
+	intercept.y = plyrpos.y + (intercept.x - plyrpos.x) * tan(ray.angle);
+	return (intercept);
+}
+
+static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
+{
+	size_t	width;
+	size_t	height;
+
+	width = screen.width;
+	height = screen.height;
+	while (
+		ray->intercept.x > 0 && ray->intercept.x < width
+		&& ray->intercept.y > 0 && ray->intercept.y < height
+	)
+	{
+		if (check_wall((t_vector2){
+				ray->intercept.x - ray->face_left, ray->intercept.y
+			}))
+		{
+			ray->hit_wall = true;
+			break ;
+		}
+		ray->intercept.y += step.y;
+		ray->intercept.x += step.x;
+	}
+}
+
+t_ray	send_virtical_ray(float ray_angle, t_size screen_size)
 {
 	t_data		*data;
 	t_ray		ray;
-	t_vector2	plyr_pos;
 	t_vector2	step;
-	t_vector2	inrcpt;
 
 	data = data_hook(NULL);
 	ray.hit_wall = false;
-	plyr_pos = data->player.position;
+	ray.angle = ray_angle;
 	set_ray_side(&ray, ray_angle);
 	step.x = TILE_SIZE;
 	if (ray.face_left)
 		step.x *= -1;
 	step.y = TILE_SIZE * tan(ray_angle);
-	inrcpt.x = floor(plyr_pos.x / TILE_SIZE) * TILE_SIZE;
-	if (ray.face_right)
-		inrcpt.x += TILE_SIZE;
-	inrcpt.y = plyr_pos.y + (inrcpt.x - plyr_pos.x) * tan(ray_angle);
 	if ((ray.face_up && step.y > 0) || (ray.face_down && step.y < 0))
 		step.y *= -1;
-	while (inrcpt.x > 0 && inrcpt.x < ss.width && inrcpt.y > 0 && inrcpt.y < ss.height)
-	{
-		if (check_wall((t_vector2){inrcpt.x - ray.face_left, inrcpt.y}))
-		{
-			ray.hit_wall = true;
-			break;
-		}
-		inrcpt.y += step.y;
-		inrcpt.x += step.x;
-	}
-	ray.intercept = inrcpt;
-	ray.angle = ray_angle;
+	ray.intercept = get_virtical_intercept(ray);
+	cast_the_ray (step, screen_size, &ray);
 	return (ray);
 }

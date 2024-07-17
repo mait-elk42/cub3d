@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/15 15:27:13 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:51:54 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ float	get_distence(float angle, t_vector2 end)
 {
 	double		distance;
 	t_player	player;
+	t_vector2	plyrpos;
 
-	(void)angle;
 	player = data_hook(NULL)->player;
-	distance = sqrt(pow(end.x - player.position.x, 2) + pow(end.y - player.position.y, 2));
+	plyrpos = player.position;
+	distance = sqrt(pow(end.x - plyrpos.x, 2) + pow(end.y - plyrpos.y, 2));
 	distance *= cos(deg_to_rad(((angle * 180) / M_PI) - player.angle));
 	return (distance);
 }
@@ -73,7 +74,7 @@ int	check_wall(t_vector2 coords)
 	t_data		*data;
 
 	data = data_hook(NULL);
-	grid = (t_vector) {(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
+	grid = (t_vector){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
 	if (data->maps[grid.y][grid.x] == '1')
 		return (true);
 	return (false);

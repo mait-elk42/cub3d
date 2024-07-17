@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/15 16:51:31 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 08:48:39 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,29 @@
 
 void	send_ray(t_ray *ray, double ray_angle)
 {
-	t_data	*data;
-	t_ray	vertical;
-	t_ray	horizontal;
-	t_size	screen_size;
+	t_data		*data;
+	t_ray		verti;
+	t_ray		hori;
+	t_size		screen_size;
+	t_vector2	plyrpos;
 
 	data = data_hook(NULL);
+	plyrpos = data->player.position;
 	ray_angle = deg_to_rad(ray_angle);
 	screen_size.width = data->screen.width * TILE_SIZE;
 	screen_size.height = data->screen.height * TILE_SIZE;
-	horizontal = send_horizontal_ray(ray_angle, screen_size);
-	set_distence(&horizontal);
-	vertical = send_virtical_ray(ray_angle, screen_size);
-	set_distence(&vertical);
-	if (horizontal.distance <= vertical.distance)
+	hori = send_horizontal_ray(ray_angle, screen_size);
+	set_distence(&hori);
+	verti = send_virtical_ray(ray_angle, screen_size);
+	set_distence(&verti);
+	if (hori.distance <= verti.distance)
 	{
-		set_directions(&horizontal, HORIZONTAL);
-		draw_line(&data->minimaps_layer, RGB_DARK_GREEN, data->player.position, horizontal.intercept);
-		*ray = horizontal;
+		set_directions(&hori, HORIZONTAL);
+		draw_line(&data->minimaps_layer, 0x115852, plyrpos, hori.intercept);
+		*ray = hori;
 		return ;
 	}
-	set_directions(&vertical, VERTICAL);
-	draw_line(&data->minimaps_layer, RGB_DARK_GREEN, data->player.position, vertical.intercept);
-	*ray = vertical;
+	set_directions(&verti, VERTICAL);
+	draw_line(&data->minimaps_layer, RGB_DARK_GREEN, plyrpos, verti.intercept);
+	*ray = verti;
 }
