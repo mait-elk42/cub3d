@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 10:05:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/07 16:11:30 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:38:52 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,26 @@ t_image	t_image_create(int sizex, int sizey, int default_color)
 	img.img_ptr = mlx_new_image(data->mlx.mlx_ptr, sizex, sizey);
 	if (img.img_ptr == NULL)
 		eput_error("cannot create image", "[IMAGE]", 1);
-	img.buffer = (int *)mlx_get_data_addr(img.img_ptr, &img.bits_per_pixel, &img.line_bytes, &img.endian);
+	img.buffer = (int *)mlx_get_data_addr(img.img_ptr, &img.bits_per_pixel,
+			&img.line_bytes, &img.endian);
 	img.sizex = sizex;
 	img.sizey = sizey;
-	y = 0;
-	while (y < sizey)
+	y = -1;
+	while (++y < sizey)
 	{
-		x = 0;
-		while (x < sizex)
-		{
-			int pixel_byte = (y * (img.line_bytes / 4)) + (x);
-			img.buffer[pixel_byte] = default_color;
-			x++;
-		}
-		y++;
+		x = -1;
+		while (++x < sizex)
+			img.buffer[(y * (img.line_bytes / 4)) + (x)] = default_color;
 	}
 	return (img);
 }
 
-
 void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color)
 {
-	int pixel_byte;
+	int	pixel_byte;
 
-	if (imgptr == NULL || x < 0 | y < 0 || x > imgptr->sizex -1 || y > imgptr->sizey -1)
+	if (imgptr == NULL || x < 0 | y < 0
+		|| x > imgptr->sizex -1 || y > imgptr->sizey -1)
 		return ;
 	pixel_byte = (y * (imgptr->line_bytes / 4)) + x;
 	imgptr->buffer[pixel_byte] = new_color;
@@ -56,9 +52,9 @@ void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color)
 
 void	t_image_clear_color(t_image *imgptr, int color)
 {
-	int pixel_byte;
-	int	x;
-	int	y;
+	int		pixel_byte;
+	int		x;
+	int		y;
 
 	if (imgptr == NULL)
 		return ;
@@ -82,9 +78,11 @@ t_image	t_image_loadfromxpm(char *filename)
 	t_image	img;
 
 	data = data_hook(NULL);
-	img.img_ptr = mlx_xpm_file_to_image(data->mlx.mlx_ptr, filename, &img.sizex, &img.sizey);
+	img.img_ptr = mlx_xpm_file_to_image(data->mlx.mlx_ptr,
+			filename, &img.sizex, &img.sizey);
 	if (img.img_ptr == NULL)
 		eput_error("cannot load image", filename, 1);
-	img.buffer = (int *)mlx_get_data_addr(img.img_ptr, &img.bits_per_pixel, &img.line_bytes, &img.endian);
+	img.buffer = (int *)mlx_get_data_addr(img.img_ptr,
+			&img.bits_per_pixel, &img.line_bytes, &img.endian);
 	return (img);
 }

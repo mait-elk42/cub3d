@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:40:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/06/11 15:41:49 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:44:25 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,6 @@ void	maps_iteri(char **maps, t_vector pos, bool *found_plr)
 	}
 }
 
-// void	find_wf(char c, bool *found_wall, bool *found_floor)
-// {
-// 	if (c == '1')
-// 		*found_wall = true;
-// 	if (c == '0')
-// 		*found_floor = true;
-// }
-
 void	check_maps(void)
 {
 	t_data		*data;
@@ -73,7 +65,6 @@ void	check_maps(void)
 		pos.x = 0;
 		while (data->maps[pos.y][pos.x])
 		{
-			// find_wf(data->maps[pos.y][pos.x], &found_wall, &found_floor);
 			maps_iteri(data->maps, pos, &found_plr);
 			pos.x++;
 		}

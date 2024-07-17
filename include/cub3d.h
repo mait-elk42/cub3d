@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 13:07:29 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:59:19 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,19 @@ typedef struct s_data
 	t_image				texture_we;
 }	t_data;
 
+typedef struct s_wall_text
+{
+	t_image		t;
+	int			wallheight;
+	int			top;
+	int			btm;
+	float		unit;
+	float		pxunit;
+	int			color;
+	int			y;
+	t_vector	t_offset;
+}	t_wall_text;
+
 /*
 	* GARBAGE COLLECTOR
 */
@@ -287,7 +300,6 @@ void	logger(char *msg);
 /*
 	* GAME
 */
-void	init_keys(t_data *data);
 void	init_player(t_data *data);
 void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);

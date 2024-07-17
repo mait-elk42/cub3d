@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/13 14:59:50 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/16 08:41:31 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ int	ev_key_up(int keycode, t_data *data)
 			data->key_pressed.s = false;
 		if (keycode == KEY_D)
 			data->key_pressed.d = false;
+		if (keycode == KEY_UP)
+			data->key_pressed.up = false;
+		if (keycode == KEY_DOWN)
+			data->key_pressed.down = false;
 		if (keycode == KEY_LEFT)
 			data->key_pressed.left = false;
 		if (keycode == KEY_RIGHT)
@@ -36,8 +40,6 @@ int	ev_key_up(int keycode, t_data *data)
 
 int	ev_key_down(int keycode, t_data *data)
 {
-	if (keycode == KEY_SPACE)
-		data->game_started = true;
 	if (keycode == KEY_ESC)
 		safe_exit(0);
 	if (data->game_started == true)
@@ -50,6 +52,10 @@ int	ev_key_down(int keycode, t_data *data)
 			data->key_pressed.s = true;
 		if (keycode == KEY_D)
 			data->key_pressed.d = true;
+		if (keycode == KEY_UP)
+			data->key_pressed.up = false;
+		if (keycode == KEY_DOWN)
+			data->key_pressed.down = false;
 		if (keycode == KEY_LEFT)
 			data->key_pressed.left = true;
 		if (keycode == KEY_RIGHT)
