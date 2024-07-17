@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 16:52:58 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:34:16 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@
 */
 # define TILE_SIZE 32
 # define MINIMAP_TILE 10
-# define PLAYER_SPEED 2.0
-# define CAM_SENS 2
+# define PLAYER_SPEED 1.0
+# define CAM_SENS 1.5
 # define COLISION 15
 # define FOV 60
 
@@ -226,6 +226,19 @@ typedef struct s_data
 	t_size				screen;
 }	t_data;
 
+typedef struct s_wall_text
+{
+	t_image		t;
+	int			wallheight;
+	int			top;
+	int			btm;
+	float		unit;
+	float		pxunit;
+	int			color;
+	int			y;
+	t_vector	t_offset;
+}	t_wall_text;
+
 /*
 	* GARBAGE COLLECTOR
 */
@@ -290,7 +303,6 @@ void	logger(char *msg);
 /*
 	* GAME
 */
-void	init_keys(t_data *data);
 void	init_player(t_data *data);
 void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
@@ -327,8 +339,9 @@ int		ev_key_down(int keycode, t_data *data);
 /**
 	* DRAW
  */
-void	draw_mini_map();
 void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
+void	put_maps(char **maps, t_image *img_layer);
+void	handle_input(t_data *data, float radi);
 
 /*
 	* SPLASH SCREEN

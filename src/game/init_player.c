@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/15 10:46:44 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:32:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,26 @@ static void	init_angle_pos(char **maps, t_player *player)
 		}
 		v.y++;
 	}
+}
+
+void	put_player_shape(double size)
+{
+	t_data		*data;
+	t_vector2	player_pos;
+	t_vector2	p1;
+	t_vector2	p2;
+	t_vector2	p3;
+
+	data = data_hook(NULL);
+	player_pos = data->player.position;
+	p1.x = cos(deg_to_rad(data->player.angle - 120)) * size + player_pos.x;
+	p1.y = sin(deg_to_rad(data->player.angle - 120)) * size + player_pos.y;
+	p2.x = cos(deg_to_rad(data->player.angle + 120)) * size + player_pos.x;
+	p2.y = sin(deg_to_rad(data->player.angle + 120)) * size + player_pos.y;
+	p3.x = cos(deg_to_rad(data->player.angle)) * size + player_pos.x;
+	p3.y = sin(deg_to_rad(data->player.angle)) * size + player_pos.y;
+	draw_line(&data->minimaps_layer, 0xff0000, p1, p3);
+	draw_line(&data->minimaps_layer, 0xff0000, p2, p3);
 }
 
 void	init_player(t_data *data)
