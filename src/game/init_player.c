@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 10:32:17 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 18:18:09 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ void	put_player_shape(double size)
 
 	data = data_hook(NULL);
 	player_pos = data->player.position;
-	p1.x = cos(deg_to_rad(data->player.angle - 120)) * size + player_pos.x;
-	p1.y = sin(deg_to_rad(data->player.angle - 120)) * size + player_pos.y;
-	p2.x = cos(deg_to_rad(data->player.angle + 120)) * size + player_pos.x;
-	p2.y = sin(deg_to_rad(data->player.angle + 120)) * size + player_pos.y;
-	p3.x = cos(deg_to_rad(data->player.angle)) * size + player_pos.x;
-	p3.y = sin(deg_to_rad(data->player.angle)) * size + player_pos.y;
+	p1.x = cos(deg_to_rad(data->player.angle - 120)) * size + 100;
+	p1.y = sin(deg_to_rad(data->player.angle - 120)) * size + 100;
+	p2.x = cos(deg_to_rad(data->player.angle + 120)) * size + 100;
+	p2.y = sin(deg_to_rad(data->player.angle + 120)) * size + 100;
+	p3.x = cos(deg_to_rad(data->player.angle)) * size + 100;
+	p3.y = sin(deg_to_rad(data->player.angle)) * size + 100;
 	draw_line(&data->minimaps_layer, 0xff0000, p1, p3);
 	draw_line(&data->minimaps_layer, 0xff0000, p2, p3);
 }

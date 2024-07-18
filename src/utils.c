@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 11:15:05 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:52:24 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ void	set_screen_size(void)
 
 	data = data_hook(NULL);
 	size.height = 0;
+	size.width = 0;
 	while (data->maps[size.height])
 	{
-		if (size.height == 0)
+		if (size.width < safe_strlen(data->maps[size.height]))
 			size.width = safe_strlen(data->maps[size.height]);
 		size.height++;
 	}

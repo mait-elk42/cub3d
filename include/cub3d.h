@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 12:17:18 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/17 18:15:20 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ typedef struct s_vector
 	int		y;
 }	t_vector;
 
+void	draw_mini_map();
+
 typedef struct s_vector2
 {
 	float	x;
@@ -199,6 +201,8 @@ typedef struct s_player
 	t_image		texture;
 	float		angle;
 }	t_player;
+
+void	put_player_shape(double size);
 
 typedef struct s_data
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/17 09:05:31 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:12:59 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	check_wall(t_vector2 coords)
 
 	data = data_hook(NULL);
 	grid = (t_vector){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
-	if (data->maps[grid.y][grid.x] == '1')
+	if (data->maps[grid.y][grid.x] == '1' || data->maps[grid.y][grid.x] == '\0')
 		return (true);
 	return (false);
 }
