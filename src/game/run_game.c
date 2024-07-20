@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 14:55:16 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:57:45 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,11 @@ int	game_loop(t_data *data)
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
+	// t_image_clear_color(&data->minimaps_layer, 0xffff00);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
-	put_maps(data->maps, &data->minimaps_layer);
+	// put_maps(data->maps, &data->minimaps_layer);
+	draw_mini_map();
+	// printf("%f\n", data->player.angle);
 	angle = data->player.angle - (FOV / 2);
 	i = 0;
 	while (i < WIN_WIDTH)
@@ -71,8 +74,8 @@ int	game_loop(t_data *data)
 	}
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->scene_layer.img_ptr, 0, 0);
-	// mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
-	// 	data->minimaps_layer.img_ptr, 0, 0);
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
+		data->minimaps_layer.img_ptr, 100, 100);
 	return (0);
 }
 

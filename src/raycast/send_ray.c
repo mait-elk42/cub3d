@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/17 15:25:01 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 09:09:33 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,9 @@ void	send_ray(t_ray *ray, double ray_angle)
 	if (hori.distance <= verti.distance)
 	{
 		set_directions(&hori, HORIZONTAL);
-		draw_line(&data->minimaps_layer, 0x115852, plyrpos, hori.intercept);
 		*ray = hori;
 		return ;
 	}
 	set_directions(&verti, VERTICAL);
-	draw_line(&data->minimaps_layer, 0x115852, plyrpos, verti.intercept);
 	*ray = verti;
 }
