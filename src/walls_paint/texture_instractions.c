@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:42:31 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:55:50 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,22 @@ void	put_bgd(t_image *image, int ceil_color, int floor_color)
 t_image	wall_side(t_ray *ray, float *pxunit)
 {
 	t_data	*data;
-	int		tile_size;
 	t_image	t;
 
 	data = data_hook(NULL);
-	tile_size = data->settings.tile_size;
 	if (ray->side == HORIZONTAL)
 	{
 		t = data->texture_so;
 		if (ray->direction == NORTH)
 			t = data->texture_no;
-		*pxunit = ray->intercept.x / (float)tile_size;
+		*pxunit = ray->intercept.x / (float)TILE_SIZE;
 	}
 	else
 	{
 		t = data->texture_ea;
 		if (ray->direction == WEST)
 			t = data->texture_we;
-		*pxunit = ray->intercept.y / (float)tile_size;
+		*pxunit = ray->intercept.y / (float)TILE_SIZE;
 	}
 	return (t);
 }

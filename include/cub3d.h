@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:48:15 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:54:58 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ typedef struct s_settings
 }	t_settings;
 
 
-// # define TILE_SIZE 32
-// # define PLAYER_SPEED 2.0
-// # define CAM_SENS 2.0
+# define TILE_SIZE 32
+# define PLAYER_SPEED 2.0
+# define CAM_SENS 2.0
 # define FOV 60
 
 /*

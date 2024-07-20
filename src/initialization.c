@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:47:55 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:55:30 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,12 @@ void	print_data_collected(t_data	*data)
 	printf("√ SOUTH_texture : %s\n", data->scene_info.south_texture);
 }
 
-void	settings_init()
-{
-	t_data	*data;
-
-	data = data_hook(NULL);
-	data->settings.camera_sensibility = 1.5;
-	data->settings.fov = 60;
-	data->settings.player_speed = 1.5;
-	data->settings.tile_size = 32;
-}
-
 void	data_init(t_data *data, int ac, char **av)
 {
 	data_hook(data);
 	ft_bzero(data, sizeof(t_data));
-	settings_init();
 	check_file(ac, av);
+	// settings_init();
 	data->mlx.mlx_ptr = mlx_init();
 	if (data->mlx.mlx_ptr == NULL)
 		eput_error("Cannot Init Mlx Connection", "[MLX_DYLIB]", 1);

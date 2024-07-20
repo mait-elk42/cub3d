@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:44:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:55:15 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,9 @@ int	game_loop(t_data *data)
 void	run_game(t_data *data)
 {
 	t_vector	map_size;
-	int			tile_size;
 
-	tile_size = data->settings.tile_size;
-	map_size.x = data->scene_info.maps_xsize * tile_size;
-	map_size.y = data->scene_info.maps_ysize * tile_size;
+	map_size.x = data->scene_info.maps_xsize * TILE_SIZE;
+	map_size.y = data->scene_info.maps_ysize * TILE_SIZE;
 	data->scene_layer = t_image_create(WIN_WIDTH,
 			WIN_HEIGHT, 0xffffffff);
 	// data->minimaps_layer = t_image_create(

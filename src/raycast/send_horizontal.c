@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/20 13:46:58 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:56:09 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@ t_vector2	get_horizontal_intercept(t_ray ray, float ray_angle)
 {
 	t_vector2	intercpt;
 	t_vector2	player_pos;
-	int			tile_size;
 
 	player_pos = data_hook(NULL)->player.position;
-	tile_size = data_hook(NULL)->settings.tile_size;
-	intercpt.y = floor(player_pos.y / tile_size) * tile_size;
+	intercpt.y = floor(player_pos.y / TILE_SIZE) * TILE_SIZE;
 	if (ray.face_down)
-		intercpt.y += tile_size;
+		intercpt.y += TILE_SIZE;
 	intercpt.x = player_pos.x + (intercpt.y - player_pos.y) / tan(ray_angle);
 	return (intercpt);
 }
@@ -58,17 +56,15 @@ t_ray	send_horizontal_ray(float ray_angle, t_size screen_size)
 	t_data		*data;
 	t_ray		ray;
 	t_vector2	step;
-	int			tile_size;
 
 	data = data_hook(NULL);
-	tile_size = data->settings.tile_size;
 	ray.angle = ray_angle;
 	ray.hit_wall = false;
 	set_ray_side (&ray, ray_angle);
-	step.y = tile_size;
+	step.y = TILE_SIZE;
 	if (ray.face_up)
 		step.y *= -1;
-	step.x = tile_size / tan(ray_angle);
+	step.x = TILE_SIZE / tan(ray_angle);
 	if ((ray.face_left && step.x > 0) || (ray.face_right && step.x < 0))
 		step.x *= -1;
 	ray.intercept = get_horizontal_intercept(ray, ray_angle);

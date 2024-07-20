@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/20 13:45:53 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:55:59 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ void	custom_draw_line(t_image *image, char **map, t_vector2 from, t_vector2 to)
 	t_vector2	plyrpos;
 	t_vector2	diff;
 	t_vector2	inc;
-	int			tile_size;
 	float		step;
 
 	data = data_hook(NULL);
-	tile_size = data->settings.tile_size;
 	sc_size = data->screen;
 	plyrpos = data->player.position;
 	diff.x = to.x - from.x;
@@ -39,15 +37,15 @@ void	custom_draw_line(t_image *image, char **map, t_vector2 from, t_vector2 to)
 	// double angle = 0.0;
 	while (i <= step)
 	{
-		// if ((from.y / tile_size) < data_hook(NULL)->screen.height && map[(int) (from.y / tile_size)][(int) (from.x / tile_size)] == '1')
+		// if ((from.y / TILE_SIZE) < data_hook(NULL)->screen.height && map[(int) (from.y / TILE_SIZE)][(int) (from.x / TILE_SIZE)] == '1')
 		// 	t_image_update_pixel(image, from.x, from.y, 0xff0000);
-		// if ((from.y / tile_size) < data_hook(NULL)->screen.height && map[(int) (from.y / tile_size)][(int) (from.x / tile_size)] == '0')
+		// if ((from.y / TILE_SIZE) < data_hook(NULL)->screen.height && map[(int) (from.y / TILE_SIZE)][(int) (from.x / TILE_SIZE)] == '0')
 		// 	t_image_update_pixel(image, from.x, from.y, 0xffffff);
 		// else
 		// 
 		// printf("%d %d\n", );
 		// #error rotating the map
-		if (plyrpos.x > 0 && plyrpos.x < sc_size.width * tile_size && plyrpos.y > 0 && plyrpos.y < sc_size.height * tile_size && map[(int) ((plyrpos.y) / tile_size)][(int) ((plyrpos.x) / tile_size)] == '1')
+		if (plyrpos.x > 0 && plyrpos.x < sc_size.width * TILE_SIZE && plyrpos.y > 0 && plyrpos.y < sc_size.height * TILE_SIZE && map[(int) ((plyrpos.y) / TILE_SIZE)][(int) ((plyrpos.x) / TILE_SIZE)] == '1')
 			t_image_update_pixel(image, from.x, from.y, 0x0000ff);
 		else
 			t_image_update_pixel(image, from.x, from.y, 0xffffff);
@@ -66,10 +64,8 @@ void	draw_mini_map()
 	t_vector2	targ;
 	// t_vector2	end_point;
 	t_vector2	ppos;
-	int			tile_size;
 
 	data = data_hook(NULL);
-	tile_size = data->settings.tile_size;
 	size = (t_size) {0, 0};
 
 	// if (data->player.angle > 360)
@@ -90,7 +86,7 @@ void	draw_mini_map()
 			targ.y = 100 + sin (deg_to_rad(i)) * j;
 			if (j < 90)
 			{
-				if (ppos.x > 0 && ppos.x < data->screen.width * tile_size && ppos.y > 0 && ppos.y < data->screen.height * tile_size && data->maps[(int) ((ppos.y) / tile_size)][(int) ((ppos.x) / tile_size)] == '1')
+				if (ppos.x > 0 && ppos.x < data->screen.width * TILE_SIZE && ppos.y > 0 && ppos.y < data->screen.height * TILE_SIZE && data->maps[(int) ((ppos.y) / TILE_SIZE)][(int) ((ppos.x) / TILE_SIZE)] == '1')
 					t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0x0000ff);
 				else
 					t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0xffffff);

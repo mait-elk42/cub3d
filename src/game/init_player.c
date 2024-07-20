@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:43:34 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:55:08 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 static void	init_angle_pos(char **maps, t_player *player)
 {
 	t_vector	v;
-	int			tile_size;
 
 	v.y = 0;
-	tile_size = data_hook(NULL)->settings.tile_size;
 	while (maps[v.y])
 	{
 		v.x = 0;
@@ -31,8 +29,8 @@ static void	init_angle_pos(char **maps, t_player *player)
 				player->angle += 180 * (maps[v.y][v.x] == 'W');
 				player->angle += 270 * (maps[v.y][v.x] == 'N');
 				maps[v.y][v.x] = 'P';
-				player->position.x = (v.x * tile_size) + (tile_size / 2);
-				player->position.y = (v.y * tile_size) + (tile_size / 2);
+				player->position.x = (v.x * TILE_SIZE) + (TILE_SIZE / 2);
+				player->position.y = (v.y * TILE_SIZE) + (TILE_SIZE / 2);
 			}
 			v.x++;
 		}
