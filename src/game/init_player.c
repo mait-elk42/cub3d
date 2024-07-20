@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 18:18:09 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:43:34 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 static void	init_angle_pos(char **maps, t_player *player)
 {
 	t_vector	v;
+	int			tile_size;
 
 	v.y = 0;
+	tile_size = data_hook(NULL)->settings.tile_size;
 	while (maps[v.y])
 	{
 		v.x = 0;
@@ -29,8 +31,8 @@ static void	init_angle_pos(char **maps, t_player *player)
 				player->angle += 180 * (maps[v.y][v.x] == 'W');
 				player->angle += 270 * (maps[v.y][v.x] == 'N');
 				maps[v.y][v.x] = 'P';
-				player->position.x = (v.x * TILE_SIZE) + (TILE_SIZE / 2);
-				player->position.y = (v.y * TILE_SIZE) + (TILE_SIZE / 2);
+				player->position.x = (v.x * tile_size) + (tile_size / 2);
+				player->position.y = (v.y * tile_size) + (tile_size / 2);
 			}
 			v.x++;
 		}
@@ -48,12 +50,12 @@ void	put_player_shape(double size)
 
 	data = data_hook(NULL);
 	player_pos = data->player.position;
-	p1.x = cos(deg_to_rad(data->player.angle - 120)) * size + 100;
-	p1.y = sin(deg_to_rad(data->player.angle - 120)) * size + 100;
-	p2.x = cos(deg_to_rad(data->player.angle + 120)) * size + 100;
-	p2.y = sin(deg_to_rad(data->player.angle + 120)) * size + 100;
-	p3.x = cos(deg_to_rad(data->player.angle)) * size + 100;
-	p3.y = sin(deg_to_rad(data->player.angle)) * size + 100;
+	p1.x = cos(deg_to_rad(270 - 120)) * size + 100;
+	p1.y = sin(deg_to_rad(270 - 120)) * size + 100;
+	p2.x = cos(deg_to_rad(270 + 120)) * size + 100;
+	p2.y = sin(deg_to_rad(270 + 120)) * size + 100;
+	p3.x = cos(deg_to_rad(270)) * size + 100;
+	p3.y = sin(deg_to_rad(270)) * size + 100;
 	draw_line(&data->minimaps_layer, 0xff0000, p1, p3);
 	draw_line(&data->minimaps_layer, 0xff0000, p2, p3);
 }
@@ -61,4 +63,5 @@ void	put_player_shape(double size)
 void	init_player(t_data *data)
 {
 	init_angle_pos(data->maps, &data->player);
+	data->player.walking_dir = (t_vector2){0, 0};
 }

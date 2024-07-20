@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 08:42:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:48:15 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,25 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH  1080
+# define WIN_WIDTH 1080
 # define WIN_HEIGHT 720
 
 /*
 	* ATTRIBUTES
 */
-# define TILE_SIZE 32
-# define MINIMAP_TILE 10
-# define PLAYER_SPEED 2.0
-# define CAM_SENS 2
+
+typedef struct s_settings
+{
+	int		tile_size;
+	double	player_speed;
+	double	camera_sensibility;
+	double	fov;
+}	t_settings;
+
+
+// # define TILE_SIZE 32
+// # define PLAYER_SPEED 2.0
+// # define CAM_SENS 2.0
 # define FOV 60
 
 /*
@@ -170,8 +179,8 @@ typedef struct s_image
 {
 	void		*img_ptr;
 	int			*buffer;
-	int			sizex;
-	int			sizey;
+	int			width;
+	int			height;
 	int			bits_per_pixel;
 	int			line_bytes;
 	int			endian;
@@ -200,31 +209,34 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
+	// trying to rotate triangle inside the mmap
+	t_vector2	walking_dir;
 }	t_player;
 
 void	put_player_shape(double size);
 
 typedef struct s_data
 {
-	bool				game_started;
-	t_mlx				mlx;
-	t_player			player;
-	t_keys_status		key_pressed;
-	char				**lines;
-	char				**maps;
-	int					fd_file_input;
-	t_scene_info		scene_info;
-	t_image				scene_layer;
-	t_image				minimaps_layer;
-	int					background_music;
-	int					ceiling;
-	int					floor;
-	t_image				logo;
-	t_image				texture_ea;
-	t_image				texture_no;
-	t_image				texture_so;
-	t_image				texture_we;
-	t_size				screen;
+	bool			game_started;
+	t_mlx			mlx;
+	t_player		player;
+	t_keys_status	key_pressed;
+	t_settings		settings;
+	char			**lines;
+	char			**maps;
+	int				fd_file_input;
+	t_scene_info	scene_info;
+	t_image			scene_layer;
+	t_image			minimaps_layer;
+	int				background_music;
+	int				ceiling;
+	int				floor;
+	t_image			logo;
+	t_image			texture_ea;
+	t_image			texture_no;
+	t_image			texture_so;
+	t_image			texture_we;
+	t_size			screen;
 }	t_data;
 
 typedef struct s_wall_text

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_instractions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/18 11:34:24 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:42:31 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void	put_bgd(t_image *image, int ceil_color, int floor_color)
 
 	i.y = 0;
 	color = ceil_color;
-	while (i.y < image->sizey)
+	while (i.y < image->height)
 	{
 		i.x = 0;
-		while (i.x < image->sizex)
+		while (i.x < image->width)
 		{
 			t_image_update_pixel(image, i.x, i.y, color);
 			i.x++;
 		}
-		if (i.y == (image->sizey / 2))
+		if (i.y == (image->height / 2))
 			color = floor_color;
 		i.y++;
 	}
@@ -36,22 +36,24 @@ void	put_bgd(t_image *image, int ceil_color, int floor_color)
 t_image	wall_side(t_ray *ray, float *pxunit)
 {
 	t_data	*data;
+	int		tile_size;
 	t_image	t;
 
 	data = data_hook(NULL);
+	tile_size = data->settings.tile_size;
 	if (ray->side == HORIZONTAL)
 	{
 		t = data->texture_so;
 		if (ray->direction == NORTH)
 			t = data->texture_no;
-		*pxunit = ray->intercept.x / (float)TILE_SIZE;
+		*pxunit = ray->intercept.x / (float)tile_size;
 	}
 	else
 	{
 		t = data->texture_ea;
 		if (ray->direction == WEST)
 			t = data->texture_we;
-		*pxunit = ray->intercept.y / (float)TILE_SIZE;
+		*pxunit = ray->intercept.y / (float)tile_size;
 	}
 	return (t);
 }
@@ -66,9 +68,9 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	w.t = wall_side(ray, &w.pxunit);
 	w.y = w.top;
 	if (ray->direction == NORTH || ray->direction == EAST)
-		w.t_offset.x = w.t.sizex - (int)(w.pxunit * w.t.sizex) % w.t.sizex;
+		w.t_offset.x = w.t.width - (int)(w.pxunit * w.t.width) % w.t.width;
 	else
-		w.t_offset.x = (int)(w.pxunit * w.t.sizex) % w.t.sizex;
+		w.t_offset.x = (int)(w.pxunit * w.t.width) % w.t.width;
 	if (w.y < 0)
 		w.y = 0;
 	if (w.btm > WIN_HEIGHT)
@@ -76,8 +78,9 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	while (w.y < w.btm)
 	{
 		w.unit = (float)(w.y - w.top) / w.wallheight;
-		w.t_offset.y = (int)(w.unit * w.t.sizey) % w.t.sizey;
-		w.color = w.t.buffer[w.t_offset.y * w.t.sizex + w.t_offset.x];
+		w.t_offset.y = (int)(w.unit * w.t.height) % w.t.height;
+		// printf("%d %d %d\n", w.t_offset.y, w.t.width,  w.t_offset.x);
+		w.color = w.t.buffer[((w.t_offset.y * w.t.width) + (w.t_offset.x)) % (w.t.width * w.t.height)];
 		t_image_update_pixel(&data->scene_layer, i, w.y, w.color);
 		w.y++;
 	}

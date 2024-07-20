@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/18 17:57:45 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:44:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	game_loop(t_data *data)
 	// t_image_clear_color(&data->minimaps_layer, 0xffff00);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	// put_maps(data->maps, &data->minimaps_layer);
-	draw_mini_map();
+	// draw_mini_map();
 	// printf("%f\n", data->player.angle);
 	angle = data->player.angle - (FOV / 2);
 	i = 0;
@@ -69,7 +69,7 @@ int	game_loop(t_data *data)
 	{
 		send_ray(&ray, angle);
 		put_wall(data, i, &ray);
-		angle += (float)FOV / WIN_WIDTH;
+		angle += (float) FOV / WIN_WIDTH;
 		i++;
 	}
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
@@ -82,14 +82,20 @@ int	game_loop(t_data *data)
 void	run_game(t_data *data)
 {
 	t_vector	map_size;
+	int			tile_size;
 
-	map_size.x = data->scene_info.maps_xsize * TILE_SIZE;
-	map_size.y = data->scene_info.maps_ysize * TILE_SIZE;
+	tile_size = data->settings.tile_size;
+	map_size.x = data->scene_info.maps_xsize * tile_size;
+	map_size.y = data->scene_info.maps_ysize * tile_size;
 	data->scene_layer = t_image_create(WIN_WIDTH,
 			WIN_HEIGHT, 0xffffffff);
+	// data->minimaps_layer = t_image_create(
+	// 		data->screen.width * TILE_SIZE,
+	// 		data->screen.height * TILE_SIZE, 0xffffffff);
+
 	data->minimaps_layer = t_image_create(
-			data->screen.width * TILE_SIZE,
-			data->screen.height * TILE_SIZE, 0xffffffff);
+			200,
+			200, 0xffffffff);
 	init_player(data);
 	data->texture_ea = t_image_loadfromxpm(data->scene_info.east_texture);
 	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);

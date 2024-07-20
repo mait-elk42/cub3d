@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   send_vertical.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/17 12:00:56 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:40:27 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ t_vector2	get_virtical_intercept(t_ray ray)
 {
 	t_vector2	intercept;
 	t_vector2	plyrpos;
+	int			tile_size;
 
+	tile_size = data_hook(NULL)->settings.tile_size;
 	plyrpos = data_hook(NULL)->player.position;
-	intercept.x = floor(plyrpos.x / TILE_SIZE) * TILE_SIZE;
+	intercept.x = floor(plyrpos.x / tile_size) * tile_size;
 	if (ray.face_right)
-		intercept.x += TILE_SIZE;
+		intercept.x += tile_size;
 	intercept.y = plyrpos.y + (intercept.x - plyrpos.x) * tan(ray.angle);
 	return (intercept);
 }
@@ -54,15 +56,17 @@ t_ray	send_virtical_ray(float ray_angle, t_size screen_size)
 	t_data		*data;
 	t_ray		ray;
 	t_vector2	step;
+	int			tile_size;
 
 	data = data_hook(NULL);
+	tile_size = data->settings.tile_size;
 	ray.hit_wall = false;
 	ray.angle = ray_angle;
 	set_ray_side(&ray, ray_angle);
-	step.x = TILE_SIZE;
+	step.x = tile_size;
 	if (ray.face_left)
 		step.x *= -1;
-	step.y = TILE_SIZE * tan(ray_angle);
+	step.y = tile_size * tan(ray_angle);
 	if ((ray.face_up && step.y > 0) || (ray.face_down && step.y < 0))
 		step.y *= -1;
 	ray.intercept = get_virtical_intercept(ray);

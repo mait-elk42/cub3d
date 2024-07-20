@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/17 17:12:59 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:41:21 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,19 @@ void	set_directions(t_ray *ray, int ray_type)
 
 int	check_wall(t_vector2 coords)
 {
-	t_vector	grid;
+	t_size		grid;
 	t_data		*data;
+	t_size		screen_size;
+	int			tile_size;
 
 	data = data_hook(NULL);
-	grid = (t_vector){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
-	if (data->maps[grid.y][grid.x] == '1' || data->maps[grid.y][grid.x] == '\0')
+	screen_size = data->screen;
+	tile_size = data->settings.tile_size;
+	grid = (t_size){(coords.x / tile_size), coords.y / tile_size};
+	// printf("[%d : %d\n]", grid.x, grid.y);
+	if (grid.width > screen_size.width || grid.height > screen_size.height)
+		return (true);
+	if (data->maps[grid.height][grid.width] == '1' || data->maps[grid.height][grid.width] == '\0')
 		return (true);
 	return (false);
 }
