@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:55:15 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:48:26 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 	}
 }
 
-void	generate_cf_color(t_data *data)
+void	get_cf_color(t_data *data)
 {
 	t_color	crgb;
 	t_color	frgb;
@@ -54,15 +54,10 @@ int	game_loop(t_data *data)
 	float	angle;
 	int		i;
 
-	generate_cf_color(data);
+	get_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
-	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
-	// t_image_clear_color(&data->minimaps_layer, 0xffff00);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
-	// put_maps(data->maps, &data->minimaps_layer);
-	// draw_mini_map();
-	// printf("%f\n", data->player.angle);
 	angle = data->player.angle - (FOV / 2);
 	i = 0;
 	while (i < WIN_WIDTH)
@@ -74,8 +69,6 @@ int	game_loop(t_data *data)
 	}
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->scene_layer.img_ptr, 0, 0);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
-		data->minimaps_layer.img_ptr, 100, 100);
 	return (0);
 }
 
@@ -85,15 +78,7 @@ void	run_game(t_data *data)
 
 	map_size.x = data->scene_info.maps_xsize * TILE_SIZE;
 	map_size.y = data->scene_info.maps_ysize * TILE_SIZE;
-	data->scene_layer = t_image_create(WIN_WIDTH,
-			WIN_HEIGHT, 0xffffffff);
-	// data->minimaps_layer = t_image_create(
-	// 		data->screen.width * TILE_SIZE,
-	// 		data->screen.height * TILE_SIZE, 0xffffffff);
-
-	data->minimaps_layer = t_image_create(
-			200,
-			200, 0xffffffff);
+	data->scene_layer = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
 	init_player(data);
 	data->texture_ea = t_image_loadfromxpm(data->scene_info.east_texture);
 	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);

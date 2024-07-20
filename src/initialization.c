@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:55:30 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:07:10 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	data_init(t_data *data, int ac, char **av)
 	data_hook(data);
 	ft_bzero(data, sizeof(t_data));
 	check_file(ac, av);
-	// settings_init();
 	data->mlx.mlx_ptr = mlx_init();
 	if (data->mlx.mlx_ptr == NULL)
 		eput_error("Cannot Init Mlx Connection", "[MLX_DYLIB]", 1);

@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:54:58 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:26:21 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <sys/time.h>
+
 
 /*
 	* Text Colors
@@ -92,8 +93,8 @@ typedef struct s_settings
 
 
 # define TILE_SIZE 32
-# define PLAYER_SPEED 2.0
-# define CAM_SENS 2.0
+# define PLAYER_SPEED 1.8
+# define CAM_SENS 1.5
 # define FOV 60
 
 /*
