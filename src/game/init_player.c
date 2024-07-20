@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 18:18:09 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:57:06 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ void	put_player_shape(double size)
 
 	data = data_hook(NULL);
 	player_pos = data->player.position;
-	p1.x = cos(deg_to_rad(data->player.angle - 120)) * size + 100;
-	p1.y = sin(deg_to_rad(data->player.angle - 120)) * size + 100;
-	p2.x = cos(deg_to_rad(data->player.angle + 120)) * size + 100;
-	p2.y = sin(deg_to_rad(data->player.angle + 120)) * size + 100;
-	p3.x = cos(deg_to_rad(data->player.angle)) * size + 100;
-	p3.y = sin(deg_to_rad(data->player.angle)) * size + 100;
+	p1.x = cos(deg_to_rad(270 - 120)) * size + 100;
+	p1.y = sin(deg_to_rad(270 - 120)) * size + 100;
+	p2.x = cos(deg_to_rad(270 + 120)) * size + 100;
+	p2.y = sin(deg_to_rad(270 + 120)) * size + 100;
+	p3.x = cos(deg_to_rad(270)) * size + 100;
+	p3.y = sin(deg_to_rad(270)) * size + 100;
 	draw_line(&data->minimaps_layer, 0xff0000, p1, p3);
 	draw_line(&data->minimaps_layer, 0xff0000, p2, p3);
 }
@@ -61,4 +61,5 @@ void	put_player_shape(double size)
 void	init_player(t_data *data)
 {
 	init_angle_pos(data->maps, &data->player);
+	data->player.walking_dir = (t_vector2){0, 0};
 }

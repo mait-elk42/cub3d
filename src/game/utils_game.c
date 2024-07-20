@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 10:03:05 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:59:58 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ void	handle_input(t_data *data, float radi)
 
 	maps = data->maps;
 	axis = read_keys_axis(data->key_pressed, radi);
+	data->player.walking_dir = axis;
 	try_move(data, axis);
 	data->player.angle -= (data->key_pressed.left == true) * CAM_SENS;
 	data->player.angle += (data->key_pressed.right == true) * CAM_SENS;

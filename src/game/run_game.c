@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/18 17:57:45 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:07:33 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,13 @@ void	run_game(t_data *data)
 	map_size.y = data->scene_info.maps_ysize * TILE_SIZE;
 	data->scene_layer = t_image_create(WIN_WIDTH,
 			WIN_HEIGHT, 0xffffffff);
+	// data->minimaps_layer = t_image_create(
+	// 		data->screen.width * TILE_SIZE,
+	// 		data->screen.height * TILE_SIZE, 0xffffffff);
+
 	data->minimaps_layer = t_image_create(
-			data->screen.width * TILE_SIZE,
-			data->screen.height * TILE_SIZE, 0xffffffff);
+			200,
+			200, 0xffffffff);
 	init_player(data);
 	data->texture_ea = t_image_loadfromxpm(data->scene_info.east_texture);
 	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);

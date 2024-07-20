@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/18 18:19:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 08:55:56 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	draw_mini_map()
 {
 	t_data		*data;
 	t_size		size;
-	t_vector2	end_point;
+	t_vector2	targ;
+	// t_vector2	end_point;
 	t_vector2	ppos;
 
 	data = data_hook(NULL);
@@ -72,13 +73,33 @@ void	draw_mini_map()
 	// if (data->player.angle < 0)
 	// 	data->player.angle = 360;
 	// printf("%f\n", data->player.angle);
-	ppos = data->player.position;
 	double i = 0;
 	while (i <= 360) {
-		end_point.x = 100 + cos (deg_to_rad(i)) * 100;
-		end_point.y = 100 + sin (deg_to_rad(i)) * 100;
-		custom_draw_line(&data->minimaps_layer, data->maps,  (t_vector2){100, 100}, end_point);
-		i += 0.1;
+		// end_point.x = 100 + cos (deg_to_rad(i)) * 100;
+		// end_point.y = 100 + sin (deg_to_rad(i)) * 100;
+		// custom_draw_line(&data->minimaps_layer, data->maps,  (t_vector2){100, 100}, end_point);
+		ppos = data->player.position;
+		int j = 0;
+		while (j < 100)
+		{
+			targ.x = 100 + cos (deg_to_rad(i)) * j;
+			targ.y = 100 + sin (deg_to_rad(i)) * j;
+			if (ppos.x > 0 && ppos.x < data->screen.width * TILE_SIZE && ppos.y > 0 && ppos.y < data->screen.height * TILE_SIZE && data->maps[(int) ((ppos.y) / TILE_SIZE)][(int) ((ppos.x) / TILE_SIZE)] == '1')
+				t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0x0000ff);
+			else
+				t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0xffffff);
+			j+= 4;
+			// printf("%f\n", data->player.angle);
+			ppos.x += cos (deg_to_rad(i + data->player.angle + 90));
+			ppos.y += sin (deg_to_rad(i + data->player.angle + 90));
+		}
+		i += 0.25;
 	}
-	put_player_shape(10);
+	// t_image_update_pixel(&data->minimaps_layer, 100, 100, 0xff0000);
+	double pp = 0;
+	while (pp < 7)
+	{
+		put_player_shape(pp);
+		pp += 0.1;
+	}
 }

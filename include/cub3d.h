@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 18:15:20 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 08:35:57 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@
 */
 # define TILE_SIZE 32
 # define MINIMAP_TILE 10
-# define PLAYER_SPEED 1.0
-# define CAM_SENS 1.5
+# define PLAYER_SPEED 2.0
+# define CAM_SENS 4.0
 # define FOV 60
 
 /*
@@ -170,8 +170,8 @@ typedef struct s_image
 {
 	void		*img_ptr;
 	int			*buffer;
-	int			sizex;
-	int			sizey;
+	int			width;
+	int			height;
 	int			bits_per_pixel;
 	int			line_bytes;
 	int			endian;
@@ -200,6 +200,8 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
+	// trying to rotate triangle inside the mmap
+	t_vector2	walking_dir;
 }	t_player;
 
 void	put_player_shape(double size);
