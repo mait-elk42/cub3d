@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:55:08 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/21 11:11:31 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ void	put_player_shape(double size)
 
 	data = data_hook(NULL);
 	player_pos = data->player.position;
-	p1.x = cos(deg_to_rad(270 - 120)) * size + 100;
-	p1.y = sin(deg_to_rad(270 - 120)) * size + 100;
-	p2.x = cos(deg_to_rad(270 + 120)) * size + 100;
-	p2.y = sin(deg_to_rad(270 + 120)) * size + 100;
-	p3.x = cos(deg_to_rad(270)) * size + 100;
-	p3.y = sin(deg_to_rad(270)) * size + 100;
+	p1.x = cos(deg_to_rad(270 - 120)) * size + ((WIN_WIDTH * MPSIZE) / 2);
+	p1.y = sin(deg_to_rad(270 - 120)) * size + ((WIN_WIDTH * MPSIZE) / 2);
+	p2.x = cos(deg_to_rad(270 + 120)) * size + ((WIN_WIDTH * MPSIZE) / 2);
+	p2.y = sin(deg_to_rad(270 + 120)) * size + ((WIN_WIDTH * MPSIZE) / 2);
+	p3.x = cos(deg_to_rad(270)) * size + ((WIN_WIDTH * MPSIZE) / 2);
+	p3.y = sin(deg_to_rad(270)) * size + ((WIN_WIDTH * MPSIZE) / 2);
 	draw_line(&data->minimaps_layer, 0xff0000, p1, p3);
 	draw_line(&data->minimaps_layer, 0xff0000, p2, p3);
 }

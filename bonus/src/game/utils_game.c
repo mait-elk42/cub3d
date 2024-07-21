@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:54:20 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/21 09:02:32 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,16 @@ void	handle_input(t_data *data, float radi)
 	axis = read_keys_axis(data->key_pressed, radi);
 	data->player.walking_dir = axis;
 	try_move(data, axis);
-	data->player.angle -= (data->key_pressed.left == true) * CAM_SENS;
-	data->player.angle += (data->key_pressed.right == true) * CAM_SENS;
+	if (data->mouse.used_mouse)
+	{
+		if (data->mouse.to_right)
+			data->player.angle += data->mouse.cam_sens;
+		if (data->mouse.to_left)
+			data->player.angle -= data->mouse.cam_sens;
+	} else {
+		data->player.angle -= (data->key_pressed.left == true) * CAM_SENS;
+		data->player.angle += (data->key_pressed.right == true) * CAM_SENS;
+	}
 	if (data->player.angle > 360)
 		data->player.angle -= 360;
 	if (data->player.angle < 0)

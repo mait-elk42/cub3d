@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 20:41:57 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/21 13:41:39 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <stdio.h>
+# include <signal.h>
 # include <sys/time.h>
 
 
@@ -64,6 +65,7 @@
 # define KEY_DOWN      125
 # define KEY_LEFT      123
 # define KEY_RIGHT     124
+# define KEY_RETURN    36
 
 # define ON_KEYDOWN    2
 # define ON_KEYUP      3
@@ -96,6 +98,7 @@ typedef struct s_settings
 # define PLAYER_SPEED 1.8
 # define CAM_SENS 2
 # define FOV 60
+# define MPSIZE 0.15
 
 /*
 	* ENUMS
@@ -176,6 +179,14 @@ typedef struct s_size
 	size_t	height;
 }	t_size;
 
+typedef struct s_select
+{
+	bool	new_game_selected;
+	bool	exit_selected;
+	bool	cont_selected;
+}	t_select;
+
+
 typedef struct s_image
 {
 	void		*img_ptr;
@@ -214,6 +225,15 @@ typedef struct s_player
 	t_vector2	walking_dir;
 }	t_player;
 
+typedef struct s_mouse
+{
+	bool	used_mouse;
+	bool	to_left;
+	bool	to_right;
+	double	cam_sens;
+}	t_mouse;
+
+
 void	put_player_shape(double size);
 
 typedef struct s_data
@@ -238,6 +258,9 @@ typedef struct s_data
 	t_image			texture_so;
 	t_image			texture_we;
 	t_size			screen;
+	t_mouse			mouse;
+	t_select		select_item;
+	char			*buffer[1024];
 }	t_data;
 
 typedef struct s_wall_text

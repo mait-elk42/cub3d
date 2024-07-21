@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 17:22:34 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/21 11:16:25 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	put_pixel(t_vector2 player_pos, t_vector2 targ, int i)
 	sc_size.height = data->screen.height * TILE_SIZE;
 	grid.x = player_pos.x / TILE_SIZE;
 	grid.y = player_pos.y / TILE_SIZE;
-	if (i < 90)
+	if (i < ((WIN_WIDTH * MPSIZE) / 2) - 10)
 	{
 		if (player_pos.x > 0 && player_pos.x < sc_size.width
 			&& player_pos.y > 0 && player_pos.y < sc_size.height
@@ -65,10 +65,10 @@ void	draw_mini_map()
 	while (i <= 360) {
 		plyrpos = data->player.position;
 		int j = 0;
-		while (j < 100)
+		while (j < (WIN_WIDTH * MPSIZE) / 2)
 		{
-			targ.x = 100 + cos (deg_to_rad(i)) * j;
-			targ.y = 100 + sin (deg_to_rad(i)) * j;
+			targ.x = ((WIN_WIDTH * MPSIZE) / 2) + cos (deg_to_rad(i)) * j;
+			targ.y = ((WIN_WIDTH * MPSIZE) / 2) + sin (deg_to_rad(i)) * j;
 			put_pixel(plyrpos, targ, j);
 			j++;
 			plyrpos.x += cos (deg_to_rad(data->player.angle + i + 90));
@@ -76,5 +76,5 @@ void	draw_mini_map()
 		}
 		i += 0.25;
 	}
-	draw_player(5);
+	draw_player(WIN_WIDTH * 0.005);
 }
