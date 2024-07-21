@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/21 13:45:41 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:49:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,6 @@ void	get_cf_color(t_data *data)
 	data->floor = (frgb.r << 16 | frgb.g << 8 | frgb.b);
 }
 
-void	menu()
-{
-	t_data		*data;
-	t_image		new_game;
-	t_image		exit;
-	t_image		logo;
-	t_image		cont;
-	t_select	select;
-
-	data = data_hook(NULL);
-	select = data->select_item;
-	logo = t_image_loadfromxpm("textures/cub_logo.xpm");
-	if (select.new_game_selected)
-		new_game = t_image_loadfromxpm("textures/new_game_selected.xpm");
-	else
-		new_game = t_image_loadfromxpm("textures/new_game_unselected.xpm");
-	if (select.cont_selected)
-		cont = t_image_loadfromxpm("textures/continue_selected.xpm");
-	else
-		cont = t_image_loadfromxpm("textures/continue_unselected.xpm");
-	if (select.exit_selected)
-		exit = t_image_loadfromxpm("textures/exit_selected.xpm");
-	else
-		exit = t_image_loadfromxpm("textures/exit_unselected.xpm");
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, logo.img_ptr, (WIN_WIDTH / 2) - 240, 0);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, new_game.img_ptr, (WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) - 50);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, cont.img_ptr, (WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 50);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, exit.img_ptr, (WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 150);
-}
-
 int	game_loop(t_data *data)
 {
 	t_ray	ray;
@@ -89,7 +59,7 @@ int	game_loop(t_data *data)
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
 	{
-		menu();
+		show_menu();
 		return 0;
 	}
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
@@ -123,31 +93,35 @@ void	norm_angle()
 int	mouse_event(int x, int y, void *param)
 {
 	t_data	*data;
+	static int oldx = 0;
 
 	data = (t_data *)param;
-	data->mouse.used_mouse = true;
-	(void)y;
-	if ((x > ((WIN_WIDTH / 2) - 100) && x < ((WIN_WIDTH / 2) + 100) )|| data->player.angle == 90)
+	printf("%d | %d\n", x, oldx);
+	if (x >= oldx - 1 && x <= oldx + 1)
 	{
-		data->mouse.used_mouse = false;
-		data->mouse.cam_sens = 1;
+		x = WIN_WIDTH / 2;
 		return 0;
 	}
+	oldx = x;
+	data->mouse.used_mouse = true;
+	(void)y;
+	// if ((x > ((WIN_WIDTH / 2) - 200) && x < ((WIN_WIDTH / 2) + 200) )|| data->player.angle == 90)
+	// {
+	// 	data->mouse.used_mouse = false;
+	// 	data->mouse.cam_sens = 1;
+	// 	return 0;
+	// }
 	if (x > (int) (WIN_WIDTH / 2))
 	{
 		data->mouse.to_right = true;
 		data->mouse.to_left = false;
-		// data->key_pressed.right = true;
-		// data->key_pressed.left = false;
 	}
 	if (x < (int) (WIN_WIDTH / 2))
 	{
 		data->mouse.to_right = false;
 		data->mouse.to_left = true;
-		// data->key_pressed.left = true;
-		// data->key_pressed.right = false;
 	}
-	data->mouse.cam_sens += 0.1;
+	data->mouse.cam_sens += 0.5;
 	if (data->mouse.cam_sens > 3.0)
 		data->mouse.cam_sens = 1;
 	return 0;
@@ -174,6 +148,7 @@ void	run_game(t_data *data)
 	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
 	data->select_item.new_game_selected = true;
+	data->select_item.cont_ignored = true;
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);

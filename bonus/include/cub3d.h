@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/21 13:41:39 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:24:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ typedef struct s_select
 	bool	new_game_selected;
 	bool	exit_selected;
 	bool	cont_selected;
+	bool	cont_ignored;
 }	t_select;
 
 
@@ -233,8 +234,13 @@ typedef struct s_mouse
 	double	cam_sens;
 }	t_mouse;
 
-
-void	put_player_shape(double size);
+typedef struct s_menu
+{
+	t_image		new_game;
+	t_image		exit;
+	t_image		logo;
+	t_image		cont;
+}	t_menu;
 
 typedef struct s_data
 {
@@ -260,7 +266,7 @@ typedef struct s_data
 	t_size			screen;
 	t_mouse			mouse;
 	t_select		select_item;
-	char			*buffer[1024];
+	t_menu			menu;
 }	t_data;
 
 typedef struct s_wall_text
@@ -352,6 +358,8 @@ void	set_distence(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray, float angle);
 int		check_wall(t_vector2 coords);
+void	handle_selected_item(int key);
+void	show_menu();
 
 /*
 	* IMAGES
@@ -379,6 +387,7 @@ int		ev_key_down(int keycode, t_data *data);
 void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
 void	put_maps(char **maps, t_image *img_layer);
 void	handle_input(t_data *data, float radi);
+void	put_player_shape(double size);
 
 /*
 	* SPLASH SCREEN

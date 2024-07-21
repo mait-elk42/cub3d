@@ -6,7 +6,7 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/20 17:10:09 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/07/21 15:24:10 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC= src/utils.c src/print.c src/initialization.c \
 	src/game/init_player.c src/game/run_game.c src/game/events_game.c src/game/utils_game.c \
 	src/map_utils/draw_map.c \
 	src/walls_paint/texture_instractions.c \
+	src/menu/menu.c src/menu/menu_events.c \
 	src/raycast/send_ray.c src/raycast/send_horizontal.c src/raycast/send_vertical.c src/raycast/utils.c 
 
 OBJ= $(SRC:.c=.o)

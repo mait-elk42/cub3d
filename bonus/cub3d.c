@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/21 13:43:49 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:09:24 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ int	main(int ac, char **av)
 	data.background_music = fork();
 	if (data.background_music == 0)
 	{
-		while (execvp("afplay", (char *[]) {"afplay", "assets/main_menu.mp3", NULL}) == 0)
-			continue ;
-		exit (0);
+		while (1)
+		{
+			execve("/usr/bin/afplay", (char *[]) {"afplay", "assets/main_menu2.mp3", NULL}, NULL);
+		}
+		safe_exit(1);
 	}
 	run_game(&data);
 	safe_exit(0);
