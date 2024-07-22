@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
+#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/20 17:24:58 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/07/22 16:33:43 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,6 @@ SRC= src/utils.c src/print.c src/initialization.c \
 	src/errors_handling/errors_args.c src/errors_handling/put_error.c \
 	src/io_operators/safe_str1.c src/io_operators/safe_str2.c \
 	src/images/t_image_instractions.c \
-	src/splash_screen/show_splash.c \
 	src/math/angle.c \
 	src/game/init_player.c src/game/run_game.c src/game/events_game.c src/game/utils_game.c \
 	src/walls_paint/texture_instractions.c \

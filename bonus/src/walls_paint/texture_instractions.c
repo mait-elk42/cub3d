@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:59:46 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	{
 		w.unit = (float)(w.y - w.top) / w.wallheight;
 		w.t_offset.y = (int)(w.unit * w.t.height) % w.t.height;
-		// printf("%d %d %d\n", w.t_offset.y, w.t.width,  w.t_offset.x);
 		w.color = w.t.buffer[((w.t_offset.y * w.t.width) + (w.t_offset.x)) % (w.t.width * w.t.height)];
 		t_image_update_pixel(&data->scene_layer, i, w.y, w.color);
 		w.y++;

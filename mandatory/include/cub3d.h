@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 18:26:21 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:40:19 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <sys/time.h>
-
 
 /*
 	* Text Colors
@@ -74,14 +73,14 @@
 # define ON_DESTROY    17
 
 /*
-	* 	WIN SIZE
+	* ATTRIBUTES
 */
 # define WIN_WIDTH 1080
 # define WIN_HEIGHT 720
-
-/*
-	* ATTRIBUTES
-*/
+# define TILE_SIZE 32
+# define PLAYER_SPEED 1.8
+# define CAM_SENS 1.5
+# define FOV 60
 
 typedef struct s_settings
 {
@@ -90,12 +89,6 @@ typedef struct s_settings
 	double	camera_sensibility;
 	double	fov;
 }	t_settings;
-
-
-# define TILE_SIZE 32
-# define PLAYER_SPEED 1.8
-# define CAM_SENS 1.5
-# define FOV 60
 
 /*
 	* ENUMS
@@ -140,8 +133,6 @@ typedef struct s_vector
 	int		x;
 	int		y;
 }	t_vector;
-
-void	draw_mini_map();
 
 typedef struct s_vector2
 {
@@ -254,23 +245,19 @@ typedef struct s_wall_text
 }	t_wall_text;
 
 /*
-	* GARBAGE COLLECTOR
+	* DATA
 */
 t_data	*data_hook(t_data *data);
-
-/*
-	* 	INITIALIZATION
-*/
 void	data_init(t_data *data, int ac, char **av);
 
-/**
+/*
  * 	STRINGS
 */
 char	*str_skip(char *str, char *chars_to_skip);
 int		str_equal(char *s1, char *s2);
 char	*str_skip_wsp(char *str);
 
-/**
+/*
  * ERRORS HANDLING
 */
 void	safe_exit(int status);
@@ -306,7 +293,6 @@ void	free_tab(char **array);
 /*
 	* IO OPERATORS
 */
-
 char	**append_2d(char **old_tab, char *to_append);
 void	set_screen_size(void);
 void	print(int fd, char *msg, int endl);
@@ -354,12 +340,7 @@ int		ev_key_down(int keycode, t_data *data);
 	* DRAW
  */
 void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
-void	put_maps(char **maps, t_image *img_layer);
 void	handle_input(t_data *data, float radi);
-
-/*
-	* SPLASH SCREEN
-*/
-void	splash_screen(t_data *data);
+void	draw_mini_map(void);
 
 #endif

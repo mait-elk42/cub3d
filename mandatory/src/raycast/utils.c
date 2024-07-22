@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/20 18:08:01 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:32:09 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	set_directions(t_ray *ray, int ray_type)
 
 int	check_wall(t_vector2 coords)
 {
-	t_size	grid;
+	t_size		grid;
 	t_data		*data;
 	t_size		screen_size;
 
@@ -79,7 +79,8 @@ int	check_wall(t_vector2 coords)
 	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
 	if (grid.width > screen_size.width || grid.height > screen_size.height)
 		return (false);
-	if (data->maps[grid.height][grid.width] == '1' || data->maps[grid.height][grid.width] == '\0')
+	if (data->maps[grid.height][grid.width] == '1'
+		|| data->maps[grid.height][grid.width] == '\0')
 		return (true);
 	return (false);
 }

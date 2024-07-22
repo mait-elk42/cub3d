@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 18:04:33 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:51:35 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 # include <stdio.h>
 # include <signal.h>
 # include <sys/time.h>
-// # include <mlx.h>
-# include "mlx.h"
+# include <mlx.h>
+# include <unistd.h>
+# include <signal.h>
 
 
 /*
@@ -79,8 +80,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH 1080
-# define WIN_HEIGHT 720
+# define WIN_WIDTH (1080)
+# define WIN_HEIGHT (720)
 
 /*
 	* ATTRIBUTES
@@ -99,7 +100,7 @@ typedef struct s_settings
 # define PLAYER_SPEED 1.8
 # define CAM_SENS 2
 # define FOV 60
-# define MPSIZE 0.15
+# define MPSIZE 0.16
 
 /*
 	* ENUMS
