@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/19 16:07:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:07:54 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	game_loop(t_data *data)
 	// t_image_clear_color(&data->minimaps_layer, 0xffff00);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	// put_maps(data->maps, &data->minimaps_layer);
-	draw_mini_map();
+	t_vector N = draw_mini_map();
 	// printf("%f\n", data->player.angle);
 	angle = data->player.angle - (FOV / 2);
 	i = 0;
@@ -76,6 +76,7 @@ int	game_loop(t_data *data)
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->minimaps_layer.img_ptr, 100, 100);
+	mlx_string_put(data->mlx.mlx_ptr, data->mlx.window_ptr, N.x + 100, N.y + 100, 0x000000, "N");
 	return (0);
 }
 

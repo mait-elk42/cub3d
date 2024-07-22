@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 08:35:57 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:07:09 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH  1080
-# define WIN_HEIGHT 720
+# define WIN_WIDTH  (1920 * 0.8)
+# define WIN_HEIGHT (1080 * 0.8)
 
 /*
 	* ATTRIBUTES
@@ -84,7 +84,7 @@
 # define TILE_SIZE 32
 # define MINIMAP_TILE 10
 # define PLAYER_SPEED 2.0
-# define CAM_SENS 4.0
+# define CAM_SENS 2.0
 # define FOV 60
 
 /*
@@ -131,7 +131,7 @@ typedef struct s_vector
 	int		y;
 }	t_vector;
 
-void	draw_mini_map();
+t_vector	draw_mini_map();
 
 typedef struct s_vector2
 {
@@ -301,6 +301,7 @@ void	set_screen_size(void);
 void	print(int fd, char *msg, int endl);
 void	print_2d(char **arr);
 float	normalize_angle(float angle);
+float	normalize_angle_d(float angle_deg);
 void	logger(char *msg);
 
 /*

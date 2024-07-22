@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   angle.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:17:48 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 10:32:33 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:52:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+float	normalize_angle_d(float angle_deg)
+{
+	if (angle_deg > 360)
+		angle_deg -= 360;
+	else if (angle_deg < 0)
+		angle_deg += 360;
+	return (angle_deg);
+}
 
 float	normalize_angle(float angle)
 {

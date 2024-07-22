@@ -6,12 +6,12 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/20 08:46:36 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/07/20 11:27:51 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
-CFLAGS= -Wall -Werror -Wextra -I include -I libft -fsanitize=address -g
+CFLAGS= -Wall -Werror -Wextra -I include -I libft #-fsanitize=address
 SRC= src/utils.c src/print.c src/initialization.c \
 	src/maps_check/maps_parse.c src/maps_check/check_maps.c src/maps_check/check_colors.c \
 	src/io_operators/append2d.c src/strings.c \

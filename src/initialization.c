@@ -6,29 +6,29 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 09:08:37 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 11:25:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	make_map_square()
-{
-	t_size	size;
-	t_data	*data;
-	char	**map;
+// void	make_map_square()
+// {
+	// t_size	size;
+	// t_data	*data;
+	// char	**map;
 
-	ft_bzero(&size, sizeof(t_size));
-	map = data->maps;
-	while (map[size.height])
-	{
-		if (safe_strlen(map[size.height]) < data->screen.width)
-		{
+	// ft_bzero(&size, sizeof(t_size));
+	// map = data->maps;
+	// while (map[size.height])
+	// {
+	// 	if (safe_strlen(map[size.height]) < data->screen.width)
+	// 	{
 			
-		}
-	}
+	// 	}
+	// }
 	
-}
+// }
 
 void	print_data_collected(t_data	*data)
 {
@@ -60,6 +60,6 @@ void	data_init(t_data *data, int ac, char **av)
 	if (data->mlx.window_ptr == NULL)
 		eput_error("cannot open mlx window", "[MLX_DYLIB]", 1);
 	set_screen_size();
-	make_map_square();
+	// make_map_square();
 	print_data_collected(data);
 }

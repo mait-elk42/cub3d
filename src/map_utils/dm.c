@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/20 08:55:56 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:06:44 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,18 @@ void	custom_draw_line(t_image *image, char **map, t_vector2 from, t_vector2 to)
 	}
 }
 
-void	draw_mini_map()
+t_vector	draw_mini_map()
 {
 	t_data		*data;
 	t_size		size;
 	t_vector2	targ;
 	// t_vector2	end_point;
+	t_vector	N;
 	t_vector2	ppos;
 
 	data = data_hook(NULL);
 	size = (t_size) {0, 0};
+	N = (t_vector) {0, 0};
 
 	// if (data->player.angle > 360)
 	// 	data->player.angle = 0;
@@ -84,14 +86,26 @@ void	draw_mini_map()
 		{
 			targ.x = 100 + cos (deg_to_rad(i)) * j;
 			targ.y = 100 + sin (deg_to_rad(i)) * j;
-			if (ppos.x > 0 && ppos.x < data->screen.width * TILE_SIZE && ppos.y > 0 && ppos.y < data->screen.height * TILE_SIZE && data->maps[(int) ((ppos.y) / TILE_SIZE)][(int) ((ppos.x) / TILE_SIZE)] == '1')
-				t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0x0000ff);
-			else
-				t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0xffffff);
-			j+= 4;
-			// printf("%f\n", data->player.angle);
-			ppos.x += cos (deg_to_rad(i + data->player.angle + 90));
-			ppos.y += sin (deg_to_rad(i + data->player.angle + 90));
+			if (j < 95)
+			{
+				if (ppos.x > 0 && ppos.x < data->screen.width * TILE_SIZE && ppos.y > 0 && ppos.y < data->screen.height * TILE_SIZE && data->maps[(int) ((ppos.y) / TILE_SIZE)][(int) ((ppos.x) / TILE_SIZE)] == '1')
+					t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0x0000ff);
+				else
+					t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0xffffff);
+				// printf("%f\n", data->player.angle);
+				ppos.x += cos (deg_to_rad(normalize_angle_d(i + data->player.angle + 90)));
+				ppos.y += sin (deg_to_rad(normalize_angle_d(i + data->player.angle + 90)));
+			}else{
+				// printf("%f\n", normalize_angle_d(i + data->player.angle + 90));
+				t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0x662222);
+				if (floor(normalize_angle_d(i + data->player.angle + 90)) == 270)
+				{
+					// t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0xffffff);
+					// mlx_string_put(data->mlx.mlx_ptr, data->mlx.window_ptr, targ.x, targ.y, 0xffffff, "N");
+					N = (t_vector){targ.x, targ.y};
+				}
+			}
+			j++;
 		}
 		i += 0.25;
 	}
@@ -102,4 +116,5 @@ void	draw_mini_map()
 		put_player_shape(pp);
 		pp += 0.1;
 	}
+	return (N);
 }
