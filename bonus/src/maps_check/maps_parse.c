@@ -6,11 +6,11 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 16:44:17 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:20:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/cub3d.h"
+#include <cub3d_bonus.h>
 
 static bool	check_texture_content(char	*filename)
 {

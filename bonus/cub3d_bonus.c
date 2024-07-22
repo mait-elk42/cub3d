@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 15:11:15 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:21:09 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 void	check_leaks(int i)
 {
@@ -25,10 +25,6 @@ void	check_leaks(int i)
 		logger("=====================================================");
 	}
 }
-
-#include <unistd.h>
-#include <signal.h>
-
 
 void	signal_handler(int signal)
 {

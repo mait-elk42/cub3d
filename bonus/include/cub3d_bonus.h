@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 14:32:17 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:04:33 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,6 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
-	// trying to rotate triangle inside the mmap
 	t_vector2	walking_dir;
 }	t_player;
 
@@ -369,7 +368,7 @@ void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray, float angle);
 int		check_wall(t_vector2 coords);
 void	handle_selected_item(int key);
-void	show_menu();
+int		show_menu();
 
 /*
 	* IMAGES

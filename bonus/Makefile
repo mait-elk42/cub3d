@@ -6,7 +6,7 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/22 15:16:13 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/07/22 18:18:31 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,9 @@ SRC= src/utils.c src/print.c src/initialization.c \
 	src/raycast/send_ray.c src/raycast/send_horizontal.c src/raycast/send_vertical.c src/raycast/utils.c 
 
 OBJ= $(SRC:.c=.o)
-NAME = cub3d
+NAME = cub3d_bonus
 LIBFT = libft/libft.a
-MLX_ADD = -Lmlx/ -lmlx -framework OpenGL -framework AppKit
+MLX_ADD = -Imlx/ mlx/libmlx.a -framework OpenGL -framework AppKit
 
 all: $(NAME)
 	@printf "\033[32m🎮 $(NAME) is Ready\033[0m\n"

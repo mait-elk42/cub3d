@@ -6,11 +6,11 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 15:30:49 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:22:58 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 void	handle_select_event(t_data *data)
 {
@@ -18,6 +18,7 @@ void	handle_select_event(t_data *data)
 	{
 		data->game_started = true;
 		data->mouse.center_mouse = true;
+		data->mouse.cam_sens = 0;
 		mlx_mouse_hide();
 		return ;
 	}
@@ -25,6 +26,7 @@ void	handle_select_event(t_data *data)
 	{
 		data->game_started = true;
 		data->mouse.center_mouse = true;
+		data->mouse.cam_sens = 0;
 		mlx_mouse_hide();
 	}
 	if (data->select_item.exit_selected)
