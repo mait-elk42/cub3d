@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
+#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/22 15:16:13 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/07/22 17:24:13 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRC= src/utils.c src/print.c src/initialization.c \
 OBJ= $(SRC:.c=.o)
 NAME = cub3d
 LIBFT = libft/libft.a
-MLX_ADD = -Lmlx/ -lmlx -framework OpenGL -framework AppKit
+MLX_ADD = -Lmlx/ -lmlx -framework OpenGL -framework AppKit -Iinclude
 
 all: $(NAME)
 	@printf "\033[32m🎮 $(NAME) is Ready\033[0m\n"

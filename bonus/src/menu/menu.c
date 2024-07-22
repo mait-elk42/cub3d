@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 09:47:04 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:14:19 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,14 @@ void	show_menu()
 		put_to_win((WIN_WIDTH / 2) - 140, ((WIN_HEIGHT / 2) - 50), menu.s_new_game.img_ptr);
 	else
 		put_to_win((WIN_WIDTH / 2) - 140, ((WIN_HEIGHT / 2) - 50), menu.us_new_game.img_ptr);
+	
 	if (select.cont_ignored)
 		put_to_win((WIN_WIDTH / 2) - 140, ((WIN_HEIGHT / 2) + 50), menu.ig_cont.img_ptr);
 	else if (select.cont_selected)
 		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 50, menu.s_cont.img_ptr);
 	else
 		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 50, menu.us_cont.img_ptr);
+	
 	if (select.exit_selected)
 		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 150, menu.s_exit.img_ptr);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 16:16:46 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:58:22 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	game_loop(t_data *data)
 	float	angle;
 	int		i;
 
-	// printf("%d\n", data->mouse_pos_new.x - data->mouse_pos.x);
 	get_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
@@ -136,9 +135,6 @@ void	run_game(t_data *data)
 	map_size.y = data->scene_info.maps_ysize * TILE_SIZE;
 	data->scene_layer = t_image_create(WIN_WIDTH,
 			WIN_HEIGHT, 0xffffffff);
-	// data->minimaps_layer = t_image_create(
-	// 		data->screen.width * TILE_SIZE,
-	// 		data->screen.height * TILE_SIZE, 0xffffffff);
 	data->minimaps_layer = t_image_create(
 			WIN_WIDTH * MPSIZE,
 			WIN_WIDTH * MPSIZE, 0xffffffff);
