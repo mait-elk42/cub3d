@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maps_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 09:56:36 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:44:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	init_lines(void)
 			eput_error("invalid newline place", "newline", 1);
 		line = get_next_line(data->fd_file_input);
 	}
-	close(data->fd_file_input);
+	data->fd_file_input && close (data->fd_file_input);
 	if (data->maps == NULL)
 		eput_error("is empty", "[MAPS]", 1);
 }

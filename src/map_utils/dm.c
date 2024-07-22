@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/20 15:06:44 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:59:19 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,7 @@ t_vector	draw_mini_map()
 				ppos.x += cos (deg_to_rad(normalize_angle_d(i + data->player.angle + 90)));
 				ppos.y += sin (deg_to_rad(normalize_angle_d(i + data->player.angle + 90)));
 			}else{
-				// printf("%f\n", normalize_angle_d(i + data->player.angle + 90));
-				t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0x662222);
-				if (floor(normalize_angle_d(i + data->player.angle + 90)) == 270)
-				{
-					// t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0xffffff);
-					// mlx_string_put(data->mlx.mlx_ptr, data->mlx.window_ptr, targ.x, targ.y, 0xffffff, "N");
-					N = (t_vector){targ.x, targ.y};
-				}
+				t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0x000000);
 			}
 			j++;
 		}

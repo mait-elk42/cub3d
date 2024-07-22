@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/20 10:57:29 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:50:58 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,16 @@ void	set_directions(t_ray *ray, int ray_type)
 
 int	check_wall(t_vector2 coords)
 {
-	t_vector	grid;
+	t_size	grid;
 	t_data		*data;
+	t_size		screen_size;
 
 	data = data_hook(NULL);
-	grid = (t_vector){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
-	// printf("[%d : %d\n]", grid.x, grid.y);
-	// if (grid.x > data->screen.width)
-	if (data->maps[grid.y][grid.x] == '1' || data->maps[grid.y][grid.x] == '\0')
+	screen_size = data->screen;
+	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
+	if (grid.width > screen_size.width || grid.height > screen_size.height)
+		return (false);
+	if (data->maps[grid.height][grid.width] == '1' || data->maps[grid.height][grid.width] == '\0')
 		return (true);
 	return (false);
 }

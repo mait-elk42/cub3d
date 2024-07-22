@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 15:07:09 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:50:11 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <sys/time.h>
+
 
 /*
 	* Text Colors
@@ -81,6 +82,16 @@
 /*
 	* ATTRIBUTES
 */
+
+typedef struct s_settings
+{
+	int		tile_size;
+	double	player_speed;
+	double	camera_sensibility;
+	double	fov;
+}	t_settings;
+
+
 # define TILE_SIZE 32
 # define MINIMAP_TILE 10
 # define PLAYER_SPEED 2.0
@@ -208,25 +219,26 @@ void	put_player_shape(double size);
 
 typedef struct s_data
 {
-	bool				game_started;
-	t_mlx				mlx;
-	t_player			player;
-	t_keys_status		key_pressed;
-	char				**lines;
-	char				**maps;
-	int					fd_file_input;
-	t_scene_info		scene_info;
-	t_image				scene_layer;
-	t_image				minimaps_layer;
-	int					background_music;
-	int					ceiling;
-	int					floor;
-	t_image				logo;
-	t_image				texture_ea;
-	t_image				texture_no;
-	t_image				texture_so;
-	t_image				texture_we;
-	t_size				screen;
+	bool			game_started;
+	t_mlx			mlx;
+	t_player		player;
+	t_keys_status	key_pressed;
+	t_settings		settings;
+	char			**lines;
+	char			**maps;
+	int				fd_file_input;
+	t_scene_info	scene_info;
+	t_image			scene_layer;
+	t_image			minimaps_layer;
+	int				background_music;
+	int				ceiling;
+	int				floor;
+	t_image			logo;
+	t_image			texture_ea;
+	t_image			texture_no;
+	t_image			texture_so;
+	t_image			texture_we;
+	t_size			screen;
 }	t_data;
 
 typedef struct s_wall_text
