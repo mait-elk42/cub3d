@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 13:00:45 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:30:49 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ void	handle_select_event(t_data *data)
 	if (data->select_item.new_game_selected)
 	{
 		data->game_started = true;
-		// data->mouse.center_mouse = true;
+		data->mouse.center_mouse = true;
+		mlx_mouse_hide();
 		return ;
 	}
 	if (data->select_item.cont_selected)
 	{
 		data->game_started = true;
-		// data->mouse.center_mouse = true;
+		data->mouse.center_mouse = true;
+		mlx_mouse_hide();
 	}
 	if (data->select_item.exit_selected)
 	{

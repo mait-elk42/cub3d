@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 14:55:48 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:11:15 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 
-	// check_leaks(1);
 	data_init(&data, ac, av);
 	data.game_started = false;
 	data.background_music = fork();
