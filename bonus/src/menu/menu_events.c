@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   menu.c                                             :+:      :+:    :+:   */
+/*   menu_events.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/21 15:20:07 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:00:45 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@ void	handle_select_event(t_data *data)
 	if (data->select_item.new_game_selected)
 	{
 		data->game_started = true;
+		// data->mouse.center_mouse = true;
 		return ;
 	}
 	if (data->select_item.cont_selected)
+	{
 		data->game_started = true;
+		// data->mouse.center_mouse = true;
+	}
 	if (data->select_item.exit_selected)
 	{
-		kill (data->background_music, 9);
+		kill (data->background_music, SIGHUP);
 		safe_exit(0);
 	}
 }

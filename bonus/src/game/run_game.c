@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/21 19:49:07 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:43:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	game_loop(t_data *data)
 	float	angle;
 	int		i;
 
+	printf("%d\n", data->mouse_pos_new.x - data->mouse_pos.x);
 	get_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
@@ -63,7 +64,6 @@ int	game_loop(t_data *data)
 		return 0;
 	}
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
-	// t_image_clear_color(&data->minimaps_layer, 0xffff00);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
@@ -79,6 +79,7 @@ int	game_loop(t_data *data)
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->minimaps_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
+	data->mouse_pos = data->mouse_pos_new;
 	return (0);
 }
 
@@ -92,38 +93,36 @@ void	norm_angle()
 
 int	mouse_event(int x, int y, void *param)
 {
-	t_data	*data;
-	static int oldx = 0;
+	t_data		*data;
+	t_vector	mouse_pos;
 
 	data = (t_data *)param;
-	printf("%d | %d\n", x, oldx);
-	if (x >= oldx - 1 && x <= oldx + 1)
-	{
-		x = WIN_WIDTH / 2;
-		return 0;
-	}
-	oldx = x;
-	data->mouse.used_mouse = true;
 	(void)y;
-	// if ((x > ((WIN_WIDTH / 2) - 200) && x < ((WIN_WIDTH / 2) + 200) )|| data->player.angle == 90)
+	data->mouse_pos_new = (t_vector){x, y};
+	// if (x == WIN_WIDTH / 2)
 	// {
+	// 	data->mouse.cam_sens = 0;
 	// 	data->mouse.used_mouse = false;
-	// 	data->mouse.cam_sens = 1;
 	// 	return 0;
 	// }
-	if (x > (int) (WIN_WIDTH / 2))
-	{
-		data->mouse.to_right = true;
-		data->mouse.to_left = false;
-	}
-	if (x < (int) (WIN_WIDTH / 2))
-	{
-		data->mouse.to_right = false;
-		data->mouse.to_left = true;
-	}
-	data->mouse.cam_sens += 0.5;
-	if (data->mouse.cam_sens > 3.0)
-		data->mouse.cam_sens = 1;
+	// data->mouse.used_mouse = true;
+	// if (x > (int) (WIN_WIDTH / 2))
+	// {
+	// 	print(1, "right", 1);
+	// 	data->mouse.to_right = true;
+	// 	data->mouse.to_left = false;
+	// }
+	// if (x < (int) (WIN_WIDTH / 2))
+	// {
+	// 	print(1, "left", 1);
+	// 	data->mouse.to_right = false;
+	// 	data->mouse.to_left = true;
+	// }
+	// data->mouse.cam_sens = 4;
+	// if (data->mouse.center_mouse)
+	// 	mlx_mouse_move(data->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+	// if (data->mouse.cam_sens > 3.0)
+	// 	data->mouse.cam_sens = 1;
 	return 0;
 }
 
@@ -149,6 +148,7 @@ void	run_game(t_data *data)
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
 	data->select_item.new_game_selected = true;
 	data->select_item.cont_ignored = true;
+	load_menu_images(&data->menu);
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);

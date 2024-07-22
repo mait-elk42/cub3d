@@ -6,62 +6,83 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/21 18:46:19 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 09:47:04 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
+void	destroy_this(void *img_ptr)
+{
+	void	*mlx_ptr;
+
+	mlx_ptr = data_hook(NULL)->mlx.mlx_ptr;
+	if (img_ptr != NULL)
+		mlx_destroy_image(mlx_ptr, img_ptr);
+}
+
 void	destroy_images(t_menu *menu)
 {
+	destroy_this(menu->logo.img_ptr);
+	destroy_this(menu->hint.img_ptr);
+	destroy_this(menu->s_new_game.img_ptr);
+	destroy_this(menu->us_new_game.img_ptr);
+	destroy_this(menu->s_cont.img_ptr);
+	destroy_this(menu->us_cont.img_ptr);
+	destroy_this(menu->ig_cont.img_ptr);
+	destroy_this(menu->s_exit.img_ptr);
+	destroy_this(menu->us_exit.img_ptr);
+}
+
+void	load_menu_images(t_menu *menu)
+{
+	menu->logo = t_image_loadfromxpm("textures/cub_logo.xpm");
+	menu->hint = t_image_loadfromxpm("textures/enter_to_select.xpm");
+	menu->s_new_game = t_image_loadfromxpm("textures/new_game_selected.xpm");
+	menu->us_new_game = t_image_loadfromxpm("textures/new_game_unselected.xpm");
+	menu->ig_cont = t_image_loadfromxpm("textures/continue_ignored.xpm");
+	menu->s_cont = t_image_loadfromxpm("textures/continue_selected.xpm");
+	menu->us_cont = t_image_loadfromxpm("textures/continue_unselected.xpm");
+	menu->s_exit = t_image_loadfromxpm("textures/exit_selected.xpm");
+	menu->us_exit = t_image_loadfromxpm("textures/exit_unselected.xpm");
+}
+
+void	put_to_win(int posx, int pox_y, void *img_ptr)
+{
+	void	*mlx_ptr;
+	void	*mlx_win;
 	t_data	*data;
 
 	data = data_hook(NULL);
-	if (menu->logo.img_ptr != NULL)
-		mlx_destroy_image(data->mlx.mlx_ptr, menu->logo.img_ptr);
-	if (menu->new_game.img_ptr != NULL)
-		mlx_destroy_image(data->mlx.mlx_ptr, menu->new_game.img_ptr);
-	if (menu->cont.img_ptr != NULL)
-		mlx_destroy_image(data->mlx.mlx_ptr, menu->cont.img_ptr);
-	if (menu->exit.img_ptr != NULL)
-		mlx_destroy_image(data->mlx.mlx_ptr, menu->exit.img_ptr);
-}
-
-void	load_images(t_menu *menu, t_select select)
-{
-	destroy_images(menu);
-	menu->logo = t_image_loadfromxpm("textures/cub_logo.xpm");
-	if (select.new_game_selected)
-		menu->new_game = t_image_loadfromxpm("textures/new_game_selected.xpm");
-	else
-		menu->new_game = t_image_loadfromxpm("textures/new_game_unselected.xpm");
-	if (select.cont_ignored)
-		menu->cont = t_image_loadfromxpm("textures/continue_ignored.xpm");
-	else if (select.cont_selected)
-		menu->cont = t_image_loadfromxpm("textures/continue_selected.xpm");
-	else
-		menu->cont = t_image_loadfromxpm("textures/continue_unselected.xpm");
-	if (select.exit_selected)
-		menu->exit = t_image_loadfromxpm("textures/exit_selected.xpm");
-	else
-		menu->exit = t_image_loadfromxpm("textures/exit_unselected.xpm");
+	mlx_ptr = data->mlx.mlx_ptr;
+	mlx_win = data->mlx.window_ptr;
+	mlx_put_image_to_window(mlx_ptr, mlx_win, img_ptr, posx, pox_y);
 }
 
 void	show_menu()
 {
 	t_data		*data;
+	t_mlx		mlx;
 	t_menu		menu;
 	t_select	select;
-	t_image		hint;
 
 	data = data_hook(NULL);
 	menu = data->menu;
+	mlx = data->mlx;
 	select = data->select_item;
-	load_images(&menu, select);
-	hint = t_image_loadfromxpm("textures/enter_to_select.xpm");
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, menu.logo.img_ptr, (WIN_WIDTH / 2) - 240, (WIN_HEIGHT / 20));
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, menu.new_game.img_ptr, (WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) - 50);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, menu.cont.img_ptr, (WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 50);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, menu.exit.img_ptr, (WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 150);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, hint.img_ptr, WIN_WIDTH - 280, WIN_HEIGHT - 80);
+	put_to_win((WIN_WIDTH / 2) - 240, (WIN_HEIGHT / 20), menu.logo.img_ptr);
+	if (select.new_game_selected)
+		put_to_win((WIN_WIDTH / 2) - 140, ((WIN_HEIGHT / 2) - 50), menu.s_new_game.img_ptr);
+	else
+		put_to_win((WIN_WIDTH / 2) - 140, ((WIN_HEIGHT / 2) - 50), menu.us_new_game.img_ptr);
+	if (select.cont_ignored)
+		put_to_win((WIN_WIDTH / 2) - 140, ((WIN_HEIGHT / 2) + 50), menu.ig_cont.img_ptr);
+	else if (select.cont_selected)
+		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 50, menu.s_cont.img_ptr);
+	else
+		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 50, menu.us_cont.img_ptr);
+	if (select.exit_selected)
+		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 150, menu.s_exit.img_ptr);
+	else
+		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 150, menu.us_exit.img_ptr);
 }

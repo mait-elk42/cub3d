@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/21 16:24:14 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:37:08 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <libft.h>
 # include <stdio.h>
-# include <mlx.h>
 # include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -25,6 +24,8 @@
 # include <stdio.h>
 # include <signal.h>
 # include <sys/time.h>
+# include <mlx.h>
+// # include "minilibx.h"
 
 
 /*
@@ -231,15 +232,21 @@ typedef struct s_mouse
 	bool	used_mouse;
 	bool	to_left;
 	bool	to_right;
+	bool	center_mouse;
 	double	cam_sens;
 }	t_mouse;
 
 typedef struct s_menu
 {
-	t_image		new_game;
-	t_image		exit;
 	t_image		logo;
-	t_image		cont;
+	t_image		s_new_game;
+	t_image		us_new_game;
+	t_image		s_exit;
+	t_image		us_exit;
+	t_image		s_cont;
+	t_image		ig_cont;
+	t_image		us_cont;
+	t_image		hint;
 }	t_menu;
 
 typedef struct s_data
@@ -267,6 +274,9 @@ typedef struct s_data
 	t_mouse			mouse;
 	t_select		select_item;
 	t_menu			menu;
+	pid_t			child;
+	t_vector		mouse_pos_new;
+	t_vector		mouse_pos;
 }	t_data;
 
 typedef struct s_wall_text
@@ -368,6 +378,8 @@ t_image	t_image_create(int sizex, int sizey, int default_color);
 void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
 void	t_image_clear_color(t_image *imgptr, int color);
 t_image	t_image_loadfromxpm(char *filename);
+void	load_menu_images(t_menu *menu);
+void	destroy_images(t_menu *menu);
 
 /*
 	* MATH

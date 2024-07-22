@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/21 15:21:20 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:54:45 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	ev_key_down(int keycode, t_data *data)
 	{
 		data->game_started = false;
 		data->select_item.cont_ignored = false;
+		data->mouse.center_mouse = false;
 	}
 	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_RETURN)
 		handle_selected_item(keycode);

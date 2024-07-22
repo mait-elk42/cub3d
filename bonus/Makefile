@@ -6,12 +6,13 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/21 15:24:10 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/07/22 13:07:30 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+ERROR_FLAGS = -Wextra -Werror -Wall #-Iminilibx/ -Lminilibx/
 CC= cc
-CFLAGS= -Wall -Werror -Wextra -I include -I libft #-fsanitize=address -g
+CFLAGS=  -I include -I libft  #-fsanitize=address -g
 SRC= src/utils.c src/print.c src/initialization.c \
 	src/maps_check/maps_parse.c src/maps_check/check_maps.c src/maps_check/check_colors.c \
 	src/io_operators/append2d.c src/strings.c \
@@ -27,9 +28,9 @@ SRC= src/utils.c src/print.c src/initialization.c \
 	src/raycast/send_ray.c src/raycast/send_horizontal.c src/raycast/send_vertical.c src/raycast/utils.c 
 
 OBJ= $(SRC:.c=.o)
-NAME= cub3d
+NAME = cub3d
 LIBFT = libft/libft.a
-MLX_ADD= -lmlx -framework OpenGL -framework AppKit
+MLX_ADD = -lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
 	@printf "\033[32m🎮 $(NAME) is Ready\033[0m\n"

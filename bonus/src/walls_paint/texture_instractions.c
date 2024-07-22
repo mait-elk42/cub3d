@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 13:55:50 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:18:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	w.btm = w.top + w.wallheight;
 	w.t = wall_side(ray, &w.pxunit);
 	w.y = w.top;
-	if (ray->direction == NORTH || ray->direction == EAST)
+	if (ray->direction == SOUTH || ray->direction == WEST)
 		w.t_offset.x = w.t.width - (int)(w.pxunit * w.t.width) % w.t.width;
 	else
 		w.t_offset.x = (int)(w.pxunit * w.t.width) % w.t.width;

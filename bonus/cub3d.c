@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/21 19:09:24 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:46:21 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ void	check_leaks(int i)
 	}
 }
 
+#include <unistd.h>
+#include <signal.h>
+
+
+void	signal_handler(int signal)
+{
+	(void)signal;
+	kill (data_hook(NULL)->child, SIGKILL);
+	exit (1);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	data;
@@ -36,9 +47,13 @@ int	main(int ac, char **av)
 	data.background_music = fork();
 	if (data.background_music == 0)
 	{
+		signal(SIGHUP, signal_handler);
 		while (1)
 		{
-			execve("/usr/bin/afplay", (char *[]) {"afplay", "assets/main_menu2.mp3", NULL}, NULL);
+			data.child = fork();
+			if (data.child == 0)
+				execve("/usr/bin/afplay", (char *[]) {"afplay", "assets/main_menu1.mp3", NULL}, NULL);
+			waitpid(data.child, NULL, 0);
 		}
 		safe_exit(1);
 	}
