@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 13:52:41 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:26:10 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,18 +131,18 @@ void	handle_input(t_data *data, float radi)
 	if (data->mouse_pos_new.x - data->mouse_pos.x > 0)
 	{
 		double i = 0;
-		while (i < 5.0)
+		while (i < 100.0)
 		{
-			data->player.angle +=  0.3 * CAM_SENS;
+			data->player.angle +=  0.01 * CAM_SENS;
 			i += 1;
 		}
 	}
 	if (data->mouse_pos_new.x - data->mouse_pos.x < 0)
 	{
 		double i = 0;
-		while (i < 5.0)
+		while (i < 100.0)
 		{
-			data->player.angle -= 0.3 * CAM_SENS;
+			data->player.angle -= 0.01 * CAM_SENS;
 			i += 1;
 		}
 	}

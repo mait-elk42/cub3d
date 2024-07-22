@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 13:37:08 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:32:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # include <stdio.h>
 # include <signal.h>
 # include <sys/time.h>
-# include <mlx.h>
-// # include "minilibx.h"
+// # include <mlx.h>
+# include "mlx.h"
 
 
 /*
