@@ -16,16 +16,44 @@ bool	valid_roundwall(char *mapwall)
 {
 	while (mapwall && *mapwall)
 	{
-		if (safe_strchr("0NSEW", *mapwall) != NULL)
+		if (safe_strchr("0NSEWD", *mapwall) != NULL)
 			return (false);
 		mapwall++;
 	}
 	return (true);
 }
 
+bool	is_valid_door(t_vector pos)
+{
+	t_data	*data;
+	char	**map;
+
+	data = data_hook(NULL);
+	map = data->map;
+	if (map[pos.y][pos.x] == 'D')
+	{
+		if (map[pos.y][pos.x - 1] == '0' && map[pos.y][pos.x + 1] == '0')
+			if (map[pos.y - 1][pos.x] == '0' && map[pos.y + 1][pos.x] == '0')
+				return (print(2, "Door without walls is not a Door", 1), false);
+		if (map[pos.y][pos.x - 1] == '1' && map[pos.y][pos.x + 1] == '1')
+			return (true);
+		else if (map[pos.y][pos.x - 1] == '0' && map[pos.y][pos.x + 1] == '0')
+			return (true);
+		else
+			return (print(2, "Door must be like 1D1 or 0D0", 1), false);
+		if (map[pos.y - 1][pos.x] == '0' && map[pos.y + 1][pos.x] == '0')
+			return (true);
+		if (map[pos.y - 1][pos.x] != '1' && map[pos.y + 1][pos.x] != '1')
+			return (true);
+		else
+			return (print(2, "Door must be like \n\t0\n\tD\n\t0", 1), false);
+	}
+	return (true);
+}
+
 void	map_iteri(char **map, t_vector pos, bool *found_plr)
 {
-	if (safe_strchr(" 01NSEW", map[pos.y][pos.x]) == NULL)
+	if (safe_strchr(" 01NSEWD", map[pos.y][pos.x]) == NULL)
 		eput_error("undefined character", map[pos.y], 1);
 	if (safe_strchr("NSEW", map[pos.y][pos.x]) != NULL)
 	{
@@ -33,7 +61,7 @@ void	map_iteri(char **map, t_vector pos, bool *found_plr)
 			eput_error("duplicated player", map[pos.y], 1);
 		*found_plr = true;
 	}
-	if (safe_strchr("0NSEW", map[pos.y][pos.x]) != NULL)
+	if (safe_strchr("0NSEWD", map[pos.y][pos.x]) != NULL)
 	{
 		if ((pos.y == 0 && valid_roundwall(map[pos.y]) == false)
 			|| (pos.x == 0 && map[pos.y][pos.x] == '0'))
@@ -66,6 +94,11 @@ void	check_map(void)
 		pos.x = 0;
 		while (data->map[pos.y][pos.x])
 		{
+			if (pos.y != 0 && pos.x != 0)
+			{
+				if (is_valid_door(pos) == false)
+					safe_exit(1);
+			}
 			map_iteri(data->map, pos, &found_plr);
 			pos.x++;
 		}

@@ -6,7 +6,11 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2024/07/23 09:56:30 by mait-elk         ###   ########.fr       */
+=======
 /*   Updated: 2024/07/23 10:58:37 by aabouqas         ###   ########.fr       */
+>>>>>>> a72bd58bf7acecf1b2327cae6daa951a0d1d4cdc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +213,6 @@ void	put_player_shape(double size);
 
 typedef struct s_data
 {
-	bool			game_started;
 	t_mlx			mlx;
 	t_player		player;
 	t_keys_status	key_pressed;

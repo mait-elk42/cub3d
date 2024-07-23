@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:30:31 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:20:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ void	put_pixel(t_vector2 player_pos, t_vector2 targ, int i)
 			&& map[grid.y][grid.x] == '1'
 		)
 			t_image_update_pixel(&data->minimap_layer, targ.x, targ.y, 0x66000000);
+		else if (player_pos.x > 0 && player_pos.x < sc_size.width
+			&& player_pos.y > 0 && player_pos.y < sc_size.height
+			&& map[grid.y][grid.x] == 'D'
+		)
+			t_image_update_pixel(
+					&data->minimap_layer, targ.x, targ.y, 0x6600ff);
 		else
 			t_image_update_pixel(
 				&data->minimap_layer, targ.x, targ.y, 0x66ffffff);

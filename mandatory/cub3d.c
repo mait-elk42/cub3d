@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 16:38:20 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:32:37 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,14 @@ void	check_leaks(int i)
 	}
 }
 
+//norm error :) v
+# error mandatory needs fix double free :: [not yet]
+
 int	main(int ac, char **av)
 {
 	t_data	data;
 
 	data_init(&data, ac, av);
-	data.game_started = true;
 	run_game(&data);
 	safe_exit(0);
 }

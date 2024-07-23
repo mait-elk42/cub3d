@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 12:58:52 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:42:06 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,7 @@ typedef struct s_data
 	t_image			texture_no;
 	t_image			texture_so;
 	t_image			texture_we;
+	t_image			texture_door;
 	t_size			screen;
 	t_mouse			mouse;
 	t_select		select_item;
@@ -277,6 +278,7 @@ typedef struct s_data
 	pid_t			child;
 	t_vector		mouse_pos_new;
 	t_vector		mouse_pos;
+	int				ppid;
 }	t_data;
 
 typedef struct s_wall_text
@@ -359,6 +361,7 @@ void	logger(char *msg);
 void	init_player(t_data *data);
 void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
+int		check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
 void	send_ray(t_ray *ray, double ray_angle);
 t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
@@ -367,7 +370,6 @@ float	get_distence(float angle, t_vector2 end);
 void	set_distence(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray, float angle);
-int		check_hit(t_vector2 coords, t_ray *ray);
 void	handle_selected_item(int key);
 int		show_menu();
 
@@ -380,6 +382,12 @@ void	t_image_clear_color(t_image *imgptr, int color);
 t_image	t_image_loadfromxpm(char *filename);
 void	load_menu_images(t_menu *menu);
 void	destroy_images(t_menu *menu);
+
+
+/*
+	* PLAY_BACK
+*/
+void	play_music(void);
 
 /*
 	* MATH

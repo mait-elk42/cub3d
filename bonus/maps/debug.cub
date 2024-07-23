@@ -3,10 +3,13 @@ SO 	textures/exit_selected.xpm
 WE 	textures/SO.xpm
 EA 	textures/SO.xpm
 
+# if the the user play disable up and down arrows :)
 
 F 	199,169,0
 C 	41,159,255
 
-111
-1E01
-111
+11111111
+10010001
+100D0001
+10010E01
+11111111

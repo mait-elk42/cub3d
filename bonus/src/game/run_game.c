@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 13:47:41 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:45:00 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	run_game(t_data *data)
 	map_size.x = data->scene_info.map_width * TILE_SIZE;
 	map_size.y = data->scene_info.map_height * TILE_SIZE;
 	data->scene_layer = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
-	data->minimap_layer = t_image_create(
+	data->minimap_layer = t_image_create (
 			WIN_WIDTH * MPSIZE,
 			WIN_WIDTH * MPSIZE, 0xffffffff);
 	init_player(data);
@@ -145,6 +145,7 @@ void	run_game(t_data *data)
 	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);
 	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
+	data->texture_door = t_image_loadfromxpm("textures/door.xpm");
 	data->select_item.new_game_selected = true;
 	data->select_item.cont_ignored = true;
 	load_menu_images(&data->menu);
