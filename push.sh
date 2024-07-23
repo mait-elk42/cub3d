@@ -1,3 +1,4 @@
+#!/bin/bash
 make fclean -C mandatory;
 make fclean -C bonus;
 git add .;
