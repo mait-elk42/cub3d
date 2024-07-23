@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:34:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:58:52 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,6 @@ typedef struct s_player
 
 typedef struct s_mouse
 {
-	bool	used_mouse;
 	bool	to_left;
 	bool	to_right;
 	bool	center_mouse;

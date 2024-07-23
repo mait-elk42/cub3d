@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 11:59:33 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:47:41 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ void	normalize_sensibility()
 	if (data->mouse.cam_sens <= 0.0)
 		data->mouse.cam_sens = 0;
 }
+
+// void	put_wapon()
+// {
+	
+// }
+
 int	game_loop(t_data *data)
 {
 	t_ray	ray;
@@ -86,6 +92,7 @@ int	game_loop(t_data *data)
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
+	// put_wapon();
 	normalize_sensibility();
 	return (0);
 }
