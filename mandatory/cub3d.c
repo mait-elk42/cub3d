@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 09:56:34 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:32:37 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	check_leaks(int i)
 		printf("=====================================================");
 	}
 }
+
+//norm error :) v
+# error mandatory needs fix double free :: [not yet]
 
 int	main(int ac, char **av)
 {

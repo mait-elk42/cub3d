@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   safe_str2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:21:53 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 10:47:09 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:59:36 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 char	*safe_strdup(char *s)
 {

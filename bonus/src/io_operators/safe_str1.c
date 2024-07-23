@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   safe_str1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:00:44 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/05/29 10:47:09 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 void	*safe_calloc(size_t size)
 {

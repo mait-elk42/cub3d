@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 17:14:19 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:50:29 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 void	destroy_this(void *img_ptr)
 {
@@ -47,7 +47,7 @@ void	load_menu_images(t_menu *menu)
 	menu->us_exit = t_image_loadfromxpm("textures/exit_unselected.xpm");
 }
 
-void	put_to_win(int posx, int pox_y, void *img_ptr)
+void	put_to_win(int posx, int pox_y, t_image image)
 {
 	void	*mlx_ptr;
 	void	*mlx_win;
@@ -56,35 +56,34 @@ void	put_to_win(int posx, int pox_y, void *img_ptr)
 	data = data_hook(NULL);
 	mlx_ptr = data->mlx.mlx_ptr;
 	mlx_win = data->mlx.window_ptr;
-	mlx_put_image_to_window(mlx_ptr, mlx_win, img_ptr, posx, pox_y);
+	mlx_put_image_to_window(mlx_ptr, mlx_win, image.img_ptr, posx, pox_y);
 }
 
-void	show_menu()
+int	show_menu()
 {
 	t_data		*data;
-	t_mlx		mlx;
 	t_menu		menu;
+	int			width_half;
 	t_select	select;
 
 	data = data_hook(NULL);
+	width_half = WIN_WIDTH / 2;
 	menu = data->menu;
-	mlx = data->mlx;
 	select = data->select_item;
-	put_to_win((WIN_WIDTH / 2) - 240, (WIN_HEIGHT / 20), menu.logo.img_ptr);
+	put_to_win(width_half - 240, (WIN_HEIGHT / 20), menu.logo);
 	if (select.new_game_selected)
-		put_to_win((WIN_WIDTH / 2) - 140, ((WIN_HEIGHT / 2) - 50), menu.s_new_game.img_ptr);
+		put_to_win(width_half - 140, ((WIN_HEIGHT / 2) -50), menu.s_new_game);
 	else
-		put_to_win((WIN_WIDTH / 2) - 140, ((WIN_HEIGHT / 2) - 50), menu.us_new_game.img_ptr);
-	
+		put_to_win(width_half - 140, ((WIN_HEIGHT / 2) -50), menu.us_new_game);
 	if (select.cont_ignored)
-		put_to_win((WIN_WIDTH / 2) - 140, ((WIN_HEIGHT / 2) + 50), menu.ig_cont.img_ptr);
+		put_to_win(width_half - 140, ((WIN_HEIGHT / 2) +50), menu.ig_cont);
 	else if (select.cont_selected)
-		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 50, menu.s_cont.img_ptr);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +50, menu.s_cont);
 	else
-		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 50, menu.us_cont.img_ptr);
-	
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +50, menu.us_cont);
 	if (select.exit_selected)
-		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 150, menu.s_exit.img_ptr);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +150, menu.s_exit);
 	else
-		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT / 2) + 150, menu.us_exit.img_ptr);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +150, menu.us_exit);
+	return (0);
 }

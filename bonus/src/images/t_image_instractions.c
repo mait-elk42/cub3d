@@ -6,11 +6,11 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 10:05:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 11:43:54 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 t_image	t_image_create(int sizex, int sizey, int default_color)
 {

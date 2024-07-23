@@ -6,11 +6,11 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 10:33:55 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:34:05 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 void	make_map_square(void)
 {
@@ -36,7 +36,7 @@ void	make_map_square(void)
 		ft_memcpy(new_map[size.height], map[size.height], line_size);
 		size.height++;
 	}
-	free (data->maps);
+	// free (data->maps);
 	data->maps = new_map;
 }
 
@@ -60,7 +60,6 @@ void	data_init(t_data *data, int ac, char **av)
 	data_hook(data);
 	ft_bzero(data, sizeof(t_data));
 	check_file(ac, av);
-	// settings_init();
 	data->mlx.mlx_ptr = mlx_init();
 	if (data->mlx.mlx_ptr == NULL)
 		eput_error("Cannot Init Mlx Connection", "[MLX_DYLIB]", 1);

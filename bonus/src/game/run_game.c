@@ -6,11 +6,11 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 09:25:12 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:28:16 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>
 
 void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to)
 {
@@ -47,7 +47,18 @@ void	get_cf_color(t_data *data)
 	data->ceiling = (crgb.r << 16 | crgb.g << 8 | crgb.b);
 	data->floor = (frgb.r << 16 | frgb.g << 8 | frgb.b);
 }
+void	normalize_sensibility()
+{
+	t_data	*data;
 
+	data = data_hook(NULL);
+	if (data->mouse.cam_sens > 0.0)
+		data->mouse.cam_sens -= 0.4;
+	if (data->mouse.cam_sens > 5.0)
+		data->mouse.cam_sens -= 0.9;
+	if (data->mouse.cam_sens <= 0.0)
+		data->mouse.cam_sens = 0;
+}
 int	game_loop(t_data *data)
 {
 	t_ray	ray;
@@ -58,10 +69,7 @@ int	game_loop(t_data *data)
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
-	{
-		show_menu();
-		return 0;
-	}
+		return (show_menu());
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	draw_mini_map();
@@ -78,7 +86,7 @@ int	game_loop(t_data *data)
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->minimaps_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
-	data->mouse_pos = data->mouse_pos_new;
+	normalize_sensibility();
 	return (0);
 }
 
@@ -97,32 +105,21 @@ int	mouse_event(int x, int y, void *param)
 	int			screen_half;
 
 	data = (t_data *)param;
-	// printf("%d %d\n", x, y);
 	screen_half = WIN_WIDTH / 2;
 	data->mouse.used_mouse = true;
-	if (x <= screen_half + 3 && x >= screen_half - 3)
-	{
-		data->mouse.cam_sens = 0;
-		data->mouse.used_mouse = false;
-		return 0;
-	}
 	if (x > screen_half)
 	{
-		// print(1, "right", 1);
 		data->mouse.to_right = true;
 		data->mouse.to_left = false;
 	}
 	if (x < screen_half)
 	{
-		// print(1, "left", 1);
 		data->mouse.to_right = false;
 		data->mouse.to_left = true;
 	}
-	data->mouse.cam_sens = abs((screen_half - x) * 0.01);
+	data->mouse.cam_sens = fabs((screen_half - x) * 0.02);
 	if (data->mouse.center_mouse)
 		mlx_mouse_move(data->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2);
-	// if (data->mouse.cam_sens > 3.0)
-	// 	data->mouse.cam_sens = 1;
 	return 0;
 }
 

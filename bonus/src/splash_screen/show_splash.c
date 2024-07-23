@@ -6,8 +6,8 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 15:53:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/17 10:45:11 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d.h>
+#include <cub3d_bonus.h>

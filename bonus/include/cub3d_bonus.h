@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 17:21:26 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:09:51 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ typedef struct s_settings
 # define PLAYER_SPEED 1.8
 # define CAM_SENS 2
 # define FOV 60
-# define MPSIZE 0.20
+# define MPSIZE 0.16
 
 /*
 	* ENUMS
@@ -172,6 +172,7 @@ typedef struct s_ray
 	bool		face_left;
 	bool		face_right;
 	bool		hit_wall;
+	bool		hit_door;
 	short		side;
 }	t_ray;
 
@@ -224,7 +225,6 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
-	// trying to rotate triangle inside the mmap
 	t_vector2	walking_dir;
 }	t_player;
 
@@ -368,9 +368,9 @@ float	get_distence(float angle, t_vector2 end);
 void	set_distence(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray, float angle);
-int		check_wall(t_vector2 coords);
+int		check_hit(t_vector2 coords, t_ray *ray);
 void	handle_selected_item(int key);
-void	show_menu();
+int		show_menu();
 
 /*
 	* IMAGES
