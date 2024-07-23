@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 16:58:22 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:25:12 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	mouse_event(int x, int y, void *param)
 	int			screen_half;
 
 	data = (t_data *)param;
-	printf("%d %d\n", x, y);
+	// printf("%d %d\n", x, y);
 	screen_half = WIN_WIDTH / 2;
 	data->mouse.used_mouse = true;
 	if (x <= screen_half + 3 && x >= screen_half - 3)
@@ -108,13 +108,13 @@ int	mouse_event(int x, int y, void *param)
 	}
 	if (x > screen_half)
 	{
-		print(1, "right", 1);
+		// print(1, "right", 1);
 		data->mouse.to_right = true;
 		data->mouse.to_left = false;
 	}
 	if (x < screen_half)
 	{
-		print(1, "left", 1);
+		// print(1, "left", 1);
 		data->mouse.to_right = false;
 		data->mouse.to_left = true;
 	}

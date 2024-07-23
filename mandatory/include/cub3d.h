@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 16:40:19 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:56:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,6 @@ void	put_player_shape(double size);
 
 typedef struct s_data
 {
-	bool			game_started;
 	t_mlx			mlx;
 	t_player		player;
 	t_keys_status	key_pressed;

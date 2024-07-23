@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 16:51:24 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:59:52 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int ac, char **av)
 		{
 			data.child = fork();
 			if (data.child == 0)
-				execve("/usr/bin/afplay", (char *[]) {"afplay", "assets/main_menu1.mp3", NULL}, NULL);
+				execve("/usr/bin/afplay", (char *[]) {"afplay", "assets/sounds/main_menu1.mp3", NULL}, NULL);
 			waitpid(data.child, NULL, 0);
 		}
 		safe_exit(1);
