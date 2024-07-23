@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maps_parse.c                                       :+:      :+:    :+:   */
+/*   map_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:25:57 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:33:25 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,9 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 			check_color(line[0], value);
 		return (true);
 	}
-	if ((int)safe_strlen(line) > data->scene_info.maps_xsize)
-		data->scene_info.maps_xsize = safe_strlen(line);
-	data->scene_info.maps_ysize++;
-	// if (data->scene_info.maps_ysize == 6)
-	// {
-	// 	data->maps = &data->lines[6];
-	// }
-	// for (int i = 0; data->maps && data->maps[i]; i++)
-	// 	printf("%s\n", data->maps[i]);
+	if ((int)safe_strlen(line) > data->scene_info.map_width)
+		data->scene_info.map_width = safe_strlen(line);
+	data->scene_info.map_height++;
 	return (true);
 }
 
@@ -126,7 +120,7 @@ void	init_lines(void)
 		line = get_next_line(data->fd_file_input);
 	}
 	data->fd_file_input && close (data->fd_file_input);
-	data->maps = &data->lines[6];
-	if (data->maps == NULL)
-		eput_error("is empty", "[MAPS]", 1);
+	data->map = &data->lines[6];
+	if (data->map == NULL)
+		eput_error("is empty", "[map]", 1);
 }

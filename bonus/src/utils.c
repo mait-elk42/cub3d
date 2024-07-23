@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:10:07 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:29:00 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	set_screen_size(void)
 	data = data_hook(NULL);
 	size.height = 0;
 	size.width = 0;
-	while (data->maps[size.height])
+	while (data->map[size.height])
 	{
-		width = safe_strlen(data->maps[size.height]);
+		width = safe_strlen(data->map[size.height]);
 		if (size.width < width)
 			size.width = width;
 		size.height++;

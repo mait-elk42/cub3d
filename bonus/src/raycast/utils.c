@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/23 09:09:02 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:29:00 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ int	check_hit(t_vector2 coords, t_ray *ray)
 	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
 	if (grid.width > screen_size.width || grid.height > screen_size.height)
 		return (true);
-	if (data->maps[grid.height][grid.width] == 'D')
+	if (data->map[grid.height][grid.width] == 'D')
 	{
 		ray->hit_door = true;
 		return (true);
 	}
-	// data->maps[grid.height][grid.width] == '\0'
-	if (data->maps[grid.height][grid.width] == '1')
+	// data->map[grid.height][grid.width] == '\0'
+	if (data->map[grid.height][grid.width] == '1')
 	{
 		ray->hit_wall = true;
 		return (true);
