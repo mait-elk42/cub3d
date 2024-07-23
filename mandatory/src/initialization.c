@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/20 18:07:10 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:47:38 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	make_map_square(void)
 
 	ft_bzero(&size, sizeof(t_size));
 	data = data_hook(NULL);
-	map = data->maps;
+	map = data->map;
 	new_map = ft_calloc(data->screen.height + 1, sizeof(char *));
 	while (map[size.height])
 	{
@@ -36,13 +36,13 @@ void	make_map_square(void)
 		ft_memcpy(new_map[size.height], map[size.height], line_size);
 		size.height++;
 	}
-	free (data->maps);
-	data->maps = new_map;
+	free (data->map);
+	data->map = new_map;
 }
 
 void	print_data_collected(t_data	*data)
 {
-	print_2d(data->maps);
+	print_2d(data->map);
 	printf("C: R %d\n", data->scene_info.ceiling_color.r);
 	printf("C: G %d\n", data->scene_info.ceiling_color.g);
 	printf("C: B %d\n", data->scene_info.ceiling_color.b);
@@ -64,7 +64,7 @@ void	data_init(t_data *data, int ac, char **av)
 	if (data->mlx.mlx_ptr == NULL)
 		eput_error("Cannot Init Mlx Connection", "[MLX_DYLIB]", 1);
 	init_lines();
-	check_maps();
+	check_map();
 	data->mlx.window_ptr = mlx_new_window(data->mlx.mlx_ptr,
 			WIN_WIDTH, WIN_HEIGHT, "cub3d");
 	if (data->mlx.window_ptr == NULL)

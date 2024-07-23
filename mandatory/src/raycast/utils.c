@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 16:32:09 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:47:38 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	check_wall(t_vector2 coords)
 	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
 	if (grid.width > screen_size.width || grid.height > screen_size.height)
 		return (false);
-	if (data->maps[grid.height][grid.width] == '1'
-		|| data->maps[grid.height][grid.width] == '\0')
+	if (data->map[grid.height][grid.width] == '1'
+		|| data->map[grid.height][grid.width] == '\0')
 		return (true);
 	return (false);
 }

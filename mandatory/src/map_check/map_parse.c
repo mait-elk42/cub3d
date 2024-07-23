@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maps_parse.c                                       :+:      :+:    :+:   */
+/*   map_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -90,10 +90,10 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 			check_color(line[0], value);
 		return (true);
 	}
-	if ((int)safe_strlen(line) > data->scene_info.maps_xsize)
-		data->scene_info.maps_xsize = safe_strlen(line);
-	data->scene_info.maps_ysize++;
-	return (data->maps = append_2d(data->maps, line), true);
+	if ((int)safe_strlen(line) > data->scene_info.map_xsize)
+		data->scene_info.map_xsize = safe_strlen(line);
+	data->scene_info.map_ysize++;
+	return (data->map = append_2d(data->map, line), true);
 }
 
 void	init_lines(void)
@@ -120,6 +120,6 @@ void	init_lines(void)
 		line = get_next_line(data->fd_file_input);
 	}
 	data->fd_file_input && close (data->fd_file_input);
-	if (data->maps == NULL)
-		eput_error("is empty", "[MAPS]", 1);
+	if (data->map == NULL)
+		eput_error("is empty", "[map]", 1);
 }
