@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:33:25 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:59:33 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	mouse_event(int x, int y, void *param)
 
 	data = (t_data *)param;
 	screen_half = WIN_WIDTH / 2;
-	data->mouse.used_mouse = true;
 	if (x > screen_half)
 	{
 		data->mouse.to_right = true;
@@ -130,8 +129,7 @@ void	run_game(t_data *data)
 
 	map_size.x = data->scene_info.map_width * TILE_SIZE;
 	map_size.y = data->scene_info.map_height * TILE_SIZE;
-	data->scene_layer = t_image_create(WIN_WIDTH,
-			WIN_HEIGHT, 0xffffffff);
+	data->scene_layer = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
 	data->minimap_layer = t_image_create(
 			WIN_WIDTH * MPSIZE,
 			WIN_WIDTH * MPSIZE, 0xffffffff);
@@ -147,6 +145,5 @@ void	run_game(t_data *data)
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);
 	mlx_hook(data->mlx.window_ptr, ON_MOUSEMOVE, 0, mouse_event, data);
-	// mlx_mouse_hook(data->mlx.window_ptr, , data);
 	mlx_loop(data->mlx.mlx_ptr);
 }
