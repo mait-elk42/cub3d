@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 18:50:14 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:25:57 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	normalize_sensibility()
 
 	data = data_hook(NULL);
 	if (data->mouse.cam_sens > 0.0)
-		data->mouse.cam_sens -= 0.5;
+		data->mouse.cam_sens -= 0.4;
 	if (data->mouse.cam_sens > 5.0)
-		data->mouse.cam_sens -= 1.0;
+		data->mouse.cam_sens -= 0.9;
 	if (data->mouse.cam_sens <= 0.0)
 		data->mouse.cam_sens = 0;
 }
@@ -64,16 +64,12 @@ int	game_loop(t_data *data)
 	t_ray	ray;
 	float	angle;
 	int		i;
-	static int n;
 
 	get_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
-	{
-		show_menu();
-		return 0;
-	}
+		return (show_menu());
 	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	draw_mini_map();
@@ -109,26 +105,15 @@ int	mouse_event(int x, int y, void *param)
 	int			screen_half;
 
 	data = (t_data *)param;
-	// printf("%d %d\n", x, y);
 	screen_half = WIN_WIDTH / 2;
-	// printf("[%d %d] | [%f][%d]\n", x, y, fabs((screen_half - x) * 0.04), data->mouse.used_mouse);
 	data->mouse.used_mouse = true;
-	if (x <= screen_half + 20 && x >= screen_half - 20)
+	if (x > screen_half)
 	{
-		data->mouse.cam_sens = 0;
-		data->mouse.used_mouse = false;
-		return 0;
-	}
-	// data->mouse.used_mouse = true;
-	if (x > screen_half && x < WIN_WIDTH)
-	{
-		// print(1, "right", 1);
 		data->mouse.to_right = true;
 		data->mouse.to_left = false;
 	}
-	if (x < screen_half && x > 0)
+	if (x < screen_half)
 	{
-		// print(1, "left", 1);
 		data->mouse.to_right = false;
 		data->mouse.to_left = true;
 	}

@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:09:02 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	set_directions(t_ray *ray, int ray_type)
 	ray->side = VERTICAL;
 }
 
-int	check_wall(t_vector2 coords)
+int	check_hit(t_vector2 coords, t_ray *ray)
 {
 	t_size	grid;
 	t_data		*data;
@@ -77,10 +77,18 @@ int	check_wall(t_vector2 coords)
 	data = data_hook(NULL);
 	screen_size = data->screen;
 	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
-	// printf("[%d : %d\n]", grid.x, grid.y);
 	if (grid.width > screen_size.width || grid.height > screen_size.height)
 		return (true);
-	if (data->maps[grid.height][grid.width] == '1' || data->maps[grid.height][grid.width] == '\0')
+	if (data->maps[grid.height][grid.width] == 'D')
+	{
+		ray->hit_door = true;
 		return (true);
+	}
+	// data->maps[grid.height][grid.width] == '\0'
+	if (data->maps[grid.height][grid.width] == '1')
+	{
+		ray->hit_wall = true;
+		return (true);
+	}
 	return (false);
 }

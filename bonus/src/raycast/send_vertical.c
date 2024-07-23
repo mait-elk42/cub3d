@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:13:27 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,22 @@ t_vector2	get_virtical_intercept(t_ray ray)
 
 static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 {
-	size_t	width;
-	size_t	height;
+	size_t		width;
+	size_t		height;
+	t_vector2	point;
 
 	width = screen.width;
 	height = screen.height;
-	while (
-		ray->intercept.x > 0 && ray->intercept.x < width
-		&& ray->intercept.y > 0 && ray->intercept.y < height
-	)
+	point = ray->intercept;
+	ray->hit_wall = false;
+	while (point.x > 0 && point.x < width && point.y > 0 && point.y < height)
 	{
-		if (check_wall((t_vector2){
-				ray->intercept.x - ray->face_left, ray->intercept.y
-			}))
-		{
-			ray->hit_wall = true;
+		if (check_hit((t_vector2){point.x - ray->face_left, point.y}, ray))
 			break ;
-		}
-		ray->intercept.y += step.y;
-		ray->intercept.x += step.x;
+		point.y += step.y;
+		point.x += step.x;
 	}
+	ray->intercept = point;
 }
 
 t_ray	send_virtical_ray(float ray_angle, t_size screen_size)

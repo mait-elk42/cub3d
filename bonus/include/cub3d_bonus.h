@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 18:51:35 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:09:51 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ typedef struct s_ray
 	bool		face_left;
 	bool		face_right;
 	bool		hit_wall;
+	bool		hit_door;
 	short		side;
 }	t_ray;
 
@@ -367,7 +368,7 @@ float	get_distence(float angle, t_vector2 end);
 void	set_distence(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray, float angle);
-int		check_wall(t_vector2 coords);
+int		check_hit(t_vector2 coords, t_ray *ray);
 void	handle_selected_item(int key);
 int		show_menu();
 

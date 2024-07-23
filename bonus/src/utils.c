@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:10:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,6 @@ void	safe_exit(int status)
 	data = data_hook(NULL);
 	free_tab(data->lines);
 	data->lines = NULL;
-	free_tab(data->maps);
-	data->maps = NULL;
-	free(data->maps);
-	data->maps = NULL;
 	ft_bzero(&data->scene_info, sizeof(t_scene_info));
 	close(data->fd_file_input);
 	if (data->mlx.mlx_ptr != NULL && data->mlx.window_ptr != NULL)
