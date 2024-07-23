@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 16:32:09 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:00:56 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,25 @@ void	set_directions(t_ray *ray, int ray_type)
 	ray->side = VERTICAL;
 }
 
-int	check_wall(t_vector2 coords)
+int	check_wall(t_vector2 coords, t_ray *ray)
 {
-	t_size		grid;
+	int			x;
+	int			y;
 	t_data		*data;
 	t_size		screen_size;
+	char		**map;
 
 	data = data_hook(NULL);
 	screen_size = data->screen;
-	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
-	if (grid.width > screen_size.width || grid.height > screen_size.height)
+	map = data->map;
+	x = (int) coords.x / TILE_SIZE;
+	y = (int) coords.y / TILE_SIZE;
+	if (x > (int) screen_size.width || y > (int) screen_size.height)
 		return (false);
-	if (data->maps[grid.height][grid.width] == '1'
-		|| data->maps[grid.height][grid.width] == '\0')
+	if (map[y][x] == '1' || map[y][x] == '\0')
+	{
+		ray->hit_wall = true;
 		return (true);
+	}
 	return (false);
 }

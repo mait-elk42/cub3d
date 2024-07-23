@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
+#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/22 16:33:43 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/07/23 10:47:38 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
 CFLAGS= -Wall -Werror -Wextra -I include -I libft #-fsanitize=address -g
 SRC= src/utils.c src/print.c src/initialization.c \
-	src/maps_check/maps_parse.c src/maps_check/check_maps.c src/maps_check/check_colors.c \
+	src/map_check/map_parse.c src/map_check/check_map.c src/map_check/check_colors.c \
 	src/io_operators/append2d.c src/strings.c \
 	src/errors_handling/errors_args.c src/errors_handling/put_error.c \
 	src/io_operators/safe_str1.c src/io_operators/safe_str2.c \

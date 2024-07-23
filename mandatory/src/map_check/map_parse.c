@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maps_parse.c                                       :+:      :+:    :+:   */
+/*   map_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:57:01 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:25:57 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:44:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cub3d_bonus.h>
+#include "../../include/cub3d.h"
 
 static bool	check_texture_content(char	*filename)
 {
@@ -90,16 +90,10 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 			check_color(line[0], value);
 		return (true);
 	}
-	if ((int)safe_strlen(line) > data->scene_info.maps_xsize)
-		data->scene_info.maps_xsize = safe_strlen(line);
-	data->scene_info.maps_ysize++;
-	// if (data->scene_info.maps_ysize == 6)
-	// {
-	// 	data->maps = &data->lines[6];
-	// }
-	// for (int i = 0; data->maps && data->maps[i]; i++)
-	// 	printf("%s\n", data->maps[i]);
-	return (true);
+	if ((int)safe_strlen(line) > data->scene_info.map_xsize)
+		data->scene_info.map_xsize = safe_strlen(line);
+	data->scene_info.map_ysize++;
+	return (data->map = append_2d(data->map, line), true);
 }
 
 void	init_lines(void)
@@ -126,7 +120,6 @@ void	init_lines(void)
 		line = get_next_line(data->fd_file_input);
 	}
 	data->fd_file_input && close (data->fd_file_input);
-	data->maps = &data->lines[6];
-	if (data->maps == NULL)
-		eput_error("is empty", "[MAPS]", 1);
+	if (data->map == NULL)
+		eput_error("is empty", "[map]", 1);
 }

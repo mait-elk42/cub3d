@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:28:22 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:34:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	sliding_against_wall(bool mv_x, bool mv_y, t_vector2 axis)
 	char		**map;
 
 	data = data_hook(NULL);
-	map = data->maps;
+	map = data->map;
 	pp = data->player.position;
 	if (mv_y != mv_x && mv_x == true)
 	{
@@ -44,7 +44,7 @@ void	mooove(bool *mv_x, bool *mv_y, t_vector2 axis)
 	t_vector2	pp;
 
 	data = data_hook(NULL);
-	map = data->maps;
+	map = data->map;
 	pp = data->player.position;
 	if (map[(int)(pp.y) / TILE_SIZE][(int)(pp.x +
 (axis.x * 10)) / TILE_SIZE] != '1')
@@ -68,7 +68,7 @@ void	try_move(t_data	*data, t_vector2 axis)
 	t_vector2	pp;
 
 	pp = data->player.position;
-	map = data->maps;
+	map = data->map;
 	mv_x = false;
 	mv_y = false;
 	mooove(&mv_x, &mv_y, axis);
@@ -111,10 +111,10 @@ t_vector2	read_keys_axis(t_keys_status key_pressed, float radi)
 
 void	handle_input(t_data *data, float radi)
 {
-	char		**maps;
+	char		**map;
 	t_vector2	axis;
 
-	maps = data->maps;
+	map = data->map;
 	axis = read_keys_axis(data->key_pressed, radi);
 	data->player.walking_dir = axis;
 	try_move(data, axis);

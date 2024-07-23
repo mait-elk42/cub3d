@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:28:16 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:33:25 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	game_loop(t_data *data)
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
 		return (show_menu());
-	t_image_clear_color(&data->minimaps_layer, 0xffffffff);
+	t_image_clear_color(&data->minimap_layer, 0xffffffff);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
@@ -85,7 +85,7 @@ int	game_loop(t_data *data)
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
-		data->minimaps_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
+		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
 	normalize_sensibility();
 	return (0);
 }
@@ -128,11 +128,11 @@ void	run_game(t_data *data)
 {
 	t_vector	map_size;
 
-	map_size.x = data->scene_info.maps_xsize * TILE_SIZE;
-	map_size.y = data->scene_info.maps_ysize * TILE_SIZE;
+	map_size.x = data->scene_info.map_width * TILE_SIZE;
+	map_size.y = data->scene_info.map_height * TILE_SIZE;
 	data->scene_layer = t_image_create(WIN_WIDTH,
 			WIN_HEIGHT, 0xffffffff);
-	data->minimaps_layer = t_image_create(
+	data->minimap_layer = t_image_create(
 			WIN_WIDTH * MPSIZE,
 			WIN_WIDTH * MPSIZE, 0xffffffff);
 	init_player(data);
@@ -140,6 +140,7 @@ void	run_game(t_data *data)
 	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);
 	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
+	data->texture_door = t_image_loadfromxpm("textures/door.xpm");
 	data->select_item.new_game_selected = true;
 	data->select_item.cont_ignored = true;
 	load_menu_images(&data->menu);

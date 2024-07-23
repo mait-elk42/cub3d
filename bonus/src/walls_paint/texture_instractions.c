@@ -53,6 +53,8 @@ t_image	wall_side(t_ray *ray, float *pxunit)
 			t = data->texture_we;
 		*pxunit = ray->intercept.y / (float)TILE_SIZE;
 	}
+	if (ray->hit_door == true)
+		t = data->texture_door;
 	return (t);
 }
 

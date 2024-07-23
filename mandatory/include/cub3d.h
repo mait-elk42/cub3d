@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/23 09:56:30 by mait-elk         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/23 10:58:37 by aabouqas         ###   ########.fr       */
+>>>>>>> a72bd58bf7acecf1b2327cae6daa951a0d1d4cdc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,8 +190,8 @@ typedef struct s_scene_info
 	char		*east_texture;
 	t_color		floor_color;
 	t_color		ceiling_color;
-	int			maps_xsize;
-	int			maps_ysize;
+	int			map_xsize;
+	int			map_ysize;
 }	t_scene_info;
 
 typedef struct s_mlx
@@ -214,11 +218,11 @@ typedef struct s_data
 	t_keys_status	key_pressed;
 	t_settings		settings;
 	char			**lines;
-	char			**maps;
+	char			**map;
 	int				fd_file_input;
 	t_scene_info	scene_info;
 	t_image			scene_layer;
-	t_image			minimaps_layer;
+	t_image			minimap_layer;
 	int				background_music;
 	int				ceiling;
 	int				floor;
@@ -266,12 +270,12 @@ void	eput_error_sys(char *reason, int exit_status);
 void	eput_error(char *error, char *reason, int exit_status);
 
 /*
-	* MAPS CHECK
+	* map CHECK
 */
 bool	check_file_ext(char *file_name, char *ext);
 void	check_file(int ac, char **av);
 void	init_lines(void);
-void	check_maps(void);
+void	check_map(void);
 void	check_color(char type, char *value);
 
 /*
@@ -313,7 +317,7 @@ float	get_distence(float angle, t_vector2 end);
 void	set_distence(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray, float angle);
-int		check_wall(t_vector2 coords);
+int		check_wall(t_vector2 coords, t_ray *ray);
 
 /*
 	* IMAGES

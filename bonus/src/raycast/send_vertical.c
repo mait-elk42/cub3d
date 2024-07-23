@@ -37,7 +37,7 @@ static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 	ray->hit_wall = false;
 	while (point.x > 0 && point.x < width && point.y > 0 && point.y < height)
 	{
-		if (check_hit((t_vector2){point.x - ray->face_left, point.y}, ray))
+		if (check_hit((t_vector2){point.x - ray->face_left, point.y}, ray, &point, step))
 			break ;
 		point.y += step.y;
 		point.x += step.x;

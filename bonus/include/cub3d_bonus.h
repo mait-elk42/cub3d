@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 09:09:51 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:34:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,8 +210,8 @@ typedef struct s_scene_info
 	char		*east_texture;
 	t_color		floor_color;
 	t_color		ceiling_color;
-	int			maps_xsize;
-	int			maps_ysize;
+	int			map_width;
+	int			map_height;
 }	t_scene_info;
 
 typedef struct s_mlx
@@ -258,11 +258,11 @@ typedef struct s_data
 	t_keys_status	key_pressed;
 	t_settings		settings;
 	char			**lines;
-	char			**maps;
+	char			**map;
 	int				fd_file_input;
 	t_scene_info	scene_info;
 	t_image			scene_layer;
-	t_image			minimaps_layer;
+	t_image			minimap_layer;
 	int				background_music;
 	int				ceiling;
 	int				floor;
@@ -271,6 +271,7 @@ typedef struct s_data
 	t_image			texture_no;
 	t_image			texture_so;
 	t_image			texture_we;
+	t_image			texture_door;
 	t_size			screen;
 	t_mouse			mouse;
 	t_select		select_item;
@@ -320,12 +321,12 @@ void	eput_error_sys(char *reason, int exit_status);
 void	eput_error(char *error, char *reason, int exit_status);
 
 /*
-	* MAPS CHECK
+	* map CHECK
 */
 bool	check_file_ext(char *file_name, char *ext);
 void	check_file(int ac, char **av);
 void	init_lines(void);
-void	check_maps(void);
+void	check_map(void);
 void	check_color(char type, char *value);
 
 /*
@@ -360,6 +361,7 @@ void	logger(char *msg);
 void	init_player(t_data *data);
 void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
+int		check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
 void	send_ray(t_ray *ray, double ray_angle);
 t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
@@ -368,7 +370,6 @@ float	get_distence(float angle, t_vector2 end);
 void	set_distence(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray, float angle);
-int		check_hit(t_vector2 coords, t_ray *ray);
 void	handle_selected_item(int key);
 int		show_menu();
 
@@ -398,7 +399,7 @@ int		ev_key_down(int keycode, t_data *data);
 	* DRAW
  */
 void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
-void	put_maps(char **maps, t_image *img_layer);
+void	put_map(char **map, t_image *img_layer);
 void	handle_input(t_data *data, float radi);
 void	put_player_shape(double size);
 

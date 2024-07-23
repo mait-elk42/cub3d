@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 16:35:07 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:47:38 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ void	safe_exit(int status)
 	data = data_hook(NULL);
 	free_tab(data->lines);
 	data->lines = NULL;
-	free_tab(data->maps);
-	data->maps = NULL;
-	free(data->maps);
-	data->maps = NULL;
+	free_tab(data->map);
+	data->map = NULL;
+	free(data->map);
+	data->map = NULL;
 	ft_bzero(&data->scene_info, sizeof(t_scene_info));
 	close(data->fd_file_input);
 	if (data->mlx.mlx_ptr != NULL && data->mlx.window_ptr != NULL)
@@ -69,9 +69,9 @@ void	set_screen_size(void)
 	data = data_hook(NULL);
 	size.height = 0;
 	size.width = 0;
-	while (data->maps[size.height])
+	while (data->map[size.height])
 	{
-		width = safe_strlen(data->maps[size.height]);
+		width = safe_strlen(data->map[size.height]);
 		if (size.width < width)
 			size.width = width;
 		size.height++;

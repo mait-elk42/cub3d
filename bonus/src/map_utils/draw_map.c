@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 10:30:31 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	put_pixel(t_vector2 player_pos, t_vector2 targ, int i)
 	t_vector	grid;
 
 	data = data_hook(NULL);
-	map = data->maps;
+	map = data->map;
 	sc_size.width = data->screen.width * TILE_SIZE;
 	sc_size.height = data->screen.height * TILE_SIZE;
 	grid.x = player_pos.x / TILE_SIZE;
@@ -43,13 +43,13 @@ void	put_pixel(t_vector2 player_pos, t_vector2 targ, int i)
 			&& player_pos.y > 0 && player_pos.y < sc_size.height
 			&& map[grid.y][grid.x] == '1'
 		)
-			t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0x66000000);
+			t_image_update_pixel(&data->minimap_layer, targ.x, targ.y, 0x66000000);
 		else
 			t_image_update_pixel(
-				&data->minimaps_layer, targ.x, targ.y, 0x66ffffff);
+				&data->minimap_layer, targ.x, targ.y, 0x66ffffff);
 		return ;
 	}
-	t_image_update_pixel(&data->minimaps_layer, targ.x, targ.y, 0x000000);
+	t_image_update_pixel(&data->minimap_layer, targ.x, targ.y, 0x000000);
 }
 
 void	draw_mini_map()
