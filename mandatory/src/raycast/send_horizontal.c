@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/20 13:56:09 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:00:36 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,28 @@ t_vector2	get_horizontal_intercept(t_ray ray, float ray_angle)
 
 static int	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 {
-	size_t	width;
-	size_t	height;
+	size_t		width;
+	size_t		height;
+	t_vector2	point;
 
 	width = screen.width;
 	height = screen.height;
-	while (
-		ray->intercept.x > 0 && ray->intercept.x < width
-		&& ray->intercept.y > 0 && ray->intercept.y < height)
+	point = ray->intercept;
+	ray->hit_wall = false;
+	while (point.x > 0 && point.x < width && point.y > 0 && point.y < height)
 	{
 		if (ray->face_right)
-			if (check_wall((t_vector2){ray->intercept.x -1, ray->intercept.y}))
-				return (ray->hit_wall = true, 1);
+			if (check_wall((t_vector2){point.x -1, point.y}, ray))
+				break ;
 		if (ray->face_up)
-			if (check_wall((t_vector2){ray->intercept.x, ray->intercept.y -1}))
-				return (ray->hit_wall = true, 1);
-		if (check_wall(ray->intercept))
-			return (ray->hit_wall = true, 1);
-		ray->intercept.x += step.x;
-		ray->intercept.y += step.y;
+			if (check_wall((t_vector2){point.x, point.y -1}, ray))
+				break ;
+		if (check_wall(point, ray))
+			break ;
+		point.x += step.x;
+		point.y += step.y;
 	}
-	ray->hit_wall = false;
+	ray->intercept = point;
 	return (0);
 }
 
