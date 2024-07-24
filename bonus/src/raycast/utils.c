@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/23 17:25:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:16:06 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ void	set_directions(t_ray *ray, int ray_type)
 	ray->side = VERTICAL;
 }
 
-int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step)
+int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step, bool not_h /* not a horizontal ray || is a vertical ray*/ ) // remember to read this : https://lodev.org/cgtutor/raycasting4.html [24/07/2024]
 {
-	t_size	grid;
+	t_size		grid;
 	t_data		*data;
 	t_size		screen_size;
 
@@ -79,8 +79,10 @@ int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step)
 	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
 	// if (grid.width > screen_size.width || grid.height > screen_size.height)
 	// 	return (true);
-	if (data->map[grid.height][grid.width] == 'D')
+
+	if (data->map[grid.height][grid.width] == 'D' && (((int)point->y % TILE_SIZE) > 10 || not_h))
 	{
+		// data->door_framemv++;
 		if (data->map[(int) data->player.position.y / 32][(int) data->player.position.x / 32] == 'D')
 		{
 			ray->hit_door = false;
@@ -93,6 +95,8 @@ int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step)
 		point->y += step.y / 2;
 		return (1);
 	}
+	// if (data->door_framemv >= 500)
+	// 	data->door_framemv = 0;
 	if (data->map[grid.height][grid.width] == '1')
 	{
 		ray->hit_wall = true;

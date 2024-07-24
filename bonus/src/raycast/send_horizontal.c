@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   send_horizontal.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/23 17:24:53 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:09:31 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 		// 	if (check_hit((t_vector2){point.x -1, point.y}, ray, &point, step))
 		// 		break;
 		if (ray->face_up)
-			if (check_hit((t_vector2){point.x, point.y -1}, ray, &point, step))
+			if (check_hit((t_vector2){point.x, point.y -1}, ray, &point, step, true))
 				break;
-		if (check_hit(point, ray, &point, step))
+		if (check_hit(point, ray, &point, step, true))
 			break ;
 		point.x += step.x;
 		point.y += step.y;

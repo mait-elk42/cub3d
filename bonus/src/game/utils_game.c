@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_game.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 13:49:55 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:28:12 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ void	handle_input(t_data *data, float radi)
 	axis = read_keys_axis(data->key_pressed, radi);
 	data->player.walking_dir = axis;
 	try_move(data, axis);
+	data->player.angle += (data->key_pressed.right) * CAM_SENS;
+	data->player.angle -= (data->key_pressed.left) * CAM_SENS;
 	if (data->mouse.to_right)
 		data->player.angle += data->mouse.cam_sens;
 	if (data->mouse.to_left)

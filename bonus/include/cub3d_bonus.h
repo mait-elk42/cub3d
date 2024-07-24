@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/24 16:40:58 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:13:27 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,6 +283,7 @@ typedef struct s_data
 	t_vector		mouse_pos_new;
 	t_vector		mouse_pos;
 	bool			music;
+	int				door_framemv;
 }	t_data;
 
 typedef struct s_wall_text
@@ -365,7 +366,7 @@ void	logger(char *msg);
 void	init_player(t_data *data);
 void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
-int		check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step);
+int		check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step, bool not_h);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
 void	send_ray(t_ray *ray, double ray_angle);
 t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   send_vertical.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/23 17:25:04 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:09:36 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 	ray->hit_door = false;
 	while (point.x > 0 && point.x < width && point.y > 0 && point.y < height)
 	{
-		if (check_hit((t_vector2){point.x - ray->face_left, point.y}, ray, &point, step))
+		if (check_hit((t_vector2){point.x - ray->face_left, point.y}, ray, &point, step, false))
 			break ;
 		point.y += step.y;
 		point.x += step.x;
