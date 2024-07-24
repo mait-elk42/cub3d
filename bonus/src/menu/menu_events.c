@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 18:22:58 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 17:18:43 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,37 @@
 
 void	handle_select_event(t_data *data)
 {
-	if (data->select_item.new_game_selected)
-	{
-		data->game_started = true;
-		data->mouse.center_mouse = true;
-		data->mouse.cam_sens = 0;
-		mlx_mouse_hide();
+	int		selected_item;
+
+	selected_item = data->select_item.item;
+	printf ("%d\n", selected_item);
+	if (data->game_started == true)
 		return ;
-	}
-	if (data->select_item.cont_selected)
+	if (selected_item == 0 || selected_item == 1)
 	{
 		data->game_started = true;
 		data->mouse.center_mouse = true;
 		data->mouse.cam_sens = 0;
 		mlx_mouse_hide();
 	}
-	if (data->select_item.exit_selected)
+	if (data->select_item.item == 0)
+	{
+		// restart the game
+	}
+	if (data->select_item.item == 2)
+	{
+		if (data->music == true)
+		{
+			data->music = false;
+			kill (data->background_music, SIGHUP);
+		}
+		else if (data->music == false)
+		{
+			data->music = true;
+			play_music();
+		}
+	}
+	if (data->select_item.item == 3)
 	{
 		kill (data->background_music, SIGHUP);
 		safe_exit(0);
@@ -38,56 +53,20 @@ void	handle_select_event(t_data *data)
 
 void	handle_key_up(t_data *data)
 {
-	if (data->select_item.new_game_selected)
-	{
-		data->select_item.new_game_selected = false;
-		data->select_item.exit_selected = true;
-		data->select_item.cont_selected = false;
-	}
-	else if (data->select_item.exit_selected)
-	{
-		data->select_item.new_game_selected = false;
-		data->select_item.cont_selected = true;
-		data->select_item.exit_selected = false;
-		if (data->select_item.cont_ignored)
-		{
-			data->select_item.new_game_selected = true;
-			data->select_item.cont_selected = false;
-		}
-	}
-	else
-	{
-		data->select_item.new_game_selected = true;
-		data->select_item.cont_selected = false;
-		data->select_item.exit_selected = false;
-	}
+	if (data->game_started == true)
+		return ;
+	if (data->select_item.item == 0)
+		data->select_item.item = 4;
+	data->select_item.item--;
 }
 
 void	handle_key_down(t_data *data)
 {
-	if (data->select_item.new_game_selected)
-	{
-		data->select_item.new_game_selected = false;
-		data->select_item.exit_selected = false;
-		data->select_item.cont_selected = true;
-		if (data->select_item.cont_ignored)
-		{
-			data->select_item.cont_selected = false;
-			data->select_item.exit_selected = true;
-		}
-	}
-	else if (data->select_item.cont_selected)
-	{
-		data->select_item.new_game_selected = false;
-		data->select_item.cont_selected = false;
-		data->select_item.exit_selected = true;
-	}
-	else
-	{
-		data->select_item.new_game_selected = true;
-		data->select_item.cont_selected = false;
-		data->select_item.exit_selected = false;
-	}
+	if (data->game_started == true)
+		return ;
+	if (data->select_item.item == 3)
+		data->select_item.item = -1;
+	data->select_item.item++;
 }
 
 void	handle_selected_item(int key)

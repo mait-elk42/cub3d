@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:40:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/23 18:16:06 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:13:33 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	signal_handler(int signal)
 {
-	(void) signal;
 	if (signal == SIGUSR1)
 	{
 		if (getppid() == 1 || getppid() == -1)
@@ -25,7 +24,7 @@ void	signal_handler(int signal)
 		return ;
 	}
 	kill (data_hook(NULL)->child, SIGKILL);
-	exit (1);
+	exit (0);
 }
 
 void	track_parent(void)

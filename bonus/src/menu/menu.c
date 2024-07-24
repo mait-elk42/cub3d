@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 18:50:29 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:23:51 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	destroy_images(t_menu *menu)
 	destroy_this(menu->ig_cont.img_ptr);
 	destroy_this(menu->s_exit.img_ptr);
 	destroy_this(menu->us_exit.img_ptr);
+	destroy_this(menu->s_music.img_ptr);
+	destroy_this(menu->us_music.img_ptr);
 }
 
 void	load_menu_images(t_menu *menu)
@@ -45,6 +47,8 @@ void	load_menu_images(t_menu *menu)
 	menu->us_cont = t_image_loadfromxpm("textures/continue_unselected.xpm");
 	menu->s_exit = t_image_loadfromxpm("textures/exit_selected.xpm");
 	menu->us_exit = t_image_loadfromxpm("textures/exit_unselected.xpm");
+	menu->s_music = t_image_loadfromxpm("textures/music_selected.xpm");
+	menu->us_music = t_image_loadfromxpm("textures/music_unselected.xpm");
 }
 
 void	put_to_win(int posx, int pox_y, t_image image)
@@ -71,19 +75,18 @@ int	show_menu()
 	menu = data->menu;
 	select = data->select_item;
 	put_to_win(width_half - 240, (WIN_HEIGHT / 20), menu.logo);
-	if (select.new_game_selected)
+	put_to_win(WIN_WIDTH - 240, (WIN_HEIGHT - 100), menu.hint);
+	put_to_win(width_half - 140, ((WIN_HEIGHT / 2) -50), menu.us_new_game);
+	put_to_win(width_half - 140, (WIN_HEIGHT / 2) +50, menu.us_cont);
+	put_to_win(width_half - 140, (WIN_HEIGHT / 2) +150, menu.us_music);
+	put_to_win(width_half - 140, (WIN_HEIGHT / 2) +250, menu.us_exit);
+	if (data->select_item.item == 0)
 		put_to_win(width_half - 140, ((WIN_HEIGHT / 2) -50), menu.s_new_game);
-	else
-		put_to_win(width_half - 140, ((WIN_HEIGHT / 2) -50), menu.us_new_game);
-	if (select.cont_ignored)
-		put_to_win(width_half - 140, ((WIN_HEIGHT / 2) +50), menu.ig_cont);
-	else if (select.cont_selected)
+	if (data->select_item.item == 1)
 		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +50, menu.s_cont);
-	else
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +50, menu.us_cont);
-	if (select.exit_selected)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +150, menu.s_exit);
-	else
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +150, menu.us_exit);
+	if (data->select_item.item == 2)
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +150, menu.s_music);
+	if (data->select_item.item == 3)
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +250, menu.s_exit);
 	return (0);
 }

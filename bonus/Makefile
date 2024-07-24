@@ -6,14 +6,14 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/23 18:42:44 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/07/24 18:55:38 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ERROR_FLAGS = -Wextra -Werror -Wall #-Imlx/ -Lmlx/
 CC= cc
 CFLAGS=  -I include -I libft #-fsanitize=address -g
-SRC= src/utils.c src/print.c src/initialization.c \
+SRC= src/utils.c src/print.c src/initis
 	src/map_check/map_parse.c src/map_check/check_map.c src/map_check/check_colors.c \
 	src/io_operators/append2d.c src/strings.c \
 	src/errors_handling/errors_args.c src/errors_handling/put_error.c \

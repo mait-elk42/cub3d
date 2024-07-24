@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/24 10:22:21 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:54:16 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,6 @@ void	normalize_sensibility()
 		data->mouse.cam_sens = 0;
 }
 
-void	put_wapon()
-{
-	t_data	*data;
-	t_image	weapon;
-
-	data = data_hook(NULL);
-	weapon = t_image_loadfromxpm("weapon/1.xpm");
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, weapon.img_ptr, 0, WIN_HEIGHT - 720);
-}
-
 // # if the the user play disable up and down arrows :)
 
 int	game_loop(t_data *data)
@@ -99,7 +89,7 @@ int	game_loop(t_data *data)
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
-	put_wapon();
+	// put_weapon();
 	normalize_sensibility();
 	return (0);
 }
@@ -155,6 +145,7 @@ void	run_game(t_data *data)
 	data->texture_door = t_image_loadfromxpm("textures/door.xpm");
 	data->select_item.new_game_selected = true;
 	data->select_item.cont_ignored = true;
+	data->music = true;
 	load_menu_images(&data->menu);
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);

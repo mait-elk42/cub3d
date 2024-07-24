@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/24 09:59:42 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:40:58 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH (2080)
-# define WIN_HEIGHT (1080)
+# define WIN_WIDTH (1280)
+# define WIN_HEIGHT (920)
 
 /*
 	* ATTRIBUTES
@@ -100,7 +100,7 @@ typedef struct s_settings
 # define PLAYER_SPEED 1.8
 # define CAM_SENS 2
 # define FOV 60
-# define MPSIZE 0.16
+# define MPSIZE 0.10
 
 /*
 	* ENUMS
@@ -184,10 +184,12 @@ typedef struct s_size
 
 typedef struct s_select
 {
+	int		item;
 	bool	new_game_selected;
 	bool	exit_selected;
 	bool	cont_selected;
 	bool	cont_ignored;
+	bool	music;
 }	t_select;
 
 
@@ -246,6 +248,8 @@ typedef struct s_menu
 	t_image		s_cont;
 	t_image		ig_cont;
 	t_image		us_cont;
+	t_image		s_music;
+	t_image		us_music;
 	t_image		hint;
 }	t_menu;
 
@@ -278,7 +282,7 @@ typedef struct s_data
 	pid_t			child;
 	t_vector		mouse_pos_new;
 	t_vector		mouse_pos;
-	int				ppid;
+	bool			music;
 }	t_data;
 
 typedef struct s_wall_text
@@ -371,6 +375,7 @@ void	set_distence(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray, float angle);
 void	handle_selected_item(int key);
+void	destroy_this(void *img_ptr);
 int		show_menu();
 
 /*
