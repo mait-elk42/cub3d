@@ -1,3 +1,11 @@
 {
-	"C_Cpp.errorSquiggles": "disabled"
+	"C_Cpp.errorSquiggles": "disabled",
+	"files.associations": {
+		"array": "c",
+		"iterator": "c",
+		"string": "c",
+		"string_view": "c",
+		"vector": "c",
+		"cub3d_bonus.h": "c"
+	}
 }
