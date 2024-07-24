@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/24 16:40:58 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:34:47 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -393,6 +393,7 @@ void	destroy_images(t_menu *menu);
 	* PLAY_BACK
 */
 void	play_music(void);
+void	play_effect(char *file_name);
 
 /*
 	* MATH

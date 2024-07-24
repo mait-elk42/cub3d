@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/24 17:18:43 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/24 20:19:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	handle_selected_item(int key)
 	data = data_hook(NULL);
 	if (key == KEY_RETURN)
 		handle_select_event(data);
+	if (key == KEY_UP || key == KEY_DOWN)
+		play_effect("assets/sounds/navigation_effect.mp3");
 	if (key == KEY_UP)
 		handle_key_up(data);
 	if (key == KEY_DOWN)
