@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/24 20:19:07 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:42:12 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_select_event(t_data *data)
 	int		selected_item;
 
 	selected_item = data->select_item.item;
-	printf ("%d\n", selected_item);
+	// printf ("%d\n", selected_item);
 	if (data->game_started == true)
 		return ;
 	if (selected_item == 0 || selected_item == 1)
@@ -36,17 +36,19 @@ void	handle_select_event(t_data *data)
 		if (data->music == true)
 		{
 			data->music = false;
-			kill (data->background_music, SIGHUP);
+			kill (data->background_music, SIGSTOP);
 		}
 		else if (data->music == false)
 		{
 			data->music = true;
-			play_music();
+			kill (data->background_music, SIGCONT);
+
+			// play_music();
 		}
 	}
 	if (data->select_item.item == 3)
 	{
-		kill (data->background_music, SIGHUP);
+		kill (data->background_music, SIGUSR1);
 		safe_exit(0);
 	}
 }
@@ -77,7 +79,7 @@ void	handle_selected_item(int key)
 	if (key == KEY_RETURN)
 		handle_select_event(data);
 	if (key == KEY_UP || key == KEY_DOWN)
-		play_effect("assets/sounds/navigation_effect.mp3");
+		make_effect("assets/sounds/nav_effect.mp3");
 	if (key == KEY_UP)
 		handle_key_up(data);
 	if (key == KEY_DOWN)

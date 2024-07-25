@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/24 19:29:01 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:48:04 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	show_menu()
 	select = data->select_item;
 	put_to_win(width_half - 240, (WIN_HEIGHT / 2) - 350, menu.logo);
 	if (Switch)
-		put_to_win(WIN_WIDTH - 240, (WIN_HEIGHT - 100), menu.hint);
+		put_to_win((WIN_WIDTH / 2)- 90, (WIN_HEIGHT - 80), menu.hint);
 	put_to_win(width_half - 140, ((WIN_HEIGHT / 2) -50), menu.us_new_game);
 	put_to_win(width_half - 140, (WIN_HEIGHT / 2) +50, menu.us_cont);
 	put_to_win(width_half - 140, (WIN_HEIGHT / 2) +150, menu.us_music);
@@ -91,7 +91,7 @@ int	show_menu()
 		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +150, menu.s_music);
 	if (data->select_item.item == 3)
 		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +250, menu.s_exit);
-	if (abs(n) % 30 == 0)
+	if (abs(n) % 35 == 0)
 		Switch = Switch == false;
 	n++;
 	return (0);

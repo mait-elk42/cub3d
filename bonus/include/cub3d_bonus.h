@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/24 19:34:47 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:13:20 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@
 # include <mlx.h>
 # include <unistd.h>
 # include <signal.h>
+# include <pthread.h>
 
+
+void	make_effect(char *file_name);
 
 /*
 	* Text Colors
@@ -283,6 +286,7 @@ typedef struct s_data
 	t_vector		mouse_pos_new;
 	t_vector		mouse_pos;
 	bool			music;
+	pthread_t		thread;
 }	t_data;
 
 typedef struct s_wall_text

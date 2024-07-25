@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:40:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/24 20:14:52 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:37:53 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ int	track_parent(void)
 	child = fork();
 	if (child == 0)
 	{
-		while (kill (getppid(), SIGUSR1) == 0)
-			;
+		while (kill (getppid(), SIGUSR1) == 0);
 		exit (0);
 	}
 	return child;
@@ -50,9 +49,8 @@ void	play_music(void)
 	data->background_music = fork();
 	if (data->background_music == 0)
 	{
-		signal(SIGHUP, signal_handler);
 		signal(SIGUSR1, signal_handler);
-		int child = track_parent();
+		track_parent();
 		while (1)
 		{
 			data->child = fork();
@@ -68,3 +66,4 @@ void	play_music(void)
 		safe_exit(1);
 	}
 }
+
