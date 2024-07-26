@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/24 20:09:36 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/26 18:54:27 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,9 @@ static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 	width = screen.width;
 	height = screen.height;
 	point = ray->intercept;
-	ray->hit_wall = false;
-	ray->hit_door = false;
 	while (point.x > 0 && point.x < width && point.y > 0 && point.y < height)
 	{
-		if (check_hit((t_vector2){point.x - ray->face_left, point.y}, ray, &point, step, false))
+		if (check_hit((t_vector2){point.x - ray->face_left, point.y}, ray, &point, step))
 			break ;
 		point.y += step.y;
 		point.x += step.x;
@@ -53,9 +51,9 @@ t_ray	send_virtical_ray(float ray_angle, t_size screen_size)
 	t_vector2	step;
 
 	data = data_hook(NULL);
-	ray.hit_wall = false;
 	ray.angle = ray_angle;
-	set_ray_side(&ray, ray_angle);
+	ray.side = VERTICAL;
+	set_ray_side (&ray, ray_angle);
 	step.x = TILE_SIZE;
 	if (ray.face_left)
 		step.x *= -1;

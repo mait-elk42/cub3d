@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   send_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/26 20:09:32 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	send_ray(t_ray *ray, double ray_angle)
 	t_vector2	plyrpos;
 
 	data = data_hook(NULL);
+	ft_bzero(ray, sizeof(t_ray));
 	plyrpos = data->player.position;
 	ray_angle = deg_to_rad(ray_angle);
 	screen_size.width = data->screen.width * TILE_SIZE;
@@ -29,12 +30,17 @@ void	send_ray(t_ray *ray, double ray_angle)
 	set_distence(&hori);
 	verti = send_virtical_ray(ray_angle, screen_size);
 	set_distence(&verti);
+
 	if (hori.distance <= verti.distance)
 	{
 		set_directions(&hori, HORIZONTAL);
 		*ray = hori;
-		return ;
 	}
-	set_directions(&verti, VERTICAL);
-	*ray = verti;
+	else
+	{
+		set_directions(&verti, VERTICAL);
+		*ray = verti;
+	}
+	// if (ray->hit_door && data->player_looking_at_door == false && ray->distance < 30)
+	// 	data->player_looking_at_door = true;
 }

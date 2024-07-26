@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/24 18:54:16 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/26 20:29:01 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ int	game_loop(t_data *data)
 	t_ray	ray;
 	float	angle;
 	int		i;
+	static int n = 0;
 
+	// system("clear");
+	// printf("player looking at door : %s\n", (data->player_looking_at_door) ? "yes" : "no");
 	get_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
@@ -78,8 +81,10 @@ int	game_loop(t_data *data)
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
 	i = 0;
+	data->player_looking_at_door = false;
 	while (i < WIN_WIDTH)
 	{
+		// printf("found door %s\n", ray.hit_door ? "yes" : "no" );
 		send_ray(&ray, angle);
 		put_wall(data, i, &ray);
 		angle += (float) FOV / WIN_WIDTH;
@@ -91,6 +96,16 @@ int	game_loop(t_data *data)
 		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
 	// put_weapon();
 	normalize_sensibility();
+	data->n+= data->iter;
+	if (data->n == 32)
+	{
+		data->iter = -1;
+	}
+	if (data->n == 0)
+	{
+		data->iter = 1;
+	}
+	printf("%d\n", data->n);
 	return (0);
 }
 

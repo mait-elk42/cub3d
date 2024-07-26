@@ -6,11 +6,13 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/24 20:16:06 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/26 20:13:35 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
+
+float progress = 16;
 
 float	get_distence(float angle, t_vector2 end)
 {
@@ -33,9 +35,12 @@ void	set_distence(t_ray *ray)
 	if (ray->hit_wall == true)
 	{
 		ray->distance = get_distence(ray->angle, ray->intercept);
+		// ray->door_distance = get_distence(ray->angle, ray->door_intercept);
 		return ;
 	}
 	ray->distance = INT_MAX;
+	// ray->door_distance = INT_MAX;
+	return ;
 }
 
 void	set_ray_side(t_ray *ray, float angle)
@@ -68,7 +73,7 @@ void	set_directions(t_ray *ray, int ray_type)
 	ray->side = VERTICAL;
 }
 
-int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step, bool not_h /* not a horizontal ray || is a vertical ray*/ ) // remember to read this : https://lodev.org/cgtutor/raycasting4.html [24/07/2024]
+int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step) // remember to read this : https://lodev.org/cgtutor/raycasting4.html [24/07/2024]
 {
 	t_size		grid;
 	t_data		*data;
@@ -77,26 +82,29 @@ int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step, bo
 	data = data_hook(NULL);
 	screen_size = data->screen;
 	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
-	// if (grid.width > screen_size.width || grid.height > screen_size.height)
-	// 	return (true);
-
-	if (data->map[grid.height][grid.width] == 'D' && (((int)point->y % TILE_SIZE) > 10 || not_h))
+	if (grid.width > screen_size.width || grid.height > screen_size.height)
+		return (true);
+	// .. get char that ray hitted only if its 1 or D
+	if (data->map[grid.height][grid.width] == 'D')
 	{
-		// data->door_framemv++;
-		if (data->map[(int) data->player.position.y / 32][(int) data->player.position.x / 32] == 'D')
-		{
-			ray->hit_door = false;
-			return 0;
-		}
-		else
-			ray->hit_door = true;
+		// if (data->map[(int) data->player.position.y / 32][(int) data->player.position.x / 32] == 'D')
+		// {
+			// ray->hit_door = false;
+		// 	return 0;
+		// }
+		// else
+		// printf("%f\n", (int)point->x % TILE_SIZE));
+		// point->x += step.x / 2;
+		// point->y += step.y / 2;
+		ray->hit_door = true;
 		ray->hit_wall = true;
-		point->x += step.x / 2;
-		point->y += step.y / 2;
+		if (ray->side == VERTICAL &&((int)(point->y) % TILE_SIZE) > abs(data->n))
+			return (0);
+		// if (ray->side == HORIZONTAL &&((int)point->x % TILE_SIZE) > 16)
+		// 	return (0);
+		// ray->intercept = (t_vector2){point->x + (step.x / 2), point->y + (step.y / 2)};
 		return (1);
 	}
-	// if (data->door_framemv >= 500)
-	// 	data->door_framemv = 0;
 	if (data->map[grid.height][grid.width] == '1')
 	{
 		ray->hit_wall = true;
