@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/25 17:13:20 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:21:37 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	make_effect(char *file_name);
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH (1280)
+# define WIN_WIDTH (1440)
 # define WIN_HEIGHT (920)
 
 /*
@@ -177,6 +177,7 @@ typedef struct s_ray
 	bool		hit_wall;
 	bool		hit_door;
 	short		side;
+	t_vector2	step;
 }	t_ray;
 
 typedef struct s_size
@@ -244,6 +245,7 @@ typedef struct s_mouse
 typedef struct s_menu
 {
 	t_image		logo;
+	t_image		bg;
 	t_image		s_new_game;
 	t_image		us_new_game;
 	t_image		s_exit;
@@ -255,6 +257,12 @@ typedef struct s_menu
 	t_image		us_music;
 	t_image		hint;
 }	t_menu;
+
+typedef struct s_child
+{
+	pid_t	pid;
+	int		*ret_val;
+}	t_child;
 
 typedef struct s_data
 {
@@ -282,11 +290,12 @@ typedef struct s_data
 	t_mouse			mouse;
 	t_select		select_item;
 	t_menu			menu;
-	pid_t			child;
+	t_child			child;
 	t_vector		mouse_pos_new;
 	t_vector		mouse_pos;
 	bool			music;
 	pthread_t		thread;
+	int				start;
 }	t_data;
 
 typedef struct s_wall_text

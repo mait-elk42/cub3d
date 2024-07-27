@@ -1,5 +1,5 @@
 NO 	textures/SO.xpm
-SO 	textures/exit_selected.xpm
+SO 	textures/SO.xpm
 WE 	textures/SO.xpm
 EA 	textures/SO.xpm
 
@@ -7,8 +7,8 @@ EA 	textures/SO.xpm
 F 	199,169,0
 C 	41,159,255
 
-11111111
-10010001
-100D0001
-10010E01
-11111111
+111111111111111
+100100000000101
+100000010100001
+10010E000000101
+111111111111111

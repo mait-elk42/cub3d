@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/23 17:25:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:25:52 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void	set_distence(t_ray *ray)
 	data = data_hook(NULL);
 	if (ray->hit_wall == true)
 	{
+		// if (ray->hit_door)
+		// {
+		// 	ray->intercept.x += ray->step.x / 2;
+		// 	ray->intercept.y += ray->step.y / 2;
+		// }
 		ray->distance = get_distence(ray->angle, ray->intercept);
 		return ;
 	}
@@ -77,27 +82,23 @@ int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step)
 	data = data_hook(NULL);
 	screen_size = data->screen;
 	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
-	// if (grid.width > screen_size.width || grid.height > screen_size.height)
-	// 	return (true);
-	if (data->map[grid.height][grid.width] == 'D')
+	if (grid.width > screen_size.width || grid.height > screen_size.height)
+		return (true);
+	if (data->map[grid.height][grid.width] == '1')
+	{
+		ray->hit_wall = true;
+		return (true);
+	} else if (data->map[grid.height][grid.width] == 'D')
 	{
 		if (data->map[(int) data->player.position.y / 32][(int) data->player.position.x / 32] == 'D')
 		{
 			ray->hit_door = false;
 			return 0;
 		}
-		else
+		else if (ray->side == VERTICAL)
 			ray->hit_door = true;
 		ray->hit_wall = true;
-		point->x += step.x / 2;
-		point->y += step.y / 2;
-		return (1);
-	}
-	if (data->map[grid.height][grid.width] == '1')
-	{
-		ray->hit_wall = true;
-		ray->hit_door = false;
-		return (1);
+		return (0);
 	}
 	return (false);
 }

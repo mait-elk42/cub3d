@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/25 16:18:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:22:00 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,13 @@ int	game_loop(t_data *data)
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
+	// printf("%d...\n", angle);
 	i = 0;
 	while (i < WIN_WIDTH)
 	{
 		send_ray(&ray, angle);
 		put_wall(data, i, &ray);
+		// send_ray(&ray, angle);
 		angle += (float) FOV / WIN_WIDTH;
 		i++;
 	}

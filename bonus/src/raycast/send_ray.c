@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:20:47 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,13 @@ void	send_ray(t_ray *ray, double ray_angle)
 	{
 		set_directions(&hori, HORIZONTAL);
 		*ray = hori;
+		// if (verti.hit_door && hori.hit_door == false)
+		// 	ray->hit_door = true;
 		return ;
 	}
 	set_directions(&verti, VERTICAL);
 	*ray = verti;
+	// if (hori.hit_door && ray->hit_door == false)
+		// ray->hit_door = false;
+	// printf("%f %f\n", ray->d, ray->w);
 }

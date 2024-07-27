@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 18:59:46 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:23:37 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ t_image	wall_side(t_ray *ray, float *pxunit)
 			t = data->texture_we;
 		*pxunit = ray->intercept.y / (float)TILE_SIZE;
 	}
-	if (ray->hit_door == true)
-		t = data->texture_door;
 	return (t);
 }
 

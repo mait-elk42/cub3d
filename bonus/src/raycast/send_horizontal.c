@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/23 17:24:53 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:25:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,8 @@ static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 		// if (ray->face_right)
 		// 	if (check_hit((t_vector2){point.x -1, point.y}, ray, &point, step))
 		// 		break;
-		if (ray->face_up)
-			if (check_hit((t_vector2){point.x, point.y -1}, ray, &point, step))
-				break;
+		if (check_hit((t_vector2){point.x, point.y - ray->face_up}, ray, &point, step))
+			break;
 		if (check_hit(point, ray, &point, step))
 			break ;
 		point.x += step.x;
@@ -61,11 +60,13 @@ t_ray	send_horizontal_ray(float ray_angle, t_size screen_size)
 	data = data_hook(NULL);
 	ray.angle = ray_angle;
 	ray.hit_wall = false;
+	ray.side = HORIZONTAL;
 	set_ray_side (&ray, ray_angle);
 	step.y = TILE_SIZE;
 	if (ray.face_up)
 		step.y *= -1;
 	step.x = TILE_SIZE / tan(ray_angle);
+	ray.step = step;
 	if ((ray.face_left && step.x > 0) || (ray.face_right && step.x < 0))
 		step.x *= -1;
 	ray.intercept = get_horizontal_intercept(ray, ray_angle);

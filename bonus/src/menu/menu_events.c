@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/25 18:42:12 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:18:26 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	handle_select_event(t_data *data)
 		data->game_started = true;
 		data->mouse.center_mouse = true;
 		data->mouse.cam_sens = 0;
+		data->start++;
 		mlx_mouse_hide();
 	}
 	if (data->select_item.item == 0)
@@ -36,14 +37,12 @@ void	handle_select_event(t_data *data)
 		if (data->music == true)
 		{
 			data->music = false;
-			kill (data->background_music, SIGSTOP);
+			kill (data->background_music, SIGUSR2);
 		}
 		else if (data->music == false)
 		{
 			data->music = true;
-			kill (data->background_music, SIGCONT);
-
-			// play_music();
+			play_music();
 		}
 	}
 	if (data->select_item.item == 3)
@@ -55,6 +54,8 @@ void	handle_select_event(t_data *data)
 
 void	handle_key_up(t_data *data)
 {
+	if (data->start == 0 && data->select_item.item == 2)
+		data->select_item.item--;
 	if (data->game_started == true)
 		return ;
 	if (data->select_item.item == 0)
@@ -64,6 +65,8 @@ void	handle_key_up(t_data *data)
 
 void	handle_key_down(t_data *data)
 {
+	if (data->start == 0 && data->select_item.item == 0)
+		data->select_item.item++;
 	if (data->game_started == true)
 		return ;
 	if (data->select_item.item == 3)

@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/23 17:25:04 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:21:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,14 @@ t_ray	send_virtical_ray(float ray_angle, t_size screen_size)
 
 	data = data_hook(NULL);
 	ray.hit_wall = false;
+	ray.side = VERTICAL;
 	ray.angle = ray_angle;
 	set_ray_side(&ray, ray_angle);
 	step.x = TILE_SIZE;
 	if (ray.face_left)
 		step.x *= -1;
 	step.y = TILE_SIZE * tan(ray_angle);
+	ray.step = step;
 	if ((ray.face_up && step.y > 0) || (ray.face_down && step.y < 0))
 		step.y *= -1;
 	ray.intercept = get_virtical_intercept(ray);
