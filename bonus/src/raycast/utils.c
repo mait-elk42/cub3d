@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/28 11:51:56 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:18:58 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,24 +91,15 @@ int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step) //
 		return (0);
 	}
 	
-	// if (data->map[grid.height][grid.width] == 'D')
-	// {
-	// 	point->x += step.x / 2;
-	// 	point->y += step.y / 2;
-	// 	data->door_pos = (t_vector){grid.width, grid.height};
-	// 	ray->hit_wall = true;
-	// 	ray->hit_door = true;
-	// 	return (1);
-	// }
-
-	// if (data->map[grid.height][grid.width] == 'D')
-	// {
-	// 	point->x += step.x / 2;
-	// 	point->y += step.y / 2;
-	// 	ray->hit_wall = true;
-	// 	ray->hit_door = true;
-	// 	return (1);
-	// }
+	if (data->map[grid.height][grid.width] == 'D')
+	{
+		point->x += step.x / 2;
+		point->y += step.y / 2;
+		data->door_pos = (t_vector){grid.width, grid.height};
+		ray->hit_wall = true;
+		ray->hit_door = true;
+		return (1);
+	}
 
 	if (data->map[grid.height][grid.width] == '1')
 	{

@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/28 10:15:24 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:33:55 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ev_key_down(int keycode, t_data *data)
 		data->mouse.center_mouse = false;
 		mlx_mouse_show();
 	}
-	if (keycode == KEY_SPACE && data->looking_door && data->map[(int)data->player.position.y / TILE_SIZE][(int)data->player.position.x / TILE_SIZE] != 'd')
+	if (keycode == KEY_SPACE && data->looking_door)
 	{
 		// data->door_open = (data->door_open == false);
 		data->map[data->door_pos.y][data->door_pos.x] = 'd' - (32 * (data->map[data->door_pos.y][data->door_pos.x] != 'D'));
