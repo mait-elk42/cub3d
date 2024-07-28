@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:15:24 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ int	ev_key_down(int keycode, t_data *data)
 		data->select_item.cont_ignored = false;
 		data->mouse.center_mouse = false;
 		mlx_mouse_show();
+	}
+	if (keycode == KEY_SPACE && data->looking_door && data->map[(int)data->player.position.y / TILE_SIZE][(int)data->player.position.x / TILE_SIZE] != 'd')
+	{
+		// data->door_open = (data->door_open == false);
+		data->map[data->door_pos.y][data->door_pos.x] = 'd' - (32 * (data->map[data->door_pos.y][data->door_pos.x] != 'D'));
 	}
 	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_RETURN)
 		handle_selected_item(keycode);

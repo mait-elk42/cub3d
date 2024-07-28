@@ -1,0 +1,27 @@
+[111111111111111111111111]
+[100000000000000000100001]
+[100000000000100000000001]
+[100001D100E0D00000000001]
+[100000000000100000000001]
+[100000000000000000100001]
+[111111111111111111111111]
+C: R 41
+C: G 159
+C: B 255
+F: R 199
+F: G 169
+F: B 0
+√ NORTH_texture : textures/NO.xpm
+√ WEST_texture : textures/WE.xpm
+√ EAST_texture : textures/EA.xpm
+√ SOUTH_texture : textures/SO.xpm
+C: R 41
+C: G 159
+C: B 255
+F: R 199
+F: G 169
+F: B 0
+√ NORTH_texture : textures/NO.xpm
+√ WEST_texture : textures/WE.xpm
+√ EAST_texture : textures/EA.xpm
+√ SOUTH_texture : textures/SO.xpm

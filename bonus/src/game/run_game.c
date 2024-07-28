@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/28 12:24:20 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/28 17:48:35 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,35 @@ int	game_loop(t_data *data)
 	t_ray	ray;
 	float	angle;
 	int		i;
+	static int n = 0;
 
+	// system("clear");
+	// printf("player looking at door : %s\n", (data->player_looking_at_door) ? "yes" : "no");
 	get_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
 		return (show_menu());
-	t_image_clear_color(&data->minimap_layer, 0xffffffff);
+	// t_image_clear_color(&data->minimap_layer, 0xffffffff);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
 	// printf("%d...\n", angle);
 	i = 0;
+	data->looking_door = false;
 	while (i < WIN_WIDTH)
 	{
-		send_ray(&ray, angle);
+		ft_bzero(&ray, sizeof(t_ray));
+		ray.angle = angle;
+		send_ray(&ray);
+		// printf("%f\n", ray.distance);
 		put_wall(data, i, &ray);
 		// send_ray(&ray, angle);
 		angle += (float) FOV / WIN_WIDTH;
 		i++;
 	}
+	// system("clear");
+	// printf("door : %d\n", data->looking_door);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,

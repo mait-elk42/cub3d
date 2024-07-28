@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/28 08:31:13 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/28 19:34:40 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,10 +174,17 @@ typedef struct s_ray
 	bool		face_down;
 	bool		face_left;
 	bool		face_right;
+	short		side;
 	bool		hit_wall;
 	bool		hit_door;
-	short		side;
+	bool		hit_door_h;
+	bool		hit_door_v;
 	t_vector2	step;
+	float		distance_door;
+	t_vector2	intercept_door;
+	t_vector2	intercept_door_h;
+	t_vector2	intercept_door_v;
+
 }	t_ray;
 
 typedef struct s_size
@@ -298,6 +305,11 @@ typedef struct s_data
 	int				start;
 	int				d;
 	bool			Switch;
+	int				door_framemv;
+	bool			player_looking_at_door;
+	int				door_open;
+	t_vector		door_pos;
+	bool			looking_door;
 }	t_data;
 
 typedef struct s_wall_text
@@ -306,11 +318,12 @@ typedef struct s_wall_text
 	int			wallheight;
 	int			top;
 	int			btm;
-	float		unit;
-	float		pxunit;
+	float		yunit;
+	float		xunit;
 	int			color;
 	int			y;
 	t_vector	t_offset;
+	t_vector2	step;
 }	t_wall_text;
 
 /*
@@ -382,13 +395,13 @@ void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
 int		check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
-void	send_ray(t_ray *ray, double ray_angle);
+void	send_ray(t_ray *ray);
 t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
 t_ray	send_virtical_ray(float ray_angle, t_size screen_size);
-float	get_distence(float angle, t_vector2 end);
-void	set_distence(t_ray *ray);
+float	get_distance(float angle, t_vector2 end);
+void	set_distance(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
-void	set_ray_side(t_ray *ray, float angle);
+void	set_ray_side(t_ray *ray);
 void	handle_selected_item(int key);
 void	destroy_this(void *img_ptr);
 int		show_menu();
@@ -415,6 +428,9 @@ void	play_effect(char *file_name);
 */
 float	deg_to_rad(float angle);
 long	get_time(void);
+int		imin(int a, int b);
+int		imax(int a, int b);
+void	irange(int *v, int min, int max);
 
 /*
 	* EVENTS

@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/27 17:25:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/28 15:24:16 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,46 @@ static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 	width = screen.width;
 	height = screen.height;
 	point = ray->intercept;
-	ray->hit_wall = false;
-	ray->hit_door = false;
 	while (point.x > 0 && point.x < width && point.y > 0 && point.y < height)
 	{
 		// if (ray->face_right)
+		// {
 		// 	if (check_hit((t_vector2){point.x -1, point.y}, ray, &point, step))
 		// 		break;
+		// }
+		// if (ray->face_up)
+		// {
+		// 	if (check_hit((t_vector2){point.x, point.y -1}, ray, &point, step))
+		// 		break;
+		// }
+		// if (check_hit((t_vector2){point.x, point.y}, ray, &point, step))
+		// 	break ;
 		if (check_hit((t_vector2){point.x, point.y - ray->face_up}, ray, &point, step))
-			break;
-		if (check_hit(point, ray, &point, step))
 			break ;
+		// if (check_hit((t_vector2){point.x - ray->face_right, point.y}, ray, &point, step))
+		// 	break ;
+		if (data_hook(NULL)->map[(int)(point.y) / TILE_SIZE][(int)(point.x) / TILE_SIZE] == 'D')
+		{
+			ray->hit_door = true;
+			ray->hit_wall = true;
+			ray->intercept_door = point;
+			// ray->intercept = point;
+		}
+		// if (data_hook(NULL)->map[(int)(point.y + 1) / TILE_SIZE][(int)(point.x) / TILE_SIZE] == 'D')
+		// {
+		// 	ray->hit_door = true;
+		// 	ray->hit_wall = true;
+		// 	ray->intercept_door = point;
+		// 	// ray->intercept = point;
+		// }
+		// if (data_hook(NULL)->map[(int)(point.y - 1) / TILE_SIZE][(int)(point.x) / TILE_SIZE] == 'D')
+		// {
+		// 	ray->hit_door = true;
+		// 	ray->hit_wall = true;
+		// 	ray->intercept_door = point;
+		// 	// ray->intercept = point;
+		// }
+
 		point.x += step.x;
 		point.y += step.y;
 	}
@@ -53,15 +82,14 @@ static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 
 t_ray	send_horizontal_ray(float ray_angle, t_size screen_size)
 {
-	t_data		*data;
 	t_ray		ray;
 	t_vector2	step;
 
-	data = data_hook(NULL);
+	ft_bzero(&ray, sizeof(t_ray));
 	ray.angle = ray_angle;
 	ray.hit_wall = false;
 	ray.side = HORIZONTAL;
-	set_ray_side (&ray, ray_angle);
+	set_ray_side (&ray);
 	step.y = TILE_SIZE;
 	if (ray.face_up)
 		step.y *= -1;

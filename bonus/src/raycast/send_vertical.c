@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/27 17:21:17 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/28 15:24:26 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,46 @@ static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 	width = screen.width;
 	height = screen.height;
 	point = ray->intercept;
-	ray->hit_wall = false;
-	ray->hit_door = false;
 	while (point.x > 0 && point.x < width && point.y > 0 && point.y < height)
 	{
+		// if (check_hit((t_vector2){point.x - ray->face_left, point.y}, ray, &point, step))
+		// 	break ;
+		// if (data_hook(NULL)->map[(int)(point.y) / TILE_SIZE][(int)(point.x) / TILE_SIZE] == 'D')
+		// {
+		// 	ray->hit_door = true;
+		// 	ray->hit_wall = true;
+		// 	ray->intercept_door = point;
+		// 	// ray->intercept = point;
+		// 	// ray->intercept.x += step.x / 2;
+		// 	// ray->intercept.y += step.y / 2;
+		// }
+		if (data_hook(NULL)->map[(int)(point.y) / TILE_SIZE][(int)(point.x) / TILE_SIZE] == 'D')
+		{
+			ray->hit_door = true;
+			ray->hit_wall = true;
+			ray->intercept_door = point;
+			// ray->intercept = point;
+		}
+		// if (data_hook(NULL)->map[(int)(point.y) / TILE_SIZE][(int)(point.x + 1) / TILE_SIZE] == 'D')
+		// {
+		// 	ray->hit_door = true;
+		// 	ray->hit_wall = true;
+		// 	ray->intercept_door = point;
+		// 	// ray->intercept = point;
+		// }
+		
+		// if (data_hook(NULL)->map[(int)(point.y) / TILE_SIZE][(int)(point.x -1) / TILE_SIZE] == 'D')
+		// {
+		// 	ray->hit_door = true;
+		// 	ray->hit_wall = true;
+		// 	ray->intercept_door = point;
+		// 	// ray->intercept = point;
+		// }
 		if (check_hit((t_vector2){point.x - ray->face_left, point.y}, ray, &point, step))
 			break ;
+		// if (check_hit((t_vector2){point.x, point.y - ray->face_down}, ray, &point, step))
+		// 	break ;
+		// t_image_update_pixel(&data_hook(NULL)->minimap_layer, point.x, point.y, 0xff0000);
 		point.y += step.y;
 		point.x += step.x;
 	}
@@ -48,15 +82,15 @@ static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 
 t_ray	send_virtical_ray(float ray_angle, t_size screen_size)
 {
-	t_data		*data;
 	t_ray		ray;
 	t_vector2	step;
 
-	data = data_hook(NULL);
 	ray.hit_wall = false;
 	ray.side = VERTICAL;
+	ft_bzero(&ray, sizeof(t_ray));
 	ray.angle = ray_angle;
-	set_ray_side(&ray, ray_angle);
+	ray.side = VERTICAL;
+	set_ray_side (&ray);
 	step.x = TILE_SIZE;
 	if (ray.face_left)
 		step.x *= -1;
