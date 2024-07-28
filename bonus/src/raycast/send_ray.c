@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/27 17:20:47 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/28 10:24:19 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	send_ray(t_ray *ray, double ray_angle)
 	ray_angle = deg_to_rad(ray_angle);
 	screen_size.width = data->screen.width * TILE_SIZE;
 	screen_size.height = data->screen.height * TILE_SIZE;
-	hori = send_horizontal_ray(ray_angle, screen_size);
-	set_distence(&hori);
 	verti = send_virtical_ray(ray_angle, screen_size);
 	set_distence(&verti);
+	hori = send_horizontal_ray(ray_angle, screen_size);
+	set_distence(&hori);
 	if (hori.distance <= verti.distance)
 	{
 		set_directions(&hori, HORIZONTAL);
@@ -40,6 +40,6 @@ void	send_ray(t_ray *ray, double ray_angle)
 	set_directions(&verti, VERTICAL);
 	*ray = verti;
 	// if (hori.hit_door && ray->hit_door == false)
-		// ray->hit_door = false;
+	// 	ray->hit_door = true;
 	// printf("%f %f\n", ray->d, ray->w);
 }

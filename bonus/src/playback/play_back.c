@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:40:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/27 15:13:01 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/28 08:19:50 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ void	play_music(void)
 		signal(SIGUSR1, signal_handler);
 		signal(SIGUSR2, signal_handler);
 		track_parent();
-		while (1)
-		{
-			data->child.pid = fork();
-			if (data->child.pid == 0)
-			{
-				execvp("afplay", (char *[]){"afplay", "assets/sounds/main_menu4.mp3", NULL});
-				exit (1);
-			}
-			waitpid(data->child.pid, NULL, 0);
-		}
+		// while (1)
+		// {
+		// 	data->child.pid = fork();
+		// 	if (data->child.pid == 0)
+		// 	{
+		// 		execvp("afplay", (char *[]){"afplay", "assets/sounds/main_menu4.mp3", NULL});
+		// 		exit (1);
+		// 	}
+		// 	waitpid(data->child.pid, NULL, 0);
+		// }
 		safe_exit(1);
 	}
 }

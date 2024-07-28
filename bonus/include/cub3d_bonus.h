@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/27 17:21:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/28 08:31:13 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,6 +296,8 @@ typedef struct s_data
 	bool			music;
 	pthread_t		thread;
 	int				start;
+	int				d;
+	bool			Switch;
 }	t_data;
 
 typedef struct s_wall_text

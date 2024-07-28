@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/27 17:23:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:24:32 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ t_image	wall_side(t_ray *ray, float *pxunit)
 			t = data->texture_we;
 		*pxunit = ray->intercept.y / (float)TILE_SIZE;
 	}
+	if (ray->hit_door)
+		t = data->texture_door;
 	return (t);
 }
 
@@ -60,6 +62,8 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 {
 	t_wall_text	w;
 
+	// if (ray->hit_door)
+	// 	return ;
 	w.wallheight = (WIN_HEIGHT / ray->distance) * 40;
 	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2);
 	w.btm = w.top + w.wallheight;
@@ -77,6 +81,9 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	{
 		w.unit = (float)(w.y - w.top) / w.wallheight;
 		w.t_offset.y = (int)(w.unit * w.t.height) % w.t.height;
+		// if (ray->hit_door)
+		// 	w.color = w.t.buffer[(((w.t_offset.y) * w.t.width) + ((w.t_offset.x) - ((data->d * 68)))) % (w.t.width * w.t.height)];
+		// else
 		w.color = w.t.buffer[((w.t_offset.y * w.t.width) + (w.t_offset.x)) % (w.t.width * w.t.height)];
 		t_image_update_pixel(&data->scene_layer, i, w.y, w.color);
 		w.y++;

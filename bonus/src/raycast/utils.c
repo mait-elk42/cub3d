@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/27 17:25:52 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/28 12:24:50 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ void	set_distence(t_ray *ray)
 	t_data		*data;
 
 	data = data_hook(NULL);
-	if (ray->hit_wall == true)
+	if (ray->hit_wall == true || ray->hit_door == true)
 	{
-		// if (ray->hit_door)
-		// {
-		// 	ray->intercept.x += ray->step.x / 2;
-		// 	ray->intercept.y += ray->step.y / 2;
-		// }
+		if (ray->hit_door)
+		{
+			ray->intercept.x += ray->step.x / 2;
+			ray->intercept.y += ray->step.y / 2;
+		}
 		ray->distance = get_distence(ray->angle, ray->intercept);
 		return ;
 	}
@@ -75,7 +75,7 @@ void	set_directions(t_ray *ray, int ray_type)
 
 int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step)
 {
-	t_size	grid;
+	t_size		grid;
 	t_data		*data;
 	t_size		screen_size;
 
@@ -88,17 +88,25 @@ int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step)
 	{
 		ray->hit_wall = true;
 		return (true);
-	} else if (data->map[grid.height][grid.width] == 'D')
-	{
-		if (data->map[(int) data->player.position.y / 32][(int) data->player.position.x / 32] == 'D')
-		{
-			ray->hit_door = false;
-			return 0;
-		}
-		else if (ray->side == VERTICAL)
-			ray->hit_door = true;
-		ray->hit_wall = true;
-		return (0);
 	}
+	// else if (data->map[grid.height][grid.width] == 'D')
+	// {
+	// 	if (data->map[(int) data->player.position.y / 32][(int) data->player.position.x / 32] == 'D')
+	// 	{
+	// 		ray->hit_door = false;
+	// 		return 0;
+	// 	}
+	// 	else if (ray->side == VERTICAL)
+	// 	{
+	// 		ray->hit_door = false;
+	// 		ray->hit_wall = false;
+	// 		if (((int)(point->y) % TILE_SIZE) >= data->d)
+	// 			return (0);
+	// 		ray->hit_door = true;
+	// 		return (true);
+	// 	}
+	// 	// ray->hit_door = true;
+	// 	return (false);
+	// }
 	return (false);
 }
