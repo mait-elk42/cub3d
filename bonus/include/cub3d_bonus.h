@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/26 20:24:36 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:15:03 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,9 @@ typedef struct s_ray
 	short		side;
 	bool		hit_wall;
 	bool		hit_door;
-	// t_vector2	door_intercept;
-	// float		door_distance;
+	float		distance_door;
+	t_vector2	intercept_door;
+
 }	t_ray;
 
 typedef struct s_size
@@ -287,8 +288,9 @@ typedef struct s_data
 	bool			music;
 	int				door_framemv;
 	bool			player_looking_at_door;
-	int				n;
-	int				iter;
+	int				door_open;
+	t_vector		door_pos;
+	bool			looking_door;
 }	t_data;
 
 typedef struct s_wall_text
@@ -297,8 +299,8 @@ typedef struct s_wall_text
 	int			wallheight;
 	int			top;
 	int			btm;
-	float		unit;
-	float		pxunit;
+	float		yunit;
+	float		xunit;
 	int			color;
 	int			y;
 	t_vector	t_offset;
@@ -406,6 +408,9 @@ void	play_music(void);
 */
 float	deg_to_rad(float angle);
 long	get_time(void);
+int		imin(int a, int b);
+int		imax(int a, int b);
+void	irange(int *v, int min, int max);
 
 /*
 	* EVENTS

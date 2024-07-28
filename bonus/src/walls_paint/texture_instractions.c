@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/26 20:36:19 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:13:46 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	put_bgd(t_image *image, int ceil_color, int floor_color)
 	}
 }
 
-t_image	wall_side(t_ray *ray, float *pxunit)
+t_image	wall_side(t_ray *ray, float *xunit)
 {
 	t_data		*data;
 	t_image		t;
@@ -41,29 +41,21 @@ t_image	wall_side(t_ray *ray, float *pxunit)
 
 	data = data_hook(NULL);
 	intercept = ray->intercept;
-	// printf("%s\n", ray->hit_door ? "hitted door" : "nah");
-	// if (ray->hit_door)
-	// {
-	// 	// printf("adasdasd\n");
-	// 	// printf("11 >> %f %f\n", ray->intercept.x, ray->intercept.y);
-	// 	// printf("22 >> %f %f\n", ray->door_intercept.x, ray->door_intercept.y);
-	// 	intercept = ray->door_intercept;
-	// }
 	if (ray->side == HORIZONTAL)
 	{
 		t = data->texture_so;
 		if (ray->direction == NORTH)
 			t = data->texture_no;
-		*pxunit = intercept.x / (float)TILE_SIZE;
-
+		*xunit = intercept.x / (float)TILE_SIZE;
 	}
 	else
 	{
 		t = data->texture_ea;
 		if (ray->direction == WEST)
 			t = data->texture_we;
-		*pxunit = intercept.y / (float)TILE_SIZE;
+		*xunit = intercept.y / (float)TILE_SIZE;
 	}
+	*xunit -= (int)(*xunit);
 	if (ray->hit_door)
 		t = data->texture_door;
 	return (t);
@@ -73,33 +65,22 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 {
 	t_wall_text	w;
 
-	// if (ray->hit_door == true)
+	// if (ray->hit_door)
 	// 	return ;
 	w.wallheight = (WIN_HEIGHT / ray->distance) * 40;
-	// if (ray->hit_door)
-	// 	w.wallheight = (WIN_HEIGHT / ray->door_distance) * 40;
 	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2);
 	w.btm = w.top + w.wallheight;
-	w.t = wall_side(ray, &w.pxunit);
-	w.y = w.top;
+	w.t = wall_side(ray, &w.xunit);
+	w.t_offset.x = (int)(w.xunit * w.t.width);
 	if (ray->direction == SOUTH || ray->direction == WEST)
-		w.t_offset.x = w.t.width - (int)(w.pxunit * w.t.width) % w.t.width;
-	else
-		w.t_offset.x = (int)(w.pxunit * w.t.width) % w.t.width;
-	// if (ray->hitchar == 'D')
-	// 	w.y += 50;
-	if (w.y < 0)
-		w.y = 0;
-	if (w.btm > WIN_HEIGHT)
-		w.btm = WIN_HEIGHT;
+		w.t_offset.x = w.t.width - (int)(w.xunit * w.t.width);
+	w.y = imax(0, w.top);
+	w.btm = imin(WIN_HEIGHT, w.btm);
 	while (w.y < w.btm)
 	{
-		w.unit = (float)(w.y - w.top) / w.wallheight;
-		w.t_offset.y = (int)(w.unit * w.t.height) % w.t.height;
-		if (ray->hit_door)
-			w.color = w.t.buffer[(((w.t_offset.y) * w.t.width) + (w.t_offset.x - (data->n * TILE_SIZE))) % (w.t.width * w.t.height)];
-		else
-			w.color = w.t.buffer[(((w.t_offset.y) * w.t.width) + (w.t_offset.x)) % (w.t.width * w.t.height)];
+		w.yunit = (float)(w.y - w.top) / w.wallheight;
+		w.t_offset.y = (int)(w.yunit * w.t.height) % w.t.height;
+		w.color = w.t.buffer[(((w.t_offset.y) * w.t.width) + (w.t_offset.x)) % (w.t.width * w.t.height)];
 		t_image_update_pixel(&data->scene_layer, i, w.y, w.color);
 		w.y++;
 	}

@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/26 20:13:35 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/28 11:51:56 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	set_distence(t_ray *ray)
 	t_data		*data;
 
 	data = data_hook(NULL);
-	if (ray->hit_wall == true)
+	if (ray->hit_wall == true || ray->hit_door == true)
 	{
 		ray->distance = get_distence(ray->angle, ray->intercept);
-		// ray->door_distance = get_distence(ray->angle, ray->door_intercept);
+		ray->distance_door = get_distence(ray->angle, ray->intercept_door);
 		return ;
 	}
 	ray->distance = INT_MAX;
-	// ray->door_distance = INT_MAX;
+	ray->distance_door = INT_MAX;
 	return ;
 }
 
@@ -84,31 +84,35 @@ int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step) //
 	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
 	if (grid.width > screen_size.width || grid.height > screen_size.height)
 		return (true);
-	// .. get char that ray hitted only if its 1 or D
-	if (data->map[grid.height][grid.width] == 'D')
+	if (data->map[grid.height][grid.width] == 'd')
 	{
-		// if (data->map[(int) data->player.position.y / 32][(int) data->player.position.x / 32] == 'D')
-		// {
-			// ray->hit_door = false;
-		// 	return 0;
-		// }
-		// else
-		// printf("%f\n", (int)point->x % TILE_SIZE));
-		// point->x += step.x / 2;
-		// point->y += step.y / 2;
-		ray->hit_door = true;
-		ray->hit_wall = true;
-		if (ray->side == VERTICAL &&((int)(point->y) % TILE_SIZE) > abs(data->n))
-			return (0);
-		// if (ray->side == HORIZONTAL &&((int)point->x % TILE_SIZE) > 16)
-		// 	return (0);
-		// ray->intercept = (t_vector2){point->x + (step.x / 2), point->y + (step.y / 2)};
-		return (1);
+		data->looking_door = true;
+		data->door_pos = (t_vector){grid.width, grid.height};
+		return (0);
 	}
+	
+	// if (data->map[grid.height][grid.width] == 'D')
+	// {
+	// 	point->x += step.x / 2;
+	// 	point->y += step.y / 2;
+	// 	data->door_pos = (t_vector){grid.width, grid.height};
+	// 	ray->hit_wall = true;
+	// 	ray->hit_door = true;
+	// 	return (1);
+	// }
+
+	// if (data->map[grid.height][grid.width] == 'D')
+	// {
+	// 	point->x += step.x / 2;
+	// 	point->y += step.y / 2;
+	// 	ray->hit_wall = true;
+	// 	ray->hit_door = true;
+	// 	return (1);
+	// }
+
 	if (data->map[grid.height][grid.width] == '1')
 	{
 		ray->hit_wall = true;
-		ray->hit_door = false;
 		return (1);
 	}
 	return (false);

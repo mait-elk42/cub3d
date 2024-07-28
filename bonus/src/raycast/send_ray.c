@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/26 20:09:32 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/27 17:27:06 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ void	send_ray(t_ray *ray, double ray_angle)
 		set_directions(&verti, VERTICAL);
 		*ray = verti;
 	}
+	if (ray->hit_door == true && ray->distance < 50)
+		data->looking_door = true;
+	// printf("h %d , v %d\n", hori.hit_door, verti.hit_door);
 	// if (ray->hit_door && data->player_looking_at_door == false && ray->distance < 30)
 	// 	data->player_looking_at_door = true;
 }

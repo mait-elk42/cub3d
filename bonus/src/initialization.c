@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 18:35:28 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 16:48:31 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void	data_init(t_data *data, int ac, char **av)
 	if (data->mlx.window_ptr == NULL)
 		eput_error("cannot open mlx window", "[MLX_DYLIB]", 1);
 	set_screen_size();
+	print_data_collected(data);
 	make_map_square();
 }
