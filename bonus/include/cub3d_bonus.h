@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/28 19:34:40 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:25:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void	make_effect(char *file_name);
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH (1440)
-# define WIN_HEIGHT (920)
+# define WIN_WIDTH 1080
+# define WIN_HEIGHT 800
 
 /*
 	* ATTRIBUTES
@@ -103,7 +103,7 @@ typedef struct s_settings
 # define PLAYER_SPEED 1.8
 # define CAM_SENS 2
 # define FOV 60
-# define MPSIZE 0.10
+# define MPSIZE 0.12
 
 /*
 	* ENUMS
@@ -184,7 +184,6 @@ typedef struct s_ray
 	t_vector2	intercept_door;
 	t_vector2	intercept_door_h;
 	t_vector2	intercept_door_v;
-
 }	t_ray;
 
 typedef struct s_size
@@ -245,8 +244,11 @@ typedef struct s_mouse
 {
 	bool	to_left;
 	bool	to_right;
+	bool	to_up;
+	bool	to_down;
 	bool	center_mouse;
 	double	cam_sens;
+	double	cam_sens_v;
 }	t_mouse;
 
 typedef struct s_menu
@@ -303,13 +305,18 @@ typedef struct s_data
 	bool			music;
 	pthread_t		thread;
 	int				start;
-	int				d;
 	bool			Switch;
 	int				door_framemv;
 	bool			player_looking_at_door;
 	int				door_open;
 	t_vector		door_pos;
 	bool			looking_door;
+	int				b;
+	bool			walking;
+	int				up_down;
+	int				jump;
+	bool			jumping;
+	int				time;
 }	t_data;
 
 typedef struct s_wall_text

@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/28 19:14:16 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:24:30 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 void	put_bgd(t_image *image, int ceil_color, int floor_color)
 {
+	t_data		*data;
 	t_vector	i;
 	int			color;
 
+	data = data_hook(NULL);
 	i.y = 0;
 	color = ceil_color;
-	while (i.y < image->height)
+	while (i.y < WIN_HEIGHT)
 	{
 		i.x = 0;
 		while (i.x < image->width)
@@ -27,7 +29,7 @@ void	put_bgd(t_image *image, int ceil_color, int floor_color)
 			t_image_update_pixel(image, i.x, i.y, color);
 			i.x++;
 		}
-		if (i.y == (image->height / 2))
+		if (i.y == (image->height / 2) + data->up_down + (data->jump * 8))
 			color = floor_color;
 		i.y++;
 	}
@@ -55,7 +57,7 @@ t_image	wall_side(t_ray *ray, float *xunit)
 			t = data->texture_we;
 		*xunit = intercept.y / (float)TILE_SIZE;
 	}
-	*xunit -= (int)(*xunit);
+	*xunit -= floor(*xunit);
 	if (ray->hit_door)
 		t = data->texture_door;
 	return (t);
@@ -68,10 +70,10 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	// if (ray->hit_door)
 	// 	return ;
 	w.wallheight = (WIN_HEIGHT / ray->distance) * 40;
-	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2);
+	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2) + (data->b * data->walking) + (data->up_down) + data->jump * 8;
 	w.btm = w.top + w.wallheight;
 	w.t = wall_side(ray, &w.xunit);
-	w.t_offset.x = (int)(w.xunit * w.t.width);
+	w.t_offset.x = floor(w.xunit * w.t.width);
 	if (ray->direction == SOUTH || ray->direction == WEST)
 		w.t_offset.x = w.t.width - (int)(w.xunit * w.t.width);
 	w.y = imax(0, w.top);
@@ -79,7 +81,7 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	while (w.y < w.btm)
 	{
 		w.yunit = (float)(w.y - w.top) / w.wallheight;
-		w.t_offset.y = (int)(w.yunit * w.t.height) % w.t.height;
+		w.t_offset.y = (int)floor(w.yunit * w.t.height) % w.t.height;
 		w.color = w.t.buffer[(((w.t_offset.y) * w.t.width) + (w.t_offset.x)) % (w.t.width * w.t.height)];
 		t_image_update_pixel(&data->scene_layer, i, w.y, w.color);
 		w.y++;

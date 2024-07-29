@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "cub3d_bonus.h": "c",
-        "ios": "c"
+        "ios": "c",
+        "chrono": "c"
     }
 }

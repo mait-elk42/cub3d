@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/28 17:48:35 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:15:17 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,30 @@ void	normalize_sensibility()
 		data->mouse.cam_sens -= 0.8;
 	if (data->mouse.cam_sens <= 0.0)
 		data->mouse.cam_sens = 0;
+
+	if (data->mouse.cam_sens_v > 0.0)
+		data->mouse.cam_sens_v -= 0.5;
+	if (data->mouse.cam_sens_v > 5.0)
+		data->mouse.cam_sens_v -= 5;
+	if (data->mouse.cam_sens_v <= 0.0)
+		data->mouse.cam_sens_v = 0;
+	// if (data->up_down > 0 && data->up_down != 0)
+	// 	data->up_down -= 5;
+	// else if (data->up_down < 0 && data->up_down != 0)
+	// 	data->up_down += 5;
 }
 
 // # if the the user play disable up and down arrows :)
+
+void	put_weapon()
+{
+	t_data	*data;
+	t_image	weapon;
+
+	data = data_hook(NULL);
+	weapon = t_image_loadfromxpm("textures/wapon/w_idle1.xpm");
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, weapon.img_ptr, 0, WIN_HEIGHT - 706);
+}
 
 int	game_loop(t_data *data)
 {
@@ -69,6 +90,8 @@ int	game_loop(t_data *data)
 	int		i;
 	static int n = 0;
 
+	// if (data->n == 0)
+	// 	data->walking = false;
 	// system("clear");
 	// printf("player looking at door : %s\n", (data->player_looking_at_door) ? "yes" : "no");
 	get_cf_color(data);
@@ -102,12 +125,27 @@ int	game_loop(t_data *data)
 		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
 	// put_weapon();
 	normalize_sensibility();
-	// if (data->Switch == false)
-	// 	data->d++;
-	// else
-	// 	data->d--;
-	// if (data->d == 0 || data->d == 32)
-	// 	data->Switch = data->Switch == false;
+	if (data->Switch == false)
+		data->b += 2;
+	else
+		data->b -= 2;
+	if (data->b == 0 || data->b == 12)
+		data->Switch = data->Switch == false;
+	if (data->jumping)
+	{
+		if (data->jump != 21)
+			data->jump += 3;
+		if (data->jump == 21)
+			data->jumping = false;
+	}
+	if (data->jumping == false)
+	{
+		if (data->jump != 0)
+			data->jump -= 3;
+		if (data->jump == 0)
+			data->time = 0;
+	}
+	printf("[%d]\n", data->jump);
 	return (0);
 }
 
@@ -123,23 +161,36 @@ int	mouse_event(int x, int y, void *param)
 {
 	t_data		*data;
 	t_vector	mouse_pos;
-	int			screen_half;
+	int			width_half;
+	int			height_half;
 
 	data = (t_data *)param;
-	screen_half = WIN_WIDTH / 2;
-	if (x > screen_half)
+	width_half = WIN_WIDTH / 2;
+	height_half = WIN_HEIGHT / 2;
+	if (y < height_half)
+	{
+		data->mouse.to_down = false;
+		data->mouse.to_up = true;
+	}
+	if (y > height_half)
+	{
+		data->mouse.to_down = true;
+		data->mouse.to_up = false;
+	}
+	if (x > width_half)
 	{
 		data->mouse.to_right = true;
 		data->mouse.to_left = false;
 	}
-	if (x < screen_half)
+	if (x < width_half)
 	{
 		data->mouse.to_right = false;
 		data->mouse.to_left = true;
 	}
-	data->mouse.cam_sens = fabs((screen_half - x) * 0.02);
+	data->mouse.cam_sens = fabs((width_half - x) * 0.02);
+	data->mouse.cam_sens_v = fabs((height_half - y) * 0.03);
 	if (data->mouse.center_mouse)
-		mlx_mouse_move(data->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+		mlx_mouse_move(data->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2); 
 	return 0;
 }
 
