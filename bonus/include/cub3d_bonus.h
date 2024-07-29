@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/28 11:15:03 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:05:14 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,9 +174,6 @@ typedef struct s_ray
 	short		side;
 	bool		hit_wall;
 	bool		hit_door;
-	float		distance_door;
-	t_vector2	intercept_door;
-
 }	t_ray;
 
 typedef struct s_size
@@ -231,12 +228,18 @@ typedef struct s_player
 	t_image		texture;
 	float		angle;
 	t_vector2	walking_dir;
+	float		real_head;
+	float		head_angle;
+	bool		is_walking;
+	t_image		hand_frames[5];
 }	t_player;
 
 typedef struct s_mouse
 {
 	bool	to_left;
 	bool	to_right;
+	// bool	to_top;
+	// bool	to_down;
 	bool	center_mouse;
 	double	cam_sens;
 }	t_mouse;
@@ -286,11 +289,6 @@ typedef struct s_data
 	t_vector		mouse_pos_new;
 	t_vector		mouse_pos;
 	bool			music;
-	int				door_framemv;
-	bool			player_looking_at_door;
-	int				door_open;
-	t_vector		door_pos;
-	bool			looking_door;
 }	t_data;
 
 typedef struct s_wall_text

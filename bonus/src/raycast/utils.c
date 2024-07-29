@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/28 19:18:58 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/29 11:14:15 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,12 @@ void	set_distence(t_ray *ray)
 	t_data		*data;
 
 	data = data_hook(NULL);
-	if (ray->hit_wall == true || ray->hit_door == true)
+	if (ray->hit_wall == true)
 	{
 		ray->distance = get_distence(ray->angle, ray->intercept);
-		ray->distance_door = get_distence(ray->angle, ray->intercept_door);
 		return ;
 	}
 	ray->distance = INT_MAX;
-	ray->distance_door = INT_MAX;
 	return ;
 }
 
@@ -84,18 +82,11 @@ int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step) //
 	grid = (t_size){(coords.x / TILE_SIZE), coords.y / TILE_SIZE};
 	if (grid.width > screen_size.width || grid.height > screen_size.height)
 		return (true);
-	if (data->map[grid.height][grid.width] == 'd')
-	{
-		data->looking_door = true;
-		data->door_pos = (t_vector){grid.width, grid.height};
-		return (0);
-	}
 	
 	if (data->map[grid.height][grid.width] == 'D')
 	{
 		point->x += step.x / 2;
 		point->y += step.y / 2;
-		data->door_pos = (t_vector){grid.width, grid.height};
 		ray->hit_wall = true;
 		ray->hit_door = true;
 		return (1);

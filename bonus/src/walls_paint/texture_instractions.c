@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/28 11:13:46 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:32:47 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ t_image	wall_side(t_ray *ray, float *xunit)
 	return (t);
 }
 
+int	color_distance(int color, float distance)
+{
+	return (color * (data_hook(NULL)->player.position.x + data_hook(NULL)->player.position.y));
+}
+
 void	put_wall(t_data *data, int i, t_ray *ray)
 {
 	t_wall_text	w;
@@ -74,6 +79,8 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	w.t_offset.x = (int)(w.xunit * w.t.width);
 	if (ray->direction == SOUTH || ray->direction == WEST)
 		w.t_offset.x = w.t.width - (int)(w.xunit * w.t.width);
+	w.top += data->player.real_head;
+	w.btm += data->player.real_head;
 	w.y = imax(0, w.top);
 	w.btm = imin(WIN_HEIGHT, w.btm);
 	while (w.y < w.btm)
@@ -81,6 +88,7 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 		w.yunit = (float)(w.y - w.top) / w.wallheight;
 		w.t_offset.y = (int)(w.yunit * w.t.height) % w.t.height;
 		w.color = w.t.buffer[(((w.t_offset.y) * w.t.width) + (w.t_offset.x)) % (w.t.width * w.t.height)];
+		// w.color = color_distance(w.color, ray->distance);
 		t_image_update_pixel(&data->scene_layer, i, w.y, w.color);
 		w.y++;
 	}

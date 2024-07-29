@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:34:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:06:26 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,10 @@ void	init_player(t_data *data)
 {
 	init_angle_pos(data->map, &data->player);
 	data->player.walking_dir = (t_vector2){0, 0};
+	data->player.hand_frames[0] = t_image_loadfromxpm("textures/weapon/0.xpm");
+	data->player.hand_frames[1] = t_image_loadfromxpm("textures/weapon/1.xpm");
+	data->player.hand_frames[2] = t_image_loadfromxpm("textures/weapon/2.xpm");
+	data->player.hand_frames[3] = t_image_loadfromxpm("textures/weapon/3.xpm");
+	data->player.hand_frames[4] = t_image_loadfromxpm("textures/weapon/4.xpm");
+
 }

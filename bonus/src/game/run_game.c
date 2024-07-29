@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/29 09:35:19 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:10:29 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,30 @@ void	normalize_sensibility()
 
 // # if the the user play disable up and down arrows :)
 
+void put_weapon()
+{
+	t_data			*data;
+	t_image			wpn;
+	t_vector2		p;
+	static int		time;
+	static int		i;
+
+	data = data_hook(NULL);
+	wpn = data->player.hand_frames[i];
+	p.x = ((WIN_WIDTH / 2) + wpn.width * 0.3) + data->player.real_head;
+	p.y = ((WIN_HEIGHT / 2)  + wpn.height * 0.1) + data->player.real_head;
+	mlx_put_image_to_window(data->mlx.mlx_ptr, 
+			data->mlx.window_ptr, wpn.img_ptr, p.x, p.y);
+	if (time == 2)
+	{
+		i++;
+		time = 0;
+	}
+	if (i == 5)
+		i = 0;
+	time++;
+}
+
 int	game_loop(t_data *data)
 {
 	t_ray	ray;
@@ -81,10 +105,16 @@ int	game_loop(t_data *data)
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
 	i = 0;
-	data->looking_door = false;
+	if (data->player.is_walking)
+	{
+		if (data->player.head_angle > 360)
+			data->player.head_angle = 0;
+		data->player.head_angle+= 20;
+		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 10;
+	}
+	// printf("walking : %f\n", );
 	while (i < WIN_WIDTH)
 	{
-		data->looking_door = false;
 		send_ray(&ray, angle);
 		put_wall(data, i, &ray);
 		angle += (float) FOV / WIN_WIDTH;
@@ -96,7 +126,7 @@ int	game_loop(t_data *data)
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
-	// put_weapon();
+	put_weapon();
 	normalize_sensibility();
 	// print_2d(data->map);
 	return (0);
@@ -128,6 +158,16 @@ int	mouse_event(int x, int y, void *param)
 		data->mouse.to_right = false;
 		data->mouse.to_left = true;
 	}
+	// if (y > screen_half)
+	// {
+	// 	data->mouse.to_top = true;
+	// 	data->mouse.to_down = false;
+	// }
+	// if (y < screen_half)
+	// {
+	// 	data->mouse.to_top = false;
+	// 	data->mouse.to_down = true;
+	// }
 	data->mouse.cam_sens = fabs((screen_half - x) * 0.02);
 	if (data->mouse.center_mouse)
 		mlx_mouse_move(data->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2);
