@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/28 19:18:20 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/29 09:33:16 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static void	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 	point = ray->intercept;
 	while (point.x > 0 && point.x < width && point.y > 0 && point.y < height)
 	{
+		if (check_hit((t_vector2){point.x, point.y}, ray, &point, step))
+			break ;
 		if (check_hit((t_vector2){point.x, point.y - ray->face_up}, ray, &point, step))
 			break ;
 		point.x += step.x;

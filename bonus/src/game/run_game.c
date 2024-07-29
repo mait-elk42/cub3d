@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/28 19:34:56 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/29 09:35:19 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	game_loop(t_data *data)
 	data->looking_door = false;
 	while (i < WIN_WIDTH)
 	{
+		data->looking_door = false;
 		send_ray(&ray, angle);
 		put_wall(data, i, &ray);
 		angle += (float) FOV / WIN_WIDTH;
