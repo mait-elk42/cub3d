@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/29 19:04:47 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:18:10 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step)
 	{
 		point->x += step.x / 2;
 		point->y += step.y / 2;
-		ray->hit_wall = true;
 		if (ray->side == HORIZONTAL)
 			ray->hit_door_h = true;
 		if (ray->side == VERTICAL)
