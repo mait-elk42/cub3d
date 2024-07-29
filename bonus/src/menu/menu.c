@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/24 16:23:51 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 11:46:32 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	destroy_this(void *img_ptr)
 void	destroy_images(t_menu *menu)
 {
 	destroy_this(menu->logo.img_ptr);
+	destroy_this(menu->bg.img_ptr);
 	destroy_this(menu->hint.img_ptr);
 	destroy_this(menu->s_new_game.img_ptr);
 	destroy_this(menu->us_new_game.img_ptr);
@@ -39,6 +40,7 @@ void	destroy_images(t_menu *menu)
 void	load_menu_images(t_menu *menu)
 {
 	menu->logo = t_image_loadfromxpm("textures/cub_logo.xpm");
+	menu->bg = t_image_loadfromxpm("textures/background_menu.xpm");
 	menu->hint = t_image_loadfromxpm("textures/enter_to_select.xpm");
 	menu->s_new_game = t_image_loadfromxpm("textures/new_game_selected.xpm");
 	menu->us_new_game = t_image_loadfromxpm("textures/new_game_unselected.xpm");
@@ -63,6 +65,31 @@ void	put_to_win(int posx, int pox_y, t_image image)
 	mlx_put_image_to_window(mlx_ptr, mlx_win, image.img_ptr, posx, pox_y);
 }
 
+void	set_defaults(t_menu menu)
+{
+	static char	n = 0;
+	static bool	Switch;
+	int			width_half;
+	t_data		*data;
+
+	data = data_hook(NULL);
+	width_half = WIN_WIDTH / 2;
+	put_to_win(0, 0, menu.bg);
+	put_to_win(width_half - 240, (WIN_HEIGHT / 2) - 350, menu.logo);
+	if (Switch)
+		put_to_win((WIN_WIDTH / 2)- 140, (WIN_HEIGHT - 80), menu.hint);
+	put_to_win(width_half - 140, ((WIN_HEIGHT / 2) -50), menu.us_new_game);
+	if (data->start == 0)
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +50, menu.ig_cont);
+	else
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) +50, menu.us_cont);
+	put_to_win(width_half - 140, (WIN_HEIGHT / 2) +150, menu.us_music);
+	put_to_win(width_half - 140, (WIN_HEIGHT / 2) +250, menu.us_exit);
+	if (abs(n) % 35 == 0)
+		Switch = Switch == false;
+	n++;
+}
+
 int	show_menu()
 {
 	t_data		*data;
@@ -74,12 +101,7 @@ int	show_menu()
 	width_half = WIN_WIDTH / 2;
 	menu = data->menu;
 	select = data->select_item;
-	put_to_win(width_half - 240, (WIN_HEIGHT / 20), menu.logo);
-	put_to_win(WIN_WIDTH - 240, (WIN_HEIGHT - 100), menu.hint);
-	put_to_win(width_half - 140, ((WIN_HEIGHT / 2) -50), menu.us_new_game);
-	put_to_win(width_half - 140, (WIN_HEIGHT / 2) +50, menu.us_cont);
-	put_to_win(width_half - 140, (WIN_HEIGHT / 2) +150, menu.us_music);
-	put_to_win(width_half - 140, (WIN_HEIGHT / 2) +250, menu.us_exit);
+	set_defaults(menu);
 	if (data->select_item.item == 0)
 		put_to_win(width_half - 140, ((WIN_HEIGHT / 2) -50), menu.s_new_game);
 	if (data->select_item.item == 1)

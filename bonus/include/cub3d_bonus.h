@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/29 18:05:14 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:02:43 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@
 # include <mlx.h>
 # include <unistd.h>
 # include <signal.h>
+# include <pthread.h>
 
+
+void	make_effect(char *file_name);
 
 /*
 	* Text Colors
@@ -80,8 +83,8 @@
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH (1280)
-# define WIN_HEIGHT (920)
+# define WIN_WIDTH 1300
+# define WIN_HEIGHT 920
 
 /*
 	* ATTRIBUTES
@@ -100,7 +103,7 @@ typedef struct s_settings
 # define PLAYER_SPEED 1.8
 # define CAM_SENS 2
 # define FOV 60
-# define MPSIZE 0.15
+# define MPSIZE 0.12
 
 /*
 	* ENUMS
@@ -173,6 +176,8 @@ typedef struct s_ray
 	bool		face_right;
 	short		side;
 	bool		hit_wall;
+	bool		hit_door_h;
+	bool		hit_door_v;
 	bool		hit_door;
 }	t_ray;
 
@@ -238,15 +243,17 @@ typedef struct s_mouse
 {
 	bool	to_left;
 	bool	to_right;
-	// bool	to_top;
-	// bool	to_down;
+	bool	to_up;
+	bool	to_down;
 	bool	center_mouse;
 	double	cam_sens;
+	double	cam_sens_v;
 }	t_mouse;
 
 typedef struct s_menu
 {
 	t_image		logo;
+	t_image		bg;
 	t_image		s_new_game;
 	t_image		us_new_game;
 	t_image		s_exit;
@@ -258,6 +265,12 @@ typedef struct s_menu
 	t_image		us_music;
 	t_image		hint;
 }	t_menu;
+
+typedef struct s_child
+{
+	pid_t	pid;
+	int		*ret_val;
+}	t_child;
 
 typedef struct s_data
 {
@@ -285,10 +298,24 @@ typedef struct s_data
 	t_mouse			mouse;
 	t_select		select_item;
 	t_menu			menu;
-	pid_t			child;
+	t_child			child;
 	t_vector		mouse_pos_new;
 	t_vector		mouse_pos;
 	bool			music;
+	pthread_t		thread;
+	int				start;
+	bool			Switch;
+	int				door_framemv;
+	bool			player_looking_at_door;
+	int				door_open;
+	t_vector		door_pos;
+	bool			looking_door;
+	int				b;
+	bool			walking;
+	int				up_down;
+	int				jump;
+	bool			jumping;
+	int				time;
 }	t_data;
 
 typedef struct s_wall_text
@@ -374,13 +401,13 @@ void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
 int		check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
-void	send_ray(t_ray *ray, double ray_angle);
+void	send_ray(t_ray *ray);
 t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
 t_ray	send_virtical_ray(float ray_angle, t_size screen_size);
-float	get_distence(float angle, t_vector2 end);
-void	set_distence(t_ray *ray);
+float	get_distance(float angle, t_vector2 end);
+void	set_distance(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
-void	set_ray_side(t_ray *ray, float angle);
+void	set_ray_side(t_ray *ray);
 void	handle_selected_item(int key);
 void	destroy_this(void *img_ptr);
 int		show_menu();
@@ -400,6 +427,7 @@ void	destroy_images(t_menu *menu);
 	* PLAY_BACK
 */
 void	play_music(void);
+void	play_effect(char *file_name);
 
 /*
 	* MATH

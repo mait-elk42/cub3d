@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/23 11:00:36 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/25 14:58:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,9 @@ static int	cast_the_ray(t_vector2 step, t_size screen, t_ray *ray)
 
 t_ray	send_horizontal_ray(float ray_angle, t_size screen_size)
 {
-	t_data		*data;
 	t_ray		ray;
 	t_vector2	step;
 
-	data = data_hook(NULL);
 	ray.angle = ray_angle;
 	ray.hit_wall = false;
 	set_ray_side (&ray, ray_angle);

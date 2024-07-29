@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/29 09:33:23 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:38:08 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ t_ray	send_virtical_ray(float ray_angle, t_size screen_size)
 	t_ray		ray;
 	t_vector2	step;
 
+	ray.hit_wall = false;
+	ray.side = VERTICAL;
 	ft_bzero(&ray, sizeof(t_ray));
 	ray.angle = ray_angle;
 	ray.side = VERTICAL;
-	set_ray_side (&ray, ray_angle);
+	set_ray_side (&ray);
 	step.x = TILE_SIZE;
 	if (ray.face_left)
 		step.x *= -1;

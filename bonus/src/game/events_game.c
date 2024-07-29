@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/29 11:39:19 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/29 19:10:55 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ev_key_up(int keycode, t_data *data)
 {
+	if (keycode == KEY_W || keycode == KEY_S)
+		data->walking = false;
 	if (data->game_started == true)
 	{
 		if (keycode == KEY_W)
@@ -72,15 +74,18 @@ int	ev_key_down(int keycode, t_data *data)
 		data->mouse.center_mouse = false;
 		mlx_mouse_show();
 	}
-	// if (keycode == KEY_SPACE && data->looking_door)
-	// {
-	// 	// data->door_open = (data->door_open == false);
-	// 	data->map[data->door_pos.y][data->door_pos.x] = 'd' - (32 * (data->map[data->door_pos.y][data->door_pos.x] != 'D'));
-	// }
-	if (keycode == KEY_SPACE)
+	// printf("%d\n", keycode);
+	if (keycode == 14) // e key
 		door(data);
 	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_RETURN)
 		handle_selected_item(keycode);
+	if (keycode == KEY_W || keycode == KEY_S)
+		data->walking = true;
+	if (keycode == KEY_SPACE && data->time == 0)
+	{
+		data->jumping = true;
+		data->time++;
+	}
 	if (data->game_started == true)
 	{
 		if (keycode == KEY_W)

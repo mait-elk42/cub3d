@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/24 17:18:43 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:18:26 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_select_event(t_data *data)
 	int		selected_item;
 
 	selected_item = data->select_item.item;
-	printf ("%d\n", selected_item);
+	// printf ("%d\n", selected_item);
 	if (data->game_started == true)
 		return ;
 	if (selected_item == 0 || selected_item == 1)
@@ -25,6 +25,7 @@ void	handle_select_event(t_data *data)
 		data->game_started = true;
 		data->mouse.center_mouse = true;
 		data->mouse.cam_sens = 0;
+		data->start++;
 		mlx_mouse_hide();
 	}
 	if (data->select_item.item == 0)
@@ -36,7 +37,7 @@ void	handle_select_event(t_data *data)
 		if (data->music == true)
 		{
 			data->music = false;
-			kill (data->background_music, SIGHUP);
+			kill (data->background_music, SIGUSR2);
 		}
 		else if (data->music == false)
 		{
@@ -46,13 +47,15 @@ void	handle_select_event(t_data *data)
 	}
 	if (data->select_item.item == 3)
 	{
-		kill (data->background_music, SIGHUP);
+		kill (data->background_music, SIGUSR1);
 		safe_exit(0);
 	}
 }
 
 void	handle_key_up(t_data *data)
 {
+	if (data->start == 0 && data->select_item.item == 2)
+		data->select_item.item--;
 	if (data->game_started == true)
 		return ;
 	if (data->select_item.item == 0)
@@ -62,6 +65,8 @@ void	handle_key_up(t_data *data)
 
 void	handle_key_down(t_data *data)
 {
+	if (data->start == 0 && data->select_item.item == 0)
+		data->select_item.item++;
 	if (data->game_started == true)
 		return ;
 	if (data->select_item.item == 3)
@@ -76,6 +81,8 @@ void	handle_selected_item(int key)
 	data = data_hook(NULL);
 	if (key == KEY_RETURN)
 		handle_select_event(data);
+	if (key == KEY_UP || key == KEY_DOWN)
+		make_effect("assets/sounds/nav_effect.mp3");
 	if (key == KEY_UP)
 		handle_key_up(data);
 	if (key == KEY_DOWN)

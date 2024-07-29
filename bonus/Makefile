@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
+#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/27 16:26:42 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/07/29 13:19:08 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC= src/utils.c src/print.c src/initialization.c \
 	src/map_utils/draw_map.c \
 	src/walls_paint/texture_instractions.c \
 	src/menu/menu.c src/menu/menu_events.c \
-	src/playback/play_back.c \
+	src/playback/play_back.c src/playback/sound_effect.c\
 	src/raycast/send_ray.c src/raycast/send_horizontal.c src/raycast/send_vertical.c src/raycast/utils.c 
 
 OBJ= $(SRC:.c=.o)
