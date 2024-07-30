@@ -6,20 +6,19 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/30 17:16:25 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/07/30 18:18:58 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ERROR_FLAGS = -Wextra -Werror -Wall #-Imlx/ -Lmlx/
 CC= cc
 CFLAGS=  -I include -I libft #-fsanitize=address -g
-SRC= src/utils.c src/print.c src/initialization.c \
+SRC= src/utils.c src/print.c src/initialization.c src/door.c \
 	src/map_check/map_parse.c src/map_check/check_map.c src/map_check/check_colors.c \
 	src/io_operators/append2d.c src/strings.c \
 	src/errors_handling/errors_args.c src/errors_handling/put_error.c \
 	src/io_operators/safe_str1.c src/io_operators/safe_str2.c \
 	src/images/t_image_instractions.c \
-	src/splash_screen/show_splash.c \
 	src/math/angle.c src/math/utils.c \
 	src/game/init_player.c src/game/run_game.c src/game/events_game.c src/game/utils_game.c \
 	src/map_utils/draw_map.c \

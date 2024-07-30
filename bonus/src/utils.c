@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 14:56:34 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:19:09 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_data	*data_hook(t_data *data)
 	return (save_data);
 }
 
-void	destroy_textures()
+void	destroy_textures(void)
 {
 	t_data			*data;
 	t_scene_info	scene;
@@ -74,13 +74,6 @@ void	set_screen_size(void)
 		size.height++;
 	}
 	data->screen = size;
-}
-
-void	logger(char *msg)
-{
-	print(1, COLOR_BLUE"LOG : ", 0);
-	print(1, msg, 1);
-	print(1, COLOR_RESET, 0);
 }
 
 long	get_time(void)

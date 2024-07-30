@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 15:30:32 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:20:22 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,4 @@ void	init_player(t_data *data)
 	data->player.hand_frames[2] = t_image_loadfromxpm("textures/weapon/2.xpm");
 	data->player.hand_frames[3] = t_image_loadfromxpm("textures/weapon/3.xpm");
 	data->player.hand_frames[4] = t_image_loadfromxpm("textures/weapon/4.xpm");
-
 }

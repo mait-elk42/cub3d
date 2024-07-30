@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 16:23:50 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:21:54 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	get_cf_color(t_data *data)
 	data->ceiling = (crgb.r << 16 | crgb.g << 8 | crgb.b);
 	data->floor = (frgb.r << 16 | frgb.g << 8 | frgb.b);
 }
-void	normalize_sensibility()
+
+void	normalize_sensibility(void)
 {
 	t_data	*data;
 
@@ -67,7 +68,7 @@ void	normalize_sensibility()
 		data->mouse.cam_sens_v = 0;
 }
 
-void	put_weapon()
+void	put_weapon(void)
 {
 	t_data		*data;
 	t_image		wpn;
@@ -79,8 +80,8 @@ void	put_weapon()
 	wpn = data->player.hand_frames[i];
 	p.x = ((WIN_WIDTH / 2) + wpn.width * 0.3) + data->player.real_head;
 	p.y = ((WIN_HEIGHT / 2) + wpn.height * 0.1) + data->player.real_head;
-	mlx_put_image_to_window(data->mlx.mlx_ptr, 
-			data->mlx.window_ptr, wpn.img_ptr, p.x, p.y);
+	mlx_put_image_to_window(data->mlx.mlx_ptr,
+		data->mlx.window_ptr, wpn.img_ptr, p.x, p.y);
 	if (time == 2)
 	{
 		i++;
@@ -160,7 +161,7 @@ int	game_loop(t_data *data)
 	return (0);
 }
 
-void	norm_angle()
+void	norm_angle(void)
 {
 	if (data_hook(NULL)->player.angle > 360)
 		data_hook(NULL)->player.angle -= 360;
@@ -202,9 +203,8 @@ int	mouse_event(int x, int y, void *param)
 	data->mouse.cam_sens_v = fabs((height_half - y) * 0.03);
 	if (data->mouse.center_mouse)
 		mlx_mouse_move(data->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2); 
-	return 0;
+	return (0);
 }
-
 
 void	run_game(t_data *data)
 {
@@ -223,6 +223,9 @@ void	run_game(t_data *data)
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
 	data->texture_door = t_image_loadfromxpm("textures/door.xpm");
 	data->skybox1 = t_image_loadfromxpm("textures/skybox/1.xpm");
+	data->select_item.new_game_selected = true;
+	data->select_item.cont_ignored = true;
+	data->music = true;
 	load_menu_images(&data->menu);
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
