@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 18:15:32 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:37:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_vector2	send_horizontal(t_ray *ray)
 	int			width;
 	int			height;
 
-	width =  (int) data_hook(NULL)->screen.width* 32;
-	height =  (int) data_hook(NULL)->screen.height * 32;
+	width = (int) data_hook(NULL)->screen.width * 32;
+	height = (int) data_hook(NULL)->screen.height * 32;
 	step = get_step(*ray, HORIZONTAL);
 	start = get_intercept_h(*ray);
 	while (start.x > 0 && start.x < width && start.y > 0 && start.y < height)

@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:21:54 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:17:13 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	game_loop(t_data *data)
 	t_image_clear_color(&data->scene_layer, 0xffffffff);
 	t_image_clear_color(&data->minimap_layer, 0xffffffff);
 	if (data->game_started == false)
-		return (show_menu());
+		return (show_menu(), 1);
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
 	i = 0;

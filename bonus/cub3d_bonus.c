@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:22:41 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:16:08 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	leaks()
 
 int	main(int ac, char **av)
 {
-	atexit(leaks);
+	// atexit(leaks);
 	t_data	data;
 
 	data_init(&data, ac, av);

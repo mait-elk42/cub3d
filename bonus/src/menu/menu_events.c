@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 16:24:13 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:36:59 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,28 @@
 
 void	handle_select_event(t_data *data)
 {
-	int		selected_item;
+	int	selected_item;
 
 	selected_item = data->select_item.item;
-	// printf ("%d\n", selected_item);
 	if (data->game_started == true)
 		return ;
 	if (selected_item == 0 || selected_item == 1)
-	{
-		data->game_started = true;
-		data->mouse.center_mouse = true;
-		data->mouse.cam_sens_h = 0;
-		data->start++;
-		mlx_mouse_hide();
-	}
-	if (data->select_item.item == 0 )
-	{
-		data->player.position.x = (data->p_data.player_pos.x * 32) + (32 / 2);
-		data->player.position.y = (data->p_data.player_pos.y * 32) + (32 / 2);
-		data->player.angle = data->p_data.player_angle;
-		// restart the game
-	}
+		hide_menu();
+	if (data->select_item.item == 0)
+		rest_player();
 	if (data->select_item.item == 2)
 	{
 		if (data->music == true)
-		{
-			data->music = false;
 			if (data->background_music != 0)
 				kill (data->background_music, SIGUSR2);
-		}
-		else if (data->music == false)
-		{
-			data->music = true;
+		if (data->music == false)
 			play_music();
-		}
+		data->music = data->music == false;
 	}
 	if (data->select_item.item == 3)
 	{
 		if (data->background_music != 0)
-			kill (data->background_music, SIGUSR1);
+			kill (data->background_music, SIGUSR2);
 		safe_exit(0);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:40:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 14:49:29 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:17:57 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	play_music(void)
 	char	*pn;
 
 	data = data_hook(NULL);
-	return ;
 	data->background_music = fork();
 	pn = "afplay";
 	if (data->background_music == 0)

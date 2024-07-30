@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:20:15 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:35:49 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,7 +409,7 @@ void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray);
 void	handle_selected_item(int key);
 void	destroy_this(void *img_ptr);
-int		show_menu(void);
+void	show_menu(void);
 void	handle_door(t_data *data, int keycode);
 
 /*
@@ -455,5 +455,14 @@ void	put_player_shape(double size);
 	* SPLASH SCREEN
 */
 void	splash_screen(t_data *data);
+
+/*
+	* MENU
+*/
+
+void	hide_menu(void);
+void	rest_player(void);
+void	put_to_win(int posx, int pox_y, t_image image);
+void	background_scale(t_data	*data, t_image	image);
 
 #endif
