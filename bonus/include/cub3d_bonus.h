@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:12:25 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:20:15 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,13 @@ void	make_effect(char *file_name);
 /*
 	* ATTRIBUTES
 */
-# define WIN_WIDTH 1300
+# define WIN_WIDTH 1440
 # define WIN_HEIGHT 920
 # define TILE_SIZE 32
 # define PLAYER_SPEED 1.8
 # define CAM_SENS 2
 # define FOV 60
-# define MPSIZE 0.12
+# define MPSIZE 0.13
 
 typedef struct s_settings
 {
@@ -98,6 +98,7 @@ typedef struct s_settings
 	double	camera_sensibility;
 	double	fov;
 }	t_settings;
+
 
 /*
 	* ENUMS
@@ -239,7 +240,7 @@ typedef struct s_mouse
 	bool	to_up;
 	bool	to_down;
 	bool	center_mouse;
-	double	cam_sens;
+	double	cam_sens_h;
 	double	cam_sens_v;
 }	t_mouse;
 
@@ -258,6 +259,13 @@ typedef struct s_menu
 	t_image		us_music;
 	t_image		hint;
 }	t_menu;
+
+typedef struct s_player_data
+{
+	t_vector	player_pos;
+	float		player_angle;
+}	t_player_data;
+
 
 typedef struct s_child
 {
@@ -297,10 +305,17 @@ typedef struct s_data
 	bool			music;
 	pthread_t		thread;
 	int				start;
+	int				door_framemv;
+	bool			player_looking_at_door;
+	int				door_open;
+	t_vector		door_pos;
+	bool			looking_door;
 	int				up_down;
 	int				jump;
 	bool			jumping;
-	int				time;
+	int				one_jump;
+	t_player_data	p_data;
+	t_image			skybox1;
 }	t_data;
 
 typedef struct s_wall_text
@@ -386,10 +401,10 @@ void	put_wall(t_data *data, int i, t_ray *ray);
 int		check_hit(t_vector2 coords,
 			t_ray *ray, t_vector2 *point, t_vector2 step);
 void	send_ray(t_ray *ray);
-t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
-t_ray	send_virtical_ray(float ray_angle, t_size screen_size);
-float	get_distance(float angle, t_vector2 end);
-void	set_distance(t_ray *ray);
+float		get_distance(float angle, t_vector2 end);
+t_vector2	get_step(t_ray ray, int type);
+t_vector2	get_intercept_v(t_ray ray);
+t_vector2	get_intercept_h(t_ray ray);
 void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray);
 void	handle_selected_item(int key);
@@ -405,7 +420,7 @@ void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
 void	t_image_clear_color(t_image *imgptr, int color);
 t_image	t_image_loadfromxpm(char *filename);
 void	load_menu_images(t_menu *menu);
-void	destroy_images(t_menu *menu);
+void	destroy_menu(t_menu *menu);
 
 /*
 	* PLAY_BACK

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 17:50:01 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:24:49 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int	ev_key_down(int keycode, t_data *data)
 	handle_door(data, keycode);
 	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_RETURN)
 		handle_selected_item(keycode);
-	if (keycode == KEY_SPACE && data->time == 0)
+	if (keycode == KEY_SPACE && data->one_jump == 0)
 	{
 		data->jumping = true;
-		data->time++;
+		data->one_jump++;
 	}
 	if (data->game_started == true)
 		key_edit(data, keycode, true);

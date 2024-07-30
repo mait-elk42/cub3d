@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 17:55:02 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:21:54 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ void	normalize_sensibility(void)
 	t_data	*data;
 
 	data = data_hook(NULL);
-	if (data->mouse.cam_sens > 0.0)
-		data->mouse.cam_sens -= 0.5;
-	if (data->mouse.cam_sens > 5.0)
-		data->mouse.cam_sens -= 0.8;
-	if (data->mouse.cam_sens <= 0.0)
-		data->mouse.cam_sens = 0;
+	if (data->mouse.cam_sens_h > 0.0)
+		data->mouse.cam_sens_h -= 0.5;
+	if (data->mouse.cam_sens_h > 5.0)
+		data->mouse.cam_sens_h -= 0.8;
+	if (data->mouse.cam_sens_h <= 0.0)
+		data->mouse.cam_sens_h = 0;
+
 	if (data->mouse.cam_sens_v > 0.0)
 		data->mouse.cam_sens_v -= 0.5;
 	if (data->mouse.cam_sens_v > 5.0)
@@ -69,11 +70,11 @@ void	normalize_sensibility(void)
 
 void	put_weapon(void)
 {
-	t_data			*data;
-	t_image			wpn;
-	t_vector2		p;
-	static int		time;
-	static int		i;
+	t_data		*data;
+	t_image		wpn;
+	t_vector2	p;
+	static int	time;
+	static int	i;
 
 	data = data_hook(NULL);
 	wpn = data->player.hand_frames[i];
@@ -91,11 +92,45 @@ void	put_weapon(void)
 	time++;
 }
 
+
+void	player_effects()
+{
+	t_data	*data;
+
+	data = data_hook(NULL);
+	if (data->jumping)
+	{
+		if (data->jump != 21)
+			data->jump += 3;
+		if (data->jump == 21)
+			data->jumping = false;
+	}
+	if (data->jumping == false)
+	{
+		if (data->jump != 0)
+			data->jump -= 3;
+		if (data->jump == 0)
+			data->one_jump = 0;
+	}
+	if (data->player.is_walking)
+	{
+		if (data->player.head_angle > 360)
+			data->player.head_angle = 0;
+		data->player.head_angle += 20;
+		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 10;
+	}
+}
+
+void	put_scene()
+{
+
+}
+
 int	game_loop(t_data *data)
 {
-	t_ray		ray;
-	float		angle;
-	int			i;
+	t_ray	ray;
+	float	angle;
+	int		i;
 
 	get_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
@@ -107,13 +142,6 @@ int	game_loop(t_data *data)
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
 	i = 0;
-	if (data->player.is_walking)
-	{
-		if (data->player.head_angle > 360)
-			data->player.head_angle = 0;
-		data->player.head_angle += 20;
-		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 10;
-	}
 	while (i < WIN_WIDTH)
 	{
 		ft_bzero(&ray, sizeof(t_ray));
@@ -127,22 +155,9 @@ int	game_loop(t_data *data)
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
-	put_weapon();
 	normalize_sensibility();
-	if (data->jumping)
-	{
-		if (data->jump != 21)
-			data->jump += 3;
-		if (data->jump == 21)
-			data->jumping = false;
-	}
-	if (data->jumping == false)
-	{
-		if (data->jump != 0)
-			data->jump -= 3;
-		if (data->jump == 0)
-			data->time = 0;
-	}
+	put_weapon();
+	player_effects();
 	return (0);
 }
 
@@ -184,7 +199,7 @@ int	mouse_event(int x, int y, void *param)
 		data->mouse.to_right = false;
 		data->mouse.to_left = true;
 	}
-	data->mouse.cam_sens = fabs((width_half - x) * 0.02);
+	data->mouse.cam_sens_h = fabs((width_half - x) * 0.02);
 	data->mouse.cam_sens_v = fabs((height_half - y) * 0.03);
 	if (data->mouse.center_mouse)
 		mlx_mouse_move(data->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2); 
@@ -194,19 +209,20 @@ int	mouse_event(int x, int y, void *param)
 void	run_game(t_data *data)
 {
 	t_vector	map_size;
+	int			def;
 
+	def = 0xffffffff;
 	map_size.x = data->scene_info.map_width * TILE_SIZE;
 	map_size.y = data->scene_info.map_height * TILE_SIZE;
-	data->scene_layer = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
-	data->minimap_layer = t_image_create (
-			WIN_WIDTH * MPSIZE,
-			WIN_WIDTH * MPSIZE, 0xffffffff);
+	data->scene_layer = t_image_create(WIN_WIDTH, WIN_HEIGHT, def);
+	data->minimap_layer = t_image_create (WIN_WIDTH * MPSIZE, WIN_WIDTH * MPSIZE, def);
 	init_player(data);
 	data->texture_ea = t_image_loadfromxpm(data->scene_info.east_texture);
 	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);
 	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
 	data->texture_door = t_image_loadfromxpm("textures/door.xpm");
+	data->skybox1 = t_image_loadfromxpm("textures/skybox/1.xpm");
 	data->select_item.new_game_selected = true;
 	data->select_item.cont_ignored = true;
 	data->music = true;

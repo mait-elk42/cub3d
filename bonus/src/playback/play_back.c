@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:40:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/29 15:43:11 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:49:29 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	track_parent(void)
 	child = fork();
 	if (child == 0)
 	{
-		while (kill (getppid(), SIGUSR1) == 0)
+		while (getppid() > 0 && kill (getppid(), SIGUSR1) == 0)
 			;
 		// 	printf("sending...\n");
 		// printf("exiting\n");
@@ -50,6 +50,7 @@ void	play_music(void)
 	char	*pn;
 
 	data = data_hook(NULL);
+	return ;
 	data->background_music = fork();
 	pn = "afplay";
 	if (data->background_music == 0)
@@ -63,7 +64,7 @@ void	play_music(void)
 			if (data->child.pid == 0)
 			{
 				execvp(pn, (char *[]){pn, "assets/sounds/main_menu4.mp3", NULL});
-				exit (1);
+				safe_exit(1);
 			}
 			waitpid(data->child.pid, NULL, 0);
 		}

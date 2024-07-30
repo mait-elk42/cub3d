@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 12:38:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:23:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ void	destroy_this(void *img_ptr)
 		mlx_destroy_image(mlx_ptr, img_ptr);
 }
 
-void	destroy_images(t_menu *menu)
+void	destroy_menu(t_menu *menu)
 {
+	t_data	*data;
+	int		i;
+
+	data = data_hook(NULL);
 	destroy_this(menu->logo.img_ptr);
 	destroy_this(menu->bg.img_ptr);
 	destroy_this(menu->hint.img_ptr);
@@ -35,12 +39,13 @@ void	destroy_images(t_menu *menu)
 	destroy_this(menu->us_exit.img_ptr);
 	destroy_this(menu->s_music.img_ptr);
 	destroy_this(menu->us_music.img_ptr);
+	while (i < 5)
+		destroy_this(data->player.hand_frames[i++].img_ptr);
 }
 
 void	load_menu_images(t_menu *menu)
 {
 	menu->logo = t_image_loadfromxpm("textures/cub_logo.xpm");
-	// menu->bg = t_image_loadfromxpm("textures/background_menu.xpm");
 	menu->bg = t_image_loadfromxpm("textures/bg.xpm");
 	menu->hint = t_image_loadfromxpm("textures/enter_to_select.xpm");
 	menu->s_new_game = t_image_loadfromxpm("textures/new_game_selected.xpm");
@@ -52,6 +57,9 @@ void	load_menu_images(t_menu *menu)
 	menu->us_exit = t_image_loadfromxpm("textures/exit_unselected.xpm");
 	menu->s_music = t_image_loadfromxpm("textures/music_selected.xpm");
 	menu->us_music = t_image_loadfromxpm("textures/music_unselected.xpm");
+	data_hook(NULL)->select_item.new_game_selected = true;
+	data_hook(NULL)->select_item.cont_ignored = true;
+	data_hook(NULL)->music = true;
 }
 
 void	put_to_win(int posx, int pox_y, t_image image)

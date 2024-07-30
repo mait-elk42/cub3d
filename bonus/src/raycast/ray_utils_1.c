@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   ray_utils_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 18:15:26 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:22:36 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,6 @@ float	get_distance(float angle, t_vector2 end)
 	distance = sqrt(pow(end.x - plyrpos.x, 2) + pow(end.y - plyrpos.y, 2));
 	distance *= cos(deg_to_rad(angle_in_deg - player.angle));
 	return (distance);
-}
-
-void	set_distance(t_ray *ray)
-{
-	t_data		*data;
-
-	data = data_hook(NULL);
-	if (ray->hit_wall == true)
-	{
-		ray->distance = get_distance(ray->angle, ray->intercept);
-		return ;
-	}
-	ray->distance = INT_MAX;
-	return ;
 }
 
 void	set_ray_side(t_ray *ray)

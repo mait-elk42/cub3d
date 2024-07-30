@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 17:12:48 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:22:41 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,14 @@ void	check_leaks(int i)
 	}
 }
 
+void	leaks()
+{
+	system("leaks cub3d_bonus");
+}
+
 int	main(int ac, char **av)
 {
+	atexit(leaks);
 	t_data	data;
 
 	data_init(&data, ac, av);

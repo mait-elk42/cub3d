@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_game.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 15:01:11 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:28:09 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,9 @@ void	handle_input(t_data *data, float radi)
 	data->player.angle += (data->key_pressed.right) * CAM_SENS;
 	data->player.angle -= (data->key_pressed.left) * CAM_SENS;
 	if (data->mouse.to_right)
-		data->player.angle += data->mouse.cam_sens;
+		data->player.angle += data->mouse.cam_sens_h;
 	if (data->mouse.to_left)
-		data->player.angle -= data->mouse.cam_sens;
+		data->player.angle -= data->mouse.cam_sens_h;
 	data->up_down += data->mouse.cam_sens_v * 10 * (data->mouse.to_up);
 	data->up_down += CAM_SENS * 10 * (data->key_pressed.up);
 	data->up_down -= data->mouse.cam_sens_v * 10 * (data->mouse.to_down);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu_events.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 10:52:23 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:24:13 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,15 @@ void	handle_select_event(t_data *data)
 	{
 		data->game_started = true;
 		data->mouse.center_mouse = true;
-		data->mouse.cam_sens = 0;
+		data->mouse.cam_sens_h = 0;
 		data->start++;
 		mlx_mouse_hide();
 	}
-	if (data->select_item.item == 0)
+	if (data->select_item.item == 0 )
 	{
+		data->player.position.x = (data->p_data.player_pos.x * 32) + (32 / 2);
+		data->player.position.y = (data->p_data.player_pos.y * 32) + (32 / 2);
+		data->player.angle = data->p_data.player_angle;
 		// restart the game
 	}
 	if (data->select_item.item == 2)
@@ -37,7 +40,8 @@ void	handle_select_event(t_data *data)
 		if (data->music == true)
 		{
 			data->music = false;
-			kill (data->background_music, SIGUSR2);
+			if (data->background_music != 0)
+				kill (data->background_music, SIGUSR2);
 		}
 		else if (data->music == false)
 		{
@@ -47,7 +51,8 @@ void	handle_select_event(t_data *data)
 	}
 	if (data->select_item.item == 3)
 	{
-		kill (data->background_music, SIGUSR1);
+		if (data->background_music != 0)
+			kill (data->background_music, SIGUSR1);
 		safe_exit(0);
 	}
 }
@@ -81,7 +86,7 @@ void	handle_selected_item(int key)
 	data = data_hook(NULL);
 	if (key == KEY_RETURN)
 		handle_select_event(data);
-	if (key == KEY_UP || key == KEY_DOWN)
+	if ((key == KEY_UP || key == KEY_DOWN) && data->game_started == false)
 		make_effect("assets/sounds/nav_effect.mp3");
 	if (key == KEY_UP)
 		handle_key_up(data);

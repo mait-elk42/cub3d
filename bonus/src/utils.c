@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 17:12:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:19:09 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	safe_exit(int status)
 	t_data	*data;
 
 	data = data_hook(NULL);
+	destroy_menu(&data->menu);
 	free_tab(data->lines);
 	data->lines = NULL;
 	ft_bzero(&data->scene_info, sizeof(t_scene_info));
