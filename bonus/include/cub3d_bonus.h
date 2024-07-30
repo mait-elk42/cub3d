@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 19:06:31 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:47:44 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,7 +409,7 @@ void		set_directions(t_ray *ray, int ray_type);
 void		set_ray_side(t_ray *ray);
 void		handle_selected_item(int key);
 void		destroy_this(void *img_ptr);
-int			show_menu(void);
+void		show_menu(void);
 void		handle_door(t_data *data, int keycode);
 void		player_effects(void);
 void		put_weapon(void);
@@ -452,5 +452,14 @@ int			ev_mouse_moved(int x, int y, void *data);
 void		draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
 void		handle_input(t_data *data, float radi);
 void		put_player_shape(double size);
+
+/*
+	* MENU
+*/
+
+void	hide_menu(void);
+void	rest_player(void);
+void	put_to_win(int posx, int pox_y, t_image image);
+void	background_scale(t_data	*data, t_image	image);
 
 #endif

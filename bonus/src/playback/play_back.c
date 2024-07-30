@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:40:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 18:41:20 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:48:12 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	play_music(void)
 	char	*pn;
 
 	data = data_hook(NULL);
-	return ;
 	data->background_music = fork();
 	pn = "afplay";
 	if (data->background_music == 0)

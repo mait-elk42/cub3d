@@ -6,7 +6,7 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/30 19:03:55 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/07/30 19:44:30 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC= src/utils.c src/print.c src/initialization.c src/door.c \
 	src/game/init_player.c src/game/run_game.c src/game/events_game.c src/game/utils_game.c src/game/player_env.c \
 	src/map_utils/draw_map.c \
 	src/walls_paint/texture_instractions.c \
-	src/menu/menu.c src/menu/menu_events.c \
+	src/menu/menu.c src/menu/menu_events.c src/menu/menu_utils.c \
 	src/playback/play_back.c src/playback/sound_effect.c\
 	src/raycast/send_ray.c src/raycast/ray_utils_1.c src/raycast/ray_utils_2.c
 

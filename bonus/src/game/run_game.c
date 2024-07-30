@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 19:41:49 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:45:33 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	game_loop(t_data *data)
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
-		return (show_menu());
+		return (show_menu(), 1);
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
 	i = 0;
