@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/29 19:02:43 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:07:55 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
-	t_vector2	walking_dir;
+	// t_vector2	walking_dir;
 	float		real_head;
 	float		head_angle;
 	bool		is_walking;
@@ -304,18 +304,12 @@ typedef struct s_data
 	bool			music;
 	pthread_t		thread;
 	int				start;
-	bool			Switch;
-	int				door_framemv;
-	bool			player_looking_at_door;
-	int				door_open;
-	t_vector		door_pos;
-	bool			looking_door;
-	int				b;
-	bool			walking;
 	int				up_down;
 	int				jump;
 	bool			jumping;
 	int				time;
+
+	t_image			skybox1;
 }	t_data;
 
 typedef struct s_wall_text

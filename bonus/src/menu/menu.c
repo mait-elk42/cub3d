@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/27 11:46:32 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:38:33 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	destroy_images(t_menu *menu)
 void	load_menu_images(t_menu *menu)
 {
 	menu->logo = t_image_loadfromxpm("textures/cub_logo.xpm");
-	menu->bg = t_image_loadfromxpm("textures/background_menu.xpm");
+	// menu->bg = t_image_loadfromxpm("textures/background_menu.xpm");
+	menu->bg = t_image_loadfromxpm("textures/bg.xpm");
 	menu->hint = t_image_loadfromxpm("textures/enter_to_select.xpm");
 	menu->s_new_game = t_image_loadfromxpm("textures/new_game_selected.xpm");
 	menu->us_new_game = t_image_loadfromxpm("textures/new_game_unselected.xpm");
@@ -65,6 +66,47 @@ void	put_to_win(int posx, int pox_y, t_image image)
 	mlx_put_image_to_window(mlx_ptr, mlx_win, image.img_ptr, posx, pox_y);
 }
 
+void	test(t_data	*data, t_image	image)
+{
+	static int		x;
+	static int		y;
+	float	stepx;
+	float	stepy;
+	int		posx;
+	int		posy;
+
+	stepx = (float)image.width / WIN_WIDTH;
+	stepy = (float)image.height / WIN_HEIGHT;
+	y = 0;
+	while (y < WIN_HEIGHT)
+	{
+		x = 0;
+		while (x < WIN_WIDTH)
+		{
+			posx = (int)(x * stepx) % image.width;
+			posy = (int)(y * stepy) % image.height;
+			t_image_update_pixel(&data->scene_layer, x, y, image.buffer[posy * image.width + posx]);
+			x++;
+		}
+		y++;
+	}
+	// float		a = 0;
+	// int		y = WIN_HEIGHT;
+	// while (y > WIN_HEIGHT / 2)
+	// {
+	// 	int		x = a;
+	// 	while (x < WIN_WIDTH - a)
+	// 	{
+	// 		if (y % 30 == 0 || x % 30 == 0)
+	// 			t_image_update_pixel(&data->scene_layer, x, y, 0xff0000);
+	// 		x++;
+	// 	}
+	// 	y--;
+	// 	a++;
+	// }
+	put_to_win(0, 0, data->scene_layer);
+}
+
 void	set_defaults(t_menu menu)
 {
 	static char	n = 0;
@@ -74,7 +116,8 @@ void	set_defaults(t_menu menu)
 
 	data = data_hook(NULL);
 	width_half = WIN_WIDTH / 2;
-	put_to_win(0, 0, menu.bg);
+	// put_to_win(0, 0, menu.bg);
+	test(data, menu.bg);
 	put_to_win(width_half - 240, (WIN_HEIGHT / 2) - 350, menu.logo);
 	if (Switch)
 		put_to_win((WIN_WIDTH / 2)- 140, (WIN_HEIGHT - 80), menu.hint);

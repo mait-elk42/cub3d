@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/29 19:25:38 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:08:04 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	put_bgd(t_image *image, int ceil_color, int floor_color)
 			t_image_update_pixel(image, i.x, i.y, color);
 			i.x++;
 		}
-		if (i.y == (image->height / 2) + data->up_down + (data->jump * 8))
+		if (i.y == (image->height / 2) )
 			color = floor_color;
 		i.y++;
 	}
@@ -71,20 +71,27 @@ t_image	wall_side(t_ray *ray, float *xunit)
 void	put_wall(t_data *data, int i, t_ray *ray)
 {
 	t_wall_text	w;
+	int			ii;
 
-	// if (ray->hit_door)
-	// 	return ;
 	w.wallheight = (WIN_HEIGHT / ray->distance) * 40;
-	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2) + (data->b * data->walking) + (data->up_down) + data->jump * 8;
+	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2);
 	w.btm = w.top + w.wallheight;
 	w.t = wall_side(ray, &w.xunit);
 	w.t_offset.x = floor(w.xunit * w.t.width);
 	if (ray->direction == SOUTH || ray->direction == WEST)
 		w.t_offset.x = w.t.width - (int)(w.xunit * w.t.width);
-	w.top += data->player.real_head;
-	w.btm += data->player.real_head;
+	w.top += data->player.real_head + (data->up_down) + data->jump * 8;
+	w.btm += data->player.real_head + (data->up_down) + data->jump * 8;
 	w.y = imax(0, w.top);
 	w.btm = imin(WIN_HEIGHT, w.btm);
+	ii = 0;
+	while (ii < w.top)
+	{
+		// if ((int)((data->player.position.x * data->player.position.y) + (ii * i)) % 2 == 0)
+		// 	t_image_update_pixel(&data->scene_layer, i, ii++, 0x000000);
+		// else
+			t_image_update_pixel(&data->scene_layer, i, ii++, data->ceiling);
+	}
 	while (w.y < w.btm)
 	{
 		w.yunit = (float)(w.y - w.top) / w.wallheight;
@@ -94,4 +101,7 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 		t_image_update_pixel(&data->scene_layer, i, w.y, w.color);
 		w.y++;
 	}
+	ii = w.y;
+	while (ii < WIN_HEIGHT)
+		t_image_update_pixel(&data->scene_layer, i, ii++, data->floor);
 }

@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/29 18:37:05 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:38:54 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,25 +99,20 @@ void put_weapon()
 
 int	game_loop(t_data *data)
 {
-	t_ray	ray;
-	float	angle;
-	int		i;
-	static int n = 0;
+	t_ray		ray;
+	float		angle;
+	int			i;
 
-	// if (data->n == 0)
-	// 	data->walking = false;
-	// system("clear");
-	// printf("player looking at door : %s\n", (data->player_looking_at_door) ? "yes" : "no");
 	get_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
+	t_image_clear_color(&data->scene_layer, 0xffffffff);
+	t_image_clear_color(&data->minimap_layer, 0xffffffff);
 	if (data->game_started == false)
 		return (show_menu());
-	// t_image_clear_color(&data->minimap_layer, 0xffffffff);
-	put_bgd(&data->scene_layer, data->ceiling, data->floor);
+	// put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
-	// printf("%d...\n", angle);
 	i = 0;
 	if (data->player.is_walking)
 	{
@@ -126,32 +121,21 @@ int	game_loop(t_data *data)
 		data->player.head_angle+= 20;
 		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 10;
 	}
-	// printf("walking : %f\n", );
 	while (i < WIN_WIDTH)
 	{
 		ft_bzero(&ray, sizeof(t_ray));
 		ray.angle = angle;
 		send_ray(&ray);
-		// printf("%f\n", ray.distance);
 		put_wall(data, i, &ray);
-		// send_ray(&ray, angle);
 		angle += (float) FOV / WIN_WIDTH;
 		i++;
 	}
-	// system("clear");
-	// printf("door : %d\n", data->looking_door);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
 	put_weapon();
 	normalize_sensibility();
-	if (data->Switch == false)
-		data->b += 2;
-	else
-		data->b -= 2;
-	if (data->b == 0 || data->b == 12)
-		data->Switch = data->Switch == false;
 	if (data->jumping)
 	{
 		if (data->jump != 21)
@@ -166,7 +150,6 @@ int	game_loop(t_data *data)
 		if (data->jump == 0)
 			data->time = 0;
 	}
-	printf("[%d]\n", data->jump);
 	return (0);
 }
 
@@ -232,6 +215,7 @@ void	run_game(t_data *data)
 	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
 	data->texture_door = t_image_loadfromxpm("textures/door.xpm");
+	data->skybox1 = t_image_loadfromxpm("textures/skybox/1.xpm");
 	data->select_item.new_game_selected = true;
 	data->select_item.cont_ignored = true;
 	data->music = true;
