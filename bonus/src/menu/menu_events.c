@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu_events.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:13:38 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 16:24:13 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:41:42 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	handle_select_event(t_data *data)
 	int		selected_item;
 
 	selected_item = data->select_item.item;
-	// printf ("%d\n", selected_item);
 	if (data->game_started == true)
 		return ;
 	if (selected_item == 0 || selected_item == 1)
@@ -33,7 +32,6 @@ void	handle_select_event(t_data *data)
 		data->player.position.x = (data->p_data.player_pos.x * 32) + (32 / 2);
 		data->player.position.y = (data->p_data.player_pos.y * 32) + (32 / 2);
 		data->player.angle = data->p_data.player_angle;
-		// restart the game
 	}
 	if (data->select_item.item == 2)
 	{

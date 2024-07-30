@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 16:23:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:43:22 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	put_to_win(int posx, int pox_y, t_image image)
 	mlx_put_image_to_window(mlx_ptr, mlx_win, image.img_ptr, posx, pox_y);
 }
 
-void	test(t_data	*data, t_image	image)
+void	background_scale(t_data	*data, t_image	image)
 {
 	static int		x;
 	static int		y;
@@ -98,20 +98,6 @@ void	test(t_data	*data, t_image	image)
 		}
 		y++;
 	}
-	// float		a = 0;
-	// int		y = WIN_HEIGHT;
-	// while (y > WIN_HEIGHT / 2)
-	// {
-	// 	int		x = a;
-	// 	while (x < WIN_WIDTH - a)
-	// 	{
-	// 		if (y % 30 == 0 || x % 30 == 0)
-	// 			t_image_update_pixel(&data->scene_layer, x, y, 0xff0000);
-	// 		x++;
-	// 	}
-	// 	y--;
-	// 	a++;
-	// }
 	put_to_win(0, 0, data->scene_layer);
 }
 
@@ -124,8 +110,7 @@ void	set_defaults(t_menu menu)
 
 	data = data_hook(NULL);
 	width_half = WIN_WIDTH / 2;
-	// put_to_win(0, 0, menu.bg);
-	test(data, menu.bg);
+	background_scale(data, menu.bg);
 	put_to_win(width_half - 240, (WIN_HEIGHT / 2) - 350, menu.logo);
 	if (Switch)
 		put_to_win((WIN_WIDTH / 2)- 140, (WIN_HEIGHT - 80), menu.hint);

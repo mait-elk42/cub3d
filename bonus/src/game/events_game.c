@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:24:49 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:17:25 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,53 @@ int	ev_key_up(int keycode, t_data *data)
 {
 	if (data->game_started == true)
 		key_edit(data, keycode, false);
+	return (0);
+}
+
+static void	mouse_hv(int x, int y, t_data *d)
+{
+	int			width_half;
+	int			height_half;
+
+	width_half = WIN_WIDTH / 2;
+	height_half = WIN_HEIGHT / 2;
+	if (y < height_half)
+	{
+		d->mouse.to_down = false;
+		d->mouse.to_up = true;
+	}
+	if (y > height_half)
+	{
+		d->mouse.to_down = true;
+		d->mouse.to_up = false;
+	}
+	if (x > width_half)
+	{
+		d->mouse.to_right = true;
+		d->mouse.to_left = false;
+	}
+	if (x < width_half)
+	{
+		d->mouse.to_right = false;
+		d->mouse.to_left = true;
+	}
+}
+
+int	ev_mouse_moved(int x, int y, void *data)
+{
+	t_data		*d;
+	t_vector	mouse_pos;
+	int			width_half;
+	int			height_half;
+
+	d = (t_data *)data;
+	width_half = WIN_WIDTH / 2;
+	height_half = WIN_HEIGHT / 2;
+	mouse_hv(x, y, data);
+	d->mouse.cam_sens_h = fabs((width_half - x) * 0.02);
+	d->mouse.cam_sens_v = fabs((height_half - y) * 0.03);
+	if (d->mouse.center_mouse)
+		mlx_mouse_move(d->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2);
 	return (0);
 }
 

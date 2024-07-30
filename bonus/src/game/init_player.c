@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:20:22 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:49:17 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	init_angle_pos(char **map, t_player *player)
 				map[v.y][v.x] = 'P';
 				player->position.x = (v.x * TILE_SIZE) + (TILE_SIZE / 2);
 				player->position.y = (v.y * TILE_SIZE) + (TILE_SIZE / 2);
-				data_hook(NULL)->p_data.player_pos = (t_vector){v.x, v.y};
+				data_hook(NULL)->p_data.player_pos = v;
 				data_hook(NULL)->p_data.player_angle = player->angle;
 			}
 			v.x++;

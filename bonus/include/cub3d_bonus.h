@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:20:15 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:06:31 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -335,47 +335,47 @@ typedef struct s_wall_text
 /*
 	* GARBAGE COLLECTOR
 */
-t_data	*data_hook(t_data *data);
+t_data		*data_hook(t_data *data);
 
 /*
 	* 	INITIALIZATION
 */
-void	data_init(t_data *data, int ac, char **av);
+void		data_init(t_data *data, int ac, char **av);
 
 /**
  * 	STRINGS
 */
-char	*str_skip(char *str, char *chars_to_skip);
-int		str_equal(char *s1, char *s2);
-char	*str_skip_wsp(char *str);
+char		*str_skip(char *str, char *chars_to_skip);
+int			str_equal(char *s1, char *s2);
+char		*str_skip_wsp(char *str);
 
 /**
  * ERRORS HANDLING
 */
-void	safe_exit(int status);
-void	put_error_sys(char *reason);
-void	put_error(char *error, char *reason);
-void	eput_error_sys(char *reason, int exit_status);
-void	eput_error(char *error, char *reason, int exit_status);
+void		safe_exit(int status);
+void		put_error_sys(char *reason);
+void		put_error(char *error, char *reason);
+void		eput_error_sys(char *reason, int exit_status);
+void		eput_error(char *error, char *reason, int exit_status);
 
 /*
 	* map CHECK
 */
-bool	check_file_ext(char *file_name, char *ext);
-void	check_file(int ac, char **av);
-void	init_lines(void);
-void	check_map(void);
-void	check_color(char type, char *value);
+bool		check_file_ext(char *file_name, char *ext);
+void		check_file(int ac, char **av);
+void		init_lines(void);
+void		check_map(void);
+void		check_color(char type, char *value);
 
 /*
 	* SAFE FUNCTIONS
 */
-char	*safe_strjoin(char *str1, char *str2);
-char	*safe_strrchr(char *s, char c);
-char	*safe_strchr(char *s, char c);
-void	*safe_calloc(size_t size);
-char	*safe_strdup(char *s);
-size_t	safe_strlen(char *str);
+char		*safe_strjoin(char *str1, char *str2);
+char		*safe_strrchr(char *s, char c);
+char		*safe_strchr(char *s, char c);
+void		*safe_calloc(size_t size);
+char		*safe_strdup(char *s);
+size_t		safe_strlen(char *str);
 
 /*
 	* FREE MEMORY
@@ -386,74 +386,71 @@ void	free_tab(char **array);
 	* IO OPERATORS
 */
 
-char	**append_2d(char **old_tab, char *to_append);
-void	set_screen_size(void);
-void	print(int fd, char *msg, int endl);
-void	print_2d(char **arr);
-float	normalize_angle(float angle);
+char		**append_2d(char **old_tab, char *to_append);
+void		set_screen_size(void);
+void		print(int fd, char *msg, int endl);
+void		print_2d(char **arr);
+float		normalize_angle(float angle);
 
 /*
 	* GAME
 */
-void	init_player(t_data *data);
-void	run_game(t_data	*data);
-void	put_wall(t_data *data, int i, t_ray *ray);
-int		check_hit(t_vector2 coords,
+void		init_player(t_data *data);
+void		run_game(t_data	*data);
+void		put_wall(t_data *data, int i, t_ray *ray);
+int			check_hit(t_vector2 coords,
 			t_ray *ray, t_vector2 *point, t_vector2 step);
-void	send_ray(t_ray *ray);
+void		send_ray(t_ray *ray);
 float		get_distance(float angle, t_vector2 end);
 t_vector2	get_step(t_ray ray, int type);
 t_vector2	get_intercept_v(t_ray ray);
 t_vector2	get_intercept_h(t_ray ray);
-void	set_directions(t_ray *ray, int ray_type);
-void	set_ray_side(t_ray *ray);
-void	handle_selected_item(int key);
-void	destroy_this(void *img_ptr);
-int		show_menu(void);
-void	handle_door(t_data *data, int keycode);
+void		set_directions(t_ray *ray, int ray_type);
+void		set_ray_side(t_ray *ray);
+void		handle_selected_item(int key);
+void		destroy_this(void *img_ptr);
+int			show_menu(void);
+void		handle_door(t_data *data, int keycode);
+void		player_effects(void);
+void		put_weapon(void);
 
 /*
 	* IMAGES
 */
-t_image	t_image_create(int sizex, int sizey, int default_color);
-void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
-void	t_image_clear_color(t_image *imgptr, int color);
-t_image	t_image_loadfromxpm(char *filename);
-void	load_menu_images(t_menu *menu);
-void	destroy_menu(t_menu *menu);
+t_image		t_image_create(int sizex, int sizey, int default_color);
+void		t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
+void		t_image_clear_color(t_image *imgptr, int color);
+t_image		t_image_loadfromxpm(char *filename);
+void		load_menu_images(t_menu *menu);
+void		destroy_menu(t_menu *menu);
 
 /*
 	* PLAY_BACK
 */
-void	play_music(void);
-void	play_effect(char *file_name);
+void		play_music(void);
+void		play_effect(char *file_name);
 
 /*
 	* MATH
 */
-float	deg_to_rad(float angle);
-long	get_time(void);
-int		imin(int a, int b);
-int		imax(int a, int b);
-void	irange(int *v, int min, int max);
+float		deg_to_rad(float angle);
+long		get_time(void);
+int			imin(int a, int b);
+int			imax(int a, int b);
+void		irange(int *v, int min, int max);
 
 /*
 	* EVENTS
 */
-int		ev_key_up(int keycode, t_data *data);
-int		ev_key_down(int keycode, t_data *data);
+int			ev_key_up(int keycode, t_data *data);
+int			ev_key_down(int keycode, t_data *data);
+int			ev_mouse_moved(int x, int y, void *data);
 
 /**
 	* DRAW
  */
-void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
-void	put_map(char **map, t_image *img_layer);
-void	handle_input(t_data *data, float radi);
-void	put_player_shape(double size);
-
-/*
-	* SPLASH SCREEN
-*/
-void	splash_screen(t_data *data);
+void		draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
+void		handle_input(t_data *data, float radi);
+void		put_player_shape(double size);
 
 #endif

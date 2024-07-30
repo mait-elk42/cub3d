@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   play_back.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:40:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 14:49:29 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:41:20 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ int	track_parent(void)
 	{
 		while (getppid() > 0 && kill (getppid(), SIGUSR1) == 0)
 			;
-		// 	printf("sending...\n");
-		// printf("exiting\n");
 		exit (0);
 	}
-	return child;
+	return (child);
 }
 
 void	play_music(void)
@@ -63,7 +61,8 @@ void	play_music(void)
 			data->child.pid = fork();
 			if (data->child.pid == 0)
 			{
-				execvp(pn, (char *[]){pn, "assets/sounds/main_menu4.mp3", NULL});
+				execvp(pn, (char *[]){pn,
+					"assets/sounds/main_menu4.mp3", NULL});
 				safe_exit(1);
 			}
 			waitpid(data->child.pid, NULL, 0);
@@ -71,4 +70,3 @@ void	play_music(void)
 		safe_exit(1);
 	}
 }
-
