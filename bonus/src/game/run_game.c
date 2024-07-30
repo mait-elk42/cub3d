@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 12:38:54 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:55:02 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	get_cf_color(t_data *data)
 	data->ceiling = (crgb.r << 16 | crgb.g << 8 | crgb.b);
 	data->floor = (frgb.r << 16 | frgb.g << 8 | frgb.b);
 }
-void	normalize_sensibility()
+
+void	normalize_sensibility(void)
 {
 	t_data	*data;
 
@@ -58,22 +59,15 @@ void	normalize_sensibility()
 		data->mouse.cam_sens -= 0.8;
 	if (data->mouse.cam_sens <= 0.0)
 		data->mouse.cam_sens = 0;
-
 	if (data->mouse.cam_sens_v > 0.0)
 		data->mouse.cam_sens_v -= 0.5;
 	if (data->mouse.cam_sens_v > 5.0)
 		data->mouse.cam_sens_v -= 5;
 	if (data->mouse.cam_sens_v <= 0.0)
 		data->mouse.cam_sens_v = 0;
-	// if (data->up_down > 0 && data->up_down != 0)
-	// 	data->up_down -= 5;
-	// else if (data->up_down < 0 && data->up_down != 0)
-	// 	data->up_down += 5;
 }
 
-// # if the the user play disable up and down arrows :)
-
-void put_weapon()
+void	put_weapon(void)
 {
 	t_data			*data;
 	t_image			wpn;
@@ -84,9 +78,9 @@ void put_weapon()
 	data = data_hook(NULL);
 	wpn = data->player.hand_frames[i];
 	p.x = ((WIN_WIDTH / 2) + wpn.width * 0.3) + data->player.real_head;
-	p.y = ((WIN_HEIGHT / 2)  + wpn.height * 0.1) + data->player.real_head;
-	mlx_put_image_to_window(data->mlx.mlx_ptr, 
-			data->mlx.window_ptr, wpn.img_ptr, p.x, p.y);
+	p.y = ((WIN_HEIGHT / 2) + wpn.height * 0.1) + data->player.real_head;
+	mlx_put_image_to_window(data->mlx.mlx_ptr,
+		data->mlx.window_ptr, wpn.img_ptr, p.x, p.y);
 	if (time == 2)
 	{
 		i++;
@@ -110,7 +104,6 @@ int	game_loop(t_data *data)
 	t_image_clear_color(&data->minimap_layer, 0xffffffff);
 	if (data->game_started == false)
 		return (show_menu());
-	// put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
 	i = 0;
@@ -118,7 +111,7 @@ int	game_loop(t_data *data)
 	{
 		if (data->player.head_angle > 360)
 			data->player.head_angle = 0;
-		data->player.head_angle+= 20;
+		data->player.head_angle += 20;
 		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 10;
 	}
 	while (i < WIN_WIDTH)
@@ -153,7 +146,7 @@ int	game_loop(t_data *data)
 	return (0);
 }
 
-void	norm_angle()
+void	norm_angle(void)
 {
 	if (data_hook(NULL)->player.angle > 360)
 		data_hook(NULL)->player.angle -= 360;
@@ -195,9 +188,8 @@ int	mouse_event(int x, int y, void *param)
 	data->mouse.cam_sens_v = fabs((height_half - y) * 0.03);
 	if (data->mouse.center_mouse)
 		mlx_mouse_move(data->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2); 
-	return 0;
+	return (0);
 }
-
 
 void	run_game(t_data *data)
 {
@@ -215,7 +207,6 @@ void	run_game(t_data *data)
 	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
 	data->texture_door = t_image_loadfromxpm("textures/door.xpm");
-	data->skybox1 = t_image_loadfromxpm("textures/skybox/1.xpm");
 	data->select_item.new_game_selected = true;
 	data->select_item.cont_ignored = true;
 	data->music = true;

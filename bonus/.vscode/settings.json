@@ -2,6 +2,7 @@
     "files.associations": {
         "cub3d_bonus.h": "c",
         "ios": "c",
-        "chrono": "c"
+        "chrono": "c",
+        "stdio.h": "c"
     }
 }

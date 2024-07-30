@@ -6,13 +6,11 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:57:58 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/29 19:18:10 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:15:26 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
-
-float progress = 16;
 
 float	get_distance(float angle, t_vector2 end)
 {
@@ -73,7 +71,7 @@ void	set_directions(t_ray *ray, int ray_type)
 	ray->side = VERTICAL;
 }
 
-int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step) 
+int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step)
 {
 	t_size		grid;
 	t_data		*data;
@@ -92,10 +90,8 @@ int	check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step)
 			ray->hit_door_h = true;
 		if (ray->side == VERTICAL)
 			ray->hit_door_v = true;
-		// printf("1 > %d\n", ray->hit_door);
 		return (1);
 	}
-
 	if (data->map[grid.height][grid.width] == '1')
 	{
 		ray->hit_wall = true;

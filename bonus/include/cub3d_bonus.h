@@ -6,12 +6,12 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 13:07:55 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 18:12:25 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 # include <libft.h>
 # include <stdio.h>
@@ -28,7 +28,6 @@
 # include <unistd.h>
 # include <signal.h>
 # include <pthread.h>
-
 
 void	make_effect(char *file_name);
 
@@ -60,6 +59,7 @@ void	make_effect(char *file_name);
 	* 	MLX KEYS AND EVENTS
 */
 # define KEY_ESC       53
+# define KEY_E		   14
 # define KEY_W         13
 # define KEY_A         0
 # define KEY_S         1
@@ -81,14 +81,15 @@ void	make_effect(char *file_name);
 # define ON_DESTROY    17
 
 /*
-	* 	WIN SIZE
+	* ATTRIBUTES
 */
 # define WIN_WIDTH 1300
 # define WIN_HEIGHT 920
-
-/*
-	* ATTRIBUTES
-*/
+# define TILE_SIZE 32
+# define PLAYER_SPEED 1.8
+# define CAM_SENS 2
+# define FOV 60
+# define MPSIZE 0.12
 
 typedef struct s_settings
 {
@@ -97,13 +98,6 @@ typedef struct s_settings
 	double	camera_sensibility;
 	double	fov;
 }	t_settings;
-
-
-# define TILE_SIZE 32
-# define PLAYER_SPEED 1.8
-# define CAM_SENS 2
-# define FOV 60
-# define MPSIZE 0.12
 
 /*
 	* ENUMS
@@ -149,7 +143,7 @@ typedef struct s_vector
 	int		y;
 }	t_vector;
 
-void	draw_mini_map();
+void	draw_mini_map(void);
 
 typedef struct s_vector2
 {
@@ -196,7 +190,6 @@ typedef struct s_select
 	bool	cont_ignored;
 	bool	music;
 }	t_select;
-
 
 typedef struct s_image
 {
@@ -308,8 +301,6 @@ typedef struct s_data
 	int				jump;
 	bool			jumping;
 	int				time;
-
-	t_image			skybox1;
 }	t_data;
 
 typedef struct s_wall_text
@@ -385,7 +376,6 @@ void	set_screen_size(void);
 void	print(int fd, char *msg, int endl);
 void	print_2d(char **arr);
 float	normalize_angle(float angle);
-void	logger(char *msg);
 
 /*
 	* GAME
@@ -393,8 +383,8 @@ void	logger(char *msg);
 void	init_player(t_data *data);
 void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
-int		check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step);
-void	put_bgd(t_image *image, int ceil_color, int floor_color);
+int		check_hit(t_vector2 coords,
+			t_ray *ray, t_vector2 *point, t_vector2 step);
 void	send_ray(t_ray *ray);
 t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
 t_ray	send_virtical_ray(float ray_angle, t_size screen_size);
@@ -404,7 +394,8 @@ void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray);
 void	handle_selected_item(int key);
 void	destroy_this(void *img_ptr);
-int		show_menu();
+int		show_menu(void);
+void	handle_door(t_data *data, int keycode);
 
 /*
 	* IMAGES
@@ -415,7 +406,6 @@ void	t_image_clear_color(t_image *imgptr, int color);
 t_image	t_image_loadfromxpm(char *filename);
 void	load_menu_images(t_menu *menu);
 void	destroy_images(t_menu *menu);
-
 
 /*
 	* PLAY_BACK

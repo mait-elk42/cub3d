@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/27 16:48:31 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:11:37 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	make_map_square(void)
 		ft_memcpy(new_map[size.height], map[size.height], line_size);
 		size.height++;
 	}
-	// free (data->map);
 	data->map = new_map;
 }
 
