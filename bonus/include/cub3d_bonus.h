@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/29 18:25:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:09:21 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void	make_effect(char *file_name);
 /*
 	* 	WIN SIZE
 */
-# define WIN_WIDTH 1080
-# define WIN_HEIGHT 800
+# define WIN_WIDTH 1440
+# define WIN_HEIGHT 920
 
 /*
 	* ATTRIBUTES
@@ -103,7 +103,7 @@ typedef struct s_settings
 # define PLAYER_SPEED 1.8
 # define CAM_SENS 2
 # define FOV 60
-# define MPSIZE 0.12
+# define MPSIZE 0.13
 
 /*
 	* ENUMS
@@ -305,18 +305,15 @@ typedef struct s_data
 	bool			music;
 	pthread_t		thread;
 	int				start;
-	bool			Switch;
 	int				door_framemv;
 	bool			player_looking_at_door;
 	int				door_open;
 	t_vector		door_pos;
 	bool			looking_door;
-	int				b;
-	bool			walking;
 	int				up_down;
 	int				jump;
 	bool			jumping;
-	int				time;
+	int				one_jump;
 }	t_data;
 
 typedef struct s_wall_text

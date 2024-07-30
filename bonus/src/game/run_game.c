@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/29 18:15:17 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:55:52 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,6 @@ void	normalize_sensibility()
 		data->mouse.cam_sens_v -= 5;
 	if (data->mouse.cam_sens_v <= 0.0)
 		data->mouse.cam_sens_v = 0;
-	// if (data->up_down > 0 && data->up_down != 0)
-	// 	data->up_down -= 5;
-	// else if (data->up_down < 0 && data->up_down != 0)
-	// 	data->up_down += 5;
-}
-
-// # if the the user play disable up and down arrows :)
-
-void	put_weapon()
-{
-	t_data	*data;
-	t_image	weapon;
-
-	data = data_hook(NULL);
-	weapon = t_image_loadfromxpm("textures/wapon/w_idle1.xpm");
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr, weapon.img_ptr, 0, WIN_HEIGHT - 706);
 }
 
 int	game_loop(t_data *data)
@@ -88,22 +72,15 @@ int	game_loop(t_data *data)
 	t_ray	ray;
 	float	angle;
 	int		i;
-	static int n = 0;
 
-	// if (data->n == 0)
-	// 	data->walking = false;
-	// system("clear");
-	// printf("player looking at door : %s\n", (data->player_looking_at_door) ? "yes" : "no");
 	get_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->game_started == false)
 		return (show_menu());
-	// t_image_clear_color(&data->minimap_layer, 0xffffffff);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
-	// printf("%d...\n", angle);
 	i = 0;
 	data->looking_door = false;
 	while (i < WIN_WIDTH)
@@ -117,20 +94,17 @@ int	game_loop(t_data *data)
 		angle += (float) FOV / WIN_WIDTH;
 		i++;
 	}
-	// system("clear");
-	// printf("door : %d\n", data->looking_door);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->scene_layer.img_ptr, 0, 0);
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
-	// put_weapon();
 	normalize_sensibility();
-	if (data->Switch == false)
-		data->b += 2;
-	else
-		data->b -= 2;
-	if (data->b == 0 || data->b == 12)
-		data->Switch = data->Switch == false;
+	// if (data->Switch == false)
+	// 	data->b += 2;
+	// else
+	// 	data->b -= 2;
+	// if (data->b == 0 || data->b == 12)
+	// 	data->Switch = data->Switch == false;
 	if (data->jumping)
 	{
 		if (data->jump != 21)
@@ -143,7 +117,7 @@ int	game_loop(t_data *data)
 		if (data->jump != 0)
 			data->jump -= 3;
 		if (data->jump == 0)
-			data->time = 0;
+			data->one_jump = 0;
 	}
 	printf("[%d]\n", data->jump);
 	return (0);

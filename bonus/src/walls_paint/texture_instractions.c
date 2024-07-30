@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/29 18:24:30 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:56:26 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	// if (ray->hit_door)
 	// 	return ;
 	w.wallheight = (WIN_HEIGHT / ray->distance) * 40;
-	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2) + (data->b * data->walking) + (data->up_down) + data->jump * 8;
+	w.top = (WIN_HEIGHT / 2) - (w.wallheight / 2) + (data->up_down) + data->jump * 8;
 	w.btm = w.top + w.wallheight;
 	w.t = wall_side(ray, &w.xunit);
 	w.t_offset.x = floor(w.xunit * w.t.width);

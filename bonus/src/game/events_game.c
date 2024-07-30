@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/29 18:08:28 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:57:01 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	ev_key_up(int keycode, t_data *data)
 {
-	if (keycode == KEY_W || keycode == KEY_S)
-		data->walking = false;
 	if (data->game_started == true)
 	{
 		if (keycode == KEY_W)
@@ -56,12 +54,10 @@ int	ev_key_down(int keycode, t_data *data)
 	}
 	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_RETURN)
 		handle_selected_item(keycode);
-	if (keycode == KEY_W || keycode == KEY_S)
-		data->walking = true;
-	if (keycode == KEY_SPACE && data->time == 0)
+	if (keycode == KEY_SPACE && data->one_jump == 0)
 	{
 		data->jumping = true;
-		data->time++;
+		data->one_jump++;
 	}
 	if (data->game_started == true)
 	{
