@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:29:00 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:56:34 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	safe_exit(int status)
 	t_data	*data;
 
 	data = data_hook(NULL);
+	destroy_menu(&data->menu);
 	free_tab(data->lines);
 	data->lines = NULL;
 	ft_bzero(&data->scene_info, sizeof(t_scene_info));

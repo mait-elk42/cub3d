@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 12:57:01 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:14:28 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,31 @@ int	ev_key_up(int keycode, t_data *data)
 	return (0);
 }
 
+void	door(t_data *data)
+{
+	t_vector	pos;
+	t_vector	check;
+
+	pos = (t_vector){(data->player.position.x) / TILE_SIZE, ((data->player.position.y) / TILE_SIZE)};
+	check = (t_vector){0, 0};
+	// printf("%f\n", data->player.angle);
+	if (floor(data->player.angle) >= 60 && floor(data->player.angle) <= 120)
+		check.y = 1;
+	if (floor(data->player.angle) >= 240 && floor(data->player.angle) <= 300)
+		check.y = -1;
+	if (floor(data->player.angle) >= 330 || floor(data->player.angle) <= 30)
+		check.x = 1;
+	if (floor(data->player.angle) >= 150 && floor(data->player.angle) <= 210)
+		check.x = -1;
+	if (check.x != 0 || check.y != 0)
+	{
+		if (data->map[pos.y + check.y][pos.x + check.x] == 'D')
+			data->map[pos.y + check.y][pos.x + check.x] = 'd';
+		else if (data->map[pos.y + check.y][pos.x + check.x] == 'd')
+			data->map[pos.y + check.y][pos.x + check.x] = 'D';
+	}
+}
+
 int	ev_key_down(int keycode, t_data *data)
 {
 	if (keycode == KEY_ESC)
@@ -47,11 +72,9 @@ int	ev_key_down(int keycode, t_data *data)
 		data->mouse.center_mouse = false;
 		mlx_mouse_show();
 	}
-	if (keycode == KEY_SPACE && data->looking_door && data->map[(int)data->player.position.y / TILE_SIZE][(int)data->player.position.x / TILE_SIZE] != 'd')
-	{
-		// data->door_open = (data->door_open == false);
-		data->map[data->door_pos.y][data->door_pos.x] = 'd' - (32 * (data->map[data->door_pos.y][data->door_pos.x] != 'D'));
-	}
+	// printf("%d\n", keycode);
+	if (keycode == 14) // e key
+		door(data);
 	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_RETURN)
 		handle_selected_item(keycode);
 	if (keycode == KEY_SPACE && data->one_jump == 0)
@@ -69,6 +92,10 @@ int	ev_key_down(int keycode, t_data *data)
 			data->key_pressed.s = true;
 		if (keycode == KEY_D)
 			data->key_pressed.d = true;
+		if (keycode == KEY_UP)
+			data->key_pressed.up = true;
+		if (keycode == KEY_DOWN)
+			data->key_pressed.down = true;
 		if (keycode == KEY_LEFT)
 			data->key_pressed.left = true;
 		if (keycode == KEY_RIGHT)

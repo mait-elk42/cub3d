@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/25 16:47:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:22:07 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,14 @@ void	check_leaks(int i)
 	}
 }
 
+void	leaks()
+{
+	system("leaks cub3d_bonus");
+}
+
 int	main(int ac, char **av)
 {
+	atexit(leaks);
 	t_data	data;
 	data_init(&data, ac, av);
 	data.game_started = false;

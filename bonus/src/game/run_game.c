@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 12:55:52 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:23:50 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	normalize_sensibility()
 	t_data	*data;
 
 	data = data_hook(NULL);
-	if (data->mouse.cam_sens > 0.0)
-		data->mouse.cam_sens -= 0.5;
-	if (data->mouse.cam_sens > 5.0)
-		data->mouse.cam_sens -= 0.8;
-	if (data->mouse.cam_sens <= 0.0)
-		data->mouse.cam_sens = 0;
+	if (data->mouse.cam_sens_h > 0.0)
+		data->mouse.cam_sens_h -= 0.5;
+	if (data->mouse.cam_sens_h > 5.0)
+		data->mouse.cam_sens_h -= 0.8;
+	if (data->mouse.cam_sens_h <= 0.0)
+		data->mouse.cam_sens_h = 0;
 
 	if (data->mouse.cam_sens_v > 0.0)
 		data->mouse.cam_sens_v -= 0.5;
@@ -67,44 +67,36 @@ void	normalize_sensibility()
 		data->mouse.cam_sens_v = 0;
 }
 
-int	game_loop(t_data *data)
+void	put_weapon()
 {
-	t_ray	ray;
-	float	angle;
-	int		i;
+	t_data		*data;
+	t_image		wpn;
+	t_vector2	p;
+	static int	time;
+	static int	i;
 
-	get_cf_color(data);
-	handle_input(data, deg_to_rad(data->player.angle));
-	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
-	if (data->game_started == false)
-		return (show_menu());
-	put_bgd(&data->scene_layer, data->ceiling, data->floor);
-	draw_mini_map();
-	angle = data->player.angle - (FOV / 2);
-	i = 0;
-	data->looking_door = false;
-	while (i < WIN_WIDTH)
+	data = data_hook(NULL);
+	wpn = data->player.hand_frames[i];
+	p.x = ((WIN_WIDTH / 2) + wpn.width * 0.3) + data->player.real_head;
+	p.y = ((WIN_HEIGHT / 2) + wpn.height * 0.1) + data->player.real_head;
+	mlx_put_image_to_window(data->mlx.mlx_ptr, 
+			data->mlx.window_ptr, wpn.img_ptr, p.x, p.y);
+	if (time == 2)
 	{
-		ft_bzero(&ray, sizeof(t_ray));
-		ray.angle = angle;
-		send_ray(&ray);
-		// printf("%f\n", ray.distance);
-		put_wall(data, i, &ray);
-		// send_ray(&ray, angle);
-		angle += (float) FOV / WIN_WIDTH;
 		i++;
+		time = 0;
 	}
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
-		data->scene_layer.img_ptr, 0, 0);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
-		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
-	normalize_sensibility();
-	// if (data->Switch == false)
-	// 	data->b += 2;
-	// else
-	// 	data->b -= 2;
-	// if (data->b == 0 || data->b == 12)
-	// 	data->Switch = data->Switch == false;
+	if (i == 5)
+		i = 0;
+	time++;
+}
+
+
+void	player_effects()
+{
+	t_data	*data;
+
+	data = data_hook(NULL);
 	if (data->jumping)
 	{
 		if (data->jump != 21)
@@ -119,7 +111,52 @@ int	game_loop(t_data *data)
 		if (data->jump == 0)
 			data->one_jump = 0;
 	}
-	printf("[%d]\n", data->jump);
+	if (data->player.is_walking)
+	{
+		if (data->player.head_angle > 360)
+			data->player.head_angle = 0;
+		data->player.head_angle += 20;
+		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 10;
+	}
+}
+
+void	put_scene()
+{
+
+}
+
+int	game_loop(t_data *data)
+{
+	t_ray	ray;
+	float	angle;
+	int		i;
+
+	get_cf_color(data);
+	handle_input(data, deg_to_rad(data->player.angle));
+	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
+	t_image_clear_color(&data->scene_layer, 0xffffffff);
+	t_image_clear_color(&data->minimap_layer, 0xffffffff);
+	if (data->game_started == false)
+		return (show_menu());
+	draw_mini_map();
+	angle = data->player.angle - (FOV / 2);
+	i = 0;
+	while (i < WIN_WIDTH)
+	{
+		ft_bzero(&ray, sizeof(t_ray));
+		ray.angle = angle;
+		send_ray(&ray);
+		put_wall(data, i, &ray);
+		angle += (float) FOV / WIN_WIDTH;
+		i++;
+	}
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
+		data->scene_layer.img_ptr, 0, 0);
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
+		data->minimap_layer.img_ptr, (WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
+	normalize_sensibility();
+	put_weapon();
+	player_effects();
 	return (0);
 }
 
@@ -161,7 +198,7 @@ int	mouse_event(int x, int y, void *param)
 		data->mouse.to_right = false;
 		data->mouse.to_left = true;
 	}
-	data->mouse.cam_sens = fabs((width_half - x) * 0.02);
+	data->mouse.cam_sens_h = fabs((width_half - x) * 0.02);
 	data->mouse.cam_sens_v = fabs((height_half - y) * 0.03);
 	if (data->mouse.center_mouse)
 		mlx_mouse_move(data->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2); 
@@ -172,22 +209,20 @@ int	mouse_event(int x, int y, void *param)
 void	run_game(t_data *data)
 {
 	t_vector	map_size;
+	int			def;
 
+	def = 0xffffffff;
 	map_size.x = data->scene_info.map_width * TILE_SIZE;
 	map_size.y = data->scene_info.map_height * TILE_SIZE;
-	data->scene_layer = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
-	data->minimap_layer = t_image_create (
-			WIN_WIDTH * MPSIZE,
-			WIN_WIDTH * MPSIZE, 0xffffffff);
+	data->scene_layer = t_image_create(WIN_WIDTH, WIN_HEIGHT, def);
+	data->minimap_layer = t_image_create (WIN_WIDTH * MPSIZE, WIN_WIDTH * MPSIZE, def);
 	init_player(data);
 	data->texture_ea = t_image_loadfromxpm(data->scene_info.east_texture);
 	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);
 	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
 	data->texture_door = t_image_loadfromxpm("textures/door.xpm");
-	data->select_item.new_game_selected = true;
-	data->select_item.cont_ignored = true;
-	data->music = true;
+	data->skybox1 = t_image_loadfromxpm("textures/skybox/1.xpm");
 	load_menu_images(&data->menu);
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);

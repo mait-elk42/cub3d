@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 13:09:21 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:13:25 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,14 +176,9 @@ typedef struct s_ray
 	bool		face_right;
 	short		side;
 	bool		hit_wall;
-	bool		hit_door;
 	bool		hit_door_h;
 	bool		hit_door_v;
-	t_vector2	step;
-	float		distance_door;
-	t_vector2	intercept_door;
-	t_vector2	intercept_door_h;
-	t_vector2	intercept_door_v;
+	bool		hit_door;
 }	t_ray;
 
 typedef struct s_size
@@ -237,7 +232,11 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
-	t_vector2	walking_dir;
+	// t_vector2	walking_dir;
+	float		real_head;
+	float		head_angle;
+	bool		is_walking;
+	t_image		hand_frames[5];
 }	t_player;
 
 typedef struct s_mouse
@@ -247,7 +246,7 @@ typedef struct s_mouse
 	bool	to_up;
 	bool	to_down;
 	bool	center_mouse;
-	double	cam_sens;
+	double	cam_sens_h;
 	double	cam_sens_v;
 }	t_mouse;
 
@@ -266,6 +265,13 @@ typedef struct s_menu
 	t_image		us_music;
 	t_image		hint;
 }	t_menu;
+
+typedef struct s_player_data
+{
+	t_vector	player_pos;
+	float		player_angle;
+}	t_player_data;
+
 
 typedef struct s_child
 {
@@ -314,6 +320,8 @@ typedef struct s_data
 	int				jump;
 	bool			jumping;
 	int				one_jump;
+	t_player_data	p_data;
+	t_image			skybox1;
 }	t_data;
 
 typedef struct s_wall_text
@@ -400,10 +408,10 @@ void	put_wall(t_data *data, int i, t_ray *ray);
 int		check_hit(t_vector2 coords, t_ray *ray, t_vector2 *point, t_vector2 step);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
 void	send_ray(t_ray *ray);
-t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
-t_ray	send_virtical_ray(float ray_angle, t_size screen_size);
-float	get_distance(float angle, t_vector2 end);
-void	set_distance(t_ray *ray);
+float		get_distance(float angle, t_vector2 end);
+t_vector2	get_step(t_ray ray, int type);
+t_vector2	get_intercept_v(t_ray ray);
+t_vector2	get_intercept_h(t_ray ray);
 void	set_directions(t_ray *ray, int ray_type);
 void	set_ray_side(t_ray *ray);
 void	handle_selected_item(int key);
@@ -418,7 +426,7 @@ void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
 void	t_image_clear_color(t_image *imgptr, int color);
 t_image	t_image_loadfromxpm(char *filename);
 void	load_menu_images(t_menu *menu);
-void	destroy_images(t_menu *menu);
+void	destroy_menu(t_menu *menu);
 
 
 /*

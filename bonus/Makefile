@@ -6,7 +6,7 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/29 13:19:08 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/07/30 17:16:25 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRC= src/utils.c src/print.c src/initialization.c \
 	src/walls_paint/texture_instractions.c \
 	src/menu/menu.c src/menu/menu_events.c \
 	src/playback/play_back.c src/playback/sound_effect.c\
-	src/raycast/send_ray.c src/raycast/send_horizontal.c src/raycast/send_vertical.c src/raycast/utils.c 
+	src/raycast/send_ray.c src/raycast/ray_utils_1.c src/raycast/ray_utils_2.c
 
 OBJ= $(SRC:.c=.o)
 NAME = cub3d_bonus
