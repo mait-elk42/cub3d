@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 16:37:46 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:46:31 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	key_edit(t_data *data, int keycode, bool v)
 		data->key_pressed.right = v;
 	if (keycode == KEY_SPACE)
 		data->key_pressed.space = v;
+	if (keycode == KEY_SHIFT)
+		data->key_pressed.shift = v;
 }
 
 int	ev_key_up(int keycode, t_data *data)
@@ -81,7 +83,7 @@ int	ev_mouse_moved(int x, int y, void *data)
 	height_half = WIN_HEIGHT / 2;
 	mouse_hv(x, y, data);
 	d->mouse.cam_sens_h = fabs((width_half - x) * 0.02);
-	d->mouse.cam_sens_v = fabs((height_half - y) * 0.03);
+	d->mouse.cam_sens_v = fabs((height_half - y) * 0.02);
 	if (d->mouse.center_mouse)
 		mlx_mouse_move(d->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 16:38:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:57:14 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,19 @@ void	normalize_sensibility(void)
 	t_data	*data;
 
 	data = data_hook(NULL);
-	if (data->mouse.cam_sens_h > 0.0)
-		data->mouse.cam_sens_h -= 0.5;
-	if (data->mouse.cam_sens_h > 5.0)
-		data->mouse.cam_sens_h -= 2;
-	if (data->mouse.cam_sens_h <= 0.0)
+	if (data->mouse.cam_sens_h > 15.0)
+		data->mouse.cam_sens_h -= 10.0;
+	else if (data->mouse.cam_sens_h > 10.0)
+		data->mouse.cam_sens_h -= 2.0;
+	else if (data->mouse.cam_sens_h > 0.0)
+		data->mouse.cam_sens_h -= 0.4;
+	else if (data->mouse.cam_sens_h <= 0.0)
 		data->mouse.cam_sens_h = 0;
-	
 	if (data->mouse.cam_sens_v > 0.0)
 		data->mouse.cam_sens_v -= 0.5;
-	if (data->mouse.cam_sens_v > 5.0)
+	else if (data->mouse.cam_sens_v > 5.0)
 		data->mouse.cam_sens_v -= 5;
-	if (data->mouse.cam_sens_v <= 0.0)
+	else if (data->mouse.cam_sens_v <= 0.0)
 		data->mouse.cam_sens_v = 0;
 }
 

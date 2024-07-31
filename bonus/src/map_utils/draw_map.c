@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 12:26:03 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:58:56 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	draw_mini_map(void)
 			plyrpos.x += cos (deg_to_rad(data->player.angle + i + 90));
 			plyrpos.y += sin (deg_to_rad(data->player.angle + i + 90));
 		}
-		i += 0.25;
+		i += 0.30;
 	}
 	draw_player(WIN_WIDTH * 0.005);
 }
