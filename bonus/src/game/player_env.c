@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 19:02:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 19:17:35 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:06:03 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	player_effects(void)
 	data = data_hook(NULL);
 	if (data->jumping)
 	{
-		if (data->jump != 21)
+		if (data->jump != 27)
 			data->jump += 3;
-		if (data->jump == 21)
+		if (data->jump == 27)
 			data->jumping = false;
 	}
 	if (data->jumping == false)

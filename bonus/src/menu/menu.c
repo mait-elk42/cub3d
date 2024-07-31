@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 19:47:26 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:36:20 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	set_defaults(t_menu menu)
 
 	data = data_hook(NULL);
 	width_half = WIN_WIDTH / 2;
-	background_scale(data, menu.bg);
+	put_to_win(0, 0, menu.bg);
 	put_to_win(width_half - 240, (WIN_HEIGHT / 2) - 350, menu.logo);
 	if (_switch)
 		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT - 80), menu.hint);
