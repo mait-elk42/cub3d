@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:47:38 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:40:42 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	safe_exit(int status)
 	data->lines = NULL;
 	free_tab(data->map);
 	data->map = NULL;
-	free(data->map);
-	data->map = NULL;
 	ft_bzero(&data->scene_info, sizeof(t_scene_info));
 	close(data->fd_file_input);
 	if (data->mlx.mlx_ptr != NULL && data->mlx.window_ptr != NULL)
@@ -57,7 +55,7 @@ void	safe_exit(int status)
 		destroy_textures();
 	free(data->mlx.mlx_ptr);
 	data->mlx.mlx_ptr = NULL;
-	exit(status);
+	exit (status);
 }
 
 void	set_screen_size(void)

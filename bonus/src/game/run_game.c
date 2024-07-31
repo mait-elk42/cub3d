@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 16:43:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:44:08 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	normalize_sensibility(void)
 		data->mouse.cam_sens_h -= 0.4;
 	else if (data->mouse.cam_sens_h <= 0.0)
 		data->mouse.cam_sens_h = 0;
-
 	if (data->mouse.cam_sens_v > 0.0)
 		data->mouse.cam_sens_v -= 0.5;
 	else if (data->mouse.cam_sens_v > 5.0)

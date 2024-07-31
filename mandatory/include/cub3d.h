@@ -6,11 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/23 09:56:30 by mait-elk         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/23 10:58:37 by aabouqas         ###   ########.fr       */
->>>>>>> a72bd58bf7acecf1b2327cae6daa951a0d1d4cdc
+/*   Updated: 2024/07/31 16:53:27 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,15 +306,19 @@ void	init_player(t_data *data);
 void	run_game(t_data	*data);
 void	put_wall(t_data *data, int i, t_ray *ray);
 void	put_bgd(t_image *image, int ceil_color, int floor_color);
-void	send_ray(t_ray *ray, double ray_angle);
-t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
-t_ray	send_virtical_ray(float ray_angle, t_size screen_size);
-float	get_distence(float angle, t_vector2 end);
-void	set_distence(t_ray *ray);
 void	set_directions(t_ray *ray, int ray_type);
-void	set_ray_side(t_ray *ray, float angle);
-int		check_wall(t_vector2 coords, t_ray *ray);
 
+/*
+	* RAY
+*/
+void		send_ray(t_ray *ray);
+int			check_hit(t_vector2 coords, t_ray *ray);
+void		set_directions(t_ray *ray, int ray_type);
+void		set_ray_side(t_ray *ray);
+float		get_distance(float angle, t_vector2 end);
+t_vector2	get_step(t_ray ray, int type);
+t_vector2	get_intercept_v(t_ray ray);
+t_vector2	get_intercept_h(t_ray ray);
 /*
 	* IMAGES
 */

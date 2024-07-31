@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:47:38 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:50:37 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	game_loop(t_data *data)
 	i = 0;
 	while (i < WIN_WIDTH)
 	{
-		send_ray(&ray, angle);
+		ray.angle = angle;
+		send_ray(&ray);
 		put_wall(data, i, &ray);
 		angle += (float) FOV / WIN_WIDTH;
 		i++;
