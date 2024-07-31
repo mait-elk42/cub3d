@@ -6,16 +6,17 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 19:29:57 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/30 18:40:37 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:46:01 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
 
-void	play_effect(char *file_name)
+void	*play_effectt(void *ptr)
 {
 	int	child;
 
+	(void)ptr;
 	child = fork();
 	if (child == 0)
 	{
@@ -24,13 +25,14 @@ void	play_effect(char *file_name)
 		exit(1);
 	}
 	waitpid(child, NULL, 0);
-	return ;
+	return (NULL);
 }
 
 void	make_effect(char *file_name)
 {
 	pthread_t	thread;
 
-	pthread_create(&thread, NULL, play_effect, NULL);
+	(void)file_name;
+	pthread_create(&thread, NULL, play_effectt, NULL);
 	pthread_detach(thread);
 }

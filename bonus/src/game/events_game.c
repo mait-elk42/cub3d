@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 19:17:25 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:32:20 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static void	mouse_hv(int x, int y, t_data *d)
 int	ev_mouse_moved(int x, int y, void *data)
 {
 	t_data		*d;
-	t_vector	mouse_pos;
 	int			width_half;
 	int			height_half;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_instractions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:22:31 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:32:39 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static int	put_floor(t_data	*data, int from, int i)
 		t_image_update_pixel(&data->scene_layer, i, j, data->floor);
 		j++;
 	}
+	return (0);
 }
 
 static int	put_ceil(t_data	*data, int to, int i)
@@ -62,6 +63,7 @@ static int	put_ceil(t_data	*data, int to, int i)
 		t_image_update_pixel(&data->scene_layer, i, j, data->ceiling);
 		j++;
 	}
+	return (0);
 }
 
 void	put_wall(t_data *data, int i, t_ray *ray)
