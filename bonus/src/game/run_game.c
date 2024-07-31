@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 18:38:55 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 19:45:52 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ int	game_loop(t_data *data)
 	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
 		data->minimap_layer.img_ptr,
 		(WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
+	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
+		data->north_icon.img_ptr,
+		data->north_icon_pos.x + (WIN_WIDTH * MPSIZE) / 2, data->north_icon_pos.y + (WIN_WIDTH * MPSIZE) / 2);
 	return (normalize_sensibility(), put_weapon(), player_effects(), 0);
 }
 
@@ -116,6 +119,7 @@ void	run_game(t_data *data)
 	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
 	data->texture_door = t_image_loadfromxpm("textures/door.xpm");
+	data->north_icon = t_image_loadfromxpm("textures/N_ICON.xpm");
 	data->select_item.new_game_selected = true;
 	data->select_item.cont_ignored = true;
 	data->music = false;
