@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   send_ray.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/31 13:59:56 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:05:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,14 @@ void	send_ray(t_ray *ray)
 	dis_v = get_distance(ray->angle, intercept_v);
 	if (dis_h <= dis_v)
 	{
+		set_directions(ray, HORIZONTAL);
 		ray->intercept = intercept_h;
 		ray->side = HORIZONTAL;
 		ray->hit_door = ray->hit_door_h;
 		ray->distance = dis_h;
 		return ;
 	}
+	set_directions(ray, VERTICAL);
 	ray->intercept = intercept_v;
 	ray->side = VERTICAL;
 	ray->hit_door = ray->hit_door_v;

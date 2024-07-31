@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 15:54:08 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:23:49 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,6 +314,7 @@ typedef struct s_data
 	int				one_jump;
 	t_player_data	p_data;
 	t_image			skybox1;
+	pthread_mutex_t	lock;
 }	t_data;
 
 typedef struct s_wall_text
