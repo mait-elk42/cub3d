@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 16:22:50 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:43:37 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,20 @@ void	normalize_sensibility(void)
 	t_data	*data;
 
 	data = data_hook(NULL);
-	printf(">>%f\n", data->mouse.cam_sens_h);
-	if (data->mouse.cam_sens_h > 30.0)
-		data->mouse.cam_sens_h -= data->mouse.cam_sens_h / 2;
+	if (data->mouse.cam_sens_h > 15.0)
+		data->mouse.cam_sens_h -= 10.0;
 	else if (data->mouse.cam_sens_h > 10.0)
 		data->mouse.cam_sens_h -= 2.0;
 	else if (data->mouse.cam_sens_h > 0.0)
 		data->mouse.cam_sens_h -= 0.4;
 	else if (data->mouse.cam_sens_h <= 0.0)
 		data->mouse.cam_sens_h = 0;
+
 	if (data->mouse.cam_sens_v > 0.0)
 		data->mouse.cam_sens_v -= 0.5;
-	if (data->mouse.cam_sens_v > 5.0)
+	else if (data->mouse.cam_sens_v > 5.0)
 		data->mouse.cam_sens_v -= 5;
-	if (data->mouse.cam_sens_v <= 0.0)
+	else if (data->mouse.cam_sens_v <= 0.0)
 		data->mouse.cam_sens_v = 0;
 }
 

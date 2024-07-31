@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 15:17:45 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:39:43 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	handle_input(t_data *data, float radi)
 	data->up_down += CAM_SENS * 10 * (data->key_pressed.up);
 	data->up_down -= data->mouse.cam_sens_v * 10 * (data->mouse.to_down);
 	data->up_down -= CAM_SENS * 10 * (data->key_pressed.down);
-	irange(&data->up_down, -180, 180);
+	irange(&data->up_down, -500, 500);
 	if (data->player.angle > 360)
 		data->player.angle -= 360;
 	if (data->player.angle < 0)
