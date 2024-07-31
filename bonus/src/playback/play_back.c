@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   play_back.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:40:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/31 15:05:08 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 16:50:16 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	catch_signals(void)
 	return (0);
 }
 
-void	start()
+void	start(void)
 {
 	t_data	*data;
 

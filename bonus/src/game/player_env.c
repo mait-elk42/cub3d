@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 19:02:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 11:06:03 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:50:05 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,25 @@ void	player_effects(void)
 		if (data->jump == 0)
 			data->one_jump = 0;
 	}
+	if (data->key_pressed.shift && data->player.is_walking)
+	{
+		if (data->player.head_angle > 360)
+			data->player.head_angle = 0;
+		data->player.head_angle += 40;
+		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 15;
+		return ;
+	}
 	if (data->player.is_walking)
 	{
 		if (data->player.head_angle > 360)
 			data->player.head_angle = 0;
 		data->player.head_angle += 20;
 		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 10;
+	}else
+	{
+		if (data->player.head_angle > 360)
+			data->player.head_angle = 0;
+		data->player.head_angle += 10;
+		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 5;
 	}
 }

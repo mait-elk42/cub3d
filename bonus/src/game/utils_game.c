@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_game.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 16:39:43 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:45:55 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ void	mooove(bool *mv_x, bool *mv_y, t_vector2 axis)
 (axis.x * 10)) / TILE_SIZE] != 'D')
 	{
 		*mv_x = true;
-		data->player.position.x += axis.x * P_SPEED;
+		data->player.position.x += axis.x * (P_SPEED + (data->key_pressed.shift * 3));
 	}
 	if (map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
 (int)(pp.x) / TILE_SIZE] != '1' && map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
 (int)(pp.x) / TILE_SIZE] != 'D')
 	{
 		*mv_y = true;
-		data->player.position.y += axis.y * P_SPEED;
+		data->player.position.y += axis.y * (P_SPEED + (data->key_pressed.shift * 3));
 	}
 }
 

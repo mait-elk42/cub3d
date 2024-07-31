@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 15:04:13 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:02:27 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void		make_effect(char *file_name);
 # define P_SPEED 1.8
 # define CAM_SENS 2
 # define FOV 60
-# define MPSIZE 0.13
+# define MPSIZE 0.15
 
 typedef struct s_settings
 {
@@ -135,6 +135,7 @@ typedef struct s_keys_status
 	bool	left;
 	bool	right;
 	bool	space;
+	bool	shift;
 }	t_keys_status;
 
 typedef struct s_vector

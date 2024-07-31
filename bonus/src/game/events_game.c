@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 16:40:09 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:46:31 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	key_edit(t_data *data, int keycode, bool v)
 		data->key_pressed.right = v;
 	if (keycode == KEY_SPACE)
 		data->key_pressed.space = v;
+	if (keycode == KEY_SHIFT)
+		data->key_pressed.shift = v;
 }
 
 int	ev_key_up(int keycode, t_data *data)
