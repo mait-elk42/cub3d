@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 12:33:10 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:45:35 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 
+	// check_leaks(1);
 	data_init(&data, ac, av);
 	data.game_started = false;
 	play_music();
