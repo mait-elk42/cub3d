@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 17:58:56 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:35:13 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ void	draw_mini_map(void)
 			targ.x = ((WIN_WIDTH * MPSIZE) / 2) + cos (deg_to_rad(i)) * j;
 			targ.y = ((WIN_WIDTH * MPSIZE) / 2) + sin (deg_to_rad(i)) * j;
 			put_pixel(plyrpos, targ, j);
-			j++;
 			plyrpos.x += cos (deg_to_rad(data->player.angle + i + 90));
 			plyrpos.y += sin (deg_to_rad(data->player.angle + i + 90));
+			j++;
 		}
 		i += 0.30;
 	}
-	draw_player(WIN_WIDTH * 0.005);
+	draw_player(WIN_WIDTH * 0.003);
 }
