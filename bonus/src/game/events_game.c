@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 19:17:25 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:12:51 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static void	mouse_hv(int x, int y, t_data *d)
 int	ev_mouse_moved(int x, int y, void *data)
 {
 	t_data		*d;
-	t_vector	mouse_pos;
 	int			width_half;
 	int			height_half;
 
@@ -81,7 +80,7 @@ int	ev_mouse_moved(int x, int y, void *data)
 	width_half = WIN_WIDTH / 2;
 	height_half = WIN_HEIGHT / 2;
 	mouse_hv(x, y, data);
-	d->mouse.cam_sens_h = fabs((width_half - x) * 0.02);
+	d->mouse.cam_sens_h = fabs((width_half - x) * 0.05);
 	d->mouse.cam_sens_v = fabs((height_half - y) * 0.03);
 	if (d->mouse.center_mouse)
 		mlx_mouse_move(d->mlx.window_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2);

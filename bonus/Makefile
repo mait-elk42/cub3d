@@ -6,13 +6,12 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/07/31 13:57:02 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/07/31 15:04:23 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-ERROR_FLAGS = -Wextra -Werror -Wall #-Imlx/ -Lmlx/
 CC= cc
-CFLAGS=  -I include -I libft #-fsanitize=address -g
+CFLAGS= -Wextra -Werror -Wall -I include -I libft #-fsanitize=address -g
 SRC= src/utils.c src/print.c src/initialization.c src/door.c \
 	src/map_check/map_parse.c src/map_check/check_map.c src/map_check/check_colors.c \
 	src/io_operators/append2d.c src/strings.c \
@@ -30,7 +29,7 @@ SRC= src/utils.c src/print.c src/initialization.c src/door.c \
 OBJ= $(SRC:.c=.o)
 NAME = cub3d_bonus
 LIBFT = libft/libft.a
-MLX_ADD = mlx/libmlx.a -framework OpenGL -framework AppKit
+MLX_ADD = lib/libmlx.a -framework OpenGL -framework AppKit
 
 all: $(NAME)
 	@printf "\033[32m🎮 $(NAME) is Ready\033[0m\n"

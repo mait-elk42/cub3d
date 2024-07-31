@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:40:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/31 13:56:23 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:05:08 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	catch_signals(void)
 		print(2, "Unable to catch signals", 1);
 		return (-1);
 	}
+	return (0);
 }
 
 void	start()

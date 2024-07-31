@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/27 15:35:33 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 12:26:03 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,9 @@ void	put_pixel(t_vector2 player_pos, t_vector2 targ, int i)
 			&& player_pos.y > 0 && player_pos.y < sc_size.height
 			&& map[grid.y][grid.x] == '1'
 		)
-			t_image_update_pixel(&data->minimap_layer, targ.x, targ.y, 0x66000000);
-		else if (player_pos.x > 0 && player_pos.x < sc_size.width
-			&& player_pos.y > 0 && player_pos.y < sc_size.height
-			&& map[grid.y][grid.x] == 'D'
-		)
-			t_image_update_pixel(
-					&data->minimap_layer, targ.x, targ.y, 0x6600ff);
-		else
+			t_image_update_pixel(&data->minimap_layer,
+				targ.x, targ.y, 0x66000000);
+		else if (!is_door_minimap(player_pos, sc_size, targ))
 			t_image_update_pixel(
 				&data->minimap_layer, targ.x, targ.y, 0x66ffffff);
 		return ;
@@ -58,19 +53,20 @@ void	put_pixel(t_vector2 player_pos, t_vector2 targ, int i)
 	t_image_update_pixel(&data->minimap_layer, targ.x, targ.y, 0x000000);
 }
 
-void	draw_mini_map()
+void	draw_mini_map(void)
 {
 	t_data		*data;
-	t_size		size;
 	t_vector2	targ;
 	t_vector2	plyrpos;
+	double		i;
+	int			j;
 
 	data = data_hook(NULL);
-	size = (t_size) {0, 0};
-	double i = 0;
-	while (i <= 360) {
+	i = 0;
+	while (i <= 360)
+	{
 		plyrpos = data->player.position;
-		int j = 0;
+		j = 0;
 		while (j < (WIN_WIDTH * MPSIZE) / 2)
 		{
 			targ.x = ((WIN_WIDTH * MPSIZE) / 2) + cos (deg_to_rad(i)) * j;

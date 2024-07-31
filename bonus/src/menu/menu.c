@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/31 11:36:20 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:04:40 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	destroy_menu(t_menu *menu)
 	t_data	*data;
 	int		i;
 
+	i = 0;
 	data = data_hook(NULL);
 	destroy_this(menu->logo.img_ptr);
 	destroy_this(menu->bg.img_ptr);

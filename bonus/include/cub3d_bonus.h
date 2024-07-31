@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 11:35:49 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:04:13 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <signal.h>
 # include <pthread.h>
 
-void	make_effect(char *file_name);
+void		make_effect(char *file_name);
 
 /*
 	* Text Colors
@@ -86,7 +86,7 @@ void	make_effect(char *file_name);
 # define WIN_WIDTH 1440
 # define WIN_HEIGHT 920
 # define TILE_SIZE 32
-# define PLAYER_SPEED 1.8
+# define P_SPEED 1.8
 # define CAM_SENS 2
 # define FOV 60
 # define MPSIZE 0.13
@@ -98,7 +98,6 @@ typedef struct s_settings
 	double	camera_sensibility;
 	double	fov;
 }	t_settings;
-
 
 /*
 	* ENUMS
@@ -144,7 +143,7 @@ typedef struct s_vector
 	int		y;
 }	t_vector;
 
-void	draw_mini_map(void);
+void		draw_mini_map(void);
 
 typedef struct s_vector2
 {
@@ -266,7 +265,6 @@ typedef struct s_player_data
 	float		player_angle;
 }	t_player_data;
 
-
 typedef struct s_child
 {
 	pid_t	pid;
@@ -381,7 +379,7 @@ size_t		safe_strlen(char *str);
 /*
 	* FREE MEMORY
 */
-void	free_tab(char **array);
+void		free_tab(char **array);
 
 /*
 	* IO OPERATORS
@@ -400,7 +398,7 @@ void		init_player(t_data *data);
 void		run_game(t_data	*data);
 void		put_wall(t_data *data, int i, t_ray *ray);
 int			check_hit(t_vector2 coords,
-			t_ray *ray, t_vector2 *point, t_vector2 step);
+				t_ray *ray, t_vector2 *point, t_vector2 step);
 void		send_ray(t_ray *ray);
 float		get_distance(float angle, t_vector2 end);
 t_vector2	get_step(t_ray ray, int type);
@@ -414,6 +412,7 @@ void		show_menu(void);
 void		handle_door(t_data *data, int keycode);
 void		player_effects(void);
 void		put_weapon(void);
+int			is_door_minimap(t_vector2 pos, t_size sc, t_vector2 targ);
 
 /*
 	* IMAGES
@@ -439,6 +438,7 @@ long		get_time(void);
 int			imin(int a, int b);
 int			imax(int a, int b);
 void		irange(int *v, int min, int max);
+int			iinrange(int n, int min, int max);
 
 /*
 	* EVENTS
@@ -458,9 +458,9 @@ void		put_player_shape(double size);
 	* MENU
 */
 
-void	hide_menu(void);
-void	rest_player(void);
-void	put_to_win(int posx, int pox_y, t_image image);
-void	background_scale(t_data	*data, t_image	image);
+void		hide_menu(void);
+void		rest_player(void);
+void		put_to_win(int posx, int pox_y, t_image image);
+void		background_scale(t_data	*data, t_image	image);
 
 #endif
