@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 18:02:27 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/07/31 19:01:02 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,8 +314,8 @@ typedef struct s_data
 	bool			jumping;
 	int				one_jump;
 	t_player_data	p_data;
-	t_image			skybox1;
-	pthread_mutex_t	lock;
+	t_image			north_icon;
+	t_vector		north_icon_pos;
 }	t_data;
 
 typedef struct s_wall_text
