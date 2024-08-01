@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_args.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 19:22:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 09:26:08 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	check_file_ext(char *file_name, char *ext)
 	char	*file_extension;
 
 	file_extension = safe_strrchr(file_name, '.');
-	if (str_equal(file_extension, ext) == 0)
+	if (!str_equal(file_extension, ext))
 	{
 		put_error("Invalid file extension", file_name);
 		return (false);
@@ -32,7 +32,7 @@ void	check_file(int ac, char **av)
 	if (ac != 2)
 		eput_error("bad input", "[argv]", 1);
 	if (check_file_ext(av[1], ".cub") == false)
-		safe_exit(1);
+		exit(1);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1 || read(fd, NULL, 0) == -1)
 	{

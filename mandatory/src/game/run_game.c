@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:47:38 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 12:02:17 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,18 @@ int	game_loop(t_data *data)
 	float	angle;
 	int		i;
 
-	get_cf_color(data);
 	handle_input(data, deg_to_rad(data->player.angle));
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	angle = data->player.angle - (FOV / 2);
+	// ??? normalize angle before use it!! !added this 2 lines..!
+	angle -= 360 * (angle > 360);
+	angle += 360 * (angle < 0);
 	i = 0;
 	while (i < WIN_WIDTH)
 	{
-		send_ray(&ray, angle);
+		ray.angle = angle;
+		send_ray(&ray);
 		put_wall(data, i, &ray);
 		angle += (float) FOV / WIN_WIDTH;
 		i++;
@@ -84,8 +87,10 @@ void	run_game(t_data *data)
 	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);
 	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
 	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
+	get_cf_color(data);
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);
+	mlx_hook(data->mlx.window_ptr, ON_DESTROY, 0, ev_destroy, data);
 	mlx_loop(data->mlx.mlx_ptr);
 }

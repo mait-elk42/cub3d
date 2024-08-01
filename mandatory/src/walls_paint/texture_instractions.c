@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 10:06:52 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/22 16:34:43 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 12:12:01 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_image	wall_side(t_ray *ray, float *pxunit)
 			t = data->texture_we;
 		*pxunit = ray->intercept.y / (float)TILE_SIZE;
 	}
+	*pxunit -= floor(*pxunit);
 	return (t);
 }
 
@@ -65,10 +66,10 @@ void	put_wall(t_data *data, int i, t_ray *ray)
 	w.btm = w.top + w.wallheight;
 	w.t = wall_side(ray, &w.pxunit);
 	w.y = w.top;
-	if (ray->direction == NORTH || ray->direction == EAST)
-		w.t_offset.x = w.t.width - (int)(w.pxunit * w.t.width) % w.t.width;
+	if (ray->direction == SOUTH || ray->direction == WEST)
+		w.t_offset.x = w.t.width - (int)(w.pxunit * w.t.width);
 	else
-		w.t_offset.x = (int)(w.pxunit * w.t.width) % w.t.width;
+		w.t_offset.x = (int)(w.pxunit * w.t.width);
 	if (w.y < 0)
 		w.y = 0;
 	if (w.btm > WIN_HEIGHT)

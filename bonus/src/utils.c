@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:19:09 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 09:14:48 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,9 @@ void	safe_exit(int status)
 		mlx_destroy_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->mlx.mlx_ptr != NULL)
 		destroy_textures();
-	free(data->mlx.mlx_ptr);
-	data->mlx.mlx_ptr = NULL;
+	// do not free this becuase this is a struct has a lot of pointers that allocated, if you're freed this you will see leaks
+	// free(data->mlx.mlx_ptr);
+	// data->mlx.mlx_ptr = NULL;
 	exit(status);
 }
 

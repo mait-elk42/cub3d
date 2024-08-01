@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 16:51:54 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 12:18:03 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,11 +201,7 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
-	// trying to rotate triangle inside the mmap
-	t_vector2	walking_dir;
 }	t_player;
-
-void	put_player_shape(double size);
 
 typedef struct s_data
 {
@@ -219,10 +215,8 @@ typedef struct s_data
 	t_scene_info	scene_info;
 	t_image			scene_layer;
 	t_image			minimap_layer;
-	int				background_music;
 	int				ceiling;
 	int				floor;
-	t_image			logo;
 	t_image			texture_ea;
 	t_image			texture_no;
 	t_image			texture_so;
@@ -246,100 +240,103 @@ typedef struct s_wall_text
 /*
 	* DATA
 */
-t_data	*data_hook(t_data *data);
-void	data_init(t_data *data, int ac, char **av);
+t_data		*data_hook(t_data *data);
+void		data_init(t_data *data, int ac, char **av);
 
 /*
  * 	STRINGS
 */
-char	*str_skip(char *str, char *chars_to_skip);
-int		str_equal(char *s1, char *s2);
-char	*str_skip_wsp(char *str);
+char		*str_skip(char *str, char *chars_to_skip);
+int			str_equal(char *s1, char *s2);
+char		*str_skip_wsp(char *str);
 
 /*
  * ERRORS HANDLING
 */
-void	safe_exit(int status);
-void	put_error_sys(char *reason);
-void	put_error(char *error, char *reason);
-void	eput_error_sys(char *reason, int exit_status);
-void	eput_error(char *error, char *reason, int exit_status);
+void		safe_exit(int status);
+void		put_error_sys(char *reason);
+void		put_error(char *error, char *reason);
+void		eput_error_sys(char *reason, int exit_status);
+void		eput_error(char *error, char *reason, int exit_status);
 
 /*
 	* map CHECK
 */
-bool	check_file_ext(char *file_name, char *ext);
-void	check_file(int ac, char **av);
-void	init_lines(void);
-void	check_map(void);
-void	check_color(char type, char *value);
+bool		check_file_ext(char *file_name, char *ext);
+void		check_file(int ac, char **av);
+void		init_lines(void);
+void		check_map(void);
+void		check_color(char type, char *value);
 
 /*
 	* SAFE FUNCTIONS
 */
-char	*safe_strjoin(char *str1, char *str2);
-char	*safe_strrchr(char *s, char c);
-char	*safe_strchr(char *s, char c);
-void	*safe_calloc(size_t size);
-char	*safe_strdup(char *s);
-size_t	safe_strlen(char *str);
+char		*safe_strjoin(char *str1, char *str2);
+char		*safe_strrchr(char *s, char c);
+char		*safe_strchr(char *s, char c);
+void		*safe_calloc(size_t size);
+char		*safe_strdup(char *s);
+size_t		safe_strlen(char *str);
 
 /*
 	* FREE MEMORY
 */
-void	free_tab(char **array);
+void		free_tab(char **array);
 
 /*
 	* IO OPERATORS
 */
-char	**append_2d(char **old_tab, char *to_append);
-void	set_screen_size(void);
-void	print(int fd, char *msg, int endl);
-void	print_2d(char **arr);
-float	normalize_angle(float angle);
-void	logger(char *msg);
+char		**append_2d(char **old_tab, char *to_append);
+void		set_screen_size(void);
+void		print(int fd, char *msg, int endl);
+void		print_2d(char **arr);
+float		normalize_angle(float angle);
 
 /*
 	* GAME
 */
-void	init_player(t_data *data);
-void	run_game(t_data	*data);
-void	put_wall(t_data *data, int i, t_ray *ray);
-void	put_bgd(t_image *image, int ceil_color, int floor_color);
-void	send_ray(t_ray *ray, double ray_angle);
-t_ray	send_horizontal_ray(float ray_angle, t_size screen_size);
-t_ray	send_virtical_ray(float ray_angle, t_size screen_size);
-float	get_distence(float angle, t_vector2 end);
-void	set_distence(t_ray *ray);
-void	set_directions(t_ray *ray, int ray_type);
-void	set_ray_side(t_ray *ray, float angle);
-int		check_wall(t_vector2 coords, t_ray *ray);
+void		init_player(t_data *data);
+void		run_game(t_data	*data);
+void		put_wall(t_data *data, int i, t_ray *ray);
+void		put_bgd(t_image *image, int ceil_color, int floor_color);
+void		set_directions(t_ray *ray, int ray_type);
 
+/*
+	* RAY
+*/
+void		send_ray(t_ray *ray);
+int			check_hit(t_vector2 coords, t_ray *ray);
+void		set_directions(t_ray *ray, int ray_type);
+void		set_ray_side(t_ray *ray);
+float		get_distance(float angle, t_vector2 end);
+t_vector2	get_step(t_ray ray, int type);
+t_vector2	get_intercept_v(t_ray ray);
+t_vector2	get_intercept_h(t_ray ray);
 /*
 	* IMAGES
 */
-t_image	t_image_create(int sizex, int sizey, int default_color);
-void	t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
-void	t_image_clear_color(t_image *imgptr, int color);
-t_image	t_image_loadfromxpm(char *filename);
+t_image		t_image_create(int sizex, int sizey, int default_color);
+void		t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
+void		t_image_clear_color(t_image *imgptr, int color);
+t_image		t_image_loadfromxpm(char *filename);
 
 /*
 	* MATH
 */
-float	deg_to_rad(float angle);
-long	get_time(void);
+float		deg_to_rad(float angle);
+long		get_time(void);
 
 /*
 	* EVENTS
 */
-int		ev_key_up(int keycode, t_data *data);
-int		ev_key_down(int keycode, t_data *data);
+int			ev_key_up(int keycode, t_data *data);
+int			ev_key_down(int keycode, t_data *data);
+int			ev_destroy(t_data *data);
 
 /**
 	* DRAW
  */
-void	draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
-void	handle_input(t_data *data, float radi);
-void	draw_mini_map(void);
+void		draw_line(t_image *image, int color, t_vector2 from, t_vector2 to);
+void		handle_input(t_data *data, float radi);
 
 #endif

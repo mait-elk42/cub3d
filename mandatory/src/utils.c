@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:47:38 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 12:19:21 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ void	destroy_textures(void)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->texture_so.img_ptr);
 	if (data->texture_we.img_ptr != NULL)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->texture_we.img_ptr);
+	// you forget this images !!
+	if (data->scene_layer.img_ptr != NULL)
+		mlx_destroy_image(data->mlx.mlx_ptr, data->scene_layer.img_ptr);
+	if (data->minimap_layer.img_ptr != NULL)
+		mlx_destroy_image(data->mlx.mlx_ptr, data->minimap_layer.img_ptr);
 }
 
 void	safe_exit(int status)
@@ -47,17 +52,16 @@ void	safe_exit(int status)
 	data->lines = NULL;
 	free_tab(data->map);
 	data->map = NULL;
-	free(data->map);
-	data->map = NULL;
 	ft_bzero(&data->scene_info, sizeof(t_scene_info));
 	close(data->fd_file_input);
 	if (data->mlx.mlx_ptr != NULL && data->mlx.window_ptr != NULL)
 		mlx_destroy_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->mlx.mlx_ptr != NULL)
 		destroy_textures();
-	free(data->mlx.mlx_ptr);
-	data->mlx.mlx_ptr = NULL;
-	exit(status);
+	// do not keep this , makayfreeyi maawaaaloo
+	// free(data->mlx.mlx_ptr);
+	// data->mlx.mlx_ptr = NULL;
+	exit (status);
 }
 
 void	set_screen_size(void)

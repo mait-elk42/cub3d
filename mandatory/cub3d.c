@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 17:06:01 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:43:28 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,19 @@ void	check_leaks(int i)
 		atexit((void (*)(void))check_leaks);
 	else
 	{
-		printf("====================leaks===========================");
-		system("leaks cub3d | grep bytes");
-		printf("====================lsof===========================");
+		printf("====================leaks===========================\n");
+		system("leaks cub3d");
+		printf("====================lsof===========================\n");
 		system("lsof -c cub3d");
-		printf("=====================================================");
+		printf("=====================================================\n");
 	}
 }
-
-//norm error :) v
-# error mandatory needs fix double free :: [not yet]
 
 int	main(int ac, char **av)
 {
 	t_data	data;
 
+	check_leaks(1);
 	data_init(&data, ac, av);
 	run_game(&data);
 	safe_exit(0);

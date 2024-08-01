@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 10:47:38 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:51:15 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	make_map_square(void)
 	data = data_hook(NULL);
 	map = data->map;
 	new_map = ft_calloc(data->screen.height + 1, sizeof(char *));
-	while (map[size.height])
+	while (map && map[size.height])
 	{
 		line_size = safe_strlen(map[size.height]);
 		new_map[size.height] = ft_calloc(data->screen.width + 1, 1);
-		if (new_map[size.height] == NULL)
+		if (new_map && new_map[size.height] == NULL)
 		{
 			free_tab(new_map);
 			safe_exit(1);
@@ -36,7 +36,7 @@ void	make_map_square(void)
 		ft_memcpy(new_map[size.height], map[size.height], line_size);
 		size.height++;
 	}
-	free (data->map);
+	free_tab(data->map);
 	data->map = new_map;
 }
 

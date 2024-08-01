@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "mlx_int.h": "c",
+        "signal.h": "c"
+    }
+}

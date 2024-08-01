@@ -71,9 +71,9 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 {
 	char	*value;
 
-	data->lines = append_2d(data->lines, line);
 	if (i < 6)
 	{
+		data->lines = append_2d(data->lines, line);
 		if (safe_strchr(line, ' ') == NULL)
 			eput_error("bad define line", line, 1);
 		line = str_skip_wsp(line);
@@ -92,34 +92,34 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 	}
 	if ((int)safe_strlen(line) > data->scene_info.map_xsize)
 		data->scene_info.map_xsize = safe_strlen(line);
-	data->scene_info.map_ysize++;
-	return (data->map = append_2d(data->map, line), true);
+	return (data->scene_info.map_ysize++, true);
 }
 
 void	init_lines(void)
 {
-	t_data	*data;
 	char	*line;
 	size_t	i;
 
-	data = data_hook(NULL);
 	i = 0;
-	line = get_next_line(data->fd_file_input);
+	line = get_next_line(data_hook(NULL)->fd_file_input);
 	while (line)
 	{
 		if (ft_strchr(line, '\n'))
 			*ft_strchr(line, '\n') = '\0';
 		if (safe_strlen(line) > 0)
 		{
-			if (is_valid_line(data, line, i) == false)
+			if (is_valid_line(data_hook(NULL), line, i) == false)
 				safe_exit(1);
+			if (i >= 6)
+				data_hook(NULL)->map = append_2d(data_hook(NULL)->map, line);
 			i++;
 		}
 		else if (free(line), i > 6)
 			eput_error("invalid newline place", "newline", 1);
-		line = get_next_line(data->fd_file_input);
+		line = get_next_line(data_hook(NULL)->fd_file_input);
 	}
-	data->fd_file_input && close (data->fd_file_input);
-	if (data->map == NULL)
+	if (data_hook(NULL)->fd_file_input > 0)
+		close (data_hook(NULL)->fd_file_input);
+	if (data_hook(NULL)->map == NULL || *data_hook(NULL)->map == NULL)
 		eput_error("is empty", "[map]", 1);
 }

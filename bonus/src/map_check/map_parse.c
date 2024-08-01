@@ -116,11 +116,11 @@ void	init_lines(void)
 			i++;
 		}
 		else if (free(line), i > 6)
-			eput_error("invalid newline place", "newline", 1);
+			eput_error("invalid newline place", "[newline]", 1);
 		line = get_next_line(data->fd_file_input);
 	}
 	data->fd_file_input && close (data->fd_file_input);
 	data->map = &data->lines[6];
-	if (data->map == NULL)
-		eput_error("is empty", "[map]", 1);
+	if (data_hook(NULL)->map == NULL)
+		eput_error("invalid file", "[MAP]", 1);
 }
