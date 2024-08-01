@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 11:55:25 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 09:36:27 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,22 @@ int	str_equal(char *s1, char *s2)
 	if (s1 == NULL || s2 == NULL)
 		return (0);
 	while (s1[i] || s2[i])
+	{
+		if (s1[i] != s2[i])
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	strn_equal(char *s1, char *s2, int n)
+{
+	int	i;
+
+	i = 0;
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	while ((s1[i] || s2[i]) && i < n)
 	{
 		if (s1[i] != s2[i])
 			return (0);

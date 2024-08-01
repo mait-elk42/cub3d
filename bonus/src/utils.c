@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:19:09 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 10:58:56 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,16 @@ void	destroy_textures(void)
 	t_scene_info	scene;
 
 	data = data_hook(NULL);
+	if (data->mlx.mlx_ptr == NULL)
+		return ;
 	scene = data->scene_info;
-	if (data->texture_ea.img_ptr != NULL)
-		mlx_destroy_image(data->mlx.mlx_ptr, data->texture_ea.img_ptr);
-	if (data->texture_no.img_ptr != NULL)
-		mlx_destroy_image(data->mlx.mlx_ptr, data->texture_no.img_ptr);
-	if (data->texture_so.img_ptr != NULL)
-		mlx_destroy_image(data->mlx.mlx_ptr, data->texture_so.img_ptr);
-	if (data->texture_we.img_ptr != NULL)
-		mlx_destroy_image(data->mlx.mlx_ptr, data->texture_we.img_ptr);
+	destroy_this(&data->texture_ea.img_ptr);
+	destroy_this(&data->texture_no.img_ptr);
+	destroy_this(&data->texture_so.img_ptr);
+	destroy_this(&data->texture_we.img_ptr);
+	destroy_this(&data->north_icon.img_ptr);
+	destroy_this(&data->north_icon.img_ptr);
+	destroy_this(&data->north_icon.img_ptr);
 }
 
 void	safe_exit(int status)
@@ -46,14 +47,15 @@ void	safe_exit(int status)
 	destroy_menu(&data->menu);
 	free_tab(data->lines);
 	data->lines = NULL;
+	free_tab(data->map);
+	data->map = NULL;
 	ft_bzero(&data->scene_info, sizeof(t_scene_info));
 	close(data->fd_file_input);
-	if (data->mlx.mlx_ptr != NULL && data->mlx.window_ptr != NULL)
-		mlx_destroy_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->mlx.mlx_ptr != NULL)
 		destroy_textures();
-	free(data->mlx.mlx_ptr);
-	data->mlx.mlx_ptr = NULL;
+	if (data->mlx.mlx_ptr != NULL && data->mlx.window_ptr != NULL)
+		mlx_destroy_window (data->mlx.mlx_ptr, data->mlx.window_ptr);
+	exit(status);
 	exit(status);
 }
 

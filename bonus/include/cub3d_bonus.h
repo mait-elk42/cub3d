@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 19:01:02 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 10:58:18 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,6 @@ typedef struct s_data
 	int				background_music;
 	int				ceiling;
 	int				floor;
-	t_image			logo;
 	t_image			texture_ea;
 	t_image			texture_no;
 	t_image			texture_so;
@@ -348,6 +347,7 @@ void		data_init(t_data *data, int ac, char **av);
 char		*str_skip(char *str, char *chars_to_skip);
 int			str_equal(char *s1, char *s2);
 char		*str_skip_wsp(char *str);
+int			strn_equal(char *s1, char *s2, int n);
 
 /**
  * ERRORS HANDLING
@@ -366,6 +366,7 @@ void		check_file(int ac, char **av);
 void		init_lines(void);
 void		check_map(void);
 void		check_color(char type, char *value);
+void		check_texture(char *varname, char *value);
 
 /*
 	* SAFE FUNCTIONS
@@ -408,7 +409,7 @@ t_vector2	get_intercept_h(t_ray ray);
 void		set_directions(t_ray *ray, int ray_type);
 void		set_ray_side(t_ray *ray);
 void		handle_selected_item(int key);
-void		destroy_this(void *img_ptr);
+void		destroy_this(void **img_ptr);
 void		show_menu(void);
 void		handle_door(t_data *data, int keycode);
 void		player_effects(void);

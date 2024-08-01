@@ -6,19 +6,22 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/31 15:04:40 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:00:08 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
 
-void	destroy_this(void *img_ptr)
+void	destroy_this(void **img_ptr)
 {
 	void	*mlx_ptr;
 
 	mlx_ptr = data_hook(NULL)->mlx.mlx_ptr;
-	if (img_ptr != NULL)
-		mlx_destroy_image(mlx_ptr, img_ptr);
+	if (mlx_ptr == NULL)
+		return ;
+	if (*img_ptr != NULL)
+		mlx_destroy_image(mlx_ptr, *img_ptr);
+	*img_ptr = NULL;
 }
 
 void	destroy_menu(t_menu *menu)
@@ -28,20 +31,20 @@ void	destroy_menu(t_menu *menu)
 
 	i = 0;
 	data = data_hook(NULL);
-	destroy_this(menu->logo.img_ptr);
-	destroy_this(menu->bg.img_ptr);
-	destroy_this(menu->hint.img_ptr);
-	destroy_this(menu->s_new_game.img_ptr);
-	destroy_this(menu->us_new_game.img_ptr);
-	destroy_this(menu->s_cont.img_ptr);
-	destroy_this(menu->us_cont.img_ptr);
-	destroy_this(menu->ig_cont.img_ptr);
-	destroy_this(menu->s_exit.img_ptr);
-	destroy_this(menu->us_exit.img_ptr);
-	destroy_this(menu->s_music.img_ptr);
-	destroy_this(menu->us_music.img_ptr);
+	destroy_this(&menu->logo.img_ptr);
+	destroy_this(&menu->bg.img_ptr);
+	destroy_this(&menu->hint.img_ptr);
+	destroy_this(&menu->s_new_game.img_ptr);
+	destroy_this(&menu->us_new_game.img_ptr);
+	destroy_this(&menu->s_cont.img_ptr);
+	destroy_this(&menu->us_cont.img_ptr);
+	destroy_this(&menu->ig_cont.img_ptr);
+	destroy_this(&menu->s_exit.img_ptr);
+	destroy_this(&menu->us_exit.img_ptr);
+	destroy_this(&menu->s_music.img_ptr);
+	destroy_this(&menu->us_music.img_ptr);
 	while (i < 5)
-		destroy_this(data->player.hand_frames[i++].img_ptr);
+		destroy_this(&data->player.hand_frames[i++].img_ptr);
 }
 
 void	load_menu_images(t_menu *menu)
