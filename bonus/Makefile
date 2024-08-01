@@ -6,7 +6,7 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/08/01 14:39:03 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/08/01 15:31:24 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRC= src/utils.c src/print.c src/initialization.c src/door.c \
 OBJ= $(SRC:.c=.o)
 NAME = cub3d_bonus
 LIBFT = libft/libft.a
-MLX_ADD = lib/libmlx.a -framework OpenGL -framework AppKit
+MLX_ADD = mlx/libmlx.a -framework OpenGL -framework AppKit
 
 all: $(NAME)
 	@printf "\033[32m🎮 $(NAME) is Ready\033[0m\n"

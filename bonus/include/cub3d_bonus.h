@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 14:46:01 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:29:16 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,6 @@ typedef struct s_select
 	bool	exit_selected;
 	bool	cont_selected;
 	bool	cont_ignored;
-	bool	music;
 }	t_select;
 
 typedef struct s_image
@@ -224,7 +223,6 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
-	// t_vector2	walking_dir;
 	float		real_head;
 	float		head_angle;
 	bool		is_walking;
@@ -262,12 +260,6 @@ typedef struct s_player_data
 	float		player_angle;
 }	t_player_data;
 
-typedef struct s_child
-{
-	pid_t	pid;
-	int		*ret_val;
-}	t_child;
-
 typedef struct s_data
 {
 	bool			game_started;
@@ -281,7 +273,6 @@ typedef struct s_data
 	t_scene_info	scene_info;
 	t_image			scene_layer;
 	t_image			minimap_layer;
-	int				background_music;
 	int				ceiling;
 	int				floor;
 	t_image			texture_ea;
@@ -293,10 +284,8 @@ typedef struct s_data
 	t_mouse			mouse;
 	t_select		select_item;
 	t_menu			menu;
-	t_child			child;
 	t_vector		mouse_pos_new;
 	t_vector		mouse_pos;
-	bool			music;
 	int				start;
 	int				door_framemv;
 	bool			player_looking_at_door;
@@ -310,8 +299,6 @@ typedef struct s_data
 	t_player_data	p_data;
 	t_image			north_icon;
 	t_vector		north_icon_pos;
-	pthread_t		thread;
-	pthread_mutex_t	lock;
 }	t_data;
 
 typedef struct s_wall_text

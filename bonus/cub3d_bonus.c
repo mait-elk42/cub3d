@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 13:19:41 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:32:15 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_leaks(int i)
 	else
 	{
 		printf("====================leaks===========================\n");
-		system("leaks cub3d");
+		system("leaks cub3d_bonus");
 		// printf("==================================================\n");
 		// printf("====================lsof===========================\n");
 		// system("lsof -c cub3d");
@@ -31,11 +31,9 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 
-	// check_leaks(1);
-	printf("%d\n", getpid());
+	check_leaks(1);
 	data_init(&data, ac, av);
 	data.game_started = false;
 	run_game(&data);
 	safe_exit(0);
-	exit (0);
 }
