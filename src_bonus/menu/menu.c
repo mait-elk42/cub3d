@@ -6,19 +6,24 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/31 15:04:40 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:24:42 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
 
-void	destroy_this(void *img_ptr)
+void	destroy_this(void **img_ptr)
 {
 	void	*mlx_ptr;
 
+	if (*img_ptr == NULL)
+		return ;
 	mlx_ptr = data_hook(NULL)->mlx.mlx_ptr;
-	if (img_ptr != NULL)
-		mlx_destroy_image(mlx_ptr, img_ptr);
+	if (mlx_ptr == NULL)
+		return ;
+	if (*img_ptr != NULL)
+		mlx_destroy_image(mlx_ptr, *img_ptr);
+	*img_ptr = NULL;
 }
 
 void	destroy_menu(t_menu *menu)
@@ -27,28 +32,27 @@ void	destroy_menu(t_menu *menu)
 	int		i;
 
 	i = 0;
+	(void)menu;
 	data = data_hook(NULL);
-	destroy_this(menu->logo.img_ptr);
-	destroy_this(menu->bg.img_ptr);
-	destroy_this(menu->hint.img_ptr);
-	destroy_this(menu->s_new_game.img_ptr);
-	destroy_this(menu->us_new_game.img_ptr);
-	destroy_this(menu->s_cont.img_ptr);
-	destroy_this(menu->us_cont.img_ptr);
-	destroy_this(menu->ig_cont.img_ptr);
-	destroy_this(menu->s_exit.img_ptr);
-	destroy_this(menu->us_exit.img_ptr);
-	destroy_this(menu->s_music.img_ptr);
-	destroy_this(menu->us_music.img_ptr);
+	destroy_this(&menu->logo.img_ptr);
+	destroy_this(&menu->bg.img_ptr);
+	destroy_this(&menu->hint.img_ptr);
+	destroy_this(&menu->s_new_game.img_ptr);
+	destroy_this(&menu->us_new_game.img_ptr);
+	destroy_this(&menu->s_cont.img_ptr);
+	destroy_this(&menu->us_cont.img_ptr);
+	destroy_this(&menu->ig_cont.img_ptr);
+	destroy_this(&menu->s_exit.img_ptr);
+	destroy_this(&menu->us_exit.img_ptr);
 	while (i < 5)
-		destroy_this(data->player.hand_frames[i++].img_ptr);
+		destroy_this(&data->player.hand_frames[i++].img_ptr);
 }
 
 void	load_menu_images(t_menu *menu)
 {
 	menu->logo = t_image_loadfromxpm("textures/cub_logo.xpm");
 	menu->bg = t_image_loadfromxpm("textures/bg.xpm");
-	menu->hint = t_image_loadfromxpm("textures/enter_to_select.xpm");
+	menu->hint = t_image_loadfromxpm("textures/hint.xpm");
 	menu->s_new_game = t_image_loadfromxpm("textures/new_game_selected.xpm");
 	menu->us_new_game = t_image_loadfromxpm("textures/new_game_unselected.xpm");
 	menu->ig_cont = t_image_loadfromxpm("textures/continue_ignored.xpm");
@@ -56,11 +60,8 @@ void	load_menu_images(t_menu *menu)
 	menu->us_cont = t_image_loadfromxpm("textures/continue_unselected.xpm");
 	menu->s_exit = t_image_loadfromxpm("textures/exit_selected.xpm");
 	menu->us_exit = t_image_loadfromxpm("textures/exit_unselected.xpm");
-	menu->s_music = t_image_loadfromxpm("textures/music_selected.xpm");
-	menu->us_music = t_image_loadfromxpm("textures/music_unselected.xpm");
 	data_hook(NULL)->select_item.new_game_selected = true;
 	data_hook(NULL)->select_item.cont_ignored = true;
-	data_hook(NULL)->music = true;
 }
 
 void	set_defaults(t_menu menu)
@@ -76,13 +77,12 @@ void	set_defaults(t_menu menu)
 	put_to_win(width_half - 240, (WIN_HEIGHT / 2) - 350, menu.logo);
 	if (_switch)
 		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT - 80), menu.hint);
-	put_to_win(width_half - 140, ((WIN_HEIGHT / 2) - 50), menu.us_new_game);
+	put_to_win(width_half - 140, ((WIN_HEIGHT / 2)), menu.us_new_game);
 	if (data->start == 0)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 50, menu.ig_cont);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 100, menu.ig_cont);
 	else
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 50, menu.us_cont);
-	put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 150, menu.us_music);
-	put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 250, menu.us_exit);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 100, menu.us_cont);
+	put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 200, menu.us_exit);
 	if (abs(n) % 35 == 0)
 		_switch = _switch == false;
 	n++;
@@ -101,11 +101,9 @@ void	show_menu(void)
 	select = data->select_item;
 	set_defaults(menu);
 	if (data->select_item.item == 0)
-		put_to_win(width_half - 140, ((WIN_HEIGHT / 2) - 50), menu.s_new_game);
+		put_to_win(width_half - 140, ((WIN_HEIGHT / 2)), menu.s_new_game);
 	if (data->select_item.item == 1)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 50, menu.s_cont);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 100, menu.s_cont);
 	if (data->select_item.item == 2)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 150, menu.s_music);
-	if (data->select_item.item == 3)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 250, menu.s_exit);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 200, menu.s_exit);
 }

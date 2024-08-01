@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 10:27:39 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 14:38:04 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	make_map_square(void)
 		ft_memcpy(new_map[size.height], map[size.height], line_size);
 		size.height++;
 	}
+	free_tab(data->map);
 	data->map = new_map;
 }
 
@@ -54,21 +55,52 @@ void	print_data_collected(t_data	*data)
 	printf("√ SOUTH_texture : %s\n", data->scene_info.south_texture);
 }
 
+int	_mlx_init(t_data *data)
+{
+	void	*m_win;
+	void	*m_ptr;
+
+	m_ptr = mlx_init();
+	if (m_ptr == NULL)
+	{
+		print(2, "Cannot Init Mlx Connection" "[MLX_DYLIB]", 1);
+		exit (1);
+	}
+	m_win = mlx_new_window (m_ptr, WIN_WIDTH, WIN_HEIGHT, "cub3d");
+	if (m_ptr == NULL)
+	{
+		print (2, "cannot open mlx window" "[MLX_DYLIB]", 1);
+		exit (1);
+	}
+	data->mlx.mlx_ptr = m_ptr;
+	data->mlx.window_ptr = m_win;
+	return (0);
+}
+void	check_textures(void)
+{
+	t_data	*data;
+	int		i;
+
+	i = 0;
+	data = data_hook(NULL);
+	while (data->lines && data->lines[i] && i < 4)
+	{
+		check_texture(str_skip_wsp (data->lines[i]), str_skip_wsp(data->lines[i] + 3));
+		i++;
+	}
+}
+
+
 void	data_init(t_data *data, int ac, char **av)
 {
 	data_hook(data);
 	ft_bzero(data, sizeof(t_data));
 	check_file(ac, av);
-	data->mlx.mlx_ptr = mlx_init();
-	if (data->mlx.mlx_ptr == NULL)
-		eput_error("Cannot Init Mlx Connection", "[MLX_DYLIB]", 1);
+	_mlx_init (data);
 	init_lines();
 	check_map();
-	data->mlx.window_ptr = mlx_new_window(data->mlx.mlx_ptr,
-			WIN_WIDTH, WIN_HEIGHT, "cub3d");
-	if (data->mlx.window_ptr == NULL)
-		eput_error("cannot open mlx window", "[MLX_DYLIB]", 1);
+	check_textures();
 	set_screen_size();
-	print_data_collected(data);
 	make_map_square();
+	print_data_collected(data);
 }

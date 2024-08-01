@@ -89,10 +89,10 @@ void	check_map(void)
 	data = data_hook(NULL);
 	pos.y = 0;
 	found_plr = false;
-	while (data->map[pos.y])
+	while (data->map && data->map[pos.y])
 	{
 		pos.x = 0;
-		while (data->map[pos.y][pos.x])
+		while (data->map && data->map[pos.y][pos.x])
 		{
 			if (pos.y != 0 && pos.x != 0)
 			{

@@ -28,7 +28,7 @@ static bool	check_texture_content(char	*filename)
 	return (true);
 }
 
-static void	check_texture(char *varname, char *value)
+void	check_texture(char *varname, char *value)
 {
 	t_data	*data;
 	int		fd;
@@ -71,9 +71,9 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 {
 	char	*value;
 
-	data->lines = append_2d(data->lines, line);
 	if (i < 6)
 	{
+		data->lines = append_2d(data->lines, line);
 		if (safe_strchr(line, ' ') == NULL)
 			eput_error("bad define line", line, 1);
 		line = str_skip_wsp(line);
@@ -84,8 +84,6 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 			return (put_error("found empty name", line), false);
 		if (!is_valid_name_index(line, i))
 			return (put_error("bad name or sort", line), false);
-		if (i >= 0 && i <= 3)
-			check_texture(line, value);
 		else if (i > 3 && i <= 5)
 			check_color(line[0], value);
 		return (true);
@@ -98,29 +96,28 @@ static bool	is_valid_line(t_data *data, char *line, int i)
 
 void	init_lines(void)
 {
-	t_data	*data;
 	char	*line;
 	size_t	i;
 
-	data = data_hook(NULL);
 	i = 0;
-	line = get_next_line(data->fd_file_input);
-	while (line)
+	line = get_next_line(data_hook(NULL)->fd_file_input);
+	while (line && *line)
 	{
 		if (ft_strchr(line, '\n'))
 			*ft_strchr(line, '\n') = '\0';
 		if (safe_strlen(line) > 0)
 		{
-			if (is_valid_line(data, line, i) == false)
+			if (is_valid_line(data_hook(NULL), line, i) == false)
 				safe_exit(1);
+			if (i >= 6)
+				data_hook(NULL)->map = append_2d(data_hook(NULL)->map, line);
 			i++;
 		}
 		else if (free(line), i > 6)
-			eput_error("invalid newline place", "[newline]", 1);
-		line = get_next_line(data->fd_file_input);
+			eput_error("invalid newline place", "newline", 1);
+		line = get_next_line(data_hook(NULL)->fd_file_input);
 	}
-	data->fd_file_input && close (data->fd_file_input);
-	data->map = &data->lines[6];
+	data_hook(NULL)->fd_file_input && close (data_hook(NULL)->fd_file_input);
 	if (data_hook(NULL)->map == NULL)
-		eput_error("invalid file", "[MAP]", 1);
+		eput_error("is empty", "[map]", 1);
 }

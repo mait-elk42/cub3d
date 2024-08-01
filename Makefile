@@ -6,7 +6,7 @@
 #    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 15:22:43 by mait-elk          #+#    #+#              #
-#    Updated: 2024/08/01 16:04:42 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/08/01 16:10:06 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,6 @@ SRC_BONUS = src_bonus/utils.c src_bonus/print.c src_bonus/initialization.c src_b
 	src_bonus/map_utils/draw_map.c \
 	src_bonus/walls_paint/texture_instractions.c \
 	src_bonus/menu/menu.c src_bonus/menu/menu_events.c src_bonus/menu/menu_utils.c \
-	src_bonus/playback/play_back.c src_bonus/playback/sound_effect.c\
 	src_bonus/raycast/send_ray.c src_bonus/raycast/ray_utils_1.c src_bonus/raycast/ray_utils_2.c
 
 OBJ = $(SRC:.c=.o)

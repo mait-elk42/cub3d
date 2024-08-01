@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:21:53 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/23 09:59:36 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:26:12 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ char	*safe_strdup(char *s)
 	char	*res;
 
 	i = 0;
+	if (s == NULL)
+		return (NULL);
 	res = malloc(ft_strlen(s) + 1);
-	if (!res)
+	if (res == NULL)
 		safe_exit(1);
 	while (*s)
 	{

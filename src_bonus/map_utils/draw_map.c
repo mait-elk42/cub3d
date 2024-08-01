@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 15:51:21 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:13:59 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,8 @@ void	draw_mini_map(void)
 			j++;
 		}
 		if (i == 0)
-			// data->north_icon_pos = (t_vector){(-cos (deg_to_rad(data->player.angle - 90)) * (WIN_WIDTH * MPSIZE) / 2) + 100, (sin (deg_to_rad(data->player.angle - 90)) * (WIN_WIDTH * MPSIZE) / 2) + 100};
-			data->north_icon_pos = (t_vector){((WIN_WIDTH * MPSIZE / 2) - 16) + (-cos (deg_to_rad(data->player.angle - 90)) * (WIN_WIDTH * MPSIZE) / 2 * 1.2), ((WIN_WIDTH * MPSIZE / 2) - 16) + (sin (deg_to_rad(data->player.angle - 90)) * (WIN_WIDTH * MPSIZE) / 2 * 1.2)};
+			data->north_icon_pos = (t_vector){((WIN_WIDTH * MPSIZE / 2) - 16) + (-cos (deg_to_rad(data->player.angle)) * (WIN_WIDTH * MPSIZE) / 2), ((WIN_WIDTH * MPSIZE / 2) - 16) + (sin (deg_to_rad(data->player.angle)) * (WIN_WIDTH * MPSIZE) / 2)};
 		i += 0.30;
 	}
-	draw_player(WIN_WIDTH * 0.003);
+	draw_player(WIN_WIDTH * 0.005);
 }

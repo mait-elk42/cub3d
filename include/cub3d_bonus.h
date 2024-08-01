@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 15:50:24 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:41:28 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@
 # include <unistd.h>
 # include <signal.h>
 # include <pthread.h>
-
-void		make_effect(char *file_name);
 
 /*
 	* Text Colors
@@ -189,7 +187,6 @@ typedef struct s_select
 	bool	exit_selected;
 	bool	cont_selected;
 	bool	cont_ignored;
-	bool	music;
 }	t_select;
 
 typedef struct s_image
@@ -226,7 +223,6 @@ typedef struct s_player
 	t_vector2	position;
 	t_image		texture;
 	float		angle;
-	// t_vector2	walking_dir;
 	float		real_head;
 	float		head_angle;
 	bool		is_walking;
@@ -255,8 +251,6 @@ typedef struct s_menu
 	t_image		s_cont;
 	t_image		ig_cont;
 	t_image		us_cont;
-	t_image		s_music;
-	t_image		us_music;
 	t_image		hint;
 }	t_menu;
 
@@ -265,12 +259,6 @@ typedef struct s_player_data
 	t_vector	player_pos;
 	float		player_angle;
 }	t_player_data;
-
-typedef struct s_child
-{
-	pid_t	pid;
-	int		*ret_val;
-}	t_child;
 
 typedef struct s_data
 {
@@ -285,10 +273,8 @@ typedef struct s_data
 	t_scene_info	scene_info;
 	t_image			scene_layer;
 	t_image			minimap_layer;
-	int				background_music;
 	int				ceiling;
 	int				floor;
-	t_image			logo;
 	t_image			texture_ea;
 	t_image			texture_no;
 	t_image			texture_so;
@@ -298,11 +284,8 @@ typedef struct s_data
 	t_mouse			mouse;
 	t_select		select_item;
 	t_menu			menu;
-	t_child			child;
 	t_vector		mouse_pos_new;
 	t_vector		mouse_pos;
-	bool			music;
-	pthread_t		thread;
 	int				start;
 	int				door_framemv;
 	bool			player_looking_at_door;
@@ -348,6 +331,7 @@ void		data_init(t_data *data, int ac, char **av);
 char		*str_skip(char *str, char *chars_to_skip);
 int			str_equal(char *s1, char *s2);
 char		*str_skip_wsp(char *str);
+int			strn_equal(char *s1, char *s2, int n);
 
 /**
  * ERRORS HANDLING
@@ -358,6 +342,8 @@ void		put_error(char *error, char *reason);
 void		eput_error_sys(char *reason, int exit_status);
 void		eput_error(char *error, char *reason, int exit_status);
 
+int		catch_signals(void);
+
 /*
 	* map CHECK
 */
@@ -366,6 +352,7 @@ void		check_file(int ac, char **av);
 void		init_lines(void);
 void		check_map(void);
 void		check_color(char type, char *value);
+void		check_texture(char *varname, char *value);
 
 /*
 	* SAFE FUNCTIONS
@@ -376,6 +363,7 @@ char		*safe_strchr(char *s, char c);
 void		*safe_calloc(size_t size);
 char		*safe_strdup(char *s);
 size_t		safe_strlen(char *str);
+void		destroy_textures(void);
 
 /*
 	* FREE MEMORY
@@ -408,7 +396,7 @@ t_vector2	get_intercept_h(t_ray ray);
 void		set_directions(t_ray *ray, int ray_type);
 void		set_ray_side(t_ray *ray);
 void		handle_selected_item(int key);
-void		destroy_this(void *img_ptr);
+void		destroy_this(void **img_ptr);
 void		show_menu(void);
 void		handle_door(t_data *data, int keycode);
 void		player_effects(void);
@@ -424,12 +412,6 @@ void		t_image_clear_color(t_image *imgptr, int color);
 t_image		t_image_loadfromxpm(char *filename);
 void		load_menu_images(t_menu *menu);
 void		destroy_menu(t_menu *menu);
-
-/*
-	* PLAY_BACK
-*/
-void		play_music(void);
-void		play_effect(char *file_name);
 
 /*
 	* MATH

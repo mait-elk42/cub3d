@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:47:21 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/31 09:35:04 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:59:15 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,7 @@ void	rest_player(void)
 	data->player.position.x = (data->p_data.player_pos.x * 32) + (32 / 2);
 	data->player.position.y = (data->p_data.player_pos.y * 32) + (32 / 2);
 	data->player.angle = data->p_data.player_angle;
+	data->up_down = 0;
+	data->jump = 0;
+	data->jumping = false;
 }
