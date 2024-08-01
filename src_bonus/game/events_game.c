@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:02:26 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:28:55 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
+
+int	ev_destroy(t_data *data)
+{
+	(void)data;
+	safe_exit(0);
+	return (0);
+}
 
 void	key_edit(t_data *data, int keycode, bool v)
 {

@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/08/01 15:24:42 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 20:13:26 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,14 @@ void	set_defaults(t_menu menu)
 	data = data_hook(NULL);
 	width_half = WIN_WIDTH / 2;
 	put_to_win(0, 0, menu.bg);
-	put_to_win(width_half - 240, (WIN_HEIGHT / 2) - 350, menu.logo);
 	if (_switch)
 		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT - 80), menu.hint);
 	put_to_win(width_half - 140, ((WIN_HEIGHT / 2)), menu.us_new_game);
 	if (data->start == 0)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 100, menu.ig_cont);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 115, menu.ig_cont);
 	else
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 100, menu.us_cont);
-	put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 200, menu.us_exit);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 115, menu.us_cont);
+	put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 230, menu.us_exit);
 	if (abs(n) % 35 == 0)
 		_switch = _switch == false;
 	n++;
@@ -100,10 +99,14 @@ void	show_menu(void)
 	menu = data->menu;
 	select = data->select_item;
 	set_defaults(menu);
+	put_to_win((width_half - 240), ((WIN_HEIGHT / 2) - (350)) + (cos (deg_to_rad(data->offset)) * 30), menu.logo);
 	if (data->select_item.item == 0)
 		put_to_win(width_half - 140, ((WIN_HEIGHT / 2)), menu.s_new_game);
 	if (data->select_item.item == 1)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 100, menu.s_cont);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 115, menu.s_cont);
 	if (data->select_item.item == 2)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 200, menu.s_exit);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 230, menu.s_exit);
+	data->offset += 2.8;
+	if (data->offset > 360)
+		data->offset = 0;
 }

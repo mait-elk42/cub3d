@@ -6,13 +6,13 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 15:22:43 by mait-elk          #+#    #+#              #
-#    Updated: 2024/08/01 17:57:12 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/08/01 18:32:45 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS= -Wall -Werror -Wextra -I include -I libft #-fsanitize=address -g
-EXEC=cub3d
-EXEC_BONUS=cub3d_bonus
+EXEC = cub3D
+EXEC_BONUS=cub3D_bonus
 
 SRC = src/utils.c src/print.c src/initialization.c \
 	src/map_check/map_parse.c src/map_check/check_map.c src/map_check/check_colors.c \

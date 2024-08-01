@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:57:52 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:59:36 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	destroy_textures(void)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->texture_so.img_ptr);
 	if (data->texture_we.img_ptr != NULL)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->texture_we.img_ptr);
-	// you forget this images !!
 	if (data->scene_layer.img_ptr != NULL)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->scene_layer.img_ptr);
 	if (data->minimap_layer.img_ptr != NULL)
