@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 16:41:28 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:47:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,8 +342,6 @@ void		put_error(char *error, char *reason);
 void		eput_error_sys(char *reason, int exit_status);
 void		eput_error(char *error, char *reason, int exit_status);
 
-int		catch_signals(void);
-
 /*
 	* map CHECK
 */
@@ -429,6 +427,7 @@ int			iinrange(int n, int min, int max);
 int			ev_key_up(int keycode, t_data *data);
 int			ev_key_down(int keycode, t_data *data);
 int			ev_mouse_moved(int x, int y, void *data);
+int			ev_destroy(t_data *data);
 
 /**
 	* DRAW
@@ -444,6 +443,5 @@ void		put_player_shape(double size);
 void		hide_menu(void);
 void		rest_player(void);
 void		put_to_win(int posx, int pox_y, t_image image);
-void		background_scale(t_data	*data, t_image	image);
 
 #endif

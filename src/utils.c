@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 12:19:21 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:52:37 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	destroy_textures(void)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->texture_so.img_ptr);
 	if (data->texture_we.img_ptr != NULL)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->texture_we.img_ptr);
-	// you forget this images !!
 	if (data->scene_layer.img_ptr != NULL)
 		mlx_destroy_image(data->mlx.mlx_ptr, data->scene_layer.img_ptr);
 	if (data->minimap_layer.img_ptr != NULL)
@@ -58,9 +57,6 @@ void	safe_exit(int status)
 		mlx_destroy_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	if (data->mlx.mlx_ptr != NULL)
 		destroy_textures();
-	// do not keep this , makayfreeyi maawaaaloo
-	// free(data->mlx.mlx_ptr);
-	// data->mlx.mlx_ptr = NULL;
 	exit (status);
 }
 

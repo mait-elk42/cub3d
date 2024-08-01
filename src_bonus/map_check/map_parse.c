@@ -117,7 +117,8 @@ void	init_lines(void)
 			eput_error("invalid newline place", "newline", 1);
 		line = get_next_line(data_hook(NULL)->fd_file_input);
 	}
-	data_hook(NULL)->fd_file_input && close (data_hook(NULL)->fd_file_input);
+	if (data_hook(NULL)->fd_file_input)
+		close (data_hook(NULL)->fd_file_input);
 	if (data_hook(NULL)->map == NULL)
 		eput_error("is empty", "[map]", 1);
 }

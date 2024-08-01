@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 15:50:17 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:28:01 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,6 +300,7 @@ void		run_game(t_data	*data);
 void		put_wall(t_data *data, int i, t_ray *ray);
 void		put_bgd(t_image *image, int ceil_color, int floor_color);
 void		set_directions(t_ray *ray, int ray_type);
+void		check_texture(char *varname, char *value);
 
 /*
 	* RAY

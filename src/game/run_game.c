@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 12:02:17 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:53:46 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	game_loop(t_data *data)
 	mlx_clear_window(data->mlx.mlx_ptr, data->mlx.window_ptr);
 	put_bgd(&data->scene_layer, data->ceiling, data->floor);
 	angle = data->player.angle - (FOV / 2);
-	// ??? normalize angle before use it!! !added this 2 lines..!
 	angle -= 360 * (angle > 360);
 	angle += 360 * (angle < 0);
 	i = 0;

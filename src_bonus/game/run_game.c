@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 15:29:23 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:55:04 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	game_loop(t_data *data)
 		return (show_menu(), 1);
 	draw_mini_map();
 	angle = data->player.angle - (FOV / 2);
+	angle -= 360 * (angle > 360);
+	angle += 360 * (angle < 0);
 	i = 0;
 	while (i < WIN_WIDTH)
 	{
@@ -127,5 +129,6 @@ void	run_game(t_data *data)
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYUP, 0, ev_key_up, data);
 	mlx_hook(data->mlx.window_ptr, ON_MOUSEMOVE, 0, ev_mouse_moved, data);
+	mlx_hook(data->mlx.window_ptr, ON_DESTROY, 0, ev_destroy, data);
 	mlx_loop(data->mlx.mlx_ptr);
 }
