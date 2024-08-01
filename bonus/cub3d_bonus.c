@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:09:17 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 11:04:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 13:19:41 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int	main(int ac, char **av)
 {
 	t_data	data;
 
-	check_leaks(1);
+	// check_leaks(1);
+	printf("%d\n", getpid());
 	data_init(&data, ac, av);
 	data.game_started = false;
-	// play_music();
 	run_game(&data);
 	safe_exit(0);
 	exit (0);

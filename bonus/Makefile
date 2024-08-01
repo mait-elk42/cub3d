@@ -6,12 +6,12 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/24 17:09:52 by mait-elk          #+#    #+#              #
-#    Updated: 2024/08/01 11:01:27 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/08/01 14:39:03 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= cc
-CFLAGS= -Wextra -Werror -Wall -I include -I libft #-fsanitize=address -g
+CFLAGS= -Wextra -Werror -Wall -I include -I libft #-fsanitize=thread #-fsanitize=address -g
 SRC= src/utils.c src/print.c src/initialization.c src/door.c \
 	src/map_check/map_parse.c src/map_check/check_map.c src/map_check/check_colors.c \
 	src/io_operators/append2d.c src/strings.c \
@@ -23,7 +23,6 @@ SRC= src/utils.c src/print.c src/initialization.c src/door.c \
 	src/map_utils/draw_map.c \
 	src/walls_paint/texture_instractions.c \
 	src/menu/menu.c src/menu/menu_events.c src/menu/menu_utils.c \
-	src/playback/play_back.c src/playback/sound_effect.c\
 	src/raycast/send_ray.c src/raycast/ray_utils_1.c src/raycast/ray_utils_2.c
 
 OBJ= $(SRC:.c=.o)

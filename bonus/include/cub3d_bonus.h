@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 10:58:18 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 14:46:01 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@
 # include <unistd.h>
 # include <signal.h>
 # include <pthread.h>
-
-void		make_effect(char *file_name);
 
 /*
 	* Text Colors
@@ -255,8 +253,6 @@ typedef struct s_menu
 	t_image		s_cont;
 	t_image		ig_cont;
 	t_image		us_cont;
-	t_image		s_music;
-	t_image		us_music;
 	t_image		hint;
 }	t_menu;
 
@@ -301,7 +297,6 @@ typedef struct s_data
 	t_vector		mouse_pos_new;
 	t_vector		mouse_pos;
 	bool			music;
-	pthread_t		thread;
 	int				start;
 	int				door_framemv;
 	bool			player_looking_at_door;
@@ -315,6 +310,8 @@ typedef struct s_data
 	t_player_data	p_data;
 	t_image			north_icon;
 	t_vector		north_icon_pos;
+	pthread_t		thread;
+	pthread_mutex_t	lock;
 }	t_data;
 
 typedef struct s_wall_text
@@ -358,6 +355,8 @@ void		put_error(char *error, char *reason);
 void		eput_error_sys(char *reason, int exit_status);
 void		eput_error(char *error, char *reason, int exit_status);
 
+int		catch_signals(void);
+
 /*
 	* map CHECK
 */
@@ -377,6 +376,7 @@ char		*safe_strchr(char *s, char c);
 void		*safe_calloc(size_t size);
 char		*safe_strdup(char *s);
 size_t		safe_strlen(char *str);
+void		destroy_textures(void);
 
 /*
 	* FREE MEMORY
@@ -425,12 +425,6 @@ void		t_image_clear_color(t_image *imgptr, int color);
 t_image		t_image_loadfromxpm(char *filename);
 void		load_menu_images(t_menu *menu);
 void		destroy_menu(t_menu *menu);
-
-/*
-	* PLAY_BACK
-*/
-void		play_music(void);
-void		play_effect(char *file_name);
 
 /*
 	* MATH
