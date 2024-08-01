@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 19:54:14 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:32:50 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,5 @@ void	draw_mini_map(void)
 			data->north_icon_pos = (t_vector){((WIN_WIDTH * MPSIZE / 2) - 16) + (-cos (deg_to_rad(data->player.angle - 90)) * (WIN_WIDTH * MPSIZE) / 2 * 1.2), ((WIN_WIDTH * MPSIZE / 2) - 16) + (sin (deg_to_rad(data->player.angle - 90)) * (WIN_WIDTH * MPSIZE) / 2 * 1.2)};
 		i += 0.30;
 	}
-	draw_player(WIN_WIDTH * 0.005);
+	draw_player(WIN_WIDTH * 0.006);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 17:46:31 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:02:26 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	ev_mouse_moved(int x, int y, void *data)
 	int			height_half;
 
 	d = (t_data *)data;
+	if (d->game_started == false)
+		return (0);
 	width_half = WIN_WIDTH / 2;
 	height_half = WIN_HEIGHT / 2;
 	mouse_hv(x, y, data);
