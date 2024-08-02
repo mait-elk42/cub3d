@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 19:02:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:54:49 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:39:39 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	put_weapon(void)
 	time++;
 }
 
-void	player_effects(void)
+void	jumping(void)
 {
 	t_data	*data;
 
@@ -55,21 +55,40 @@ void	player_effects(void)
 		if (data->jump == 0)
 			data->one_jump = 0;
 	}
+}
+
+bool	running(void)
+{
+	t_data	*data;
+
+	data = data_hook(NULL);
 	if (data->key_pressed.shift && data->player.is_walking)
 	{
 		if (data->player.head_angle > 360)
 			data->player.head_angle = 0;
 		data->player.head_angle += 40;
 		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 15;
-		return ;
+		return (true);
 	}
+	return (false);
+}
+
+void	player_effects(void)
+{
+	t_data	*data;
+
+	data = data_hook(NULL);
+	jumping();
+	if (running() == true)
+		return ;
 	if (data->player.is_walking)
 	{
 		if (data->player.head_angle > 360)
 			data->player.head_angle = 0;
 		data->player.head_angle += 20;
 		data->player.real_head = cos(deg_to_rad(data->player.head_angle)) * 10;
-	}else
+	}
+	else
 	{
 		if (data->player.head_angle > 360)
 			data->player.head_angle = 0;

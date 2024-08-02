@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 19:57:31 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:52:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,6 +379,10 @@ void		set_screen_size(void);
 void		print(int fd, char *msg, int endl);
 void		print_2d(char **arr);
 float		normalize_angle(float angle);
+void		normalize_sensibility(void);
+void		put_2_window(void);
+void		put_weapon(void);
+void		player_effects(void);
 
 /*
 	* GAME
@@ -409,7 +413,7 @@ int			is_door_minimap(t_vector2 pos, t_size sc, t_vector2 targ);
 t_image		t_image_create(int sizex, int sizey, int default_color);
 void		t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
 void		t_image_clear_color(t_image *imgptr, int color);
-t_image		t_image_loadfromxpm(char *filename);
+t_image		t_image_load_xpm(char *filename);
 void		load_menu_images(t_menu *menu);
 void		destroy_menu(t_menu *menu);
 

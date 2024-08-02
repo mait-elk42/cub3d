@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 18:39:03 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:57:36 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,15 @@ void	put_pixel(t_vector2 player_pos, t_vector2 targ, int i)
 	t_image_update_pixel(&data->minimap_layer, targ.x, targ.y, 0x000000);
 }
 
-void	set_n_pos(void)
+void	set_n_pos(int n)
 {
 	t_data		*data;
 	t_vector	pos;
 	float		player_angle;
 	float		offset;
 
+	if (n != 0)
+		return ;
 	data = data_hook(NULL);
 	offset = (WIN_WIDTH * MPSIZE / 2) - 16;
 	player_angle = deg_to_rad(data->player.angle);
@@ -91,8 +93,7 @@ void	draw_mini_map(void)
 			plyrpos.y += sin (deg_to_rad(data->player.angle + i + 90));
 			j++;
 		}
-		if (i == 0)
-			set_n_pos();
+		set_n_pos(i);
 		i += 0.30;
 	}
 	draw_player(WIN_WIDTH * 0.006);

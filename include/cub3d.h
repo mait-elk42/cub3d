@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:59:47 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:52:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,7 +319,7 @@ t_vector2	get_intercept_h(t_ray ray);
 t_image		t_image_create(int sizex, int sizey, int default_color);
 void		t_image_update_pixel(t_image *imgptr, int x, int y, int new_color);
 void		t_image_clear_color(t_image *imgptr, int color);
-t_image		t_image_loadfromxpm(char *filename);
+t_image		t_image_load_xpm(char *filename);
 
 /*
 	* MATH

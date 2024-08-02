@@ -6,11 +6,11 @@
 #    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 15:22:43 by mait-elk          #+#    #+#              #
-#    Updated: 2024/08/01 18:32:45 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/08/02 09:11:09 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS= -Wall -Werror -Wextra -I include -I libft #-fsanitize=address -g
+CFLAGS= -Wall -Werror -Wextra -I include -I libft
 EXEC = cub3D
 EXEC_BONUS=cub3D_bonus
 
@@ -33,7 +33,7 @@ SRC_BONUS = src_bonus/utils.c src_bonus/print.c src_bonus/initialization.c src_b
 	src_bonus/images/t_image_instractions.c \
 	src_bonus/math/angle.c src_bonus/math/utils.c \
 	src_bonus/game/init_player.c src_bonus/game/run_game.c src_bonus/game/events_game.c src_bonus/game/utils_game.c src_bonus/game/player_env.c \
-	src_bonus/map_utils/draw_map.c \
+	src_bonus/map_utils/draw_map.c src_bonus/game/utils_game2.c \
 	src_bonus/walls_paint/texture_instractions.c \
 	src_bonus/menu/menu.c src_bonus/menu/menu_events.c src_bonus/menu/menu_utils.c \
 	src_bonus/raycast/send_ray.c src_bonus/raycast/ray_utils_1.c src_bonus/raycast/ray_utils_2.c

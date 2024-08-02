@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:59:58 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:52:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ void	run_game(t_data *data)
 	map_size.y = data->scene_info.map_ysize * TILE_SIZE;
 	data->scene_layer = t_image_create(WIN_WIDTH, WIN_HEIGHT, 0xffffffff);
 	init_player(data);
-	data->texture_ea = t_image_loadfromxpm(data->scene_info.east_texture);
-	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);
-	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
-	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
+	data->texture_ea = t_image_load_xpm(data->scene_info.east_texture);
+	data->texture_we = t_image_load_xpm(data->scene_info.west_texture);
+	data->texture_so = t_image_load_xpm(data->scene_info.south_texture);
+	data->texture_no = t_image_load_xpm(data->scene_info.north_texture);
 	get_cf_color(data);
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);

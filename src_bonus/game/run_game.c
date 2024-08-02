@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_game.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:11:56 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:55:04 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:52:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,6 @@ void	get_cf_color(t_data *data)
 	data->floor = (frgb.r << 16 | frgb.g << 8 | frgb.b);
 }
 
-void	normalize_sensibility(void)
-{
-	t_data	*data;
-
-	data = data_hook(NULL);
-	if (data->mouse.cam_sens_h > 15.0)
-		data->mouse.cam_sens_h -= 10.0;
-	else if (data->mouse.cam_sens_h > 10.0)
-		data->mouse.cam_sens_h -= 2.0;
-	else if (data->mouse.cam_sens_h > 0.0)
-		data->mouse.cam_sens_h -= 0.4;
-	else if (data->mouse.cam_sens_h <= 0.0)
-		data->mouse.cam_sens_h = 0;
-	if (data->mouse.cam_sens_v > 0.0)
-		data->mouse.cam_sens_v -= 0.5;
-	else if (data->mouse.cam_sens_v > 5.0)
-		data->mouse.cam_sens_v -= 5;
-	else if (data->mouse.cam_sens_v <= 0.0)
-		data->mouse.cam_sens_v = 0;
-}
-
 int	game_loop(t_data *data)
 {
 	t_ray	ray;
@@ -92,15 +71,8 @@ int	game_loop(t_data *data)
 		put_wall(data, i++, &ray);
 		angle += (float) FOV / WIN_WIDTH;
 	}
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
-		data->scene_layer.img_ptr, 0, 0);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
-		data->minimap_layer.img_ptr,
-		(WIN_WIDTH * MPSIZE) / 2, (WIN_WIDTH * MPSIZE) / 2);
-	mlx_put_image_to_window(data->mlx.mlx_ptr, data->mlx.window_ptr,
-		data->north_icon.img_ptr,
-		data->north_icon_pos.x + (WIN_WIDTH * MPSIZE) / 2, data->north_icon_pos.y + (WIN_WIDTH * MPSIZE) / 2);
-	return (normalize_sensibility(), put_weapon(), player_effects(), 0);
+	put_2_window();
+	return (0);
 }
 
 void	run_game(t_data *data)
@@ -116,14 +88,12 @@ void	run_game(t_data *data)
 	data->minimap_layer = t_image_create (WIN_WIDTH * MPSIZE,
 			WIN_WIDTH * MPSIZE, def);
 	init_player(data);
-	data->texture_ea = t_image_loadfromxpm(data->scene_info.east_texture);
-	data->texture_we = t_image_loadfromxpm(data->scene_info.west_texture);
-	data->texture_so = t_image_loadfromxpm(data->scene_info.south_texture);
-	data->texture_no = t_image_loadfromxpm(data->scene_info.north_texture);
-	data->texture_door = t_image_loadfromxpm("textures/door.xpm");
-	data->north_icon = t_image_loadfromxpm("textures/N_ICON.xpm");
-	data->select_item.new_game_selected = true;
-	data->select_item.cont_ignored = true;
+	data->texture_ea = t_image_load_xpm(data->scene_info.east_texture);
+	data->texture_we = t_image_load_xpm(data->scene_info.west_texture);
+	data->texture_so = t_image_load_xpm(data->scene_info.south_texture);
+	data->texture_no = t_image_load_xpm(data->scene_info.north_texture);
+	data->texture_door = t_image_load_xpm("textures/door.xpm");
+	data->north_icon = t_image_load_xpm("textures/N_ICON.xpm");
 	load_menu_images(&data->menu);
 	mlx_loop_hook(data->mlx.mlx_ptr, game_loop, data);
 	mlx_hook(data->mlx.window_ptr, ON_KEYDOWN, 0, ev_key_down, data);

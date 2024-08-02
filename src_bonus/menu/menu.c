@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/08/01 20:13:26 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/02 09:00:48 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,18 @@ void	destroy_menu(t_menu *menu)
 
 void	load_menu_images(t_menu *menu)
 {
-	menu->logo = t_image_loadfromxpm("textures/cub_logo.xpm");
-	menu->bg = t_image_loadfromxpm("textures/bg.xpm");
-	menu->hint = t_image_loadfromxpm("textures/hint.xpm");
-	menu->s_new_game = t_image_loadfromxpm("textures/new_game_selected.xpm");
-	menu->us_new_game = t_image_loadfromxpm("textures/new_game_unselected.xpm");
-	menu->ig_cont = t_image_loadfromxpm("textures/continue_ignored.xpm");
-	menu->s_cont = t_image_loadfromxpm("textures/continue_selected.xpm");
-	menu->us_cont = t_image_loadfromxpm("textures/continue_unselected.xpm");
-	menu->s_exit = t_image_loadfromxpm("textures/exit_selected.xpm");
-	menu->us_exit = t_image_loadfromxpm("textures/exit_unselected.xpm");
+	menu->logo = t_image_load_xpm("textures/cub_logo.xpm");
+	menu->bg = t_image_load_xpm("textures/bg.xpm");
+	menu->hint = t_image_load_xpm("textures/hint.xpm");
+	menu->s_new_game = t_image_load_xpm("textures/new_game_selected.xpm");
+	menu->us_new_game = t_image_load_xpm("textures/new_game_unselected.xpm");
+	menu->ig_cont = t_image_load_xpm("textures/continue_ignored.xpm");
+	menu->s_cont = t_image_load_xpm("textures/continue_selected.xpm");
+	menu->us_cont = t_image_load_xpm("textures/continue_unselected.xpm");
+	menu->s_exit = t_image_load_xpm("textures/exit_selected.xpm");
+	menu->us_exit = t_image_load_xpm("textures/exit_unselected.xpm");
+	data_hook(NULL)->select_item.new_game_selected = true;
+	data_hook(NULL)->select_item.cont_ignored = true;
 	data_hook(NULL)->select_item.new_game_selected = true;
 	data_hook(NULL)->select_item.cont_ignored = true;
 }
@@ -93,13 +95,15 @@ void	show_menu(void)
 	t_menu		menu;
 	int			width_half;
 	t_select	select;
+	float		o;
 
 	data = data_hook(NULL);
 	width_half = WIN_WIDTH / 2;
 	menu = data->menu;
+	o = (cos (deg_to_rad(data->offset)) * 30);
 	select = data->select_item;
 	set_defaults(menu);
-	put_to_win((width_half - 240), ((WIN_HEIGHT / 2) - (350)) + (cos (deg_to_rad(data->offset)) * 30), menu.logo);
+	put_to_win((width_half - 240), ((WIN_HEIGHT / 2) - (350)) + o, menu.logo);
 	if (data->select_item.item == 0)
 		put_to_win(width_half - 140, ((WIN_HEIGHT / 2)), menu.s_new_game);
 	if (data->select_item.item == 1)

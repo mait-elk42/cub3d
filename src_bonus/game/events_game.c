@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:28:55 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:32:54 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
-
-int	ev_destroy(t_data *data)
-{
-	(void)data;
-	safe_exit(0);
-	return (0);
-}
 
 void	key_edit(t_data *data, int keycode, bool v)
 {
@@ -52,8 +45,8 @@ int	ev_key_up(int keycode, t_data *data)
 
 static void	mouse_hv(int x, int y, t_data *d)
 {
-	int			width_half;
-	int			height_half;
+	int	width_half;
+	int	height_half;
 
 	width_half = WIN_WIDTH / 2;
 	height_half = WIN_HEIGHT / 2;
@@ -81,9 +74,9 @@ static void	mouse_hv(int x, int y, t_data *d)
 
 int	ev_mouse_moved(int x, int y, void *data)
 {
-	t_data		*d;
-	int			width_half;
-	int			height_half;
+	t_data	*d;
+	int		width_half;
+	int		height_half;
 
 	d = (t_data *)data;
 	if (d->game_started == false)
@@ -112,6 +105,7 @@ int	ev_key_down(int keycode, t_data *data)
 		handle_selected_item(keycode);
 	if (keycode == KEY_SPACE && data->one_jump == 0)
 	{
+		data->jump = 0;
 		data->jumping = true;
 		data->one_jump++;
 	}

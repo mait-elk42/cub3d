@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 20:22:25 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/30 18:49:17 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:52:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ void	put_player_shape(double size)
 void	init_player(t_data *data)
 {
 	init_angle_pos(data->map, &data->player);
-	data->player.hand_frames[0] = t_image_loadfromxpm("textures/weapon/0.xpm");
-	data->player.hand_frames[1] = t_image_loadfromxpm("textures/weapon/1.xpm");
-	data->player.hand_frames[2] = t_image_loadfromxpm("textures/weapon/2.xpm");
-	data->player.hand_frames[3] = t_image_loadfromxpm("textures/weapon/3.xpm");
-	data->player.hand_frames[4] = t_image_loadfromxpm("textures/weapon/4.xpm");
+	data->player.hand_frames[0] = t_image_load_xpm("textures/weapon/0.xpm");
+	data->player.hand_frames[1] = t_image_load_xpm("textures/weapon/1.xpm");
+	data->player.hand_frames[2] = t_image_load_xpm("textures/weapon/2.xpm");
+	data->player.hand_frames[3] = t_image_load_xpm("textures/weapon/3.xpm");
+	data->player.hand_frames[4] = t_image_load_xpm("textures/weapon/4.xpm");
 }

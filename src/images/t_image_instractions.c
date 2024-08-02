@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_image_instractions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/30 10:05:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 11:56:16 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/02 08:52:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	t_image_clear_color(t_image *imgptr, int color)
 	}
 }
 
-t_image	t_image_loadfromxpm(char *filename)
+t_image	t_image_load_xpm(char *filename)
 {
 	t_data	*data;
 	t_image	img;
