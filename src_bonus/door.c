@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 17:24:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 12:22:22 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 19:49:03 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,15 @@ int	is_door_minimap(t_vector2 ppos, t_size sc, t_vector2 targ)
 	map = data->map;
 	grid.x = ppos.x / TILE_SIZE;
 	grid.y = ppos.y / TILE_SIZE;
-	if (mmphoridoor(ppos, sc, targ) || mmpvertidoor(ppos, sc, targ))
-		return (1);
+	if (grid.y > 0 && grid.y < (int)(sc.height / TILE_SIZE))
+	{
+		if (mmphoridoor(ppos, sc, targ))
+			return (true);
+	}
+	if (grid.x > 0 && grid.x < (int)(sc.width / TILE_SIZE))
+	{
+		if (mmpvertidoor(ppos, sc, targ))
+			return (true);
+	}
 	return (0);
 }

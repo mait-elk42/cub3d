@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 15:23:04 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:47:14 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	destroy_textures(void)
 	destroy_this(&data->texture_so.img_ptr);
 	destroy_this(&data->texture_we.img_ptr);
 	destroy_this(&data->north_icon.img_ptr);
-	destroy_this(&data->north_icon.img_ptr);
-	destroy_this(&data->north_icon.img_ptr);
+	destroy_this(&data->scene_layer.img_ptr);
+	destroy_this(&data->minimap_layer.img_ptr);
 }
 
 void	safe_exit(int status)

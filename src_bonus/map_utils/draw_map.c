@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:21:03 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 20:05:16 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	put_pixel(t_vector2 player_pos, t_vector2 targ, int i)
 		else if (!is_door_minimap(player_pos, sc_size, targ))
 			t_image_update_pixel(
 				&data->minimap_layer, targ.x, targ.y, 0x66ffffff);
+		if (player_pos.x > sc_size.width || player_pos.y > sc_size.height)
+		t_image_update_pixel(&data->minimap_layer, targ.x, targ.y, 0x66000000);
 		return ;
 	}
 	t_image_update_pixel(&data->minimap_layer, targ.x, targ.y, 0x000000);

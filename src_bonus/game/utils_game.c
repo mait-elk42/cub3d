@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 17:45:55 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 19:06:08 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ void	mooove(bool *mv_x, bool *mv_y, t_vector2 axis)
 (axis.x * 10)) / TILE_SIZE] != 'D')
 	{
 		*mv_x = true;
-		data->player.position.x += axis.x * (P_SPEED + (data->key_pressed.shift * 3));
+		data->player.position.x += axis.x * (P_SPEED + (data->kpr.shift * 3));
 	}
 	if (map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
 (int)(pp.x) / TILE_SIZE] != '1' && map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
 (int)(pp.x) / TILE_SIZE] != 'D')
 	{
 		*mv_y = true;
-		data->player.position.y += axis.y * (P_SPEED + (data->key_pressed.shift * 3));
+		data->player.position.y += axis.y * (P_SPEED + (data->kpr.shift * 3));
 	}
 }
 
@@ -121,19 +121,19 @@ void	handle_input(t_data *data, float radi)
 	t_vector2	axis;
 
 	map = data->map;
-	axis = read_keys_axis(data->key_pressed, radi);
+	axis = read_keys_axis(data->kpr, radi);
 	data->player.is_walking = axis.x != 0 || axis.y != 0;
 	try_move(data, axis);
-	data->player.angle += (data->key_pressed.right) * CAM_SENS;
-	data->player.angle -= (data->key_pressed.left) * CAM_SENS;
+	data->player.angle += (data->kpr.right) * CAM_SENS;
+	data->player.angle -= (data->kpr.left) * CAM_SENS;
 	if (data->mouse.to_right)
 		data->player.angle += data->mouse.cam_sens_h;
 	if (data->mouse.to_left)
 		data->player.angle -= data->mouse.cam_sens_h;
 	data->up_down += data->mouse.cam_sens_v * 10 * (data->mouse.to_up);
-	data->up_down += CAM_SENS * 10 * (data->key_pressed.up);
+	data->up_down += CAM_SENS * 10 * (data->kpr.up);
 	data->up_down -= data->mouse.cam_sens_v * 10 * (data->mouse.to_down);
-	data->up_down -= CAM_SENS * 10 * (data->key_pressed.down);
+	data->up_down -= CAM_SENS * 10 * (data->kpr.down);
 	irange(&data->up_down, -500, 500);
 	if (data->player.angle > 360)
 		data->player.angle -= 360;

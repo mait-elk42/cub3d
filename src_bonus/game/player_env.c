@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 19:02:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:54:49 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 19:06:17 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	player_effects(void)
 		if (data->jump == 0)
 			data->one_jump = 0;
 	}
-	if (data->key_pressed.shift && data->player.is_walking)
+	if (data->kpr.shift && data->player.is_walking)
 	{
 		if (data->player.head_angle > 360)
 			data->player.head_angle = 0;

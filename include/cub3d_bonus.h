@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:47:30 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 19:05:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ typedef struct s_data
 	bool			game_started;
 	t_mlx			mlx;
 	t_player		player;
-	t_keys_status	key_pressed;
+	t_keys_status	kpr;
 	t_settings		settings;
 	char			**lines;
 	char			**map;

@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:28:55 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/01 19:05:45 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,25 @@ int	ev_destroy(t_data *data)
 void	key_edit(t_data *data, int keycode, bool v)
 {
 	if (keycode == KEY_W)
-		data->key_pressed.w = v;
+		data->kpr.w = v;
 	if (keycode == KEY_A)
-		data->key_pressed.a = v;
+		data->kpr.a = v;
 	if (keycode == KEY_S)
-		data->key_pressed.s = v;
+		data->kpr.s = v;
 	if (keycode == KEY_D)
-		data->key_pressed.d = v;
+		data->kpr.d = v;
 	if (keycode == KEY_UP)
-		data->key_pressed.up = v;
+		data->kpr.up = v;
 	if (keycode == KEY_DOWN)
-		data->key_pressed.down = v;
+		data->kpr.down = v;
 	if (keycode == KEY_LEFT)
-		data->key_pressed.left = v;
+		data->kpr.left = v;
 	if (keycode == KEY_RIGHT)
-		data->key_pressed.right = v;
+		data->kpr.right = v;
 	if (keycode == KEY_SPACE)
-		data->key_pressed.space = v;
+		data->kpr.space = v;
 	if (keycode == KEY_SHIFT)
-		data->key_pressed.shift = v;
+		data->kpr.shift = v;
 }
 
 int	ev_key_up(int keycode, t_data *data)
