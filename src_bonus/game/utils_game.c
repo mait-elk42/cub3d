@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_game.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/03 17:11:30 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/03 18:52:06 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,24 @@
 void	sliding_against_wall(bool mv_x, bool mv_y, t_vector2 axis)
 {
 	t_data		*data;
-	t_vector	pp;
+	t_vector2	pp;
 	char		**map;
 
 	data = data_hook(NULL);
 	map = data->map;
-	pp = (t_vector){(int)data->player.position.x, (int)data->player.position.y};
+	pp = data->player.position;
 	if (mv_y != mv_x && mv_x == true)
 	{
-		if ((map[(pp.y) / TILE_SIZE][(pp.x + 10) / TILE_SIZE] == '1')
-			|| (map[(pp.y) / TILE_SIZE][(pp.x + 10) / TILE_SIZE] == 'D'))
+		if (map[(int)(pp.y) / TILE_SIZE][(int)(pp.x + 10) / TILE_SIZE] == '1')
 			data->player.position.x -= axis.x * P_SPEED;
-		if ((map[(pp.y) / TILE_SIZE][(pp.x - 10) / TILE_SIZE] == '1')
-			|| (map[(pp.y) / TILE_SIZE][(pp.x - 10) / TILE_SIZE] == 'D'))
+		if (map[(int)(pp.y) / TILE_SIZE][(int)(pp.x - 10) / TILE_SIZE] == '1')
 			data->player.position.x -= axis.x * P_SPEED;
 	}
 	if (mv_y != mv_x && mv_y == true)
 	{
-		if ((map[(pp.y + 10) / TILE_SIZE][(pp.x) / TILE_SIZE] == '1')
-			|| (map[(pp.y + 10) / TILE_SIZE][(pp.x) / TILE_SIZE] == 'D'))
+		if (map[(int)(pp.y + 10) / TILE_SIZE][(int)(pp.x) / TILE_SIZE] == '1')
 			data->player.position.y -= axis.y * P_SPEED;
-		if ((map[(pp.y - 10) / TILE_SIZE][(pp.x) / TILE_SIZE] == '1')
-			|| (map[(pp.y - 10) / TILE_SIZE][(pp.x) / TILE_SIZE] == 'D'))
+		if (map[(int)(pp.y - 10) / TILE_SIZE][(int)(pp.x) / TILE_SIZE] == '1')
 			data->player.position.y -= axis.y * P_SPEED;
 	}
 }
@@ -46,24 +42,20 @@ void	mooove(bool *mv_x, bool *mv_y, t_vector2 axis)
 	t_data		*data;
 	char		**map;
 	t_vector2	pp;
-	int			speed;
+	float		speed;
 
 	data = data_hook(NULL);
 	map = data->map;
 	pp = data->player.position;
-	speed = (P_SPEED + (data->key_pressed.shift * 3));
-	if (map[(int)(pp.y) / TILE_SIZE][(int)
-		((pp.x + (axis.x * 10))) / TILE_SIZE] != '1'
-		&& map[(int)(pp.y) / TILE_SIZE][
-		(int)((pp.x + (axis.x * 10))) / TILE_SIZE] != 'D')
+	speed = (P_SPEED + (data->key_pressed.shift * 2));
+	if (map[(int)(pp.y) / TILE_SIZE][
+		(int)(pp.x + (axis.x * 10)) / TILE_SIZE] != '1')
 	{
 		*mv_x = true;
 		data->player.position.x += axis.x * speed;
 	}
 	if (map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
-		(int)(pp.x / TILE_SIZE)] != '1'
-		&& map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
-		(int)(pp.x / TILE_SIZE)] != 'D')
+		(int)(pp.x) / TILE_SIZE] != '1')
 	{
 		*mv_y = true;
 		data->player.position.y += axis.y * speed;

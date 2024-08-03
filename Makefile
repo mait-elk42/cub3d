@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
+#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 15:22:43 by mait-elk          #+#    #+#              #
-#    Updated: 2024/08/03 16:52:32 by mait-elk         ###   ########.fr        #
+#    Updated: 2024/08/03 18:43:32 by aabouqas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS= -Wall -Werror -Wextra -I include -I libft -fsanitize=address -g
+CFLAGS= -Wall -Werror -Wextra -I include -I libft #-fsanitize=address -g
 NAME = cub3D
 NAME_BONUS=cub3D_bonus
 
