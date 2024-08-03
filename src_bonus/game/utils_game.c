@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_game.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/02 08:53:45 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:11:30 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,18 @@ void	mooove(bool *mv_x, bool *mv_y, t_vector2 axis)
 	map = data->map;
 	pp = data->player.position;
 	speed = (P_SPEED + (data->key_pressed.shift * 3));
-	if (map[(int)(pp.y) / TILE_SIZE][(int)(pp.x +
-(axis.x * 10)) / TILE_SIZE] != '1' && map[(int)(pp.y) / TILE_SIZE][(int)(pp.x +
-(axis.x * 10)) / TILE_SIZE] != 'D')
+	if (map[(int)(pp.y) / TILE_SIZE][(int)
+		((pp.x + (axis.x * 10))) / TILE_SIZE] != '1'
+		&& map[(int)(pp.y) / TILE_SIZE][
+		(int)((pp.x + (axis.x * 10))) / TILE_SIZE] != 'D')
 	{
 		*mv_x = true;
 		data->player.position.x += axis.x * speed;
 	}
 	if (map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
-(int)(pp.x) / TILE_SIZE] != '1' && map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
-(int)(pp.x) / TILE_SIZE] != 'D')
+		(int)(pp.x / TILE_SIZE)] != '1'
+		&& map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
+		(int)(pp.x / TILE_SIZE)] != 'D')
 	{
 		*mv_y = true;
 		data->player.position.y += axis.y * speed;
@@ -79,6 +81,10 @@ void	try_move(t_data	*data, t_vector2 axis)
 	map = data->map;
 	mv_x = false;
 	mv_y = false;
+	if (pp.x / TILE_SIZE <= 0 || (pp.x / TILE_SIZE) >= (int) data->screen.width)
+		return ;
+	if (pp.y / TILE_SIZE <= 0 || pp.y / TILE_SIZE >= (int) data->screen.height)
+		return ;
 	mooove(&mv_x, &mv_y, axis);
 	sliding_against_wall(mv_x, mv_y, axis);
 	if (map[(int)(pp.y + (axis.y * 5)) / TILE_SIZE][

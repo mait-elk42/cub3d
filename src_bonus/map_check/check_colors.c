@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 18:18:41 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/22 18:19:37 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/03 18:16:24 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,17 @@ void	check_color(char type, char *value)
 	while (value && *value)
 	{
 		comma = safe_strchr(value, ',');
-		if (comma)
-			*comma = '\0';
-		number = value;
-		set_value(type, atouch(number), numbers);
-		numbers++;
-		value += safe_strlen(number) + (comma != NULL);
+		if (comma != NULL || safe_strchr(value, ',') == NULL)
+		{
+			(comma != NULL) && (*comma = '\0');
+			number = value;
+			set_value(type, atouch(number), numbers);
+			value += safe_strlen(number) + (comma != NULL);
+			numbers++;
+		}
+		else
+			value++;
 	}
+	if (numbers != 3)
+		eput_error("Expected value r,g,b", "RGB missed", 1);
 }

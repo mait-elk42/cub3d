@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/02 08:52:14 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/03 13:16:37 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,12 @@
 # define CUB3D_H
 
 # include <libft.h>
-# include <stdio.h>
 # include <mlx.h>
-# include <errno.h>
-# include <unistd.h>
 # include <stdlib.h>
 # include <math.h>
 # include <fcntl.h>
 # include <stdbool.h>
 # include <stdio.h>
-# include <sys/time.h>
 
 /*
 	* Text Colors
@@ -75,8 +71,8 @@
 /*
 	* ATTRIBUTES
 */
-# define WIN_WIDTH 1080
-# define WIN_HEIGHT 720
+# define WIN_WIDTH 1440
+# define WIN_HEIGHT 920
 # define TILE_SIZE 32
 # define PLAYER_SPEED 1.8
 # define CAM_SENS 1.5
@@ -325,7 +321,6 @@ t_image		t_image_load_xpm(char *filename);
 	* MATH
 */
 float		deg_to_rad(float angle);
-long		get_time(void);
 
 /*
 	* EVENTS

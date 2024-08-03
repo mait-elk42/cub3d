@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/02 08:52:14 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:12:45 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define CUB3D_BONUS_H
 
 # include <libft.h>
-# include <stdio.h>
 # include <errno.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -22,12 +21,7 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <stdio.h>
-# include <signal.h>
-# include <sys/time.h>
 # include <mlx.h>
-# include <unistd.h>
-# include <signal.h>
-# include <pthread.h>
 
 /*
 	* Text Colors
@@ -85,7 +79,7 @@
 # define WIN_HEIGHT 920
 # define TILE_SIZE 32
 # define P_SPEED 1.8
-# define CAM_SENS 2
+# define CAM_SENS 1.5
 # define FOV 60
 # define MPSIZE 0.15
 
@@ -421,7 +415,6 @@ void		destroy_menu(t_menu *menu);
 	* MATH
 */
 float		deg_to_rad(float angle);
-long		get_time(void);
 int			imin(int a, int b);
 int			imax(int a, int b);
 void		irange(int *v, int min, int max);

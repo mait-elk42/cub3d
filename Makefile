@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
+#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 15:22:43 by mait-elk          #+#    #+#              #
-#    Updated: 2024/08/02 11:04:05 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/08/03 16:52:32 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS= -Wall -Werror -Wextra -I include -I libft
-EXEC = cub3D
-EXEC_BONUS=cub3D_bonus
+CFLAGS= -Wall -Werror -Wextra -I include -I libft -fsanitize=address -g
+NAME = cub3D
+NAME_BONUS=cub3D_bonus
 
 SRC = src/utils.c src/print.c src/initialization.c \
 	src/map_check/map_parse.c src/map_check/check_map.c src/map_check/check_colors.c \
@@ -43,13 +43,13 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 LIBFT = libft/libft.a
 MLX = -Llib -lmlx -framework OpenGL -framework AppKit
 
-all: $(EXEC)
-	@printf "\033[32m🎮 $(EXEC) is Ready\033[0m\n"
+all: $(NAME)
+	@printf "\033[32m🎮 $(NAME) is Ready\033[0m\n"
 
-bonus: $(EXEC_BONUS)
-	@printf "\033[32m🎮 $(EXEC_BONUS) is Ready\033[0m\n"
+bonus: $(NAME_BONUS)
+	@printf "\033[32m🎮 $(NAME_BONUS) is Ready\033[0m\n"
 
-src/%.o: src/%.c include/$(EXEC).h
+src/%.o: src/%.c include/$(NAME).h
 	@printf "🔄\033[32m Compiling Script $<\033[0m"
 	@if $(CC) $(CFLAGS) -c $< -o $@ 2> /tmp/errcub3d; then \
 		printf "\r✅\n"; \
@@ -59,7 +59,7 @@ src/%.o: src/%.c include/$(EXEC).h
 		exit 1; \
 	fi
 
-src_bonus/%.o: src_bonus/%.c include/$(EXEC_BONUS).h
+src_bonus/%.o: src_bonus/%.c include/$(NAME_BONUS).h
 	@printf "🔄\033[32m ⭐ Compiling Bonus Script $< \033[0m"
 	@if $(CC) $(CFLAGS) -c $< -o $@ 2> /tmp/errcub3d; then \
 		printf "\r✅\n"; \
@@ -69,9 +69,9 @@ src_bonus/%.o: src_bonus/%.c include/$(EXEC_BONUS).h
 		exit 1; \
 	fi
 
-$(EXEC): $(LIBFT) $(OBJ) $(EXEC).c include/$(EXEC).h
-	@printf "🔄\033[32m Compiling Executable File...\033[0m"
-	@if $(CC) $(CFLAGS) $(EXEC).c $(OBJ) $(LIBFT) $(MLX) -o $(EXEC) 2> /tmp/errcub3d; then \
+$(NAME): $(LIBFT) $(OBJ) $(NAME).c include/$(NAME).h
+	@printf "🔄\033[32m Compiling NAMEutable File...\033[0m"
+	@if $(CC) $(CFLAGS) $(NAME).c $(OBJ) $(LIBFT) $(MLX) -o $(NAME) 2> /tmp/errcub3d; then \
 		printf "\r✅\n"; \
 	else \
 		printf "\r❌\n\033[31mCannot Compile [$(NAME).c] Because: \n\033[0m"; \
@@ -79,9 +79,9 @@ $(EXEC): $(LIBFT) $(OBJ) $(EXEC).c include/$(EXEC).h
 		exit 1; \
 	fi
 
-$(EXEC_BONUS): $(LIBFT) $(OBJ_BONUS) $(EXEC_BONUS).c include/$(EXEC_BONUS).h
-	@printf "🔄\033[32m Compiling Executable File...\033[0m"
-	@if $(CC) $(CFLAGS) $(EXEC_BONUS).c $(OBJ_BONUS) $(LIBFT) $(MLX) -o $(EXEC_BONUS) 2> /tmp/errcub3d; then \
+$(NAME_BONUS): $(LIBFT) $(OBJ_BONUS) $(NAME_BONUS).c include/$(NAME_BONUS).h
+	@printf "🔄\033[32m Compiling NAMEutable File...\033[0m"
+	@if $(CC) $(CFLAGS) $(NAME_BONUS).c $(OBJ_BONUS) $(LIBFT) $(MLX) -o $(NAME_BONUS) 2> /tmp/errcub3d; then \
 		printf "\r✅\n"; \
 	else \
 		printf "\r❌\n\033[31mCannot Compile [$(NAME).c] Because: \n\033[0m"; \
@@ -106,8 +106,8 @@ clean:
 	@printf "\r✅\n";
 
 fclean: clean
-	@printf "🔄\033[32m Removing Exec file And Library...\033[0m"
-	@rm -rf $(EXEC) $(EXEC_BONUS)
+	@printf "🔄\033[32m Removing NAME file And Library...\033[0m"
+	@rm -rf $(NAME) $(NAME_BONUS)
 	@make fclean -C libft
 	@printf "\r✅\n";
 

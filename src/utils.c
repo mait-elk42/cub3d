@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:59:36 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:14:04 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,4 @@ void	set_screen_size(void)
 		size.height++;
 	}
 	data->screen = size;
-}
-
-long	get_time(void)
-{
-	struct timeval	t;
-
-	gettimeofday(&t, 0);
-	return ((t.tv_sec * 1000) + (t.tv_usec / 1000));
 }

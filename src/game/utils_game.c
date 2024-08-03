@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 11:53:26 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:13:12 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ void	mooove(bool *mv_x, bool *mv_y, t_vector2 axis)
 	data = data_hook(NULL);
 	map = data->map;
 	pp = data->player.position;
-	if (map[(int)(pp.y) / TILE_SIZE][(int)(pp.x +
-(axis.x * 10)) / TILE_SIZE] != '1')
+	if (map[(int)(pp.y) / TILE_SIZE][
+		(int)(pp.x + (axis.x * 10)) / TILE_SIZE] != '1')
 	{
 		*mv_x = true;
 		data->player.position.x += axis.x * PLAYER_SPEED;
 	}
 	if (map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
-(int)(pp.x) / TILE_SIZE] != '1')
+		(int)(pp.x) / TILE_SIZE] != '1')
 	{
 		*mv_y = true;
 		data->player.position.y += axis.y * PLAYER_SPEED;
@@ -71,6 +71,10 @@ void	try_move(t_data	*data, t_vector2 axis)
 	map = data->map;
 	mv_x = false;
 	mv_y = false;
+	if (pp.x / TILE_SIZE <= 0 || (pp.x / TILE_SIZE) >= (int) data->screen.width)
+		return ;
+	if (pp.y / TILE_SIZE <= 0 || pp.y / TILE_SIZE >= (int) data->screen.height)
+		return ;
 	mooove(&mv_x, &mv_y, axis);
 	sliding_against_wall(mv_x, mv_y, axis);
 	if (map[(int)(pp.y + (axis.y * 5)) / TILE_SIZE][

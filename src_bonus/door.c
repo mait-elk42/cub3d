@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 17:24:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/07/31 12:22:22 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:12:52 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	handle_door(t_data *data, int keycode)
 	}
 }
 
-static int	mmpvertidoor(t_vector2 ppos, t_size sc, t_vector2 targ)
+int	mmpvertidoor(t_vector2 ppos, t_size sc, t_vector2 targ)
 {
 	t_data		*data;
 	t_vector	grid;
@@ -69,7 +69,7 @@ static int	mmpvertidoor(t_vector2 ppos, t_size sc, t_vector2 targ)
 	return (0);
 }
 
-static int	mmphoridoor(t_vector2 ppos, t_size sc, t_vector2 targ)
+int	mmphoridoor(t_vector2 ppos, t_size sc, t_vector2 targ)
 {
 	t_data		*data;
 	t_vector	grid;
@@ -100,14 +100,16 @@ static int	mmphoridoor(t_vector2 ppos, t_size sc, t_vector2 targ)
 
 int	is_door_minimap(t_vector2 ppos, t_size sc, t_vector2 targ)
 {
-	t_data		*data;
-	char		**map;
 	t_vector	grid;
 
-	data = data_hook(NULL);
-	map = data->map;
 	grid.x = ppos.x / TILE_SIZE;
 	grid.y = ppos.y / TILE_SIZE;
+	if (grid.x - 1 < 0 || grid.x + 1 > (int)sc.width / TILE_SIZE
+		|| grid.y - 1 < 0 || grid.y + 1 > (int)sc.height / TILE_SIZE)
+		return (0);
+	if (grid.x < 0 || grid.x > (int)sc.width / TILE_SIZE
+		|| grid.y < 0 || grid.y > (int)sc.height / TILE_SIZE)
+		return (0);
 	if (mmphoridoor(ppos, sc, targ) || mmpvertidoor(ppos, sc, targ))
 		return (1);
 	return (0);

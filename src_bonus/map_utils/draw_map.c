@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/02 09:17:12 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/03 16:50:42 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,18 @@ void	set_n_pos(int n)
 	data->north_icon_pos = pos;
 }
 
+void	is_valid_pos(t_vector2 *plyrpos, t_data *data, int i)
+{
+	if (plyrpos->x < data->screen.width * TILE_SIZE && plyrpos->x > 0)
+	{
+		if (plyrpos->y < data->screen.height * TILE_SIZE && plyrpos->y > 0)
+		{
+			plyrpos->x += cos (deg_to_rad(data->player.angle + i + 90));
+			plyrpos->y += sin (deg_to_rad(data->player.angle + i + 90));
+		}
+	}
+}
+
 void	draw_mini_map(void)
 {
 	t_data		*data;
@@ -89,8 +101,7 @@ void	draw_mini_map(void)
 			targ.x = ((WIN_WIDTH * MPSIZE) / 2) + cos (deg_to_rad(i)) * j;
 			targ.y = ((WIN_WIDTH * MPSIZE) / 2) + sin (deg_to_rad(i)) * j;
 			put_pixel(plyrpos, targ, j);
-			plyrpos.x += cos (deg_to_rad(data->player.angle + i + 90));
-			plyrpos.y += sin (deg_to_rad(data->player.angle + i + 90));
+			is_valid_pos(&plyrpos, data, i);
 			j++;
 		}
 		set_n_pos(i);
