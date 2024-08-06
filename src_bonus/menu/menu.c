@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   menu.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:22:28 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/08/02 09:00:48 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:24:35 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,20 @@ void	destroy_this(void **img_ptr)
 void	destroy_menu(t_menu *menu)
 {
 	t_data	*data;
-	int		i;
 
-	i = 0;
-	(void)menu;
 	data = data_hook(NULL);
 	destroy_this(&menu->logo.img_ptr);
 	destroy_this(&menu->bg.img_ptr);
 	destroy_this(&menu->hint.img_ptr);
-	destroy_this(&menu->s_new_game.img_ptr);
-	destroy_this(&menu->us_new_game.img_ptr);
-	destroy_this(&menu->s_cont.img_ptr);
-	destroy_this(&menu->us_cont.img_ptr);
-	destroy_this(&menu->ig_cont.img_ptr);
-	destroy_this(&menu->s_exit.img_ptr);
-	destroy_this(&menu->us_exit.img_ptr);
-	while (i < 5)
-		destroy_this(&data->player.hand_frames[i++].img_ptr);
+	destroy_this(&menu->new_game_0.img_ptr);
+	destroy_this(&menu->new_game_1.img_ptr);
+	destroy_this(&menu->cont_0.img_ptr);
+	destroy_this(&menu->cont_1.img_ptr);
+	destroy_this(&menu->cont_2.img_ptr);
+	destroy_this(&menu->exit_1.img_ptr);
+	destroy_this(&menu->exit_0.img_ptr);
+	destroy_this(&menu->music_0.img_ptr);
+	destroy_this(&menu->music_1.img_ptr);
 }
 
 void	load_menu_images(t_menu *menu)
@@ -53,17 +50,17 @@ void	load_menu_images(t_menu *menu)
 	menu->logo = t_image_load_xpm("textures/cub_logo.xpm");
 	menu->bg = t_image_load_xpm("textures/bg.xpm");
 	menu->hint = t_image_load_xpm("textures/hint.xpm");
-	menu->s_new_game = t_image_load_xpm("textures/new_game_selected.xpm");
-	menu->us_new_game = t_image_load_xpm("textures/new_game_unselected.xpm");
-	menu->ig_cont = t_image_load_xpm("textures/continue_ignored.xpm");
-	menu->s_cont = t_image_load_xpm("textures/continue_selected.xpm");
-	menu->us_cont = t_image_load_xpm("textures/continue_unselected.xpm");
-	menu->s_exit = t_image_load_xpm("textures/exit_selected.xpm");
-	menu->us_exit = t_image_load_xpm("textures/exit_unselected.xpm");
-	data_hook(NULL)->select_item.new_game_selected = true;
-	data_hook(NULL)->select_item.cont_ignored = true;
-	data_hook(NULL)->select_item.new_game_selected = true;
-	data_hook(NULL)->select_item.cont_ignored = true;
+	menu->new_game_1 = t_image_load_xpm("textures/new_game_1.xpm");
+	menu->new_game_0 = t_image_load_xpm("textures/new_game_0.xpm");
+	menu->cont_2 = t_image_load_xpm("textures/continue_2.xpm");
+	menu->cont_1 = t_image_load_xpm("textures/continue_1.xpm");
+	menu->cont_0 = t_image_load_xpm("textures/continue_0.xpm");
+	menu->exit_1 = t_image_load_xpm("textures/exit_1.xpm");
+	menu->exit_0 = t_image_load_xpm("textures/exit_0.xpm");
+	menu->music_0 = t_image_load_xpm("textures/music_0.xpm");
+	menu->music_1 = t_image_load_xpm("textures/music_1.xpm");
+	data_hook(NULL)->select_item.new_game_1 = true;
+	data_hook(NULL)->select_item.cont_2 = true;
 }
 
 void	set_defaults(t_menu menu)
@@ -78,15 +75,17 @@ void	set_defaults(t_menu menu)
 	put_to_win(0, 0, menu.bg);
 	if (_switch)
 		put_to_win((WIN_WIDTH / 2) - 140, (WIN_HEIGHT - 80), menu.hint);
-	put_to_win(width_half - 140, ((WIN_HEIGHT / 2)), menu.us_new_game);
+	put_to_win(width_half - 140, ((WIN_HEIGHT / 2)), menu.new_game_0);
 	if (data->start == 0)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 115, menu.ig_cont);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 100, menu.cont_2);
 	else
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 115, menu.us_cont);
-	put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 230, menu.us_exit);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 100, menu.cont_0);
+	put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 200, menu.music_0);
+	put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 300, menu.exit_0);
 	if (abs(n) % 35 == 0)
 		_switch = _switch == false;
 	n++;
+	n *= (n < 127);
 }
 
 void	show_menu(void)
@@ -95,22 +94,22 @@ void	show_menu(void)
 	t_menu		menu;
 	int			width_half;
 	t_select	select;
-	float		o;
 
 	data = data_hook(NULL);
 	width_half = WIN_WIDTH / 2;
 	menu = data->menu;
-	o = (cos (deg_to_rad(data->offset)) * 30);
 	select = data->select_item;
 	set_defaults(menu);
-	put_to_win((width_half - 240), ((WIN_HEIGHT / 2) - (350)) + o, menu.logo);
+	put_cub(data, (t_vector2){150, 150}, 100);
+	put_cub(data, (t_vector2){WIN_WIDTH - 200, 150}, 100);
+	put_cub(data, (t_vector2){(WIN_WIDTH / 2) - 50, 220}, 200);
+	put_to_win((width_half - 240), ((WIN_HEIGHT / 2) - (350)), menu.logo);
 	if (data->select_item.item == 0)
-		put_to_win(width_half - 140, ((WIN_HEIGHT / 2)), menu.s_new_game);
+		put_to_win(width_half - 140, ((WIN_HEIGHT / 2)), menu.new_game_1);
 	if (data->select_item.item == 1)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 115, menu.s_cont);
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 100, menu.cont_1);
 	if (data->select_item.item == 2)
-		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 230, menu.s_exit);
-	data->offset += 2.8;
-	if (data->offset > 360)
-		data->offset = 0;
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 200, menu.music_1);
+	if (data->select_item.item == 3)
+		put_to_win(width_half - 140, (WIN_HEIGHT / 2) + 300, menu.exit_1);
 }

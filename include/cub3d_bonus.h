@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 17:07:40 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/03 16:12:45 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:27:21 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <mlx.h>
+# include <signal.h>
+# include <pthread.h>
 
 /*
 	* Text Colors
@@ -177,10 +179,10 @@ typedef struct s_size
 typedef struct s_select
 {
 	int		item;
-	bool	new_game_selected;
+	bool	new_game_1;
 	bool	exit_selected;
 	bool	cont_selected;
-	bool	cont_ignored;
+	bool	cont_2;
 }	t_select;
 
 typedef struct s_image
@@ -238,13 +240,15 @@ typedef struct s_menu
 {
 	t_image		logo;
 	t_image		bg;
-	t_image		s_new_game;
-	t_image		us_new_game;
-	t_image		s_exit;
-	t_image		us_exit;
-	t_image		s_cont;
-	t_image		ig_cont;
-	t_image		us_cont;
+	t_image		new_game_0;
+	t_image		new_game_1;
+	t_image		exit_0;
+	t_image		exit_1;
+	t_image		cont_0;
+	t_image		cont_1;
+	t_image		cont_2;
+	t_image		music_0;
+	t_image		music_1;
 	t_image		hint;
 }	t_menu;
 
@@ -294,7 +298,12 @@ typedef struct s_data
 	t_image			north_icon;
 	t_vector		north_icon_pos;
 	bool			_switch;
-	float			offset;
+	double			offset;
+	pid_t			server;
+	pid_t			tracker;
+	pid_t			bgm;
+	int				music;
+	bool			music_switch;
 }	t_data;
 
 typedef struct s_wall_text
@@ -320,7 +329,7 @@ t_data		*data_hook(t_data *data);
 	* 	INITIALIZATION
 */
 void		data_init(t_data *data, int ac, char **av);
-
+void		reset_doors(char **map);
 /**
  * 	STRINGS
 */
@@ -442,5 +451,16 @@ void		put_player_shape(double size);
 void		hide_menu(void);
 void		rest_player(void);
 void		put_to_win(int posx, int pox_y, t_image image);
+void		put_cub(t_data *data, t_vector2 offset, int size);
+
+/*
+	* PLAY BACK
+*/
+
+void		tracker(void);
+void		server(void);
+void		play_effect(void);
+void		signal_handler(int signal);
+bool		catch_signals(void);
 
 #endif

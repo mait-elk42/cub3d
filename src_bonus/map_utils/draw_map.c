@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 08:35:46 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/03 16:50:42 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:10:00 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	put_pixel(t_vector2 player_pos, t_vector2 targ, int i)
 				targ.x, targ.y, 0x66000000);
 		else if (!is_door_minimap(player_pos, sc_size, targ))
 			t_image_update_pixel(
-				&data->minimap_layer, targ.x, targ.y, 0x66ffffff);
+				&data->minimap_layer, targ.x, targ.y, 0x88A02334);
 		return ;
 	}
 	t_image_update_pixel(&data->minimap_layer, targ.x, targ.y, 0x000000);

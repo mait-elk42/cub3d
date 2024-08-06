@@ -32,21 +32,14 @@ bool	is_valid_door(t_vector pos)
 	map = data->map;
 	if (map[pos.y][pos.x] == 'D')
 	{
-		if (map[pos.y][pos.x - 1] == '0' && map[pos.y][pos.x + 1] == '0')
-			if (map[pos.y - 1][pos.x] == '0' && map[pos.y + 1][pos.x] == '0')
-				return (print(2, "Door without walls is not a Door", 1), false);
-		if (map[pos.y][pos.x - 1] == '1' && map[pos.y][pos.x + 1] == '1')
+		if (map[pos.y][pos.x - 1] == '1' && map[pos.y][pos.x + 1] == '1'
+			&& map[pos.y - 1][pos.x] == '0' && map[pos.y + 1][pos.x] == '0')
 			return (true);
-		else if (map[pos.y][pos.x - 1] == '0' && map[pos.y][pos.x + 1] == '0')
-			return (true);
-		else
-			return (print(2, "Door must be like 1D1 or 0D0", 1), false);
-		if (map[pos.y - 1][pos.x] == '0' && map[pos.y + 1][pos.x] == '0')
-			return (true);
-		if (map[pos.y - 1][pos.x] != '1' && map[pos.y + 1][pos.x] != '1')
+		else if (map[pos.y][pos.x - 1] == '0' && map[pos.y][pos.x + 1] == '0'
+			&& map[pos.y - 1][pos.x] == '1' && map[pos.y + 1][pos.x] == '1')
 			return (true);
 		else
-			return (print(2, "Door must be like \n\t0\n\tD\n\t0", 1), false);
+			return (print(2, "Door error", 1), false);
 	}
 	return (true);
 }

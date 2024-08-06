@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:06:57 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/03 18:52:06 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:05:55 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,17 @@ void	mooove(bool *mv_x, bool *mv_y, t_vector2 axis)
 	pp = data->player.position;
 	speed = (P_SPEED + (data->key_pressed.shift * 2));
 	if (map[(int)(pp.y) / TILE_SIZE][
-		(int)(pp.x + (axis.x * 10)) / TILE_SIZE] != '1')
+		(int)(pp.x + (axis.x * 10)) / TILE_SIZE] != '1'
+		&& map[(int)(pp.y) / TILE_SIZE][
+		(int)((pp.x + (axis.x * 10))) / TILE_SIZE] != 'D')
 	{
 		*mv_x = true;
 		data->player.position.x += axis.x * speed;
 	}
 	if (map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
-		(int)(pp.x) / TILE_SIZE] != '1')
+		(int)(pp.x) / TILE_SIZE] != '1'
+		&& map[(int)(pp.y + (axis.y * 10)) / TILE_SIZE][
+		(int)(pp.x / TILE_SIZE)] != 'D')
 	{
 		*mv_y = true;
 		data->player.position.y += axis.y * speed;

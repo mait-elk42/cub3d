@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:47:26 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/01 17:54:11 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:48:12 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d_bonus.h>
+
+void	reset_doors(char **map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map && map[i])
+	{
+		j = 0;
+		while (map && map[i][j] != '\0')
+		{
+			if (map && map[i][j] == 'd')
+				map[i][j] = 'D';
+			j++;
+		}
+		i++;
+	}
+}
 
 void	make_map_square(void)
 {
@@ -81,6 +100,9 @@ void	data_init(t_data *data, int ac, char **av)
 {
 	data_hook(data);
 	ft_bzero(data, sizeof(t_data));
+	data->music_switch = true;
+	tracker();
+	server();
 	check_file(ac, av);
 	_mlx_init (data);
 	init_lines();

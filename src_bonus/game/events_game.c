@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   events_game.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 18:03:15 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/03 16:25:17 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/06 08:22:21 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ int	ev_mouse_moved(int x, int y, void *data)
 
 int	ev_key_down(int keycode, t_data *data)
 {
-	if (keycode == KEY_ESC)
+	if (keycode == KEY_ESC && data->game_started == true)
 	{
+		kill (data_hook(NULL)->server, SIGPROF);
 		data->game_started = false;
-		data->select_item.cont_ignored = false;
+		data->select_item.cont_2 = false;
 		data->mouse.center_mouse = false;
 		mlx_mouse_show();
 	}

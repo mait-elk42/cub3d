@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 17:24:34 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/03 17:12:52 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/06 11:18:14 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	mmpvertidoor(t_vector2 ppos, t_size sc, t_vector2 targ)
 				&& data->map[grid.y][grid.x - 1] == '1'
 				&& data->map[grid.y][grid.x + 1] == '1')
 			{
-				t_image_update_pixel(
+				t_image_update_pixel (
 					&data->minimap_layer, targ.x, targ.y, color);
 				return (1);
 			}
@@ -104,11 +104,11 @@ int	is_door_minimap(t_vector2 ppos, t_size sc, t_vector2 targ)
 
 	grid.x = ppos.x / TILE_SIZE;
 	grid.y = ppos.y / TILE_SIZE;
-	if (grid.x - 1 < 0 || grid.x + 1 > (int)sc.width / TILE_SIZE
-		|| grid.y - 1 < 0 || grid.y + 1 > (int)sc.height / TILE_SIZE)
-		return (0);
 	if (grid.x < 0 || grid.x > (int)sc.width / TILE_SIZE
 		|| grid.y < 0 || grid.y > (int)sc.height / TILE_SIZE)
+		return (0);
+	if ((grid.x - 1) < 0 || (grid.x + 1) > (int)sc.width / TILE_SIZE
+		|| (grid.y - 1) < 0 || (grid.y + 1) > (int)sc.height / TILE_SIZE)
 		return (0);
 	if (mmphoridoor(ppos, sc, targ) || mmpvertidoor(ppos, sc, targ))
 		return (1);

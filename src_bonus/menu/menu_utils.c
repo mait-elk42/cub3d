@@ -6,7 +6,7 @@
 /*   By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 18:47:21 by aabouqas          #+#    #+#             */
-/*   Updated: 2024/07/31 17:59:15 by aabouqas         ###   ########.fr       */
+/*   Updated: 2024/08/06 10:52:02 by aabouqas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	hide_menu(void)
 	data_hook(NULL)->mouse.cam_sens_v = 0;
 	data_hook(NULL)->start++;
 	mlx_mouse_hide();
+	kill (data_hook(NULL)->server, SIGPROF);
 }
 
 void	rest_player(void)

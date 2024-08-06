@@ -6,7 +6,7 @@
 /*   By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 09:17:07 by mait-elk          #+#    #+#             */
-/*   Updated: 2024/08/03 10:58:25 by mait-elk         ###   ########.fr       */
+/*   Updated: 2024/08/06 12:24:07 by mait-elk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void	destroy_textures(void)
 {
 	t_data			*data;
 	t_scene_info	scene;
+	int				i;
 
+	i = 0;
 	data = data_hook(NULL);
 	if (data->mlx.mlx_ptr == NULL)
 		return ;
@@ -37,6 +39,8 @@ void	destroy_textures(void)
 	destroy_this(&data->north_icon.img_ptr);
 	destroy_this(&data->north_icon.img_ptr);
 	destroy_this(&data->north_icon.img_ptr);
+	while (i < 5)
+		destroy_this(&data->player.hand_frames[i++].img_ptr);
 }
 
 void	safe_exit(int status)

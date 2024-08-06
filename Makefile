@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aabouqas <aabouqas@student.42.fr>          +#+  +:+       +#+         #
+#    By: mait-elk <mait-elk@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 15:22:43 by mait-elk          #+#    #+#              #
-#    Updated: 2024/08/03 18:43:32 by aabouqas         ###   ########.fr        #
+#    Updated: 2024/08/06 12:54:51 by mait-elk         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS= -Wall -Werror -Wextra -I include -I libft #-fsanitize=address -g
+CFLAGS= -Wall -Werror -Wextra -I include -I libft
 NAME = cub3D
 NAME_BONUS=cub3D_bonus
 
@@ -35,7 +35,8 @@ SRC_BONUS = src_bonus/utils.c src_bonus/print.c src_bonus/initialization.c src_b
 	src_bonus/game/init_player.c src_bonus/game/run_game.c src_bonus/game/events_game.c src_bonus/game/utils_game.c src_bonus/game/player_env.c \
 	src_bonus/map_utils/draw_map.c src_bonus/game/utils_game2.c \
 	src_bonus/walls_paint/texture_instractions.c \
-	src_bonus/menu/menu.c src_bonus/menu/menu_events.c src_bonus/menu/menu_utils.c \
+	src_bonus/play_back/play_back.c src_bonus/play_back/signals_handler.c \
+	src_bonus/menu/menu.c src_bonus/menu/menu_events.c src_bonus/menu/menu_utils.c src_bonus/menu/cubs.c \
 	src_bonus/raycast/send_ray.c src_bonus/raycast/ray_utils_1.c src_bonus/raycast/ray_utils_2.c
 
 OBJ = $(SRC:.c=.o)
@@ -70,7 +71,7 @@ src_bonus/%.o: src_bonus/%.c include/$(NAME_BONUS).h
 	fi
 
 $(NAME): $(LIBFT) $(OBJ) $(NAME).c include/$(NAME).h
-	@printf "🔄\033[32m Compiling NAMEutable File...\033[0m"
+	@printf "🔄\033[32m Compiling executable File...\033[0m"
 	@if $(CC) $(CFLAGS) $(NAME).c $(OBJ) $(LIBFT) $(MLX) -o $(NAME) 2> /tmp/errcub3d; then \
 		printf "\r✅\n"; \
 	else \
@@ -80,7 +81,7 @@ $(NAME): $(LIBFT) $(OBJ) $(NAME).c include/$(NAME).h
 	fi
 
 $(NAME_BONUS): $(LIBFT) $(OBJ_BONUS) $(NAME_BONUS).c include/$(NAME_BONUS).h
-	@printf "🔄\033[32m Compiling NAMEutable File...\033[0m"
+	@printf "🔄\033[32m Compiling executable File...\033[0m"
 	@if $(CC) $(CFLAGS) $(NAME_BONUS).c $(OBJ_BONUS) $(LIBFT) $(MLX) -o $(NAME_BONUS) 2> /tmp/errcub3d; then \
 		printf "\r✅\n"; \
 	else \
